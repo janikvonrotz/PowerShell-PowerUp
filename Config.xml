@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>Profile Installation Config File</Title>
+		<Filename>config.xml</Filename>
+		<Description>[Description]</Description>
+		<Tags>powershell, configuration, installation</Tags>
+		<Project>[Projectname]</Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorE-Mail>contact@janikvonrotz.ch</AuthorE-Mail>
+		<CreateDate>07.01.2013</CreateDate>
+		<LastEditDate>25.02.2013</LastEditDate>
+		<Version>1.1.0</Version>
+	</Metadata>
+
+	<Configuration>
+
+		<!--
+		 # List of SystemVariables
+		-->	
+		<SystemVariables>
+			<SystemVariable>
+				<Path>.\Modules</Path>
+				<Name>PSModulePath</Name>
+				<RelativePath>true</RelativePath>
+			</SystemVariable>
+			<SystemVariable>
+				<Path>.\Functions</Path>
+				<Name>Path</Name>
+				<RelativePath>true</RelativePath>
+			</SystemVariable>
+			<SystemVariable>
+				<Path>H:\SkyDrive\Shared\Apps\SysInternals</Path>
+				<Name>Path</Name>
+				<RelativePath>false</RelativePath>
+			</SystemVariable>
+		</SystemVariables>
+		
+		<!--
+		 # Explorer Settings
+		-->
+		<RegistryEntries>	
+			<RegistryEntry>
+				<Path>HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced</Path>
+				<Name>HideFileExt</Name>
+				<Value>0</Value>
+			</RegistryEntry>		
+			<RegistryEntry>
+				<Path>HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Search\PrimaryProperties\UnindexedLocations</Path>
+				<Name>SearchOnly</Name>
+				<Value>00000000</Value>
+			</RegistryEntry>
+		</RegistryEntries>
+		
+	</Configuration>
+
+</Content>

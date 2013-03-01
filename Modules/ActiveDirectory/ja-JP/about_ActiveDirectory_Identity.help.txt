@@ -1,0 +1,188 @@
+﻿トピック
+    Active Directory オブジェクト ID
+
+簡易説明
+    Windows PowerShell オブジェクトの Active Directory モジュールには、識別のための一連
+    の属性があり、検索や取得に使用できます。
+
+詳細説明
+    Active Directory 内のオブジェクトを識別するために、各オブジェクトには識別子として使用
+    できる属性があります。Active Directory モジュールでは、Identity パラメーターを使用して
+    オブジェクトの ID の値を渡すことができます。各オブジェクト型には、Identity パラメーター
+    で使用できる一連の固有の型と値があります。特定のコマンドレットの Identity パラメーター
+    を使用する方法の詳細については、そのパラメーターの詳細な説明を参照してください。
+
+    Active Directory モジュールのコマンドレットを使用した検索の際には、単一のオブジェクトを
+    一意に識別するために、Server および Partition パラメーターの値に加えて Identity パラメー
+    ターの値を使用します。Server パラメーターは、接続するサーバーを検索するために使用します。
+    Partition パラメーターは、検索を特定のパーティションに絞り込む場合に使用します。Identity 
+    パラメーターは、特定のパーティション内の単一で一意のオブジェクトに解決されます。
+
+    ID 解決によって複数のオブジェクトが検出された場合、Active Directory モジュールでエラーが
+    スローされます。
+
+    Server パラメーターおよび Partition パラメーターの詳細については、これらのパラメーター
+    を使用する個々のコマンドレットのヘルプ トピックを参照してください。たとえば、Get-ADUser 
+    のヘルプを表示するには、次のように入力します。
+
+        get-help Get-ADUser
+
+
+  オブジェクトと ID
+
+    各オブジェクトには、そのオブジェクトの ID として使用できる一連の属性があります。また、その
+    オブジェクトが他のオブジェクトを継承している場合、親オブジェクトの ID を子オブジェクトの ID 
+    として使用することもできます。Active Directory オブジェクトの階層の詳細については、
+    「about_ActiveDirectory_ObjectModel」を参照してください。
+
+    注: Active Directory プロバイダー コマンドレットの場合、オブジェクトの '識別名' または 
+    '相対識別名' のみを ID として使用できます。Active Directory プロバイダー コマンドレットの
+    一覧については、「ActiveDirectory」を参照してください。
+
+
+  ID 属性
+    次に、オブジェクト型別の ID 属性の一覧を示します。
+
+    ADAccount
+      識別名
+      GUID (objectGUID)
+      セキュリティ識別子 (objectSid)
+      SAM アカウント名 (sAMAccountName)
+
+    ADComputer
+      識別名
+      GUID (objectGUID)
+      セキュリティ識別子 (objectSid)
+      セキュリティ アカウント マネージャー アカウント名 (sAMAccountName)
+
+    ADDirectoryServer
+      サーバー オブジェクトの名前 (name)
+        AD LDS インスタンスの場合、名前の構文は 
+          <computer-name>$<instance-name> となります。
+        その他の Active Directory インスタンスの場合は、name プロパティの値を使用します。
+      NTDS 設定オブジェクトの識別名
+      ディレクトリ サーバーを表すサーバー オブジェクトの識別名
+      構成パーティション内のサーバー オブジェクトの GUID (objectGUID)
+      構成パーティション内の NTDS 設定オブジェクトの GUID (objectGUID)
+
+    ADDomain
+      識別名
+      GUID
+      セキュリティ識別子
+      DNS ドメイン名
+      NetBIOS ドメイン名
+
+    ADDomainController
+      GUID (objectGUID)
+      IPV4Address
+      グローバル IPV6Address
+      DNS ホスト名 (dNSHostName)
+      サーバー オブジェクトの名前
+      NTDS 設定オブジェクトの識別名
+      ドメイン コントローラーを表すサーバー オブジェクトの識別名
+      構成パーティション内の NTDS 設定オブジェクトの GUID
+      構成パーティション内のサーバー オブジェクトの GUID
+      ドメイン コントローラーを表すコンピューター オブジェクトの識別名
+
+    ADFineGrainedPasswordPolicy
+      識別名
+      GUID (objectGUID)
+      名前 (name)
+
+    ADForest
+      完全修飾ドメイン名
+      DNS ホスト名
+      NetBIOS 名
+
+    ADGroup
+      識別名
+      GUID (objectGUID)
+      セキュリティ識別子 (objectSid)
+      セキュリティ アカウント マネージャー (SAM) アカウント名 (sAMAccountName)
+
+    ADObject
+      識別名
+      GUID (objectGUID)
+
+    ADOptionalFeature
+      識別名
+      名前 (name)
+      機能 GUID (featureGUID)
+      GUID (objectGUID)
+
+    ADOrganizationalUnit
+      識別名
+      GUID (objectGUID)
+
+    ADPrincipal
+      識別名
+      GUID (objectGUID)
+      セキュリティ識別子 (objectSid)
+      SAM アカウント名 (sAMAccountName)
+
+    ADServiceAccount
+      識別名
+      GUID (objectGUID)
+      セキュリティ識別子 (objectSid)
+      SAM アカウント名 (sAMAccountName)
+
+    ADUser
+      識別名
+      GUID (objectGUID)
+      セキュリティ識別子 (objectSid)
+      SAM ユーザー名 (sAMUserName)
+
+
+  ID の書式
+
+    Active Directory モジュールのオブジェクトには、一連の ID 属性があります。次の一覧は、これらの
+    属性と、その型および書式を示します。
+
+    識別名
+      例: CN=SaraDavis,CN=Europe,CN=Users, DC=corp,DC=contoso,DC=com
+
+    DNS ドメイン名
+      例: redmond.corp.contoso.com
+
+    DNS ホスト名 (dNSHostName)
+      例: corp-DC01.corp.contoso.com
+
+    機能 GUID (featureGUID)
+      例: 599c3d2e-f72d-4d20-8a88-030d99495f20
+
+    完全修飾ドメイン名
+      例: corp.contoso.com
+
+    グローバル IPV6Address
+      例: 2001:4898:0:fff:200:5efe:157.59.132.61
+
+    GUID (objectGUID)
+      例: 599c3d2e-f72d-4d20-8a88-030d99495f20
+
+    IPV4Address
+      例: 157.59.132.61
+
+    NetBIOS ドメイン名
+      例: redmond
+
+    サーバー オブジェクトの名前
+      例: corp-DC01$
+
+    セキュリティ アカウント マネージャー (SAM) アカウント名 (sAMAccountName)
+      例: saradavisreports
+
+    セキュリティ識別子 (objectSid)
+      例: S-1-5-21-3165297888-301567370-576410423-1103
+
+    名前
+      例: Recycle Bin Feature
+
+
+関連項目
+
+    about_ActiveDirectory
+
+    about_ActiveDirectory_ObjectModel
+
+
+

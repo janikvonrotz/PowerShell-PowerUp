@@ -1,0 +1,423 @@
+﻿RUBRIQUE
+    Filtre Active Directory
+
+DESCRIPTION COURTE
+    Décrit la syntaxe et le comportement du filtre de recherche pris
+    en charge par le module Active Directory pour Windows PowerShell.
+
+DESCRIPTION LONGUE
+    La plupart des applets de commande du module Active Directory
+    get-AD* utilisent le paramètre Filter pour rechercher des objets.
+    Le paramètre Filter a été implémenté pour remplacer la fonction
+    du filtre LDAP et ajoute une prise en charge des variables
+    PowerShell, des types de données riches, de la vérification des
+    erreurs améliorée et d'une forme étendue Active Directory du
+    langage des expressions PowerShell.
+
+    Pour plus d'informations sur la syntaxe du langage des expressions
+    Windows PowerShell, consultez about_filter.
+
+    Remarque : la rubrique PowerShell about_filter fait référence à
+    d'autres rubriques de prise en charge sur le langage
+    des expressions.
+
+  Prise en charge de la syntaxe du filtre LDAP
+    La syntaxe du filtre LDAP est prise en charge par le biais du
+    paramètre LDAPFilter. Vous trouverez des exemples de filtres
+    LDAP avec les nouveaux exemples de filtres du module Active
+    Directory dans la section Exemples de filtres de cette rubrique.
+    
+
+  Portée des recherches
+    La portée des recherches effectuées par le biais du filtre peut
+    être modifiée par deux paramètres d'applet de commande du module
+    Active Directory : SearchBase et SearchScope.
+
+    Dans le contexte du fournisseur Active Directory, si le paramètre
+    Searchbase n'est pas spécifié, SearchBase prend par défaut la
+    valeur du chemin d'accès actuel. Lorsque l'exécution n'a pas
+    lieu dans le fournisseur Active Directory, SearchBase prend par
+    défaut la valeur de la propriété DefaultNamingContext du serveur.
+    
+    Le paramètre SearchScope prend par défaut la valeur Subtree, du
+    type énuméré ADSearchScope.
+
+    Pour plus d'informations, consultez la description des paramètres
+    SearchBase et SearchScope de n'importe quelle applet de commande
+    Get-AD*.
+
+  Comportement des résultats de la recherche
+    Lors du retour des résultats d'une recherche, le comportement du
+    module Active Directory est modifié par deux paramètres d'applet
+    de commande : ResultPageSize et ResultSetSize.
+
+    ResultSetSize contrôle le nombre maximal d'objets retournés.
+
+    ResultPageSize spécifie le nombre maximal d'objets pour chaque
+    page d'informations retournée.
+
+    Pour plus d'informations, consultez la description des paramètres
+    ResultPageSize et ResultSetSize de n'importe quelle applet de
+    commande get-AD*.
+
+  Comportement du délai d'attente
+    Les instructions suivantes spécifient les conditions de délai
+    d'attente dans le module Active Directory et décrivent la façon
+    dont une condition de délai d'attente peut être traitée.
+
+    Le délai d'attente du module Active Directory par défaut
+    correspond à 2 minutes pour toutes les opérations.
+
+    Pour une opération de recherche, le module Active Directory
+    utilise le contrôle de pagination avec un délai d'attente de
+    2 minutes pour chaque recherche de page.
+
+    Remarque : étant donné qu'une recherche peut impliquer plusieurs
+    demandes de page de serveur, le temps de recherche total peut
+    dépasser 2 minutes.
+
+    Une erreur TimeoutException indique qu'un délai d'attente
+    a expiré.
+
+    Pour une opération de recherche, vous pouvez choisir d'utiliser
+    une taille de page plus petite, définie avec le paramètre
+    ResultPageSize, si vous obtenez une erreur TimeoutException.
+
+    Si, après avoir tenté ces modifications, vous obtenez toujours une
+    erreur TimeoutException, envisagez d'optimiser votre filtre à
+    l'aide des indications de la section Optimisation des filtres
+    de cette rubrique.
+
+  Optimisation des filtres
+    Vous pouvez améliorer le comportement des filtres de recherche en
+    respectant les consignes suivantes.
+
+    Évitez d'utiliser le paramètre Recursive, car il intensifie
+    l'utilisation des ressources lors de l'opération de recherche.
+
+    Évitez d'utiliser les opérateurs de bits AND et OR. Pour plus
+    d'informations, consultez la section Opérateurs pris en charge
+    de cette rubrique.
+
+    Évitez d'utiliser l'opérateur NOT logique.
+
+    Décomposez votre recherche en plusieurs requêtes avec des
+    conditions plus restreintes.
+
+    Remarque : pour obtenir une description complète de la syntaxe et
+    de l'utilisation des filtres, consultez la section Syntaxe des
+    filtres de cette rubrique.
+
+  Exemples de filtres
+    La section suivante présente de nombreux exemples d'utilisation
+    des filtres dans des requêtes courantes.
+
+    -------------------------- Exemple 1 --------------------------
+
+    Pour obtenir toutes les entrées :
+
+        LDAP Filter Equivalent
+        (objectClass=*)
+
+        Get-ADObject -Filter 'ObjectClass -like "*"'
+
+    -------------------------- Exemple 2 --------------------------
+
+    Pour obtenir des entrées dont le nom commun contient " bob " :
+
+        LDAP Filter Equivalent
+        (cn=*bob*)
+
+        Get-ADObject -Filter 'CN -like "*bob*"'
+
+    -------------------------- Exemple 3 --------------------------
+
+    Pour obtenir des entrées avec un nombre de mots de passe
+    incorrects supérieur à cinq :
+
+        LDAP Filter Equivalent
+        (badpwdcount>=5)
+
+        Get-ADUser -Filter 'badpwdcount -ge 5'
+
+    -------------------------- Exemple 4 --------------------------
+
+    Pour obtenir tous les utilisateurs dotés d'un attribut de courrier
+    électronique :
+
+        LDAP Filter Equivalent
+        (&(objectClass=user)(email=*))
+
+        Get-ADUser -filter 'email -like "*"'
+
+        - ou -
+
+        Get-ADObject -filter 'email -like "*" -and ObjectClass -eq "user"'
+
+    -------------------------- Exemple 5 --------------------------
+
+    Pour obtenir toutes les entrées utilisateur qui disposent d'un
+    attribut de courrier électronique et dont le nom de famille
+    correspond à " stiller " :
+
+        LDAP Filter Equivalent
+        (&(sn=stiller)(objectClass=user)(email=*))
+
+        Get-ADUser -Filter 'Email -like "*" -and SurName -eq "stiller"'
+
+        - ou -
+
+        Get-ADUser -Filter 'Email -like "*" -and sn -eq "stiller"'
+
+    -------------------------- Exemple 6 --------------------------
+
+    Pour obtenir toutes les entrées utilisateur dont le nom commun
+    commence par " andy " et tous les utilisateurs dont le nom
+    commun est " steve " ou " margaret " :
+
+        LDAP Filter Equivalent
+        (&(objectClass=user) | (cn=andy*)(cn=steve)(cn=margaret))
+
+        Get-ADUser -Filter 'CN -like "andy*" -or CN -eq "steve" -or
+        CN -eq "margaret"'
+
+    Ce second script PowerShell dans l'exemple illustre une logique
+    plus complexe et l'utilisation du contrôle de précédence via les
+    parenthèses.
+
+        Get-ADObject -Filter 'objectClass -eq "user" -and
+         (CN -like "andy*" -or CN -eq "steve" -or CN -eq "margaret")'
+
+    -------------------------- Exemple 7 --------------------------
+
+    Pour obtenir toutes les entrées ne disposant pas d'un attribut de
+    courrier électronique :
+
+        LDAP Filter Equivalent
+        (!(email=*))
+
+        Get-ADUser -Filter '-not Email -like "*"'
+
+        - ou -
+
+        Get-ADUser -Filter 'Email -notlike "*"'
+
+    -------------------------- Exemple 8 --------------------------
+
+    Pour obtenir tous les utilisateurs qui n'ont pas ouvert de session
+    depuis le 1er janvier 2007 :
+
+        LDAP Filter Equivalent
+        (&(lastlogon<=X)(objectClass=user))
+        //où X correspond au nombre de tranches de 100 nanosecondes
+        depuis le 1er janvier 1601
+
+        $date = new-object System.DateTime -ArgumentList @(2007,1,1,0,0,0)
+        Get-ADUser -Filter '-not LastLogon -le $date'
+
+    -------------------------- Exemple 9 --------------------------
+
+    Pour obtenir tous les utilisateurs qui ont ouvert une session dans
+    les 5 derniers jours :
+
+        LDAP Filter Equivalent
+        (&(lastLogon>=128812906535515110)
+          (objectClass=user)(!(objectClass=computer)))
+
+        $date = (get-date) - (new-timespan -days 5)
+        Get-ADUser -Filter 'lastLogon -gt $date'
+
+    -------------------------- Exemple 10 -------------------------
+
+    La chaîne de requête de l'exemple ci-dessous recherche des objets
+    de groupe pour lesquels l'indicateur ADS_GROUP_TYPE_SECURITY_ENABLED
+    est défini. Notez que la valeur décimale de l'indicateur
+    ADS_GROUP_TYPE_SECURITY_ENABLED (0x80000000 = 2147483648)
+    est utilisée pour la valeur de comparaison.
+
+        LDAP Filter Equivalent
+        (&(objectCategory=group)(groupType:1.2.840.113556.1.4.803:=2147483648))
+
+        Get-ADGroup -filter 'groupType -band 0x80000000'
+
+    -------------------------- Exemple 11 -------------------------
+
+    LDAP_MATCHING_RULE_IN_CHAIN est un OID de règle de correspondance
+    conçu pour fournir une méthode de recherche de l'ancêtre d'un
+    objet. De nombreuses applications faisant appel à Active
+    Directory et AD LDS utilisent généralement des données
+    hiérarchiques, classées selon des relations parent-enfant.
+    Auparavant, les applications effectuaient l'expansion de groupes
+    transitifs pour représenter l'appartenance aux groupes, ce qui
+    utilisait trop de bande passante réseau. Elles effectuaient
+    plusieurs allers-retours pour déterminer si un objet était
+    présent " dans la chaîne " dans le cas où un lien était parcouru
+    de bout en bout.
+
+    Ce type de requête peut par exemple servir à vérifier si
+    l'utilisateur " utilisateur1 " est membre du groupe " groupe1 ".
+
+    REMARQUE : l'utilisateur utilisateur1 ne peut pas être un membre
+    direct du groupe groupe1. Il peut être membre d'un autre groupe,
+    qui est lui-même membre du groupe groupe1.
+
+    Vous définissez la base sur le nom unique (DN) de l'utilisateur
+    (cn=user1, cn=users, dc=x) et la portée sur base, puis vous
+    utilisez la requête suivante :
+
+        LDAP Filter Equivalent
+        (memberof:1.2.840.113556.1.4.1941:=(cn=Groupe1,OU=groupsOU,DC=x)))
+
+        Get-ADUser -Filter 'memberOf -RecursiveMatch "CN=Administrators,
+        CN=Builtin,DC=Fabrikam,DC=com"'
+        -SearchBase "CN=Administrator,CN=Users,DC=Fabrikam,DC=com"
+
+    ---------------------------------------------------------------
+
+  Syntaxe du filtre
+    Les descriptions de syntaxe suivantes utilisent la notation
+    BNF (Backus-Naur) pour indiquer le langage des expressions
+    PowerShell pour le paramètre Filter.
+
+        <filter>  ::= "{" <FilterComponentList> "}"
+
+        <FilterComponentList> ::= <FilterComponent> |
+          <FilterComponent> <JoinOperator> <FilterComponent> |
+          <NotOperator>  <FilterComponent>
+
+        <FilterComponent> ::= <attr> <FilterOperator> <valeur> |
+          "(" <FilterComponent> ")"
+
+        <FilterOperator> ::= "-eq" | "-le" | "-ge" | "-ne" | "-lt" | "-gt" |
+          "-approx" | "-bor" | "-band" | "-recursivematch" | "-like" |
+          "-notlike"
+
+        <JoinOperator> ::= "-and" | "-or"
+
+        <NotOperator> ::= "-not"
+
+        <attr> ::= <PropertyName> | <LDAPDisplayName de l'attribut>
+
+        <valeur>::= < cette valeur va être comparée aux données
+        d'objet de l'attribut <ATTR> à l'aide de l'opérateur de
+        filtre spécifié
+
+    Pour obtenir une liste des noms de propriétés pris en charge et de
+    leurs types, consultez get-help about_ActiveDirectory_ObjectModel.
+
+  Opérateurs pris en charge
+    Le tableau suivant présente les opérateurs de filtre de recherche
+    fréquemment utilisés.
+
+                                                    
+    Opérateur         Description                     Équivalent LDAP
+    --------------- ------------------------------ ---------------------
+    
+    -eq              Égal à. Ne prendra pas en        =
+                     charge la recherche par
+                     caractères génériques.            
+    -ne              Différent de. Ne prendra pas     !x = y
+                     en charge la recherche par
+                     caractères génériques.         
+    -approx          Approximativement égal à         ~=
+    -le              Lexicographiquement inférieur    <=
+                     ou égal à
+    -lt              Lexicographiquement inférieur à  !x >= y
+    -ge              Lexicographiquement supérieur    =>=
+                     ou égal à
+    -gt              Lexicographiquement supérieur à  !x <= y
+
+    -and             AND                              &
+    -or              OR                               |
+    -not             NOT                              !
+    -bor             Opérateur de bits OR             :1.2.840.113556.1.4.804:=
+    -band            Opérateur de bits AND            :1.2.840.113556.1.4.803:=
+    -recursivematch  Utiliser                         :1.2.840.113556.1.4.1941:=
+                     LDAP_MATCHING_RULE_IN_CHAIN
+                     (remarque : ce contrôle
+                     fonctionne uniquement avec
+                     Windows 2008 et versions
+                     ultérieures.) 
+    -like            Semblable à -eq et prend en      =
+                     charge la comparaison générique.
+                     Le seul caractère générique pris
+                     en charge est : *   
+    -notlike         Non similaire à. Prend en charge !x = y
+                     la comparaison générique.
+
+    Remarque : les caractères génériques PowerShell autres que " * ",
+    tels que " ? ", ne sont pas pris en charge par la syntaxe du
+    paramètre -Filter.
+
+  Précédence des opérateurs
+    La liste suivante indique la précédence des opérateurs associés
+    aux filtres, de la plus élevée à la plus faible.
+
+    Précédence la plus élevée : -eq | -ge | -le | -approx | -band |-bor |
+                                -recursivematch | -ne | -like
+                                -not
+                                -and
+    Précédence la plus faible : -or
+
+  Caractères spéciaux
+    La séquence d'échappement suivante doit être utilisée pour la
+    spécification de caractères spéciaux dans les données de type
+    chaîne (STRING) des filtres AD, c'est-à-dire les données placées
+    entre guillemets simples ' ' ou doubles " ".
+
+    Caractère ASCII     Substitut de la séquence d'échappement
+    ------------------- ------------------------------------------------
+    
+    "                   `"  (Cette séquence d'échappement est obligatoire
+                            uniquement si les données de type chaîne,
+                            STRING, sont placées entre guillemets doubles.)
+    '                   ''  (Cette séquence d'échappement est  obligatoire
+                            uniquement si les données de type chaîne,
+                            STRING, sont placées entre guillemets simples.)
+    NUL                 \00 (Il s'agit d'une séquence d'échappement
+                            LDAP standard.)
+    \                   \5c (Il s'agit d'une séquence d'échappement
+                            LDAP standard.)
+
+  Caractères spéciaux LDAP
+    L'analyseur ADFilter convertira automatiquement tous les
+    caractères ci-dessous trouvés dans les données de type chaîne
+    (STRING), c'est-à-dire les données placées entre guillemets
+    simples ' ' ou doubles " ", vers la séquence d'échappement LDAP
+    correspondante. Les utilisateurs finaux n'ont pas besoin de
+    connaître ces séquences d'échappement LDAP.
+
+    Caractère ASCII     Substitut de la séquence d'échappement
+    ------------------- ------------------------------------------------
+    
+    *                    \2a  (Le caractère * sera converti uniquement
+                              dans les comparaisons -eq et -ne. Les
+                              utilisateurs doivent employer les
+                              opérateurs -like et -notlike pour la
+                              comparaison générique.)
+    (                    \28
+    )                    \29
+    /                    \2f
+
+  Autres rubriques relatives à la prise en charge du module Active
+  Directory
+    Pour plus d'informations sur l'optimisation des filtres, consultez
+    Creating More Efficient Microsoft Active Directory-Enabled
+    Applications (page éventuellement en anglais) dans MSDN Library.
+    
+
+    Pour plus d'informations sur les objets du module Active Directory
+    et leurs attributs, consultez about_ActiveDirectory_ObjectModel.
+    
+
+    Pour plus d'informations sur la syntaxe du langage des expressions
+    Windows PowerShell, consultez about_filter.
+
+    Remarque : la rubrique PowerShell about_filter fait référence à
+    d'autres rubriques de prise en charge sur le langage des expressions.
+
+VOIR AUSSI
+    about_ActiveDirectory
+    about_ActiveDirectory_ObjectModel
+    about_filter
+

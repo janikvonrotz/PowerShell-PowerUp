@@ -1,0 +1,84 @@
+﻿TÓPICO
+    Visão geral do módulo do Active Directory
+
+DESCRIÇÃO RESUMIDA
+    O módulo do Active Directory é uma interface de linha de comando
+    para gerenciar o Active Directory.
+
+DESCRIÇÃO LONGA
+    O módulo do Active Directory para o Windows PowerShell destina-se
+    a profissionais de TI que estão administrando e usando o Active
+    Directory. O módulo do Active Directory fornece um modo
+    eficiente para concluir várias tarefas administrativas, de
+    configuração e de diagnóstico no AD DS (Serviços de Domínio
+    Active Directory) e nas instâncias do AD LDS (Active Directory
+    Lightweight Directory Services) em seus ambientes. O módulo do
+    Active Directory inclui um conjunto de cmdlets do Windows
+    PowerShell e um provedor. O provedor expõe o banco de dados do
+    Active Directory por meio de um sistema de navegação
+    hierárquico, que é bem parecido com o sistema de arquivos. Como
+    ocorre com unidades em um sistema de arquivos (por exemplo, C:),
+    você pode conectar unidades do Windows PowerShell a domínios do
+    Active Directory e ao AD LDS, bem como a instantâneos do Active
+    Directory.
+
+  Abrangência dos cmdlets de módulo do Active Directory
+    Há suporte para as ações Create, Read, Update e Delete para os
+    objetos do Active Directory, usando cmdlets como New-ADUser, 
+    Get-ADOrganizationalUnit, Set-ADComputer e Remove-ADUser.    
+
+    O Gerenciamento de Diretivas de Conta e Senha têm suporte em
+    cmdlets como Enable-ADAccount, Unlock-ADAccount, New-ADServiceAccount, Set-
+    ADAccountControl e Remove-ADFineGrainedPasswordPolicy.
+
+    O Gerenciamento de Domínios e Florestas tem suporte em cmdlets
+    como Get-ADForest, Set-ADForest, Set-ADForestMode, Enable-ADOptionalFeature,
+    Get-ADDomainController e Get-ADDomain.
+
+  Listando os cmdlets de módulo do Active Directory
+    Para obter uma lista de todos os cmdlets de módulo do Active
+    Directory, consulte get-command -module ActiveDirectory.
+
+  Guia de Introdução
+    Para começar a usar o módulo do Active Directory para o Windows
+    PowerShell, basta clicar no seguinte atalho:
+
+       Iniciar -> Ferramentas Administrativas ->
+       Módulo do Active Directory para Windows PowerShell
+
+    Esse atalho abre o Windows PowerShell com o módulo do Active
+    Directory previamente carregado. Além disso, você pode digitar
+    o seguinte comando em qualquer prompt do Windows PowerShell para
+    importar o módulo do Active Directory:
+
+      import-module ActiveDirectory
+
+  Visão geral e tópicos conceituais
+    Os primeiro dois tópicos fornecem uma visão geral do módulo e do
+    provedor do Active Directory.
+
+    Para obter uma breve introdução ao provedor do Active Directory
+    para Windows PowerShell, consulte ActiveDirectory.
+
+    Os tópicos a seguir são de suporte conceitual para os cmdlets do
+    módulo do Active Directory.
+
+    Para obter uma introdução ao parâmetro -Identity, que é usado
+    pelos cmdlets do módulo do Active Directory para identificar
+    objetos no diretório, consulte about_ActiveDirectory_Identity.
+
+    Para obter uma introdução ao parâmetro -Filter, que é usado pelos
+    cmdlets do módulo do Active Directory para procurar objetos no
+    diretório, consulte about_ActiveDirectory_Filter.
+
+    Para obter uma introdução ao modelo de objeto baseado em .NET
+    Framework implementado pelo módulo do Active Directory, consulte
+    about_ActiveDirectory_ObjectModel.
+
+
+CONSULTE TAMBÉM
+    ActiveDirectory
+    about_ActiveDirectory_Filter
+    about_ActiveDirectory_Identity
+    about_ActiveDirectory_ObjectModel
+

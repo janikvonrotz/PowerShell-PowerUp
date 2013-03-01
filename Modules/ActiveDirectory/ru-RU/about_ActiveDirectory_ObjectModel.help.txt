@@ -1,0 +1,895 @@
+﻿РАЗДЕЛ
+    Об объектной модели Active Directory
+
+КРАТКОЕ ОПИСАНИЕ
+    Описывает объектную модель модуля Active Directory для
+    Windows PowerShell.
+
+ПОЛНОЕ ОПИСАНИЕ
+    В этом разделе описаны классы модуля Active Directory и их
+    свойства, используемые для моделирования фактических атрибутов
+    Active Directory. Кроме того, в этом разделе представлена
+    иерархия классов, созданная в соответствии со структурой Active
+    Directory. Объектная модель представляет собой основу для всех
+    операций, поддерживаемых командлетами модуля Active Directory.
+
+  Иерархия классов
+    В следующем списке представлена иерархия классов, определенная в
+    объектной модели модуля Active Directory. Наследование классов
+    обозначается отступом. Данная модель наследования позволяет
+    командлетам Active Directory принимать на вход различные типы
+    объектов. Это, например, означает, что командлет 
+    Get-ADPrincipalGroupMembership может принимать на вход любой 
+    из следующих объектов: ADGroup, ADAccount, ADComputer, 
+    ADServiceAccount и ADUser. Это возможно из-за модели наследования 
+    и гарантирует, что у объекта ADUser есть все свойства объекта ADPrincipal.
+
+ 
+   ADEntity
+      ADRootDSE
+      ADObject
+        ADFineGrainedPasswordPolicy
+        ADOptionalFeature
+        ADOrganizationalUnit
+        ADPartition
+          ADDomain
+        ADPrincipal
+          ADAccount
+            ADComputer
+            ADServiceAccount
+            ADUser
+          ADGroup
+      ADDefaultDomainPasswordPolicy
+      ADForest
+      ADDirectoryServer
+        ADDomainController
+
+
+    Классы модуля Active Directory
+      Ниже показаны все классы модуля Active Directory из приведенной
+      иерархии классов. В каждом из классов определяется набор
+      свойств, некоторые из которых являются атрибутами LDAP,
+      извлекаемыми по умолчанию, а некоторые - новыми свойствами,
+      которые созданы специально для модуля Active Directory. Эти
+      новые свойства наследуются от одного или нескольких атрибутов
+      LDAP, как указано в списке классов.
+
+
+    ADEntity
+      Базовый класс, от которого наследуются все остальные классы.
+
+    ADRootDSE
+      Представляет объект rootDSE; является производным от ADEntity.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADRootDSE может содержать следующие свойства.
+
+      ConfigurationNamingContext - свойство типа System.String,
+      производное от атрибута каталога ConfigurationNamingContext.
+      
+      CurrentTime - свойство типа System.DateTime, производное от
+      атрибута каталога CurrentTime.
+
+      DefaultNamingContext - свойство типа System.String, производное
+      от атрибута каталога DefaultNamingContext.
+
+      DnsHostName - свойство типа System.String, производное от
+      атрибута каталога DnsHostName.
+
+      DomainControllerFunctionality - свойство типа ADDomainControllerMode,
+      производное от атрибута каталога DomainControllerFunctionality.
+      
+      DomainFunctionality - свойство типа ADDomainMode, производное от
+      атрибута каталога DomainFunctionality.
+
+      DsServiceName - свойство типа System.String, производное от
+      атрибута каталога DsServiceName.
+
+      ForestFunctionality - свойство типа ADForestMode, производное от
+      атрибута каталога ForestFunctionality
+
+      GlobalCatalogReady - свойство типа System.Boolean, производное
+      от атрибута каталога GlobalCatalogReady.
+
+      HighestCommittedUSN - свойство типа System.Long, производное от
+      атрибута каталога HighestCommittedUSN.
+
+      LdapServiceName - свойство типа System.String, производное от
+      атрибута каталога LdapServiceName.
+
+      NamingContexts - свойство типа System.String, производное от
+      атрибута каталога NamingContexts.
+
+      RootDomainNamingContext - свойство типа System.String,
+      производное от атрибута каталога RootDomainNamingContext.
+
+      SchemaNamingContext - свойство типа System.String, производное
+      от атрибута каталога SchemaNamingContext.
+
+      ServerName - свойство типа System.String, производное от
+      атрибута каталога ServerName.
+
+      SubschemaSubentry - свойство типа ADObject, производное от
+      атрибута каталога SubschemaSubentry.
+
+      SupportedCapabilities - свойство типа ADObjectIdentifier,
+      производное от атрибута каталога SupportedCapabilities.
+
+      SupportedControl - свойство типа ADObjectIdentifier, производное
+      от атрибута каталога SupportedControl.
+
+      SupportedLDAPPolicies - свойство типа System.String, производное
+      от атрибута каталога SupportedLDAPPolicies.
+
+      SupportedLDAPVersion - свойство типа System.Int, производное от
+      атрибута каталога SupportedLDAPVersion.
+
+      SupportedRootDSEOperations - свойство типа ADPropertyValueCollection,
+      производное от атрибута каталога SupportedRootDSEOperations.
+      
+      SupportedSASLMechanisms - свойство типа System.String,
+      производное от атрибута каталога SupportedSASLMechanisms.
+
+      Syncronized - свойство типа System.Boolean, производное от
+      атрибута каталога IsSynchronized.
+
+
+    ADObject
+      Представляет любой объект в Active Directory; является
+      производным от ADEntity.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADObject может содержать следующие свойства.
+
+      CanonicalName - свойство типа System.String, производное от
+      атрибута каталога canonicalName.
+
+      CN - свойство типа System.String, производное от атрибута
+      каталога cn.
+
+      Created - свойство типа System.DateTime, производное от атрибута
+      каталога createTimeStamp.
+
+      Deleted - свойство типа System.Boolean, производное от атрибута
+      каталога isDeleted.
+
+      Description - свойство типа System.String, производное от
+      атрибута каталога Description.
+
+      DisplayName - свойство типа System.String, производное от
+      атрибута каталога displayName.
+
+      DistinguishedName - свойство типа System.String, производное от
+      атрибута каталога distinguishedName.
+
+      LastKnownParent - свойство типа System.String, производное от
+      атрибута каталога lastKnownParent.
+
+      Modified - свойство типа System.DateTime, производное от
+      атрибута каталога modifyTimeStamp.
+
+      Name - свойство типа System.String, производное от атрибута
+      каталога name.
+
+      ObjectCategory - свойство типа System.String, производное от
+      атрибута каталога objectCategory.
+
+      ObjectClass - свойство типа System.String, производное от
+      атрибута каталога objectClass.
+
+      ObjectGUID - свойство типа System.Guid, производное от атрибута
+      каталога objectGUID.
+
+      ProtectedFromAccidentalDeletion - свойство типа System.Boolean,
+      производное от атрибутов каталога nTSecurityDescriptor, sdRightsEffective,
+      instanceType и isDeleted.
+
+ 
+   ADFineGrainedPasswordPolicy
+      Представляет объект детально настроенной политики паролей, т. е.
+      объект AD типа msDS-PasswordSettings в доменных службах Active
+      Directory; является производным от ADObject. Этот класс не
+      поддерживается в службах Active Directory облегченного доступа
+      к каталогам.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADFineGrainedPasswordPolicy может содержать следующие свойства.
+      
+      AppliesTo - свойство типа System.String, производное от атрибута
+      каталога msDS-PSOAppliesTo.
+
+      ComplexityEnabled - свойство типа System.Boolean, производное от
+      атрибута каталога msDS-PasswordComplexityEnabled.
+
+      LockoutDuration - свойство типа System.TimeSpan, производное от
+      атрибута каталога msDS-LockoutDuration.
+
+      LockoutObservationWindow - свойство типа System.TimeSpan,
+      производное от атрибута каталога msDS-LockoutObservationWindow.
+      
+      LockoutThreshold - свойство типа System.Int32, производное от
+      атрибута каталога msDS-LockoutThreshold.
+
+      MaxPasswordAge - свойство типа System.TimeSpan, производное от
+      атрибута каталога msDS-MaximumPasswordAge.
+
+      MinPasswordAge - свойство типа System.TimeSpan, производное от
+      атрибута каталога msDS-MinimumPasswordAge.
+
+      MinPasswordLength - свойство типа System.Int32, производное от
+      атрибута каталога msDS-MinimumPasswordLength.
+
+      PasswordHistoryCount - свойство типа System.Int32, производное
+      от атрибута каталога msDS-PasswordHistoryLength.
+
+      Precedence - свойство типа System.Int32, производное от атрибута
+      каталога msDS-PasswordSettingsPrecedence.
+
+      ReversibleEncryptionEnabled - свойство типа System.Boolean,
+      производное от атрибута каталога msDS-PasswordReversibleEncryptionEnabled.
+      
+
+    ADOptionalFeature
+      Представляет дополнительный компонент, т. е. объект Active
+      Directory типа msDS-OptionalFeature; является производным
+      от ADObject.
+
+      Помимо свойств, унаследованных от родительского класса, класс 
+      ADOptionalFeature может содержать следующие свойства.
+      
+      EnabledScopes - свойство типа System.String, производное от
+      атрибута каталога msDS-EnabledFeatureBL.
+
+      FeatureGUID - свойство типа System.Guid, производное от атрибута
+      каталога msDS-OptionalFeatureGUID.
+
+      FeatureScope - свойство типа System.Int32, производное от
+      атрибута каталога msDS-OptionalFeatureFlags.
+
+      IsDisableable - свойство типа System.Boolean, производное от
+      атрибута каталога msDS-OptionalFeatureFlags.
+
+      RequiredDomainMode - свойство типа 
+      Microsoft.ActiveDirectory.Management.ADDomainMode, производное 
+      от атрибута каталога msDS-RequiredDomainBehaviorVersion.
+
+      RequiredForestMode - свойство типа 
+      Microsoft.ActiveDirectory.Management.ADForestMode, производное
+      от атрибута каталога msDS-RequiredForestBehaviorVersion.
+
+
+    ADOrganizationalUnit
+      Представляет объект подразделения; является производным
+      от ADObject.
+
+      Помимо свойств, унаследованных от родительского класса, класс 
+      ADOrganizationalUnit может содержать следующие свойства.
+      
+      City - свойство типа System.String, производное от атрибута
+      каталога l.
+
+      Country - свойство типа System.String, производное от атрибута
+      каталога c.
+
+      LinkedGroupPolicyObjects - свойство типа System.String,
+      производное от атрибута каталога gpLink. Это свойство не
+      поддерживается в службах Active Directory облегченного доступа
+      к каталогам.
+
+      ManagedBy - свойство типа System.String, производное от атрибута
+      каталога managedBy.
+
+      PostalCode - свойство типа System.String, производное от
+      атрибута каталога postalCode.
+
+      State - свойство типа System.String, производное от атрибута
+      каталога st.
+
+      StreetAddress - свойство типа System.String, производное от
+      атрибута каталога street.
+
+
+    ADPartition
+      Представляет контекст именования, конфигурацию, схему, домен или
+      раздел приложения (ND NC); является производным от ADObject.
+      Этот класс не поддерживается в службах Active Directory
+      облегченного доступа к каталогам.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADPartition может содержать следующие свойства.
+
+      DeletedObjectsContainer - свойство типа System.String,
+      производное от атрибута каталога DeletedObjectsContainer.
+
+      DNSRoot - свойство типа System.String, производное от атрибута
+      каталога DNSRoot.
+
+      LostAndFoundContainer - свойство типа System.String, производное
+      от атрибута каталога LostAndFoundContainer.
+
+      QuotasContainer - свойство типа System.String, производное от
+      атрибута каталога QuotasContainer.
+
+      ReadOnlyReplicaDirectoryServers - свойство типа System.String,
+      производное от атрибута каталога ReadOnlyReplicaDirectoryServers.
+      
+      ReplicaDirectoryServers - свойство типа System.String,
+      производное от атрибута каталога ReplicaDirectoryServers.
+
+      SubordinateReferences - свойство типа System.String, производное
+      от атрибута каталога SubordinateReferences.
+
+
+    ADDomain
+      Представляет домен в AD DS или экземпляр в службах Active
+      Directory облегченного доступа к каталогам, например объект
+      Active Directory типа domainDNS; является производным от
+      ADPartition. Этот класс не поддерживается в службах Active
+      Directory облегченного доступа к каталогам.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADDomain может содержать следующие свойства.
+
+      AllowedDNSSuffixes - свойство типа System.String, производное от
+      атрибута каталога msDS-AllowedDNSSuffixes.
+
+      ChildDomains - свойство типа System.String, производное от
+      атрибута каталога ChildDomains.
+
+      ComputersContainer - свойство типа System.String, производное от
+      атрибута каталога ComputersContainer.
+
+      DomainControllersContainer - свойство типа System.String,
+      производное от атрибута каталога DomainControllersContainer.
+      
+      DomainMode - свойство типа System.Int32, производное от атрибута
+      каталога msDS-Behavior-Version.
+
+      DomainSID - свойство типа System.Security.Principal.SecurityIdentifier,
+      производное от атрибута каталога objectSid.
+
+      ForeignSecurityPrincipalsContainer - свойство типа System
+      .String, производное от атрибута каталога ForeignSecurityPrincipalsContainer.
+      
+      Forest - свойство типа System.String, производное от атрибута
+      каталога Forest.
+
+      InfrastructureMaster - свойство типа System.String, производное
+      от атрибута каталога InfrastructureMaster.
+
+      LastLogonReplicationInterval - свойство типа System.TimeSpan,
+      производное от атрибута каталога msDS-LogonTimeSyncInterval.
+
+      LinkedGroupPolicyObjects - свойство типа System.String,
+      производное от атрибута каталога LinkedGroupPolicyObjects.
+
+      ManagedBy - свойство типа System.String, производное от атрибута
+      каталога managedBy.
+      
+      NetBIOSName - свойство типа System.String, производное от
+      атрибута каталога NetBIOSName.
+
+      ParentDomain - свойство типа System.String, производное от
+      атрибута каталога ParentDomain.
+
+      PDCEmulator - свойство типа System.String, производное от
+      атрибута каталога PDCEmulator.
+
+      RIDMaster - свойство типа System.String, производное от атрибута
+      каталога RIDMaster.
+
+      SystemsContainer - свойство типа System.String, производное от
+      атрибута каталога SystemsContainer.
+
+      UsersContainer - свойство типа System.String, производное от
+      атрибута каталога UsersContainer.
+
+
+    ADPrincipal
+      Представляет субъект безопасности, т. е. объект Active Directory
+      типа user, computer, group или iNetOrgPerson; является
+      производным от ADObject.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADPrincipal может содержать следующие свойства.
+
+      HomePage - свойство типа System.String, производное от атрибута
+      каталога wWWHomePage.
+
+      MemberOf - свойство типа System.String, производное от атрибута
+      каталога memberOf.
+
+      SamAccountName - свойство типа System.String, производное от
+      атрибута каталога sAMAccountName. Это свойство не
+      поддерживается в службах Active Directory облегченного доступа
+      к каталогам.
+
+      SID - свойство типа System.Security.Principal.SecurityIdentifier,
+      производное от атрибута каталога objectSid.
+
+      SIDHistory - свойство типа System.Security.Principal.SecurityIdentifier,
+      производное от атрибута каталога sIDHistory. Это свойство
+      не поддерживается в службах Active Directory облегченного
+      доступа к каталогам.
+
+
+    ADAccount
+      Представляет учетную запись безопасности, т. е. объект Active
+      Directory типа user, computer, group или iNetOrgPerson;
+      является производным от ADPrincipal.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADAccount может содержать следующие свойства.
+
+      AccountExpirationDate - свойство типа System.DateTime,
+      производное от атрибута каталога accountExpires.
+
+      AccountLockoutTime - свойство типа System.DateTime, производное
+      от атрибута каталога lockoutTime.
+
+      AccountNotDelegated - свойство типа System.Boolean, производное
+      от атрибутов каталога userAccountControl и msDS-User-Account-Control-Computed.
+      Это свойство не поддерживается в службах Active Directory облегченного
+      доступа к каталогам.
+
+      AllowReversiblePasswordEncryption - свойство типа System
+      .Boolean; в доменных службах Active Directory является
+      производным от атрибута каталога userAccountControl; в службах
+      Active Directory облегченного доступа к каталогам является
+      производным от атрибута каталога ms-DS-UserEncryptedTextPasswordAllowed.
+      
+      BadLogonCount - свойство типа System.Int32, производное от
+      атрибута каталога badPwdCount.
+
+      CannotChangePassword - свойство типа System.Boolean, производное
+      от атрибута каталога nTSecurityDescriptor.
+
+      Certificates - свойство типа 
+      System.Security.Cryptography.X509Certificates.X509Certificate, 
+      производное от атрибута каталога userCertificate.
+
+      DoesNotRequirePreAuth - свойство типа System.Boolean,
+      производное от атрибутов каталога userAccountControl и msDS-User-Account-
+      Control-Computed. Это свойство не поддерживается в службах
+      Active Directory облегченного доступа к каталогам.
+
+      Enabled - свойство типа System.Boolean; в доменных службах
+      Active Directory является производным от атрибутов каталога
+      userAccountControl и msDS-User-Account-Control-Computed; в
+      службах Active Directory облегченного доступа к каталогам
+      является производным от атрибута каталога msDS-UserAccountDisabled.
+      
+      HomedirRequired - свойство типа System.Boolean, производное от
+      атрибутов каталога userAccountControl
+      и msDS-User-Account-Control-Computed. Это свойство не
+      поддерживается в службах Active Directory облегченного 
+      доступа к каталогам.
+
+      LastBadPasswordAttempt - свойство типа System.TimeSpan,
+      производное от атрибута каталога badPasswordTime.
+
+      LastLogonDate - свойство типа System.DateTime, производное от
+      атрибута каталога lastLogonTimestamp.
+
+      LockedOut - свойство типа System.Boolean; в доменных службах
+      Active Directory является производным от атрибутов каталога
+      userAccountControl, msDS-User-Account-Control-Computed
+      и lockoutTime; в службах Active Directory облегченного доступа
+      к каталогам является производным от атрибута каталога msDS-UserAccountDisabled.
+      
+      MNSLogonAccount - свойство типа System.Boolean, производное от
+      атрибутов каталога userAccountControl и msDS-User-Account-Control-Computed.
+      Это свойство не поддерживается в службах Active Directory
+      облегченного доступа к каталогам.
+
+      PasswordExpired - свойство типа System.Boolean; в доменных
+      службах Active Directory является производным от атрибутов
+      каталога userAccountControl и msDS-User-Account-Contro
+      l-Computed; в службах Active Directory облегченного доступа
+      к каталогам является производным от атрибута каталога msDS-UserPasswordExpired.
+      
+      PasswordLastSet - свойство типа System.TimeSpan, производное от
+      атрибута каталога pwdLastSet.
+
+      PasswordNeverExpires - свойство типа System.Boolean; в доменных
+      службах Active Directory является производным от атрибутов
+      каталога userAccountControl и msDS-User-Account-Contro
+      l-Computed; в службах Active Directory облегченного доступа
+      к каталогам является производным от атрибута каталога msDS-UserDontExpirePassword.
+      
+      PasswordNotRequired - свойство типа System.Boolean; в доменных
+      службах Active Directory является производным от атрибутов
+      каталога userAccountControl и msDS-User-Account-Contro
+      l-Computed; в службах Active Directory облегченного доступа
+      к каталогам является производным от атрибута каталога ms-DS-UserPasswordNotRequired.
+      
+      PrimaryGroup - свойство типа System.String, производное от
+      атрибутов каталога primaryGroupID и objectSid. Это свойство
+      не поддерживается в службах Active Directory облегченного
+      доступа к каталогам.
+
+      ServicePrincipalNames - свойство типа System.String, производное
+      от атрибута каталога servicePrincipalName. Это свойство не
+      поддерживается в службах Active Directory облегченного доступа
+      к каталогам.
+
+      TrustedForDelegation - свойство типа System.Boolean, производное
+      от атрибутов каталога userAccountControl и msDS-User-Account-Control-Computed.
+      Это свойство не поддерживается в службах Active Directory облегченного
+      доступа к каталогам.
+
+      TrustedToAuthForDelegation - свойство типа System.Boolean,
+      производное от атрибутов каталога userAccountControl и msDS-User-Account-
+      Control-Computed. Это свойство не поддерживается в службах
+      Active Directory облегченного доступа к каталогам.
+
+      UseDESKeyOnly - свойство типа System.Boolean, производное от
+      атрибутов каталога userAccountControl и msDS-User-Account-Control-Computed.
+      Это свойство не поддерживается в службах Active Directory
+      облегченного доступа к каталогам.
+
+      UserPrincipalName - свойство типа System.String, производное от
+      атрибута каталога userPrincipalName.
+
+
+    ADComputer
+      Представляет компьютер; является производным от ADAccount.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADComputer может содержать следующие свойства.
+
+      DNSHostName - свойство типа System.String, производное от
+      атрибута каталога dNSHostName.
+
+      IPv4Address - свойство типа System.String, производное от
+      атрибута каталога dNSHostName.
+
+      IPv6Address - свойство типа System.String, производное от
+      атрибута каталога dNSHostName.
+
+      Location - свойство типа System.String, производное от атрибута
+      каталога location.
+
+      ManagedBy - свойство типа System.String, производное от атрибута
+      каталога managedBy.
+
+      OperatingSystem - свойство типа System.String, производное от
+      атрибута каталога operatingSystem.
+
+      OperatingSystemHotfix - свойство типа System.String, производное
+      от атрибута каталога operatingSystemHotfix.
+
+      OperatingSystemServicePack - свойство типа System.String,
+      производное от атрибута каталога operatingSystemServicePack.
+     
+      OperatingSystemVersion - свойство типа System.String,
+      производное от атрибута каталога operatingSystemVersion.
+
+      ServiceAccount - свойство типа System.String, производное от
+      атрибута каталога msDS-HostServiceAccount.
+
+
+    ADServiceAccount
+      Представляет управляемую учетную запись службы, т. е. объект
+      Active Directory типа msDS-ManagerdServiceAccount; является
+      производным от ADAccount. Этот класс не поддерживается в
+      службах Active Directory облегченного доступа к каталогам.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADServiceAccount может содержать следующие свойства.
+      
+      HostComputers - свойство типа System.String, производное от
+      атрибута каталога msDS-HostServiceAccountBL.
+
+
+    ADUser
+      Представляет пользователя (или iNetOrgPerson); является
+      производным от ADAccount.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADUser может содержать следующие свойства.
+
+      City - свойство типа System.String, производное от атрибута
+      каталога l.
+
+      Company - свойство типа System.String, производное от атрибута
+      каталога company.
+
+      Country - свойство типа System.String, производное от атрибута
+      каталога c.
+
+      Department - свойство типа System.String, производное от
+      атрибута каталога department.
+
+      Division - свойство типа System.String, производное от атрибута
+      каталога division.
+
+      EmailAddress - свойство типа System.String, производное от
+      атрибута каталога mail.
+
+      EmployeeID - свойство типа System.String, производное от
+      атрибута каталога employeeID.
+
+      EmployeeNumber - свойство типа System.String, производное от
+      атрибута каталога employeeNumber.
+
+      Fax - свойство типа System.String, производное от атрибута
+      каталога facsimileTelephoneNumber.
+
+      GivenName - свойство типа System.String, производное от атрибута
+      каталога givenName.
+
+      HomeDirectory - свойство типа System.String, производное от
+      атрибута каталога homeDirectory. Это свойство не
+      поддерживается в службах Active Directory облегченного доступа
+      к каталогам.
+
+      HomeDrive - свойство типа System.String, производное от атрибута
+      каталога homeDrive. Это свойство не поддерживается в службах
+      Active Directory облегченного доступа к каталогам.
+
+      HomePhone - свойство типа System.String, производное от атрибута
+      каталога homePhone.
+
+      Initials - свойство типа System.String, производное от атрибута
+      каталога initials.
+
+      LogonWorkstations - свойство типа System.String, производное от
+      атрибута каталога userWorkstations. Это свойство не
+      поддерживается в службах Active Directory облегченного доступа
+      к каталогам.
+
+      Manager - свойство типа System.String, производное от атрибута
+      каталога manager.
+
+      MobilePhone - свойство типа System.String, производное от
+      атрибута каталога mobile.
+
+      Office - свойство типа System.String, производное от атрибута
+      каталога physicalDeliveryOfficeName.
+
+      OfficePhone - свойство типа System.String, производное от
+      атрибута каталога telephoneNumber.
+
+      Organization - свойство типа System.String, производное от
+      атрибута каталога o.
+
+      OtherName - свойство типа System.String, производное от атрибута
+      каталога middleName.
+
+      POBox - свойство типа System.String, производное от атрибута
+      каталога postOfficeBox.
+
+      PostalCode - свойство типа System.String, производное от
+      атрибута каталога postalCode.
+
+      ProfilePath - свойство типа System.String, производное от
+      атрибута каталога profilePath. Это свойство не поддерживается
+      в службах Active Directory облегченного доступа к каталогам.
+      
+      ScriptPath - свойство типа System.String, производное от
+      атрибута каталога scriptPath. Это свойство не поддерживается
+      в службах Active Directory облегченного доступа к каталогам.
+      
+      SmartcardLogonRequired - свойство типа System.Boolean,
+      производное от атрибутов каталога userAccountControl и msDS-User-Account-
+      Control-Computed. Это свойство не поддерживается в службах
+      Active Directory облегченного доступа к каталогам.
+
+      State - свойство типа System.String, производное от атрибута
+      каталога st.
+
+      StreetAddress - свойство типа System.String, производное от
+      атрибута каталога streetAddress.
+
+      Surname - свойство типа System.String, производное от атрибута
+      каталога sn.
+
+      Title - свойство типа System.String, производное от атрибута
+      каталога title.
+
+
+    ADGroup
+      Представляет группу; является производным от ADPrincipal.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADGroup может содержать следующие свойства.
+
+      GroupCategory - свойство типа 
+      Microsoft.ActiveDirectory.Management.ADGroupCategory, производное 
+      от атрибута каталога groupType.
+
+      GroupScope - свойство типа Microsoft.ActiveDirectory.Management.ADGroupScope,
+      производное от атрибута каталога groupType.
+
+      ManagedBy - свойство типа System.String, производное от атрибута
+      каталога managedBy.
+
+      Members - свойство типа System.String, производное от атрибута
+      каталога member.
+
+
+    ADDefaultDomainPasswordPolicy
+      Представляет политику паролей уровня домена Active Directory;
+      является производным от ADEntity. Этот класс не поддерживается
+      в службах Active Directory облегченного доступа к каталогам.
+      
+      Помимо свойств, унаследованных от родительского класса, класс 
+      ADDefaultDomainPasswordPolicy может содержать следующие свойства.
+      
+      ComplexityEnabled - свойство типа System.Boolean, производное от
+      атрибута каталога pwdProperties.
+
+      DistinguishedName - свойство типа System.String, производное от
+      атрибута каталога distinguishedName.
+
+      LockoutDuration - свойство типа System.TimeSpan, производное от
+      атрибута каталога lockoutDuration.
+
+      LockoutObservationWindow - свойство типа System.TimeSpan,
+      производное от атрибута каталога lockoutObservationWindow.
+
+      LockoutThreshold - свойство типа System.Int32, производное от
+      атрибута каталога lockoutThreshold.
+
+      MaxPasswordAge - свойство типа System.TimeSpan, производное от
+      атрибута каталога maxPwdAge.
+
+      MinPasswordAge - свойство типа System.TimeSpan, производное от
+      атрибута каталога minPwdAge.
+
+      MinPasswordLength - свойство типа System.Int32, производное от
+      атрибута каталога minPwdLength.
+
+      PasswordHistoryCount - свойство типа System.Int32, производное
+      от атрибута каталога pwdHistoryLength.
+
+      ReversibleEncryptionEnabled - свойство типа System.Boolean,
+      производное от атрибута каталога pwdProperties.
+
+
+    ADForest
+      Представляет лес Active Directory в доменных службах Active
+      Directory или набор конфигурации в службах Active Directory
+      облегченного доступа к каталогам; является производным от
+      ADEntity. Этот класс не поддерживается в службах Active
+      Directory облегченного доступа к каталогам.
+
+      Помимо свойств, унаследованных от родительского класса, класс
+      ADForest может содержать следующие свойства.
+
+      ApplicationPartitions - свойство типа System.String, производное
+      от атрибута каталога ApplicationPartitions.
+
+      CrossForestReferences - свойство типа System.String, производное
+      от атрибута каталога CrossForestReferences.
+
+      DomainNamingMaster - свойство типа System.String, производное от
+      атрибута каталога DomainNamingMaster.
+
+      Domains - свойство типа System.String, производное от атрибута
+      каталога Domains.
+
+      ForestMode - свойство типа System.Int32, производное от атрибута
+      каталога msDS-Behavior-Version.
+
+      GlobalCatalogs - свойство типа System.String, производное от
+      атрибута каталога GlobalCatalogs.
+
+      Name - свойство типа System.String, производное от атрибута
+      каталога name.
+
+      PartitionContainerName - свойство типа System.String,
+      производное от атрибута каталога distinguishedName.
+
+      RootDomain - свойство типа System.String, производное от
+      атрибута каталога RootDomain.
+
+      SchemaMaster - свойство типа System.String, производное от
+      атрибута каталога SchemaMaster.
+
+      Sites - свойство типа System.String, производное от атрибута
+      каталога Sites.
+
+      SPNSuffixes - свойство типа System.String, производное от
+      атрибута каталога msDS-SPNSuffixes.
+
+      UPNSuffixes - свойство типа System.String, производное от
+      атрибута каталога uPNSuffixes.
+
+
+    ADDirectoryServer
+      Представляет сервер каталога, который используется в качестве
+      контроллера домена или экземпляра AD LDS; является производным
+      от ADPartition.
+
+      Помимо свойств, унаследованных от родительского класса, класс 
+      ADDirectoryServer может содержать следующие свойства.
+      
+      DefaultPartition - свойство типа System.String, производное от
+      атрибута каталога DefaultPartition.
+
+      HostName - свойство типа System.String, производное от атрибута
+      каталога HostName.
+
+      InvocationId - свойство типа System.Guid, производное от
+      атрибута каталога InvocationId.
+
+      IPv4Address - свойство типа System.String, производное от
+      атрибута каталога HostName.
+
+      IPv6Address - свойство типа System.String, производное от
+      атрибута каталога HostName.
+
+      LdapPort - свойство типа System.Int32, производное от атрибута
+      каталога LdapPort.
+
+      Name - свойство типа System.String, производное от атрибута
+      каталога Name.
+
+      NTDSSettingsObjectDN - свойство типа System.String, производное
+      от атрибута каталога NTDSSettingsObjectDN.
+
+      OperationMasterRoles - свойство типа 
+      Microsoft.ActiveDirectory.Management.ADOperationMasterRole, 
+      производное от атрибута каталога OperationMasterRole.
+
+      Partitions - свойство типа System.String, производное от
+      атрибута каталога Partitions.
+
+      ServerObjectDN - свойство типа System.String, производное от
+      атрибута каталога ServerObjectDN.
+
+      ServerObjectGuid - свойство типа System.Guid, производное от
+      атрибута каталога ServerObjectGuid.
+
+      Site - свойство типа System.String, производное от атрибута
+      каталога Site.
+
+      SslPort - свойство типа System.Int32, производное от атрибута
+      каталога SslPort.
+
+
+    ADDomainController
+      Представляет контроллер домена в AD DS; является производным от
+      ADDirectoryServer.
+
+      Помимо свойств, унаследованных от родительского класса, класс 
+      ADDomainController может содержать следующие свойства.
+      
+      ComputerObjectDN - свойство типа System.String, производное от
+      атрибута каталога ComputerDN.
+
+      Domain - свойство типа System.String, производное от атрибута
+      каталога Domain.
+
+      Enabled - свойство типа System.Boolean, производное от атрибута
+      каталога Enabled.
+
+      Forest - свойство типа System.String, производное от атрибута
+      каталога Forest.
+
+      IsGlobalCatalog - свойство типа System.Boolean, производное от
+      атрибута каталога IsGlobalCatalog.
+
+      IsReadOnly - свойство типа System.Boolean, производное от
+      атрибута каталога IsReadOnly.
+
+      OperatingSystem - свойство типа System.String, производное от
+      атрибута каталога OSName.
+
+      OperatingSystemHotfix - свойство типа System.String, производное
+      от атрибута каталога OSHotFix.
+
+      OperatingSystemServicePack - свойство типа System.String,
+      производное от атрибута каталога OSServicepack.
+
+      OperatingSystemVersion - свойство типа System.String,
+      производное от атрибута каталога OSVersion.
+
+
+CМ. ТАКЖЕ
+
+    about_ActiveDirectory
+    about_ActiveDirectory_Identity
+

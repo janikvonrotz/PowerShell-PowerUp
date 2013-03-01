@@ -1,0 +1,395 @@
+﻿항목
+    Active Directory 필터
+
+간단한 설명
+    Windows PowerShell용 Active Directory 모듈에서 지원하는 검색 필터의 구문과
+    동작에 대해 설명합니다.
+
+자세한 설명
+    대부분의 get-AD* Active Directory 모듈 cmdlet은 Filter 매개 변수를 사용
+    하여 개체를 검색합니다. Filter 매개 변수는 LDAP 필터의 기능을 대체하기 위해
+    구현되었으며 PowerShell 변수, 다양한 데이터 형식, 향상된 오류 검사 및 PowerShell
+    표현 언어의 Active Directory 확장 형식에 대한 지원 기능을 추가합니다.
+
+    Windows PowerShell 표현 언어 구문에 대한 자세한 내용은 about_filter를 참조
+    하십시오.
+
+    참고: about_filter PowerShell 항목은 다양한 지원하는 표현 언어 항목을 참조합
+    니다.
+
+
+  LDAP 필터 구문 지원
+    LDAP 필터 구문은 LDAPFilter 매개 변수를 통해 지원됩니다. 이 항목의 필터 예제
+    단원에는 새로운 Active Directory 모듈 필터 예제와 함께 LDAP 필터 예제가
+    있습니다.
+
+
+  검색 범위 및 심도
+    SearchBase와 SearchScope라는 두 개의 Active Directory 모듈 cmdlet 매개 변수로
+    필터 구동 검색의 범위와 심도를 수정할 수 있습니다.
+
+    Active Directory 공급자 컨텍스트 내에 있을 때 Searchbase 매개 변수를 지정하지
+    않으면 SearchBase는 기본적으로 현재 경로로 설정됩니다. Active Directory
+    공급자에서 실행되지 않는 경우 SearchBase는 기본적으로 서버의  
+    DefaultNamingContext로 설정됩니다.
+
+    SearchScope 매개 변수는 기본적으로 열거 유형 ADSearchScope의 Subtree 값으로
+    설정됩니다.
+
+    자세한 내용은 Get-AD* cmdlet에 대한 SearchBase 및 SearchScope 매개 변수
+    설명을 참조하십시오.
+
+
+  검색 결과 동작
+    검색 결과를 반환할 때 Active Directory 모듈의 동작은 ResultPageSize와 
+    ResultSetSize라는 두 개의 cmdlet 매개 변수로 수정됩니다.
+
+    ResultSetSize는 반환되는 최대 개체 수를 제어합니다.
+
+    ResultPageSize는 반환되는 각 정보 페이지의 최대 개체 수를 지정합니다.
+
+    자세한 내용은 get-AD* cmdlet에 대한 ResultPageSize 및 ResultSetSize 매개
+    변수 설명을 참조하십시오.
+
+
+  제한 시간 동작
+    아래에서는 Active Directory 모듈 내의 제한 시간 조건을 지정하고 제한 시간에 대해
+    수행할 수 있는 작업에 대해 설명합니다.
+
+    모든 작업에 대한 기본 Active Directory 모듈 제한 시간은 2분입니다.
+
+    검색 작업의 경우 Active Directory 모듈은 각 페이지 검색에 제한 시간 2분의 페이징
+    컨트롤을 사용합니다.
+
+    참고: 검색 하나에 여러 서버 페이지 요청이 포함될 수 있으므로 전체 검색 시간은 
+    2분을 초과할 수 있습니다.
+
+    TimeoutException 오류는 제한 시간이 초과되었음을 나타냅니다.
+
+    검색 작업의 경우 TimeoutException 오류가 나타나면 ResultPageSize 매개 변수를
+    설정하여 더 작은 페이지 크기를 사용하도록 선택할 수 있습니다.
+
+    이렇게 변경한 후에도 TimeoutException 오류가 나타나면 이 항목의 필터 최적화 단
+    원에 있는 지침을 사용하여 필터를 최적화하는 것이 좋습니다.
+
+
+  필터 최적화
+    다음 지침에 따라 검색 필터 동작을 개선할 수 있습니다.
+
+    검색 작업의 리소스 사용이 증가하므로 Recursive 매개 변수를 사용하지 마십시오.
+
+    비트 AND 연산자와 비트 OR 연산자를 사용하지 마십시오. 자세한 내용은 이 항목의 
+    지원되는 연산자 단원을 참조하십시오.
+
+    논리 NOT 연산자를 사용하지 마십시오.
+
+    조건을 세분화하여 여러 쿼리로 검색을 분할하십시오.
+
+    참고: 필터 구문과 사용법에 대한 자세한 설명은 이 항목의 필터 구문 단원을 
+    참조하십시오.
+
+
+  필터 예
+    다음 단원에서는 일반적인 쿼리에서 필터를 사용하는 다양한 예를 보여 줍니다.
+
+    ------------------------------ 예제 1 ------------------------------
+
+    모든 항목 가져오기:
+
+        해당하는 LDAP 필터
+        (objectClass=*)
+
+
+        Get-ADObject -Filter 'ObjectClass -like "*"'
+
+
+    ------------------------------ 예제 2 ------------------------------
+
+    일반 이름에 "bob"이 포함된 항목 가져오기:
+
+        해당하는 LDAP 필터
+        (cn=*bob*)
+
+        Get-ADObject -Filter 'CN -like "*bob*"'
+
+
+    ------------------------------ 예제 3 ------------------------------
+
+
+    암호를 잘못 입력한 횟수가 6회 이상인 항목 가져오기:
+
+        해당하는 LDAP 필터
+        (badpwdcount>=5)
+
+        Get-ADUser -Filter 'badpwdcount -ge 5'
+
+
+
+    ------------------------------ 예제 4 ------------------------------
+
+
+    전자 메일 특성이 있는 모든 사용자 가져오기:
+
+        해당하는 LDAP 필터
+        (&(objectClass=user)(email=*))
+
+
+        Get-ADUser -filter 'email -like "*"'
+
+        - 또는 -
+
+        Get-ADObject -filter 'email -like "*" -and ObjectClass -eq "user"'
+        
+
+    ------------------------------ 예제 5 ------------------------------
+
+
+    전자 메일 특성이 있고 성이 "smith"인 모든 사용자 항목 가져오기:
+
+        해당하는 LDAP 필터
+        (&(sn=smith)(objectClass=user)(email=*))
+
+        Get-ADUser -Filter 'Email -like "*" -and SurName -eq "smith"'
+
+        - 또는 -
+
+        Get-ADUser -Filter 'Email -like "*" -and sn -eq "smith"'
+
+
+    ------------------------------ 예제 6 ------------------------------
+
+
+    일반 이름이 "andy"로 시작하는 모든 사용자 항목과 일반 이름이 "steve" 
+    또는 "margaret"인 사용자 가져오기:
+
+        해당하는 LDAP 필터
+        (&(objectClass=user) | (cn=andy*)(cn=steve)(cn=margaret))
+
+
+        Get-ADUser -Filter 'CN -like "andy*" -or CN -eq "steve" -or
+        CN -eq "margaret"'
+
+
+    예제의 이 두 번째 PowerShell 스크립트에서는 더욱 복잡한 논리와 괄호를 
+    통한 우선 순위 제어의 사용을 보여 줍니다.
+
+        Get-ADObject -Filter 'objectClass -eq "user" -and
+         (CN -like "andy*" -or CN -eq "steve" -or CN -eq "margaret")'
+
+
+
+    ------------------------------ 예제 7 ------------------------------
+
+
+    전자 메일 특성이 없는 모든 항목 가져오기:
+
+        해당하는 LDAP 필터
+        (!(email=*))
+
+
+        Get-ADUser -Filter '-not Email -like "*"'
+
+        - 또는 -
+
+        Get-ADUser -Filter 'Email -notlike "*"'
+
+
+    ------------------------------ 예제 8 ------------------------------
+
+
+    2007년 1월 1일 이후 로그온하지 않은 모든 사용자 가져오기:
+
+        해당하는 LDAP 필터
+        (&(lastlogon<=X)(objectClass=user))
+        //여기서 X는 1601년 1월 1일 이후 100나노초 수
+
+        $date = new-object System.DateTime -ArgumentList @(2007,1,1,0,0,0)
+        Get-ADUser -Filter '-not LastLogon -le $date'
+
+
+    ------------------------------ 예제 9 ------------------------------
+
+
+    지난 5일 동안 로그온한 모든 사용자 가져오기:
+
+        해당하는 LDAP 필터
+        (&(lastLogon>=128812906535515110)
+          (objectClass=user)(!(objectClass=computer)))
+
+
+        $date = (get-date) - (new-timespan -days 5)
+        Get-ADUser -Filter 'lastLogon -gt $date'
+
+
+    ------------------------------ 예제 10 -----------------------------
+
+
+    다음 예제 쿼리 문자열은 ADS_GROUP_TYPE_SECURITY_ENABLED 플래그가 설정된 그룹
+    개체를 검색합니다. ADS_GROUP_TYPE_SECURITY_ENABLED의 십진수 값(0x80000000
+    = 2147483648)이 비교 값에 사용됩니다.
+
+        해당하는 LDAP 필터
+        (&(objectCategory=group)(groupType:1.2.840.113556.1.4.803:=2147483648))
+
+        Get-ADGroup -filter 'groupType -band 0x80000000'
+
+
+    ------------------------------ 예제 11 -----------------------------
+
+
+    LDAP_MATCHING_RULE_IN_CHAIN은 개체의 상위 구조를 조회하는 방법을 제공하기 위한
+    일치 규칙 OID입니다. Active Directory와 AD LDS를 사용하는 여러 응용 프로그램은
+    일반적으로 상위-하위 관계로 정렬된 계층적 데이터를 사용합니다. 이전 에는 응용
+    프로그램에서 그룹 멤버 자격을 알아내기 위해 전이적 그룹 확장을 수행 했으며
+    이 작업에 너무 많은 네트워크 대역폭이 사용되었습니다. 링크가 끝까지 트래버스되는
+    경우 응용 프로그램은 개체가 "체인"에 속하는지 알아내기 위해 여러 번 왕복해야
+    했습니다.
+
+    이 쿼리의 예는 사용자 "user1"이 그룹 "group1"의 멤버인지 확인하는 쿼리입니다.
+
+    참고: user1은 group1의 직접 멤버가 아니고, group1의 멤버인 다른 그룹의 멤버일
+    수 있습니다.
+
+    기준을 사용자 DN(cn=user1, cn=users, dc=x) 및 기준 범위로 설정하고 쿼리를
+    사용합니다.
+
+        해당하는 LDAP 필터
+        (memberof:1.2.840.113556.1.4.1941:=(cn=Group1,OU=groupsOU,DC=x)))
+       
+        Get-ADUser -Filter 'memberOf -RecursiveMatch "CN=Administrators,
+        CN=Builtin,DC=Fabrikam,DC=com"'
+        -SearchBase "CN=Administrator,CN=Users,DC=Fabrikam,DC=com"
+
+    --------------------------------------------------------------------
+
+
+  필터 구문
+    다음 구문 설명에서는 Backus-Naur 형식을 사용하여 Filter 매개 변수에 대한 
+    PowerShell 표현 언어를 보여 줍니다.
+
+        <filter>  ::= "{" <FilterComponentList> "}"
+
+        <FilterComponentList> ::= <FilterComponent> |
+          <FilterComponent> <JoinOperator> <FilterComponent> |
+          <NotOperator>  <FilterComponent>
+
+        <FilterComponent> ::= <attr> <FilterOperator> <value> |
+          "(" <FilterComponent> ")"
+
+        <FilterOperator> ::= "-eq" | "-le" | "-ge" | "-ne" | "-lt" | "-gt" |
+          "-approx" | "-bor" | "-band" | "-recursivematch" | "-like" |
+          "-notlike"
+
+        <JoinOperator> ::= "-and" | "-or"
+
+        <NotOperator> ::= "-not"
+
+        <attr> ::= <PropertyName> | <LDAPDisplayName of the attribute>
+
+        <value>::= < this value will be compared to the object data for
+          attribute <ATTR> using the specified filter operator
+        
+    지원되는 속성 이름과 그 유형의 목록은 get-help about_ActiveDirectory_ObjectModel
+    을 참조하십시오.
+
+
+  지원되는 연산자
+    다음 표에는 자주 사용되는 검색 필터 연산자가 정리되어 있습니다.
+
+
+                                                    
+    연산자           설명                            해당하는 LDAP
+    --------------- ------------------------------ ---------------------
+    -eq              같음. 이 연산자는               =
+		     와일드카드 검색을 지원하지 
+		     않습니다.           
+    -ne              같지 않음. 이 연산자는          !x = y
+		     와일드카드 검색을 지원하지 
+		     않습니다.        
+
+    -approx          대략적으로 같음.                ~=
+    -le              사전적으로 작거나 같음.         <=
+    -lt              사전적으로 작음.                !x >= y
+    -ge              사전적으로 크거나 같음.         >=
+    -gt              사전적으로 큼.                  !x <= y
+
+    -and             AND                             &
+    -or              OR                              |
+    -not             NOT                             !
+    -bor             비트 OR                         :1.2.840.113556.1.4.804:=
+    -band            비트 AND                        :1.2.840.113556.1.4.803:=
+    -recursivematch  LDAP_MATCHING_RULE_IN_CHAIN     :1.2.840.113556.1.4.1941:=
+                     사용 (참고: 이 컨트롤은 Windows
+                     2008 이상에서만 작동합니다.) 
+    -like            -eq와 비슷하며 와일드카드       = 
+                     비교를 지원합니다. 지원되는  
+                     유일한 와일드카드 문자는 
+                     *입니다.     
+    -notlike         비슷하지 않음. 와일드카드       !x = y
+                     비교를 지원합니다.         
+
+    참고: "*" 이외의 PowerShell 와일드카드(예: "?")는 -Filter 매개 변수 구문에서
+    지원되지 않습니다.
+
+  연산자 우선 순위
+    다음 목록에서는 최고부터 최저까지의 필터 연산자 우선 순위를 보여 줍니다.
+
+    최고 우선 순위: -eq | -ge | -le | -approx | -band | -bor |
+                      -recursivematch | -ne | -like
+                      -not
+                      -and
+    최저 우선 순위:   -or
+
+
+  특수 문자
+    " "(큰따옴표) 또는 ' '(작은따옴표)로 묶인 AD 필터 STRING 데이터에 특수 문자를
+    지정하려면 다음 이스케이프 시퀀스를 사용해야 합니다.
+
+    ASCII 문자          이스케이프 시퀀스 대체
+    ------------------- ------------------------------------------------
+    "                   `"  (이 이스케이프 시퀀스는 STRING 데이터가 
+                             큰따옴표로 묶인 경우에만 필요합니다.)
+    '                   ''  (이 이스케이프 시퀀스는 STRING 데이터가 
+                             작은따옴표로 묶인 경우에만 필요합니다.)
+    NUL                 \00 (이 이스케이프 시퀀스는 표준 LDAP 이스케이프 
+                             시퀀스 입니다.)
+    \                   \5c (이 이스케이프 시퀀스는 표준 LDAP 이스케이프 
+                             시퀀스 입니다.)
+
+
+  LDAP 특수 문자
+    ADFilter 파서는 STRING 데이터(" " 또는 ' '로 묶인 데이터)에서 발견되는 다음
+    문자를 모두 LDAP 이스케이프 시퀀스로 자동 변환합니다. 최종 사용자는 이 LDAP
+    이스케이프 시퀀스에 대해 몰라도 됩니다.
+
+    ASCII 문자          이스케이프 시퀀스 대체
+    ------------------- ------------------------------------------------
+    *                    \2a  (-eq 및 -ne 비교에서는 * 문자만 변환됩니다. 
+                               사용자는 와일드카드 비교에 -like 및 -notlike 
+                               연산자를 사용해야 합니다.)
+    (                    \28
+    )                    \29
+    /                    \2f
+
+
+
+  기타 Active Directory 모듈 지원 항목
+    필터 최적화에 대한 자세한 내용은 MSDN 라이브러리의 Creating More Efficient 
+    Microsoft Active Directory-Enabled Applications(더욱 효율적인 Microsoft 
+    Active Directory 사용 응용 프로그램 만들기)를 참조하십시오.
+
+    Active Directory 모듈 개체와 그 특성에 대한 자세한 내용은 
+    about_ActiveDirectory_ObjectModel을 참조하십시오.
+    
+    Windows PowerShell 표현 언어 구문에 대한 자세한 내용은 about_filter를 
+    참조하십시오.
+
+    참고: about_filter PowerShell 항목은 다양한 지원하는 표현 언어 항목을 
+    참조합니다.
+
+
+참고 항목
+    about_ActiveDirectory
+    about_ActiveDirectory_ObjectModel
+    about_filter
+

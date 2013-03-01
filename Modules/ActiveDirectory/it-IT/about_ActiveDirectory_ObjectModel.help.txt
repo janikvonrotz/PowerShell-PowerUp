@@ -1,0 +1,849 @@
+﻿ARGOMENTO
+    Informazioni sul modello a oggetti Active Directory
+
+DESCRIZIONE BREVE
+    Descrive il modello a oggetti del modulo di Active Directory per
+    Windows PowerShell.
+
+DESCRIZIONE DETTAGLIATA
+    In questo argomento vengono illustrate le classi del modulo di
+    Active Directory e le relative proprietà utilizzate per
+    modellare attributi di Active Directory effettivi. Viene inoltre
+    descritta la gerarchia di classi costruita dalla gerarchia
+    equivalente di Active Directory. Il modello a oggetti stabilisce
+    una base di dati per tutte le operazioni supportate dai cmdlet
+    del modulo di Active Directory.
+
+  Gerarchia di classi
+    Nell'elenco seguente viene illustrata la gerarchia di classi definita nel modulo
+    di Active Directory, con l'ereditarietà delle classi indicata dal rientro.
+    Questo modello di ereditarietà consente ai cmdlet Active Directory di accettare
+    un intervallo di tipi di oggetto come input. Il cmdlet Get-ADPrincipalGroupMembership
+    può accettare come input, ad esempio, uno degli oggetti seguenti: ADGroup, ADAccount,
+    ADComputer, ADServiceAccount o ADUser. Questo funzionamento, possibile grazie al
+    modello di ereditarietà, garantisce che un oggetto ADUser disponga di tutte le
+    proprietà di un oggetto ADPrincipal.
+
+
+    ADEntity
+      ADRootDSE
+      ADObject
+        ADFineGrainedPasswordPolicy
+        ADOptionalFeature
+        ADOrganizationalUnit
+        ADPartition
+          ADDomain
+        ADPrincipal
+          ADAccount
+            ADComputer
+            ADServiceAccount
+            ADUser
+          ADGroup
+      ADDefaultDomainPasswordPolicy
+      ADForest
+      ADDirectoryServer
+        ADDomainController
+
+
+    Classi del modulo di Active Directory
+      Nell'elenco seguente viene illustrata ogni classe del modulo di
+      Active Directory dall'elenco della gerarchia di classi. Ogni
+      classe definisce un set di proprietà, alcune delle quali sono
+      attributi LDAP recuperati per impostazione predefinita, mentre
+      altre sono nuove proprietà create specificamente per il modulo
+      di Active Directory. Queste nuove proprietà sono derivate
+      da uno o più attributi LDAP come descritto negli elenchi delle classi.
+
+
+    ADEntity
+      Classe di livello base dalla quale sono derivate tutte le altre classi.
+
+    ADRootDSE
+      Rappresenta rootDSE e deriva da ADEntity.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADRootDSE può contenere le proprietà seguenti.
+
+      ConfigurationNamingContext: proprietà di tipo System.String,
+      derivata dall'attributo di directory ConfigurationNamingContext.
+      
+      CurrentTime: proprietà di tipo System.DataTime, derivata
+      dall'attributo di directory CurrentTime.
+
+      DefaultNamingContext: proprietà di tipo System.String, derivata
+      dall'attributo di directory DefaultNamingContext.
+
+      DnsHostName: proprietà di tipo System.String, derivata
+      dall'attributo di directory DnsHostName.
+
+      DomainControllerFunctionality: proprietà di tipo ADDomainControllerMode, derivata
+      dall'attributo di directory DomainControllerFunctionality.
+
+      DomainFunctionality: proprietà di tipo ADDomainMode, derivata
+      dall'attributo di directory DomainFunctionality.
+
+      DsServiceName: proprietà di tipo System.String, derivata
+      dall'attributo di directory DsServiceName.
+
+      ForestFunctionality: proprietà di tipo ADForestMode, derivata
+      dall'attributo di directory ForestFunctionality.
+
+      GlobalCatalogReady: proprietà di tipo System.Boolean, derivata
+      dall'attributo di directory GlobalCatalogReady.
+
+      HighestCommittedUSN: proprietà di tipo System.Long, derivata
+      dall'attributo di directory HighestCommittedUSN.
+
+      LdapServiceName: proprietà di tipo System.String, derivata
+      dall'attributo di directory LdapServiceName.
+
+      NamingContexts: proprietà di tipo System.String, derivata
+      dall'attributo di directory NamingContexts.
+
+      RootDomainNamingContext: proprietà di tipo System.String,
+      derivata dall'attributo di directory RootDomainNamingContext.
+      
+
+      SchemaNamingContext: proprietà di tipo System.String, derivata
+      dall'attributo di directory SchemaNamingContext.
+
+      ServerName: proprietà di tipo System.String, derivata
+      dall'attributo di directory ServerName.
+
+      SubschemaSubentry: proprietà di tipo ADObject, derivata
+      dall'attributo di directory SubschemaSubentry.
+
+      SupportedCapabilities: proprietà di tipo ADObjectIdentifier,
+      derivata dall'attributo di directory SupportedCapabilities.
+      
+
+      SupportedControl: proprietà di tipo ADObjectIdentifier, derivata
+      dall'attributo di directory SupportedControl.
+
+      SupportedLDAPPolicies: proprietà di tipo System.String, derivata
+      dall'attributo di directory SupportedLDAPPolicies.
+
+      SupportedLDAPVersion: proprietà di tipo System.Int, derivata
+      dall'attributo di directory SupportedLDAPVersion.
+
+      SupportedRootDSEOperations: proprietà di tipo ADPropertyValueCollection,
+      derivata dall'attributo di directory SupportedRootDSEOperations.
+
+      SupportedSASLMechanisms: proprietà di tipo System.String,
+      derivata dall'attributo di directory SupportedSASLMechanisms.
+      
+      Syncronized: proprietà di tipo System.Boolean, derivata
+      dall'attributo di directory IsSynchronized.
+
+
+    ADObject
+      Rappresenta qualsiasi oggetto in Active Directory e deriva da ADEntity.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADObject può contenere le proprietà seguenti.
+
+      CanonicalName: proprietà di tipo System.String, derivata
+      dall'attributo di directory CanonicalName.
+
+      CN: proprietà di tipo System.String, derivata dall'attributo di
+      directory cn.
+
+      Created: proprietà di tipo System.DataTime, derivata
+      dall'attributo di directory createTimeStamp.
+
+      Deleted: proprietà di tipo System.Boolean, derivata
+      dall'attributo di directory IsDeleted.
+
+      Description: proprietà di tipo System.String, derivata
+      dall'attributo di directory description.
+
+      DisplayName: proprietà di tipo System.String, derivata
+      dall'attributo di directory displayName.
+
+      DistinguishedName: proprietà di tipo System.String, derivata
+      dall'attributo di directory distinguishedName.
+
+      LastKnownParent: proprietà di tipo System.String, derivata
+      dall'attributo di directory lastKnownParent.
+
+      Modified: proprietà di tipo System.DataTime, derivata
+      dall'attributo di directory modifyTimeStamp.
+
+      Name: proprietà di tipo System.String, derivata dall'attributo
+      di directory name.
+
+      ObjectCategory: proprietà di tipo System.String, derivata
+      dall'attributo di directory objectCategory.
+
+      ObjectClass: proprietà di tipo System.String, derivata
+      dall'attributo di directory objectClass.
+
+      ObjectGUID: proprietà di tipo System.Guid, derivata
+      dall'attributo di directory objectGUID.
+
+      ProtectedFromAccidentalDeletion: proprietà di tipo System.Boolean,
+      derivata dagli attributi di directory nTSecurityDescriptor, sdRightsEffective,
+      instanceType, isDeleted.
+
+
+    ADFineGrainedPasswordPolicy
+      Rappresenta un oggetto criteri granulari per le password, ovvero
+      un oggetto Active Directory di tipo msDS-PasswordSettings,
+      in Servizi di dominio Active Directory e deriva da ADObject.
+      Questa classe non è supportata da AD LDS.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADFineGrainedPasswordPolicy può contenere le proprietà seguenti:
+
+      AppliesTo: proprietà di tipo System.String, derivata
+      dall'attributo di directory msDS-PSOAppliesTo.
+
+      ComplexityEnabled: proprietà di tipo System.Boolean, derivata
+      dall'attributo di directory msDS-PasswordComplexityEnabled.
+      
+      LockoutDuration: proprietà di tipo System.TimeSpan, derivata
+      dall'attributo di directory msDS-LockoutDuration
+
+      LockoutObservationWindow: proprietà di tipo System.TimeSpan,
+      derivata dall'attributo di directory msDS-LockoutObservationWindow.
+      
+      LockoutThreshold: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory msDS-LockoutThreshold.
+
+      MaxPasswordAge: proprietà di tipo System.TimeSpan, derivata
+      dall'attributo di directory msDS-MaximumPasswordAge.
+
+      MinPasswordAge: proprietà di tipo System.TimeSpan, derivata
+      dall'attributo di directory msDS-MinimumPasswordAge.
+
+      MinPasswordLength: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory msDS-MinimumPasswordLength.
+
+      PasswordHistoryCount: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory msDS-PasswordHistoryLength.
+
+      Precedence: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory msDS-PasswordSettingsPrecedence.    
+
+      ReversibleEncryptionEnabled: proprietà di tipo System.Boolean,
+      derivata dall'attributo di directory msDS-PasswordReversibleEncryptionEnabled.
+      
+
+    ADOptionalFeature
+      Rappresenta una funzionalità facoltativa, ovvero un oggetto
+      Active Directory di tipo msDS-OptionalFeature, e deriva da ADObject.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADOptionalFeature può contenere le proprietà seguenti:
+
+      EnabledScopes: proprietà di tipo System.String, derivata
+      dall'attributo di directory msDS-EnabledFeatureBL.
+
+      FeatureGUID: proprietà di tipo System.Guid, derivata
+      dall'attributo di directory msDS-OptionalFeatureGUID.
+
+      FeatureScope: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory msDS-OptionalFeatureFlags.
+
+      IsDisableable: proprietà di tipo System.Boolean, derivata
+      dall'attributo di directory msDS-OptionalFeatureFlags.
+
+      RequiredDomainMode: proprietà di tipo
+      Microsoft.ActiveDirectory.Management.ADDomainMode, derivata
+      dall'attributo di directory msDS-RequiredDomainBehaviorVersion.
+      
+      RequiredForestMode: proprietà di tipo
+      Microsoft.ActiveDirectory.Management.ADForestMode, derivata
+      dall'attributo di directory msDS-RequiredForestBehaviorVersion.
+
+    ADOrganizationalUnit
+      Rappresenta un oggetto organizationalUnit (OU) e deriva da ADObject.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADOrganizationalUnit può contenere le proprietà seguenti.
+
+      City: proprietà di tipo System.String, derivata dall'attributo
+      di directory 1.
+
+      Country: proprietà di tipo System.String, derivata
+      dall'attributo di directory c.
+
+      LinkedGroupPolicyObjects: proprietà di tipo System.String, derivata
+      dall'attributo di directory gpLink. Questa proprietà non è supportata in AD LDS.
+
+      ManagedBy: proprietà di tipo System.String, derivata
+      dall'attributo di directory managedBy.
+
+      PostalCode: proprietà di tipo System.String, derivata
+      dall'attributo di directory postalCode.
+
+      State: proprietà di tipo System.String, derivata dall'attributo
+      di directory name st.
+
+      StreetAddress: proprietà di tipo System.String, derivata
+      dall'attributo di directory street.
+
+
+    ADPartition
+      Rappresenta un contesto dei nomi, ovvero Configurazione, Schema,
+      Dominio o Partizione applicazione (ND NC) e deriva da
+      ADObject. Questa classe non è supportata da AD LDS.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADPartition può contenere le proprietà seguenti.
+
+      DeletedObjectsContainer: proprietà di tipo System.String,
+      derivata dall'attributo di directory DeletedObjectsContainer.
+      
+      DNSRoot: proprietà di tipo System.String, derivata
+      dall'attributo di directory DNSRoot.
+
+      LostAndFoundContainer: proprietà di tipo System.String, derivata
+      dall'attributo di directory LostAndFoundContainer.
+
+      QuotasContainer: proprietà di tipo System.String, derivata
+      dall'attributo di directory QuotasContainer.
+
+      ReadOnlyReplicaDirectoryServers: proprietà di tipo System.String,
+      derivata dall'attributo di directory ReadOnlyReplicaDirectoryServers.
+      
+      ReplicaDirectoryServers: proprietà di tipo System.String,
+      derivata dall'attributo di directory ReplicaDirectoryServers.
+      
+      SubordinateReferences: proprietà di tipo System.String, derivata
+      dall'attributo di directory SubordinateReferences.
+
+
+    ADDomain
+      Rappresenta un dominio in Servizi di dominio Active Directory o
+      un'istanza in AD LDS, ad esempio un oggetto Active Directory
+      di tipo domainDNS, e deriva da ADPartition. Questa classe
+      non è supportata da AD LDS.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADDomain può contenere le proprietà seguenti.
+
+      AllowedDNSSuffixes: proprietà di tipo System.String, derivata
+      dall'attributo di directory ms-DS-AllowedDNSSuffixes.
+
+      ChildDomains: proprietà di tipo System.String, derivata
+      dall'attributo di directory ChildDomains.
+
+      ComputersContainer: proprietà di tipo System.String, derivata
+      dall'attributo di directory ComputersContainer.
+
+      DomainControllersContainer: proprietà di tipo System.String,
+      derivata dall'attributo di directory DomainControllersContainer.
+      
+      DomainMode: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory msDS-Behavior-Version.
+
+      DomainSID: proprietà di tipo System.Security.Principal.SecurityIdentifier,
+      derivata dall'attributo di directory objectSid.
+
+      ForeignSecurityPrincipalsContainer: proprietà di tipo System.String,
+      derivata dall'attributo di directory ForeignSecurityPrincipalsContainer.
+      
+      Forest: proprietà di tipo System.String, derivata dall'attributo
+      di directory Forest.
+
+      InfrastructureMaster: proprietà di tipo System.String, derivata
+      dall'attributo di directory InfrastructureMaster.
+
+      LastLogonReplicationInterval: proprietà di tipo System.TimeSpan,
+      derivata dall'attributo di directory msDS-LogonTimeSyncInterval.
+      
+      LinkedGroupPolicyObjects: proprietà di tipo System.String,
+      derivata dall'attributo di directory LinkedGroupPolicyObjects.
+      
+      ManagedBy: proprietà di tipo System.String, derivata
+      dall'attributo di directory managedBy.
+      
+      NetBIOSName: proprietà di tipo System.String, derivata
+      dall'attributo di directory NetBIOSName.
+
+      ParentDomain: proprietà di tipo System.String, derivata
+      dall'attributo di directory ParentDomain.
+
+      PDCEmulator: proprietà di tipo System.String, derivata
+      dall'attributo di directory PDCEmulator.
+
+      RIDMaster: proprietà di tipo System.String, derivata
+      dall'attributo di directory RIDMaster.
+
+      SystemsContainer: proprietà di tipo System.String, derivata
+      dall'attributo di directory SystemsContainer.
+
+      UsersContainer: proprietà di tipo System.String, derivata
+      dall'attributo di directory UsersContainer.
+
+
+    ADPrincipal
+      Rappresenta un'entità di sicurezza, ovvero un oggetto Active Directory
+      di tipo utente, computer, gruppo o iNetOrgPerson, e deriva da ADObject.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADPrincipal può contenere le proprietà seguenti.
+
+      HomePage: proprietà di tipo System.String, derivata
+      dall'attributo di directory wWWHomePage.
+
+      MemberOf: proprietà di tipo System.String, derivata
+      dall'attributo di directory memberOf.
+
+      SamAccountName: proprietà di tipo System.String, derivata dall'attributo
+      di directory sAMAccountName. Questa proprietà non è supportata da AD LDS.
+
+      SID: proprietà di tipo System.Security.Principal.SecurityIdentifier,
+      derivata dall'attributo di directory objectSid.
+
+      SIDHistory: proprietà di tipo System.Security.Principal.SecurityIdentifier,
+      derivata dall'attributo di directory sIDHistory. Questa proprietà non è
+      supportata da AD LDS.
+
+
+    ADAccount
+      Rappresenta un account di sicurezza, ovvero un oggetto Active Directory
+      di tipo utente, computer o iNetOrgPerson, e deriva da ADPrincipal.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADAccount può contenere le proprietà seguenti.
+
+      AccountExpirationDate: proprietà di tipo System.DataTime,
+      derivata dall'attributo di directory accountExpires.
+
+      AccountLockoutTime: proprietà di tipo System.DataTime, derivata
+      dall'attributo di directory lockoutTime.
+
+      AccountNotDelegated: proprietà di tipo System.Boolean, derivata dagli attributi
+      di directory userAccountControl, msDS-User-Account-Control-Computed. Questa
+      proprietà non è supportata da AD LDS.
+
+      AllowReversiblePasswordEncryption: proprietà di tipo System.Boolean.
+      Per i Servizi di dominio Active Directory è derivata dall'attributo di
+      directory userAccountControl, mentre per AD LDS è derivata dall'attributo
+      di directory DS-UserEncryptedTextPasswordAllowed.
+      
+      BadLogonCount: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory badPwdCount.
+
+      CannotChangePassword: proprietà di tipo System.Boolean, derivata
+      dall'attributo di directory nTSecurityDescriptor.
+
+      Certificates: proprietà di tipo
+      System.Security.Cryptography.X509Certificates.X509Certificate,
+      derivata dall'attributo di directory userCertificate.
+
+      DoesNotRequirePreAuth: proprietà di tipo System.Boolean, derivata dagli
+      attributi di directory userAccountControl, msDS-User-Account-Control-Computed.
+      Questa proprietà non è supportata da AD LDS.
+
+      Enabled: proprietà di tipo System.Boolean. Per i Servizi di dominio Active
+      Directory è derivata dagli attributi di directory userAccountControl,
+      msDS-User-Account-Control-Computed, per AD LDS è derivata dall'attributo di
+      directory msDS-UserAccountDisabled.
+
+      Homedirrequired: proprietà di tipo System.Boolean, derivata dagli attributi di
+      directory userAccountControl, msDS-User-Account-Control-Computed.
+      Questa proprietà non è supportata da AD LDS.
+
+      LastBadPasswordAttempt: proprietà di tipo System.DataTime,
+      derivata dall'attributo di directory badPasswordTime.
+
+      LastLogonDate: proprietà di tipo System.DataTime, derivata
+      dall'attributo di directory lastLogonTimestamp.
+
+      LockedOut: proprietà di tipo System.Boolean. Per i Servizi di dominio Active
+      Directory è derivata dagli attributi di directory userAccountControl,
+      msDS-User-Account-Control-Computed, lockoutTime, per AD LDS è derivata
+      dall'attributo di directory msDS-UserAccountDisabled.
+
+      MNSLogonAccount: proprietà di tipo System.Boolean, derivata dagli attributi di       directory userAccountControl, msDS-User-Account-Control-Computed. Questa proprietà
+      non è supportata da AD LDS.
+
+      PasswordExpired: proprietà di tipo System.Boolean. Per i Servizi
+      di dominio Active Directory è derivata dagli attributi di directory
+      userAccountControl, msDS-User-Account-Control-Computed, per AD LDS è 
+      derivata dall'attributo di directory msDS-UserPasswordExpired.
+
+      PasswordLastSet: proprietà di tipo System.DataTime, derivata
+      dall'attributo di directory pwdLastSet.
+
+      PasswordNeverExpires: proprietà di tipo System.Boolean. Per AD LDS è derivata
+      dagli attributi di directory userAccountControl, msDS-User-Account-Control-Computed,
+      per AD LDS è derivata dall'attributo di directory msDS-UserDontExpirePassword.
+      
+      PasswordNotRequired: proprietà di tipo System.Boolean. Per i
+      Servizi di dominio Active Directory è derivata dagli attributi
+      di directory userAccountControl, msDS-User-Account-Control-Computed, 
+      per AD LDS è derivata dall'attributo di directory ms-DS-UserPasswordNotRequired.
+
+      PrimaryGroup: proprietà di tipo System.String, derivata dagli
+      attributi di directory primaryGroupID, objectSid. Questa
+      proprietà non è supportata da AD LDS.
+
+      ServicePrincipalNames: proprietà di tipo System.String, derivata
+      dall'attributo di directory servicePrincipalName. Questa
+      proprietà non è supportata da AD LDS.
+
+      TrustedForDelegation: proprietà di tipo System.Boolean, derivata dagli attributi
+      di directory userAccountControl, msDS-User-Account-Control-Computed.
+      Questa proprietà non è supportata da AD LDS.
+
+      TrustedToAuthForDelegation: proprietà di tipo System.Boolean, derivata dagli
+      attributi di directory userAccountControl, msDS-User-Account-Control-Computed.
+      Questa proprietà non è supportata da AD LDS.
+
+      UseDESKeyOnly: proprietà di tipo System.Boolean, derivata dagli attributi di
+      directory userAccountControl, msDS-User-Account-Control-Computed.
+      Questa proprietà non è supportata da AD LDS.
+
+      UserPrincipalName: proprietà di tipo System.String, derivata
+      dall'attributo di directory userPrincipalName.
+
+
+    ADComputer
+      Rappresenta un computer e deriva da ADAccount.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADComputer può contenere le proprietà seguenti.
+
+      DNSHostName: proprietà di tipo System.String, derivata
+      dall'attributo di directory dNSHostName.
+
+      IPv4Address: proprietà di tipo System.String, derivata
+      dall'attributo di directory dNSHostName.
+
+      IPv6Address: proprietà di tipo System.String, derivata
+      dall'attributo di directory dNSHostName.
+
+      Location: proprietà di tipo System.String, derivata
+      dall'attributo di directory location.
+
+      ManagedBy: proprietà di tipo System.String, derivata
+      dall'attributo di directory managedBy.
+
+      OperatingSystem: proprietà di tipo System.String, derivata
+      dall'attributo di directory operatingSystem.
+
+      OperatingSystemHotfix: proprietà di tipo System.String, derivata
+      dall'attributo di directory operatingSystemHotfix.
+
+      OperatingSystemServicePack: proprietà di tipo System.String,
+      derivata dall'attributo di directory operatingSystemServicePack.
+      
+      OperatingSystemVersion: proprietà di tipo System.String,
+      derivata dall'attributo di directory operatingSystemVersion.
+      
+      ServiceAccount: proprietà di tipo System.String, derivata
+      dall'attributo di directory msDS-HostServiceAccount.
+
+
+    ADServiceAccount
+      Rappresenta un account del servizio gestito, ovvero un oggetto
+      Active Directory di tipo msDS-ManagerdServiceAccount, e deriva
+      da ADAccount. Questa classe non è supportata da AD LDS.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADServiceAccount può contenere le proprietà seguenti.
+
+      HostComputers: proprietà di tipo System.String, derivata
+      dall'attributo di directory msDS-HostServiceAccountBL.
+
+
+    ADUser
+      Rappresenta un utente (o iNetOrgPerson) e deriva da ADAccount.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADUser può contenere le proprietà seguenti.
+
+      City: proprietà di tipo System.String, derivata dall'attributo
+      di directory 1.
+
+      Company: proprietà di tipo System.String, derivata
+      dall'attributo di directory company.
+
+      Country: proprietà di tipo System.String, derivata
+      dall'attributo di directory c.
+
+      Department: proprietà di tipo System.String, derivata
+      dall'attributo di directory department.
+
+      Division: proprietà di tipo System.String, derivata
+      dall'attributo di directory division.
+
+      EmailAddress: proprietà di tipo System.String, derivata
+      dall'attributo di directory mail.
+
+      EmployeeID: proprietà di tipo System.String, derivata
+      dall'attributo di directory employeeID.
+
+      EmployeeNumber: proprietà di tipo System.String, derivata
+      dall'attributo di directory employeeNumber.
+
+      Fax: proprietà di tipo System.String, derivata dall'attributo di
+      directory facsimileTelephoneNumber.
+
+      GivenName: proprietà di tipo System.String, derivata
+      dall'attributo di directory givenName.
+
+      HomeDirectory: proprietà di tipo System.String, derivata dall'attributo
+      di directory homeDirectory. Questa proprietà non è supportata da AD LDS.
+
+      HomeDrive: proprietà di tipo System.String, derivata dall'attributo di
+      directory homeDrive. Questa proprietà non è supportata da AD LDS.
+
+      HomePhone: proprietà di tipo System.String, derivata
+      dall'attributo di directory homePhone.
+
+      Initials: proprietà di tipo System.String, derivata
+      dall'attributo di directory initials.
+
+      LogonWorkstations: proprietà di tipo System.String, derivata dall'attributo
+      di directory userWorkstations. Questa proprietà non è supportata da AD LDS.
+
+      Manager: proprietà di tipo System.String, derivata
+      dall'attributo di directory manager.
+
+      MobilePhone: proprietà di tipo System.String, derivata
+      dall'attributo di directory mobile.
+
+      Office: proprietà di tipo System.String, derivata dall'attributo
+      di directory physicalDeliveryOfficeName.
+
+      OfficePhone: proprietà di tipo System.String, derivata
+      dall'attributo di directory telephoneNumber.
+
+      Organization: proprietà di tipo System.String, derivata
+      dall'attributo di directory o.
+
+      OtherName: proprietà di tipo System.String, derivata
+      dall'attributo di directory middleName.
+
+      POBox: proprietà di tipo System.String, derivata dall'attributo
+      di directory postOfficeBox.
+
+      PostalCode: proprietà di tipo System.String, derivata
+      dall'attributo di directory postalCode.
+
+      ProfilePath: proprietà di tipo System.String, derivata dall'attributo
+      di directory profilePath. Questa proprietà non è supportata da AD LDS.
+
+      ScriptPath: proprietà di tipo System.String, derivata dall'attributo
+      di directory scriptPath. Questa proprietà non è supportata da AD LDS.
+
+      SmartcardLogonRequired: proprietà di tipo System.Boolean, derivata dagli
+      attributi di directory userAccountControl e msDS-User-Account-Control-Computed.
+      Questa proprietà non è supportata da AD LDS.
+
+      State: proprietà di tipo System.String, derivata dall'attributo
+      di directory name st.
+
+      StreetAddress: proprietà di tipo System.String, derivata
+      dall'attributo di directory streetAddress.
+
+      Surname: proprietà di tipo System.String, derivata
+      dall'attributo di directory sn.
+
+      Title: proprietà di tipo System.String, derivata dall'attributo
+      di directory title.
+
+
+    ADGroup
+      Rappresenta un gruppo e deriva da ADPrincipal.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADGroup può contenere le proprietà seguenti.
+
+      GroupCategory: proprietà di tipo Microsoft.ActiveDirectory.Management.ADGroupCategory,
+      derivata dall'attributo di directory groupType.
+
+      GroupScope: proprietà di tipo Microsoft.ActiveDirectory.Management.ADGroupScope,
+      derivata dall'attributo di directory groupType.
+
+      ManagedBy: proprietà di tipo System.String, derivata
+      dall'attributo di directory managedBy.
+
+      Members: proprietà di tipo System.String, derivata
+      dall'attributo di directory member.
+
+
+    ADDefaultDomainPasswordPolicy
+      Rappresenta i criteri password a livello di dominio di un dominio di
+      Active Directory e deriva da ADEntity. Questa classe non è supportata da AD LDS.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADDefaultDomainPasswordPolicy può contenere le proprietà seguenti:
+
+      ComplexityEnabled: proprietà di tipo System.Boolean, derivata
+      dall'attributo di directory pwdProperties.
+
+      DistinguishedName: proprietà di tipo System.String, derivata
+      dall'attributo di directory distinguishedName.
+
+      LockoutDuration: proprietà di tipo System.TimeSpan, derivata
+      dall'attributo di directory lockoutDuration.
+
+      LockoutObservationWindow: proprietà di tipo System.TimeSpan,
+      derivata dall'attributo di directory lockoutObservationWindow.
+      
+      LockoutThreshold: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory lockoutThreshold.
+
+      MaxPasswordAge: proprietà di tipo System.TimeSpan, derivata
+      dall'attributo di directory maxPwdAge.
+
+      MinPasswordAge: proprietà di tipo System.TimeSpan, derivata
+      dall'attributo di directory minPwdAge.
+
+      MinPasswordLength: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory minPwdLength.
+
+      PasswordHistoryCount: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory pwdHistoryLength.
+
+      ReversibleEncryptionEnabled: proprietà di tipo System.Boolean,
+      derivata dall'attributo di directory pwdProperties.
+
+
+    ADForest
+      Rappresenta una foresta di Active Directory in Servizi di dominio 
+      Active Directory o un set di configurazione in AD LDS e deriva da
+      ADEntity. Questa classe non è supportata da AD LDS.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADForest può contenere le proprietà seguenti.
+
+      ApplicationPartitions: proprietà di tipo System.String, derivata
+      dall'attributo di directory ApplicationPartitions.
+
+      CrossForestReferences: proprietà di tipo System.String, derivata
+      dall'attributo di directory CrossForestReferences.
+
+      DomainNamingMaster: proprietà di tipo System.String, derivata
+      dall'attributo di directory DomainNamingMaster.
+
+      Domains: proprietà di tipo System.String, derivata
+      dall'attributo di directory Domains.
+
+      ForestMode: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory msDS-Behavior-Version.
+
+      GlobalCatalogs: proprietà di tipo System.String, derivata
+      dall'attributo di directory GlobalCatalogs.
+
+      Name: proprietà di tipo System.String, derivata dall'attributo
+      di directory name.
+
+      PartitionContainerName: proprietà di tipo System.String,
+      derivata dall'attributo di directory distinguishedName.
+
+      RootDomain: proprietà di tipo System.String, derivata
+      dall'attributo di directory RootDomain.
+
+      SchemaMaster: proprietà di tipo System.String, derivata
+      dall'attributo di directory SchemaMaster.
+
+      Sites: proprietà di tipo System.String, derivata dall'attributo
+      di directory Sites.
+
+      SPNSuffixes: proprietà di tipo System.String, derivata
+      dall'attributo di directory msDS-SPNSuffixes.
+
+      UPNSuffixes: proprietà di tipo System.String, derivata
+      dall'attributo di directory uPNSuffixes.
+
+
+    ADDirectoryServer
+      Rappresenta un server di directory utilizzato come controller di
+      dominio o un'istanza di AD LDS e deriva da ADEntity.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADDirectoryServer può contenere le proprietà seguenti.
+
+      DefaultPartition: proprietà di tipo System.String, derivata
+      dall'attributo di directory DefaultPartition.
+
+      HostName: proprietà di tipo System.String, derivata
+      dall'attributo di directory HostName.
+
+      InvocationId: proprietà di tipo System.Guid, derivata
+      dall'attributo di directory InvocationId.
+
+      IPv4Address: proprietà di tipo System.String, derivata
+      dall'attributo di directory HostName.
+
+      IPv6Address: proprietà di tipo System.String, derivata
+      dall'attributo di directory HostName.
+
+      LdapPort: proprietà di tipo System.Int32, derivata
+      dall'attributo di directory LdapPort.
+
+      Name: proprietà di tipo System.String, derivata dall'attributo
+      di directory Name.
+
+      NTDSSettingsObjectDN: proprietà di tipo System.String, derivata
+      dall'attributo di directory NTDSSettingsObjectDN.
+
+      OperationMasterRoles: proprietà di tipo
+      Microsoft.ActiveDirectory.Management.ADOperationMasterRole,
+      derivata dall'attributo di directory OperationMasterRole.
+
+      Partitions: proprietà di tipo System.String, derivata
+      dall'attributo di directory Partitions.
+
+      ServerObjectDN: proprietà di tipo System.String, derivata
+      dall'attributo di directory ServerObjectDN.
+
+      ServerObjectGuid: proprietà di tipo System.Guid, derivata
+      dall'attributo di directory ServerObjectGuid.
+
+      Site: proprietà di tipo System.String, derivata dall'attributo
+      di directory Site.
+
+      SslPort: proprietà di tipo System.Int32, derivata dall'attributo
+      di directory SslPort.
+
+
+    ADDomainController
+      Rappresenta un controller di dominio in Servizi di dominio
+      Active Directory e deriva da ADDirectoryServer.
+
+      Oltre a quelle ereditate dalla relativa classe padre, una classe
+      ADDomainController può contenere le proprietà seguenti.
+
+      ComputerObjectDN: proprietà di tipo System.String, derivata
+      dall'attributo di directory ComputerDN.
+
+      Domain: proprietà di tipo System.String, derivata dall'attributo
+      di directory Domain.
+
+      Enabled: proprietà di tipo System.Boolean, derivata
+      dall'attributo di directory Enabled.
+
+      Forest: proprietà di tipo System.String, derivata dall'attributo
+      di directory Forest.
+
+      IsGlobalCatalog: proprietà di tipo System.Boolean, derivata
+      dall'attributo di directory IsGlobalCatalog.
+
+      IsReadOnly: proprietà di tipo System.Boolean, derivata
+      dall'attributo di directory IsReadOnly.
+
+      OperatingSystem: proprietà di tipo System.String, derivata
+      dall'attributo di directory OSName.
+
+      OperatingSystemHotfix: proprietà di tipo System.String, derivata
+      dall'attributo di directory OSHotFix.
+
+      OperatingSystemServicePack: proprietà di tipo System.String,
+      derivata dall'attributo di directory OSServicepack.
+
+      OperatingSystemVersion: proprietà di tipo System.String,
+      derivata dall'attributo di directory OSVersion.
+
+
+VEDERE ANCHE
+
+    about_ActiveDirectory
+    about_ActiveDirectory_Identity

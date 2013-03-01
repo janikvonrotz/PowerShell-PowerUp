@@ -1,0 +1,204 @@
+﻿RUBRIQUE
+    Identité d'objet Active Directory
+
+DESCRIPTION COURTE
+    Les objets du module Active Directory pour Windows PowerShell 
+    disposent une variété d'attributs d'identification utilisés pour 
+    la recherche et la récupération. 
+
+DESCRIPTION LONGUE
+    Pour que les objets puissent être identifiés dans Active Directory, 
+    chaque objet est doté d'attributs pouvant être utilisés comme des 
+    identificateurs. Dans le module Active Directory, la valeur 
+    de l'identité d'un objet peut être passée à l'aide du paramètre 
+    Identity. Chaque type d'objet dispose de son propre ensemble de 
+    types et de valeurs possibles pour utilisation par le paramètre 
+    Identity. Pour plus d'informations sur l'utilisation du paramètre 
+    Identity d'une applet de commande donnée, consultez sa description 
+    détaillée.
+
+    Lors des recherches effectuées avec les applets de commande du 
+    module Active Directory, la valeur du paramètre Identity, ainsi 
+    que les valeurs des paramètres Server et Partition, sont utilisées
+    pour identifier de façon unique un objet individuel. Le paramètre 
+    Server permet de localiser le serveur avec lequel se connecter. 
+    Le paramètre Partition affine la recherche à une partition 
+    spécifique. Le paramètre Identity est ensuite résolu en un objet 
+    unique de la partition. Si plusieurs objets sont trouvés à l'aide 
+    de la résolution  d'identité, le module Active Directory génère 
+    une erreur.
+
+    Pour plus d'informations sur les paramètres Server et Partition, 
+    consultez les rubriques d'aide des applets de commande  individuelles
+    dans lesquelles ils sont utilisés, telles que Get-ADUser, en tapant : 
+    get-help Get-ADUser.
+
+  Objets et identités
+
+    Chaque objet dispose d'une liste d'attributs qui peuvent lui servir 
+    d'identité. En outre, si l'objet hérite d'un autre objet, les identités  
+    de l'objet parent peuvent également être utilisées comme identités de 
+    l'objet enfant. Pour plus d'informations sur la hiérarchie d'objets 
+    Active Directory, consultez about_ActiveDirectory_ObjectModel.
+
+    Remarque : pour les applets de commande du fournisseur Active
+    Directory, seul le " nom unique " ou le " nom unique relatif " 
+    d'un objet peut être utilisé comme identité. Pour obtenir une 
+    liste des applets de commande du fournisseur Active Directory, 
+    consultez ActiveDirectory.
+
+  Attributs d'identité
+
+    Une liste des attributs d'identité est présentée ci-dessous, par type 
+    d'objet.
+
+    ADAccount
+      Nom unique 
+      GUID (objectGUID) 
+      Identificateur de sécurité (objectSid) 
+      Nom du compte SAM (sAMAccountName) 
+      
+    ADComputer
+      Nom unique 
+      GUID (objectGUID) 
+      Identificateur de sécurité (objectSid) 
+      Nom du compte du Gestionnaire de comptes de sécurité 
+      (sAMAccountName) 
+
+    ADDirectoryServer
+      Nom de l'objet serveur (name) 
+        Pour les instances AD LDS, la syntaxe d'un nom est 
+          <nom de l'ordinateur>$<nom de l'instance>
+        Pour les autres instances Active Directory, utilisez la valeur 
+          de la propriété Name.
+        Nom unique de l'objet des paramètres NTDS
+        Nom unique de l'objet serveur qui représente le serveur d'annuaire.
+        GUID (objectGUID) de l'objet serveur sous la partition de 
+          configuration.
+        GUID (objectGUID) de l'objet des paramètres NTDS sous la 
+          partition de configuration
+
+    ADDomain 
+      Nom unique
+      GUID
+      Identificateur de sécurité
+      Nom de domaine DNS 
+      Nom de domaine NetBIOS 
+
+    ADDomainController
+      GUID (objectGUID)
+      Adresse IPV4Address
+      Adresse IPV6Address globale 
+      Nom d'hôte DNS (dNSHostName)
+      Nom de l'objet serveur
+      Nom unique de l'objet des paramètres NTDS
+      Nom unique de l'objet serveur qui représente le contrôleur de 
+        domaine
+      GUID de l'objet des paramètres NTDS sous la partition de 
+        configuration
+      GUID de l'objet serveur sous la partition de configuration
+      Nom unique de l'objet ordinateur qui représente le contrôleur 
+        de domaine.
+
+    ADFineGrainedPasswordPolicy
+      Nom unique 
+      GUID (objectGUID) 
+      Nom (name) 
+      
+    ADForest
+      Nom de domaine complet
+      Nom d'hôte DNS
+      Nom NetBIOS
+
+    ADGroup
+      Nom unique 
+      GUID (objectGUID) 
+      Identificateur de sécurité (objectSid) 
+      Nom du compte du Gestionnaire de comptes de sécurité (SAM) 
+      (sAMAccountName) 
+
+    ADObject
+      Nom unique 
+      GUID (objectGUID) 
+
+    ADOptionalFeature
+            Nom unique
+      Nom (name)
+      GUID de fonctionnalité (featureGUID) 
+      GUID (objectGUID) 
+
+    ADOrganizationalUnit
+      Nom unique 
+      GUID (objectGUID) 
+
+    ADPrincipal
+      Nom unique 
+      GUID (objectGUID) 
+      Identificateur de sécurité (objectSid) 
+      Nom du compte SAM (sAMAccountName) 
+
+    ADServiceAccount
+      Nom unique 
+      GUID (objectGUID) 
+      Identificateur de sécurité (objectSid) 
+      Nom du compte SAM (sAMAccountName) 
+
+    ADUser
+      Nom unique 
+      GUID (objectGUID) 
+      Identificateur de sécurité (objectSid) 
+      Nom d'utilisateur SAM (sAMUserName) 
+
+
+  Formats d'identités
+
+    Les objets du module Active Directory disposent d'une variété 
+    d'attributs d'identité. Une liste de ces attributs, de leurs 
+    types et de leurs formats est présentée ci-dessous.
+
+    Nom unique 
+      Exemple : CN=SaraDavis,CN=Europe,CN=Users,DC=corp,DC=contoso,DC=com
+
+    Nom de domaine DNS 
+      Exemple : redmond.corp.contoso.com
+
+    Nom d'hôte DNS (dNSHostName)
+      Exemple : corp-DC01.corp.contoso.com
+
+    GUID de fonctionnalité (featureGUID) 
+      Exemple : 599c3d2e-f72d-4d20-8a88-030d99495f20 
+
+    Nom de domaine complet
+      Exemple : corp.contoso.com
+
+    Adresse IPV6Address globale 
+      Exemple : 2001:4898:0:fff:200:5efe:157.59.132.61
+
+    GUID (objectGUID) 
+      Exemple : 599c3d2e-f72d-4d20-8a88-030d99495f20 
+
+    Adresse IPV4Address
+      Exemple : 157.59.132.61
+
+    Nom de domaine NetBIOS 
+      Exemple : redmond
+
+    Nom de l'objet serveur
+      Exemple : corp-DC01$
+
+    Nom du compte du Gestionnaire de comptes de sécurité (SAM) 
+    (sAMAccountName) 
+      Exemple : saradavisreports
+
+    Identificateur de sécurité (objectSid) 
+      Exemple : S-1-5-21-3165297888-301567370-576410423-1103
+
+    Nom
+      Exemple : Recycle Bin Feature
+
+
+VOIR AUSSI
+
+    about_ActiveDirectory
+
+    about_ActiveDirectory_ObjectModel

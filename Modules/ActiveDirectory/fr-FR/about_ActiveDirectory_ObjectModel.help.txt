@@ -1,0 +1,886 @@
+﻿RUBRIQUE
+    À propos du modèle objet Active Directory
+
+DESCRIPTION COURTE
+    Décrit le modèle objet du module Active Directory pour
+    Windows PowerShell.
+
+DESCRIPTION LONGUE
+    Cette rubrique présente les classes du module Active Directory et
+    leurs propriétés, qui sont utilisées pour modeler des attributs
+    Active Directory réels. Elle décrit également la hiérarchie de
+    classes construite à partir de son équivalent Active Directory.
+    Le modèle objet établit une fondation de données pour toutes les
+    opérations prise en charge par les applets de commande du module
+    Active Directory.
+
+  Hiérarchie de classes
+    La liste suivante présente la hiérarchie de classes définie dans
+    le modèle objet du module Active Directory avec l'héritage de
+    classe indiqué par une mise en retrait. Ce modèle d'héritage
+    permet aux applets de commande Active Directory d'accepter une
+    plage de types d'objets comme entrée. Cela signifie, par
+    exemple, que l'applet de commande Get-ADPrincipalGroupMembership
+    peut accepter comme entrée tous les objets suivants : ADGroup,
+    ADAccount, ADComputer, ADServiceAccount ou ADUser. Cela fonctionne
+    en raison du modèle d'héritage et garantit qu'un objet ADUser
+    a toutes les propriétés d'un objet ADPrincipal.
+
+    ADEntity
+      ADRootDSE
+      ADObject
+        ADFineGrainedPasswordPolicy
+        ADOptionalFeature
+        ADOrganizationalUnit
+        ADPartition
+          ADDomain
+        ADPrincipal
+          ADAccount
+            ADComputer
+            ADServiceAccount
+            ADUser
+          ADGroup
+      ADDefaultDomainPasswordPolicy
+      ADForest
+      ADDirectoryServer
+        ADDomainController
+
+    Classes du module Active Directory
+      La liste suivante présente chaque classe de module Active
+      Directory à partir de la liste de la hiérarchie de classes.
+      Chaque classe définit un ensemble de propriétés, parmi
+      lesquelles des attributs LDAP récupérés par défaut et des
+      propriétés créées spécifiquement pour le module Active
+      Directory. Ces nouvelles propriétés sont dérivées d'un ou
+      de plusieurs attributs LDAP comme décrit dans les listes de
+      classes.
+
+    ADEntity
+      Classe de niveau de base à partir de laquelle toutes les autres
+      classes sont dérivées.
+
+    ADRootDSE
+      Représente la DSE racine et est dérivé d'ADEntity.
+
+      Un objet ADRootDSE peut contenir les propriétés suivantes, en
+      plus de celles héritées de son parent.
+
+      ConfigurationNamingContext : propriété de type System.String,
+      dérivée de l'attribut d'annuaire ConfigurationNamingContext
+      
+
+      CurrentTime : propriété de type System.DateTime, dérivée de
+      l'attribut d'annuaire CurrentTime
+
+      DefaultNamingContext : propriété de type System.String, dérivée
+      de l'attribut d'annuaire DefaultNamingContext
+
+      DnsHostName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire DnsHostName
+
+      DomainControllerFunctionality : propriété de type
+      ADDomainControllerMode, dérivée de l'attribut d'annuaire
+      DomainControllerFunctionality
+
+      DomainFunctionality : propriété de type ADDomainMode, dérivée
+      de l'attribut d'annuaire DomainFunctionality
+
+      DsServiceName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire DsServiceName
+
+      ForestFunctionality : propriété de type ADForestMode, dérivée
+      de l'attribut d'annuaire ForestFunctionality
+
+      GlobalCatalogReady : propriété de type System.Boolean, dérivée
+      de l'attribut d'annuaire GlobalCatalogReady
+
+      HighestCommittedUSN : propriété de type System.Long, dérivée
+      de l'attribut d'annuaire HighestCommittedUSN
+
+      LdapServiceName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire LdapServiceName
+
+      NamingContexts : propriété de type System.String, dérivée de
+      l'attribut d'annuaire NamingContexts
+
+      RootDomainNamingContext : propriété de type System.String,
+      dérivée de l'attribut d'annuaire RootDomainNamingContext
+
+      SchemaNamingContext : propriété de type System.String, dérivée
+      de l'attribut d'annuaire SchemaNamingContext
+
+      ServerName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire ServerName
+
+      SubschemaSubentry : propriété de type ADObject, dérivée de
+      l'attribut d'annuaire SubschemaSubentry
+
+      SupportedCapabilities : propriété de type ADObjectIdentifier,
+      dérivée de l'attribut d'annuaire SupportedCapabilities
+
+      SupportedControl : propriété de type ADObjectIdentifier, dérivée
+      de l'attribut d'annuaire SupportedControl
+
+      SupportedLDAPPolicies : propriété de type System.String, dérivée
+      de l'attribut d'annuaire SupportedLDAPPolicies
+
+      SupportedLDAPVersion : propriété de type System.Int, dérivée de
+      l'attribut d'annuaire SupportedLDAPVersion
+
+      SupportedRootDSEOperations : propriété de type
+      ADPropertyValueCollection, dérivée de l'attribut d'annuaire
+      SupportedRootDSEOperations
+
+      SupportedSASLMechanisms : propriété de type System.String,
+      dérivée de l'attribut d'annuaire SupportedSASLMechanisms
+
+      Syncronized : propriété de type System.Boolean, dérivée de
+      l'attribut d'annuaire IsSynchronized
+
+    ADObject
+      Représente tout objet du module Active Directory et est
+      dérivé d'ADEntity.
+
+      Un objet ADObject peut contenir les propriétés suivantes, en
+      plus de celles héritées de son parent.
+
+      CanonicalName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire canonicalName
+
+      CN : propriété de type System.String, dérivée de l'attribut
+      d'annuaire cn
+
+      Created : propriété de type System.DateTime, dérivée de
+      l'attribut d'annuaire createTimeStamp
+
+      Deleted : propriété de type System.Boolean, dérivée de
+      l'attribut d'annuaire isDeleted
+
+      Description : propriété de type System.String, dérivée de
+      l'attribut d'annuaire description
+
+      DisplayName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire displayName
+
+      DistinguishedName : propriété de type System.String, dérivée
+      de l'attribut d'annuaire distinguishedName
+
+      LastKnownParent : propriété de type System.String, dérivée de
+      l'attribut d'annuaire lastKnownParent
+
+      Modified : propriété de type System.DateTime, dérivée de
+      l'attribut d'annuaire modifyTimeStamp
+
+      Name : propriété de type System.String, dérivée de l'attribut
+      d'annuaire name
+
+      ObjectCategory : propriété de type System.String, dérivée de
+      l'attribut d'annuaire objectCategory
+
+      ObjectClass : propriété de type System.String, dérivée de
+      l'attribut d'annuaire objectClass
+
+      ObjectGUID : propriété de type System.Guid, dérivée de
+      l'attribut d'annuaire objectGUID
+
+      ProtectedFromAccidentalDeletion : propriété de type
+      System.Boolean, dérivée des attributs d'annuaire
+      nTSecurityDescriptor, sdRightsEffective, instanceType,
+      isDeleted
+      
+
+    ADFineGrainedPasswordPolicy
+      Représente un objet stratégie de mot de passe affinée
+      (c'est-à-dire un objet AD de type msDS-PasswordSettings)
+      dans AD DS et est dérivé d'ADObject. Cette classe n'est
+      pas prise en charge par AD LDS.
+
+      Un objet ADFineGrainedPasswordPolicy peut contenir les
+      propriétés suivantes, en plus de celles héritées de son parent.
+
+      AppliesTo : propriété de type System.String, dérivée de
+      l'attribut d'annuaire msDS-PSOAppliesTo
+
+      ComplexityEnabled : propriété de type System.Boolean, dérivée de
+      l'attribut d'annuaire msDS-PasswordComplexityEnabled
+
+      LockoutDuration : propriété de type System.TimeSpan, dérivée de
+      l'attribut d'annuaire msDS-LockoutDuration
+
+      LockoutObservationWindow : propriété de type System.TimeSpan,
+      dérivée de l'attribut d'annuaire msDS-LockoutObservationWindow
+      
+
+      LockoutThreshold : propriété de type System.Int32, dérivée de
+      l'attribut d'annuaire msDS-LockoutThreshold
+
+      MaxPasswordAge : propriété de type System.TimeSpan, dérivée de
+      l'attribut d'annuaire msDS-MaximumPasswordAge
+
+      MinPasswordAge : propriété de type System.TimeSpan, dérivée de
+      l'attribut d'annuaire msDS-MinimumPasswordAge
+
+      MinPasswordLength : propriété de type System.Int32, dérivée de
+      l'attribut d'annuaire msDS-MinimumPasswordLength
+
+      PasswordHistoryCount : propriété de type System.Int32, dérivée
+      de l'attribut d'annuaire msDS-PasswordHistoryLength
+
+      Precedence : propriété de type System.Int32, dérivée de
+      l'attribut d'annuaire msDS-PasswordSettingsPrecedence
+
+      ReversibleEncryptionEnabled : propriété de type
+      System.Boolean, dérivée de l'attribut d'annuaire
+      msDS-PasswordReversibleEncryptionEnabled
+      
+
+    ADOptionalFeature
+      Représente une fonctionnalité facultative, un objet Active
+      Directory de type msDS-OptionalFeature et est
+      dérivé d'ADObject.
+
+      Un objet ADOptionalFeature peut contenir les propriétés
+      suivantes, en plus de celles héritées de son parent.
+
+      EnabledScopes : propriété de type System.String, dérivée de
+      l'attribut d'annuaire msDS-EnabledFeatureBL
+
+      FeatureGUID : propriété de type System.Guid, dérivée de
+      l'attribut d'annuaire msDS-OptionalFeatureGUID
+
+      FeatureScope : propriété de type System.Int32, dérivée de
+      l'attribut d'annuaire msDS-OptionalFeatureFlags
+
+      IsDisableable : propriété de type System.Boolean, dérivée de
+      l'attribut d'annuaire msDS-OptionalFeatureFlags
+
+      RequiredDomainMode : propriété de type
+      Microsoft.ActiveDirectory.Management.ADDomainMode, dérivée
+      de l'attribut d'annuaire msDS-RequiredDomainBehaviorVersion
+      
+
+      RequiredForestMode : propriété de type
+      Microsoft.ActiveDirectory.Management.ADForestMode, dérivée de
+      l'attribut d'annuaire msDS-RequiredForestBehaviorVersion
+
+    ADOrganizationalUnit
+      Représente un objet unité d'organisation (organizationalUnit) et
+      est dérivé d'ADObject.
+
+      Un objet ADOrganizationalUnit peut contenir les propriétés
+      suivantes, en plus de celles héritées de son parent.
+
+      City : propriété de type System.String, dérivée de l'attribut
+      d'annuaire l
+
+      Country : propriété de type System.String, dérivée de l'attribut
+      d'annuaire c
+
+      LinkedGroupPolicyObjects : propriété de type System.String,
+      dérivée de l'attribut d'annuaire gpLink. Cette propriété n'est
+      pas prise en charge dans AD LDS.
+
+      ManagedBy : propriété de type System.String, dérivée de
+      l'attribut d'annuaire managedBy
+
+      PostalCode : propriété de type System.String, dérivée de
+      l'attribut d'annuaire postalCode
+
+      State : propriété de type System.String, dérivée de l'attribut
+      d'annuaire st
+
+      StreetAddress : propriété de type System.String, dérivée de
+      l'attribut d'annuaire street
+
+    ADPartition
+      Représente un contexte d'appellation, Configuration, Schema,
+      Domain ou Application Partition(ND NC) et est dérivé
+      d'ADObject. Cette classe n'est pas prise en charge par AD LDS.
+
+      Un objet ADPartition peut contenir les propriétés suivantes, en
+      plus de celles héritées de son parent.
+
+      DeletedObjectsContainer : propriété de type System.String,
+      dérivée de l'attribut d'annuaire DeletedObjectsContainer
+
+      DNSRoot : propriété de type System.String, dérivée de l'attribut
+      d'annuaire DNSRoot
+
+      LostAndFoundContainer : propriété de type System.String, dérivée
+      de l'attribut d'annuaire LostAndFoundContainer
+
+      QuotasContainer : propriété de type System.String, dérivée de
+      l'attribut d'annuaire QuotasContainer
+
+      ReadOnlyReplicaDirectoryServers : propriété de type
+      System.String, dérivée de l'attribut d'annuaire
+      ReadOnlyReplicaDirectoryServers
+      
+
+      ReplicaDirectoryServers : propriété de type System.String,
+      dérivée de l'attribut d'annuaire ReplicaDirectoryServers
+
+      SubordinateReferences : propriété de type System.String,
+      dérivée de l'attribut d'annuaire SubordinateReferences
+
+    ADDomain
+      Représente un domaine dans AD DS ou une instance dans AD LDS,
+      par exemple un objet Active Directory de type domainDNS, et
+      est dérivé d'ADPartition. Cette classe n'est pas prise en
+      charge par AD LDS.
+
+      Un objet ADDomain peut contenir les propriétés suivantes, en
+      plus de celles héritées de son parent.
+
+      AllowedDNSSuffixes : propriété de type System.String, dérivée de
+      l'attribut d'annuaire msDS-AllowedDNSSuffixes
+
+      ChildDomains : propriété de type System.String, dérivée de
+      l'attribut d'annuaire ChildDomains
+
+      ComputersContainer : propriété de type System.String, dérivée de
+      l'attribut d'annuaire ComputersContainer
+
+      DomainControllersContainer : propriété de type System.String,
+      dérivée de l'attribut d'annuaire DomainControllersContainer
+      
+
+      DomainMode : propriété de type System.Int32, dérivée de
+      l'attribut d'annuaire msDS-Behavior-Version
+
+      DomainSID : propriété de type
+      System.Security.Principal.SecurityIdentifier, dérivée de
+      l'attribut d'annuaire objectSid
+
+      ForeignSecurityPrincipalsContainer : propriété de type
+      System.String, dérivée de l'attribut d'annuaire
+      ForeignSecurityPrincipalsContainer
+      
+
+      Forest : propriété de type System.String, dérivée de l'attribut
+      d'annuaire Forest
+
+      InfrastructureMaster : propriété de type System.String, dérivée
+      de l'attribut d'annuaire InfrastructureMaster
+
+      LastLogonReplicationInterval : propriété de type System.TimeSpan,
+      dérivée de l'attribut d'annuaire msDS-LogonTimeSyncInterval
+      
+
+      LinkedGroupPolicyObjects : propriété de type System.String,
+      dérivée de l'attribut d'annuaire LinkedGroupPolicyObjects
+
+      ManagedBy : propriété de type System.String, dérivée de
+      l'attribut d'annuaire managedBy
+      
+      NetBIOSName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire NetBIOSName
+
+      ParentDomain : propriété de type System.String, dérivée de
+      l'attribut d'annuaire ParentDomain
+
+      PDCEmulator : propriété de type System.String, dérivée de
+      l'attribut d'annuaire PDCEmulator
+
+      RIDMaster : propriété de type System.String, dérivée de
+      l'attribut d'annuaire RIDMaster
+
+      SystemsContainer : propriété de type System.String, dérivée de
+      l'attribut d'annuaire SystemsContainer
+
+      UsersContainer : propriété de type System.String, dérivée de
+      l'attribut d'annuaire UsersContainer
+
+    ADPrincipal
+      Représente un principal de sécurité, qui est un objet Active
+      Directory de type utilisateur, ordinateur, groupe ou
+      iNetOrgPerson, et est dérivé d'ADObject.
+
+      Un objet ADPrincipal peut contenir les propriétés suivantes,
+      en plus de celles héritées de son parent.
+
+      HomePage : propriété de type System.String, dérivée de
+      l'attribut d'annuaire wWWHomePage
+
+      MemberOf : propriété de type System.String, dérivée de
+      l'attribut d'annuaire memberOf
+
+      SamAccountName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire sAMAccountName. Cette propriété n'est
+      pas prise en charge pour AD LDS.
+
+      SID : propriété de type
+      System.Security.Principal.SecurityIdentifier, dérivée de
+      l'attribut d'annuaire objectSid
+
+      SIDHistory : propriété de type
+      System.Security.Principal.SecurityIdentifier, dérivée de
+      l'attribut d'annuaire sIDHistory. Cette propriété n'est pas
+      prise en charge pour AD LDS.
+
+    ADAccount
+      Représente un compte de sécurité, qui est un objet Active
+      Directory de type utilisateur, ordinateur ou iNetOrgPerson,
+      et est dérivé d'ADPrincipal.
+
+      Un objet ADAccount peut contenir les propriétés suivantes,
+      en plus de celles héritées de son parent.
+
+      AccountExpirationDate : propriété de type System.DateTime,
+      dérivée de l'attribut d'annuaire accountExpires
+
+      AccountLockoutTime : propriété de type System.DateTime, dérivée
+      de l'attribut d'annuaire lockoutTime
+
+      AccountNotDelegated : propriété de type System.Boolean, dérivée
+      des attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed. Cette propriété n'est
+      pas prise en charge par AD LDS.
+
+      AllowReversiblePasswordEncryption : propriété de type
+      System.Boolean. Pour AD DS, elle est dérivée de l'attribut
+      d'annuaire userAccountControl ; pour AD LDS, elle est dérivée
+      de l'attribut d'annuaire ms-DS-UserEncryptedTextPasswordAllowed.
+      
+
+      BadLogonCount : propriété de type System.Int32, dérivée de
+      l'attribut d'annuaire badPwdCount
+
+      CannotChangePassword : propriété de type System.Boolean, dérivée
+      de l'attribut d'annuaire nTSecurityDescriptor
+
+      Certificates : propriété de type
+      System.Security.Cryptography.X509Certificates.X509Certificate,
+      dérivée de l'attribut d'annuaire userCertificate
+
+      DoesNotRequirePreAuth : propriété de type System.Boolean,
+      dérivée des attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed. Cette propriété n'est pas
+      prise en charge par AD LDS.
+
+      Enabled : propriété de type System.Boolean. Pour AD DS, elle est
+      dérivée des attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed ; pour AD LDS, elle est dérivée
+      de l'attribut d'annuaire msDS-UserAccountDisabled.
+      
+
+      HomedirRequired : propriété de type System.Boolean, dérivée des
+      attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed. Cette propriété n'est pas
+      prise en charge par AD LDS.
+
+      LastBadPasswordAttempt : propriété de type System.DateTime,
+      dérivée de l'attribut d'annuaire badPasswordTime
+
+      LastLogonDate : propriété de type System.DateTime, dérivée de
+      l'attribut d'annuaire lastLogonTimestamp
+
+      LockedOut : propriété de type System.Boolean. Pour AD DS, elle
+      est dérivée des attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed, lockoutTime ; pour AD LDS,
+      elle est dérivée de l'attribut d'annuaire msDS-UserAccountDisabled.
+
+      MNSLogonAccount : propriété de type System.Boolean, dérivée des
+      attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed. Cette propriété n'est pas
+      prise en charge par AD LDS.
+
+      PasswordExpired : propriété de type System.Boolean. Pour AD DS,
+      elle est dérivée des attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed ; pour AD LDS, elle est dérivée
+      de l'attribut d'annuaire msDS-UserPasswordExpired.
+      
+
+      PasswordLastSet : propriété de type System.DateTime, dérivée de
+      l'attribut d'annuaire pwdLastSet
+
+      PasswordNeverExpires : propriété de type System.Boolean. Pour AD DS,
+      elle est dérivée des attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed ; pour AD LDS, elle est dérivée de
+      l'attribut d'annuaire msDS-UserDontExpirePassword.
+      
+
+      PasswordNotRequired : propriété de type System.Boolean. Pour AD DS,
+      elle est dérivée des attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed ; pour AD LDS, elle est dérivée de
+      l'attribut d'annuaire ms-DS-UserPasswordNotRequired.
+      
+
+      PrimaryGroup : propriété de type System.String, dérivée des
+      attributs d'annuaire primaryGroupID, objectSid. Cette propriété
+      n'est pas prise en charge par AD LDS.
+
+      ServicePrincipalNames : propriété de type System.String, dérivée
+      de l'attribut d'annuaire servicePrincipalName. Cette propriété
+      n'est pas prise en charge par AD LDS.
+
+      TrustedForDelegation : propriété de type System.Boolean, dérivée
+      des attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed. Cette propriété n'est
+      pas prise en charge par AD LDS.
+
+      TrustedToAuthForDelegation : propriété de type System.Boolean,
+      dérivée des attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed. Cette propriété n'est pas prise
+      en charge par AD LDS.
+
+      UseDESKeyOnly : propriété de type System.Boolean, dérivée des
+      attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed. Cette propriété n'est pas
+      prise en charge par AD LDS.
+
+      UserPrincipalName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire userPrincipalName
+
+    ADComputer
+      Représente un ordinateur et est dérivé d'ADAccount.
+
+      Un objet ADComputer peut contenir les propriétés suivantes, en
+      plus de celles héritées de son parent.
+
+      DNSHostName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire dNSHostName
+
+      IPv4Address : propriété de type System.String, dérivée de
+      l'attribut d'annuaire dNSHostName
+
+      IPv6Address : propriété de type System.String, dérivée de
+      l'attribut d'annuaire dNSHostName
+
+      Location : propriété de type System.String, dérivée de
+      l'attribut d'annuaire location
+
+      ManagedBy : propriété de type System.String, dérivée de
+      l'attribut d'annuaire managedBy
+
+      OperatingSystem : propriété de type System.String, dérivée de
+      l'attribut d'annuaire operatingSystem
+
+      OperatingSystemHotfix : propriété de type System.String, dérivée
+      de l'attribut d'annuaire operatingSystemHotfix
+
+      OperatingSystemServicePack : propriété de type System.String,
+      dérivée de l'attribut d'annuaire operatingSystemServicePack
+      
+
+      OperatingSystemVersion : propriété de type System.String,
+      dérivée de l'attribut d'annuaire operatingSystemVersion
+
+      ServiceAccount : propriété de type System.String, dérivée de
+      l'attribut d'annuaire msDS-HostServiceAccount
+
+    ADServiceAccount
+      Représente un compte de service administré, c'est-à-dire un
+      objet Active Directory de type msDS-ManagerdServiceAccount,
+      et est dérivé d'ADAccount. Cette classe n'est pas prise en
+      charge par AD LDS.
+
+      Un objet ADServiceAccount peut contenir les propriétés
+      suivantes, en plus de celles héritées de son parent.
+
+      HostComputers : propriété de type System.String, dérivée de
+      l'attribut d'annuaire msDS-HostServiceAccountBL
+
+    ADUser
+      Représente un utilisateur (ou iNetOrgPerson) et est
+      dérivé d'ADAccount.
+
+      Un objet ADUser peut contenir les propriétés suivantes, en plus
+      de celles héritées de son parent.
+
+      City : propriété de type System.String, dérivée de l'attribut
+      d'annuaire l
+
+      Company : propriété de type System.String, dérivée de l'attribut
+      d'annuaire company
+
+      Country : propriété de type System.String, dérivée de l'attribut
+      d'annuaire c
+
+      Department : propriété de type System.String, dérivée de
+      l'attribut d'annuaire department
+
+      Division : propriété de type System.String, dérivée de
+      l'attribut d'annuaire division
+
+      EmailAddress : propriété de type System.String, dérivée de
+      l'attribut d'annuaire mail
+
+      EmployeeID : propriété de type System.String, dérivée de
+      l'attribut d'annuaire employeeID
+
+      EmployeeNumber : propriété de type System.String, dérivée de
+      l'attribut d'annuaire employeeNumber
+
+      Fax : propriété de type System.String, dérivée de l'attribut
+      d'annuaire facsimileTelephoneNumber
+
+      GivenName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire givenName
+
+      HomeDirectory : propriété de type System.String, dérivée de
+      l'attribut d'annuaire homeDirectory. Cette propriété n'est
+      pas prise en charge par AD LDS.
+
+      HomeDrive : propriété de type System.String, dérivée de
+      l'attribut d'annuaire homeDrive. Cette propriété n'est pas
+      prise en charge par AD LDS.
+
+      HomePhone : propriété de type System.String, dérivée de
+      l'attribut d'annuaire homePhone
+
+      Initials : propriété de type System.String, dérivée de
+      l'attribut d'annuaire initials
+
+      LogonWorkstations : propriété de type System.String, dérivée de
+      l'attribut d'annuaire userWorkstations. Cette propriété n'est
+      pas prise en charge par AD LDS.
+
+      Manager : propriété de type System.String, dérivée de l'attribut
+      d'annuaire manager
+
+      MobilePhone : propriété de type System.String, dérivée de
+      l'attribut d'annuaire mobile
+
+      Office : propriété de type System.String, dérivée de l'attribut
+      d'annuaire physicalDeliveryOfficeName
+
+      OfficePhone : propriété de type System.String, dérivée de
+      l'attribut d'annuaire telephoneNumber
+
+      Organization : propriété de type System.String, dérivée de
+      l'attribut d'annuaire o
+
+      OtherName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire middleName
+
+      POBox : propriété de type System.String, dérivée de l'attribut
+      d'annuaire postOfficeBox
+
+      PostalCode : propriété de type System.String, dérivée de
+      l'attribut d'annuaire postalCode
+
+      ProfilePath : propriété de type System.String, dérivée de
+      l'attribut d'annuaire profilePath. Cette propriété n'est pas
+      prise en charge par AD LDS.
+
+      ScriptPath : propriété de type System.String, dérivée de
+      l'attribut d'annuaire scriptPath. Cette propriété n'est pas
+      prise en charge par AD LDS.
+
+      SmartcardLogonRequired : propriété de type System.Boolean,
+      dérivée des attributs d'annuaire userAccountControl,
+      msDS-User-Account-Control-Computed. Cette propriété n'est pas
+      prise en charge par AD LDS.
+
+      State : propriété de type System.String, dérivée de l'attribut
+      d'annuaire st
+
+      StreetAddress : propriété de type System.String, dérivée de
+      l'attribut d'annuaire streetAddress
+
+      Surname : propriété de type System.String, dérivée de l'attribut
+      d'annuaire sn
+
+      Title : propriété de type System.String, dérivée de l'attribut
+      d'annuaire title
+
+    ADGroup
+      Représente un groupe et est dérivé d'ADPrincipal.
+
+      Un objet ADGroup peut contenir les propriétés suivantes, en plus
+      de celles héritées de son parent.
+
+      GroupCategory : propriété de type
+      Microsoft.ActiveDirectory.Management.ADGroupCategory, dérivée de
+      l'attribut d'annuaire groupType
+
+      GroupScope : propriété de type
+      Microsoft.ActiveDirectory.Management.ADGroupScope, dérivée de
+      l'attribut d'annuaire groupType
+
+      ManagedBy : propriété de type System.String, dérivée de
+      l'attribut d'annuaire managedBy
+
+      Members : propriété de type System.String, dérivée de l'attribut
+      d'annuaire member
+
+    ADDefaultDomainPasswordPolicy
+      Représente la stratégie de mot de passe à l'échelle d'un domaine
+      Active Directory et est dérivé d'ADEntity. Cette classe n'est
+      pas prise en charge par AD LDS.
+
+      Un objet ADDefaultDomainPasswordPolicy peut contenir les
+      propriétés suivantes, en plus de celles héritées de son parent.
+
+      ComplexityEnabled : propriété de type System.Boolean, dérivée de
+      l'attribut d'annuaire pwdProperties
+
+      DistinguishedName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire distinguishedName
+
+      LockoutDuration : propriété de type System.TimeSpan, dérivée de
+      l'attribut d'annuaire lockoutDuration
+
+      LockoutObservationWindow : propriété de type System.TimeSpan,
+      dérivée de l'attribut d'annuaire lockoutObservationWindow
+
+      LockoutThreshold : propriété de type System.Int32, dérivée de
+      l'attribut d'annuaire lockoutThreshold
+
+      MaxPasswordAge : propriété de type System.TimeSpan, dérivée de
+      l'attribut d'annuaire maxPwdAge
+
+      MinPasswordAge : propriété de type System.TimeSpan, dérivée de
+      l'attribut d'annuaire minPwdAge
+
+      MinPasswordLength : propriété de type System.Int32, dérivée de
+      l'attribut d'annuaire minPwdLength
+
+      PasswordHistoryCount : propriété de type System.Int32, dérivée
+      de l'attribut d'annuaire pwdHistoryLength
+
+      ReversibleEncryptionEnabled : propriété de type System.Boolean,
+      dérivée de l'attribut d'annuaire pwdProperties
+
+    ADForest
+      Représente une forêt Active Directory dans AD DS ou un jeu de
+      configuration dans AD LDS, et est dérivé d'ADEntity. Cette
+      classe n'est pas prise en charge par AD LDS.
+
+      Un objet ADForest peut contenir les propriétés suivantes, en
+      plus de celles héritées de son parent.
+
+      ApplicationPartitions : propriété de type System.String, dérivée
+      de l'attribut d'annuaire ApplicationPartitions
+
+      CrossForestReferences : propriété de type System.String, dérivée
+      de l'attribut d'annuaire CrossForestReferences
+
+      DomainNamingMaster : propriété de type System.String, dérivée de
+      l'attribut d'annuaire DomainNamingMaster
+
+      Domains : propriété de type System.String, dérivée de l'attribut
+      d'annuaire Domains
+
+      ForestMode : propriété de type System.Int32, dérivée de
+      l'attribut d'annuaire msDS-Behavior-Version
+
+      GlobalCatalogs : propriété de type System.String, dérivée de
+      l'attribut d'annuaire GlobalCatalogs
+
+      Name : propriété de type System.String, dérivée de l'attribut
+      d'annuaire name
+
+      PartitionContainerName : propriété de type System.String,
+      dérivée de l'attribut d'annuaire distinguishedName
+
+      RootDomain : propriété de type System.String, dérivée de
+      l'attribut d'annuaire RootDomain
+
+      SchemaMaster : propriété de type System.String, dérivée de
+      l'attribut d'annuaire SchemaMaster
+
+      Sites : propriété de type System.String, dérivée de l'attribut
+      d'annuaire Sites
+
+      SPNSuffixes : propriété de type System.String, dérivée de
+      l'attribut d'annuaire msDS-SPNSuffixes
+
+      UPNSuffixes : propriété de type System.String, dérivée de
+      l'attribut d'annuaire uPNSuffixes
+
+    ADDirectoryServer
+      Représente un serveur d'annuaire utilisé comme contrôleur de
+      domaine ou comme instance AD LDS, et est dérivé d'ADEntity.
+      
+
+      Un objet ADDirectoryServer peut contenir les propriétés
+      suivantes, en plus de celles héritées de son parent.
+
+      DefaultPartition : propriété de type System.String, dérivée de
+      l'attribut d'annuaire DefaultPartition
+
+      HostName : propriété de type System.String, dérivée de
+      l'attribut d'annuaire HostName
+
+      InvocationId : propriété de type System.Guid, dérivée de
+      l'attribut d'annuaire InvocationId
+
+      IPv4Address : propriété de type System.String, dérivée de
+      l'attribut d'annuaire HostName
+
+      IPv6Address : propriété de type System.String, dérivée de
+      l'attribut d'annuaire HostName
+
+      LdapPort : propriété de type System.Int32, dérivée de l'attribut
+      d'annuaire LdapPort
+
+      Name : propriété de type System.String, dérivée de l'attribut
+      d'annuaire Name
+
+      NTDSSettingsObjectDN : propriété de type System.String, dérivée
+      de l'attribut d'annuaire NTDSSettingsObjectDN
+
+      OperationMasterRoles : propriété de type
+      Microsoft.ActiveDirectory.Management.ADOperationMasterRole,
+      dérivée de l'attribut d'annuaire OperationMasterRole
+
+      Partitions : propriété de type System.String, dérivée de
+      l'attribut d'annuaire Partitions
+
+      ServerObjectDN : propriété de type System.String, dérivée de
+      l'attribut d'annuaire ServerObjectDN
+
+      ServerObjectGuid : propriété de type System.Guid, dérivée de
+      l'attribut d'annuaire ServerObjectGuid
+
+      Site : propriété de type System.String, dérivée de l'attribut
+      d'annuaire Site
+
+      SslPort : propriété de type System.Int32, dérivée de l'attribut
+      d'annuaire SslPort
+
+    ADDomainController
+      Représente un contrôleur de domaine dans AD DS et est dérivé
+      d'ADDirectoryServer.
+      
+
+      Un objet ADDomainController peut contenir les propriétés
+      suivantes, en plus de celles héritées de son parent.
+
+      ComputerObjectDN : propriété de type System.String, dérivée de
+      l'attribut d'annuaire ComputerDN
+
+      Domain : propriété de type System.String, dérivée de l'attribut
+      d'annuaire Domain
+
+      Enabled : propriété de type System.Boolean, dérivée de
+      l'attribut d'annuaire Enabled
+
+      Forest : propriété de type System.String, dérivée de l'attribut
+      d'annuaire Forest
+
+      IsGlobalCatalog : propriété de type System.Boolean, dérivée de
+      l'attribut d'annuaire IsGlobalCatalog
+
+      IsReadOnly : propriété de type System.Boolean, dérivée de
+      l'attribut d'annuaire IsReadOnly
+
+      OperatingSystem : propriété de type System.String, dérivée de
+      l'attribut d'annuaire OSName
+
+      OperatingSystemHotfix : propriété de type System.String, dérivée
+      de l'attribut d'annuaire OSHotFix
+
+      OperatingSystemServicePack : propriété de type System.String,
+      dérivée de l'attribut d'annuaire OSServicepack
+
+      OperatingSystemVersion : propriété de type System.String,
+      dérivée de l'attribut d'annuaire OSVersion
+
+VOIR AUSSI
+
+    about_ActiveDirectory
+    about_ActiveDirectory_Identity
+

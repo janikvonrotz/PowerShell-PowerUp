@@ -1,0 +1,171 @@
+﻿主题
+    Active Directory 对象标识
+
+简短说明
+    Windows PowerShell 对象的 Active Directory 模块有一组用于搜索和检索的标识属性。
+
+详细说明
+    为了标识 Active Directory 中的对象，每个对象都有可以用作标识符的属性。在 Active 
+    Directory 模块中，可以使用 Identity 参数传递对象的标识的值。每个对象类型都有其自
+    己的一组供 Identity 参数使用的类型和值。有关给定 cmdlet 的 Identity 参数用法的详
+    细信息，请参阅其详细说明。
+
+    在通过 Active Directory 模块 cmdlet 进行搜索时，Identity 参数的值以及 Server 和 
+    Partition 参数的值用于唯一标识单个对象。Server 参数用于定位要连接的服务器。Partition 
+    参数进一步将搜索范围缩小到特定分区。这样，标识参数解析为分区中的单个唯一对象。
+    如果使用标识解析找到了多个对象，则 Active Directory 模块会引发错误。
+
+    有关 Server 和 Partition 参数的详细信息，请参阅使用这些参数的各 cmdlet 的帮助主题，
+    例如，通过键入“get-help Get-ADUser”来了解 Get-ADUser。
+
+  对象和标识
+
+    每个对象都有一个属性列表，这些属性可用作该对象的标识。此外，如果对象继承自另一个对象，
+    则父对象的标识也可以用作子对象的标识。有关 Active Directory 对象层次结构的详细信息，
+    请参阅 about_ActiveDirectory_ObjectModel。
+
+    注意：对于 Active Directory 提供程序 cmdlet，只有对象的“可分辨名称”或“相对可分辨名
+    称”可用作标识。有关 Active Directory 提供程序 cmdlet 的列表，请参阅 
+    ActiveDirectory。
+
+  标识属性
+
+    下面按对象类型列出了标识属性。
+
+    ADAccount
+      可分辨名称
+      GUID (objectGUID)
+      安全标识符 (objectSid)
+      SAM 帐户名 (sAMAccountName)
+      
+    ADComputer
+      可分辨名称
+      GUID (objectGUID)
+      安全标识符 (objectSid)
+      安全帐户管理器帐户名 (sAMAccountName)
+
+    ADDirectoryServer
+      服务器对象的名称 (name)
+        对于 AD LDS 实例，名称的语法为
+   	   <computer-name>$<instance-name>
+        对于其他 Active Directory 实例，请使用 name 属性的值 
+      NTDS 设置对象的可分辨名称 
+      表示目录服务器的服务器对象的可分辨名称        
+      配置分区下服务器对象的 GUID (objectGUID)        
+      配置分区下 NTDS 设置对象的 GUID (objectGUID)
+
+    ADDomain
+      可分辨名称
+      GUID
+      安全标识符
+      DNS 域名
+      NetBIOS 域名
+
+    ADDomainController
+      GUID (objectGUID)
+      IPV4Address
+      全局 IPV6Address
+      DNS 主机名 (dNSHostName)
+      服务器对象的名称
+      NTDS 设置对象的可分辨名称 表示域控制器的服务器对象的可分辨名称
+      配置分区下 NTDS 设置对象的 GUID
+      配置分区下服务器对象的 GUID 表示域控制器的计算机对象的可分辨名称
+
+    ADFineGrainedPasswordPolicy
+      可分辨名称
+      GUID (objectGUID)
+      名称 (name)
+      
+    ADForest
+      完全限定的域名
+      DNS 主机名
+      NetBIOS 名称
+
+    ADGroup
+      可分辨名称
+      GUID (objectGUID)
+      安全标识符 (objectSid)
+      安全帐户管理器 (SAM) 帐户名 (sAMAccountName)
+
+    ADObject
+      可分辨名称
+      GUID (objectGUID)
+
+    ADOptionalFeature
+            可分辨名称
+      名称 (name)
+      功能 GUID (featureGUID)
+      GUID (objectGUID)
+
+    ADOrganizationalUnit
+      可分辨名称
+      GUID (objectGUID)
+
+    ADPrincipal
+      可分辨名称
+      GUID (objectGUID)
+      安全标识符 (objectSid)
+      SAM 帐户名 (sAMAccountName)
+
+    ADServiceAccount
+      可分辨名称
+      GUID (objectGUID)
+      安全标识符 (objectSid)
+      SAM 帐户名 (sAMAccountName)
+
+    ADUser
+      可分辨名称
+      GUID (objectGUID)
+      安全标识符 (objectSid)
+      SAM 用户名 (sAMUserName)
+
+
+  标识格式
+
+    Active Directory 模块对象有一组标识属性。下面是这些属性及其类型和格式的列表。
+
+    可分辨名称
+      示例：CN=SaraDavis,CN=Europe,CN=Users,DC=corp,DC=contoso,DC=com
+
+    DNS 域名
+      示例：redmond.corp.contoso.com
+
+    DNS 主机名 (dNSHostName)
+      示例：corp-DC01.corp.contoso.com
+
+    功能 GUID (featureGUID)
+      示例：599c3d2e-f72d-4d20-8a88-030d99495f20
+
+    完全限定的域名
+      示例：corp.contoso.com
+
+    全局 IPV6Address
+      示例：2001:4898:0:fff:200:5efe:157.59.132.61
+
+    GUID (objectGUID)
+      示例：599c3d2e-f72d-4d20-8a88-030d99495f20
+
+    IPV4Address
+      示例：157.59.132.61
+
+    NetBIOS 域名
+      示例：redmond
+
+    服务器对象的名称
+      示例：corp-DC01$
+
+    安全帐户管理器 (SAM) 帐户名 (sAMAccountName) 
+      示例：saradavisreports
+
+    安全标识符 (objectSid)
+      示例：S-1-5-21-3165297888-301567370-576410423-1103
+
+    名称
+      示例：Recycle Bin Feature
+
+
+另请参阅
+
+    about_ActiveDirectory
+
+    about_ActiveDirectory_ObjectModel
