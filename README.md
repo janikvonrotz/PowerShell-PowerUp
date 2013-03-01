@@ -6,7 +6,7 @@ One of the most advanced Powershell profile configurations for Administrators.
 ##How to install:##
 
 
-PS C:\Powershell-Profile> Set-ExecutionPolicy unrestricted
+PS C:\Powershell-Profile> Set-ExecutionPolicy bypass
 
 Ausführungsrichtlinie ändern
 Die Ausführungsrichtlinie trägt zum Schutz vor nicht vertrauenswürdigen Skripts bei. Wenn Sie die Ausführungsrichtlinie
