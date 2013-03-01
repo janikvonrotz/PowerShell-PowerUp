@@ -11,7 +11,7 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorE-Mail>contact@janikvonrotz.ch</AuthorE-Mail>
 		<CreateDate>07.01.2013</CreateDate>
-		<LastEditDate>25.02.2013</LastEditDate>
+		<LastEditDate>01.03.2013</LastEditDate>
 		<Version>1.1.0</Version>
 	</Metadata>
 
@@ -22,19 +22,22 @@
 		-->	
 		<SystemVariables>
 			<SystemVariable>
-				<Path>.\Modules</Path>
+				<Value>.\Modules</Value>
 				<Name>PSModulePath</Name>
 				<RelativePath>true</RelativePath>
+				<Target>Machine</Target>
 			</SystemVariable>
 			<SystemVariable>
-				<Path>.\Functions</Path>
+				<Value>.\Functions</Value>
 				<Name>Path</Name>
 				<RelativePath>true</RelativePath>
+				<Target>Machine</Target>
 			</SystemVariable>
 			<SystemVariable>
-				<Path>H:\SkyDrive\Shared\Apps\SysInternals</Path>
+				<Value>H:\SkyDrive\Shared\Apps\SysInternals</Value>
 				<Name>Path</Name>
 				<RelativePath>false</RelativePath>
+				<Target>Machine</Target>
 			</SystemVariable>
 		</SystemVariables>
 		

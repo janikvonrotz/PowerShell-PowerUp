@@ -1,34 +1,32 @@
-#--------------------------------------------------#
-#  Title: Profile Installation
-#--------------------------------------------------#
-#  File name: ProfileInstallation.ps1
-#  Description: [Description]
-#  Tags: powershell, profile, installation
-#  Project: [Projectname]
-#
-#  Author: Janik von Rotz
-#  Author E-Mail: contact@janikvonrotz.ch
-#
-#  Create Date: 07.01.2013
-#  Last Edit Date: 18.02.2013
-#  Version: 1.1.3
-#
-#  License: 
-#  This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
-#  To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
-#  send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
-#--------------------------------------------------#
+$Metadata = @{
+	Title = "Profile Installation"
+	Filename = "ProfileInstallation.ps1"
+	Description = "[Description]"
+	Tags = "powershell, profile, installation"
+	Project = "[Projectname]"
+	Author = "Janik von Rotz"
+	AuthorEMail = "contact@janikvonrotz.ch"
+	CreateDate = "07.01.2013"
+	LastEditDate = "01.03.2013"
+	Version = "2.0.0"
+	License = @'
+This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.�
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
+send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+'@
+
+}
 
  # Settings
-[string]$TargetPath = Get-Location
-$WorkingPath = Get-Location
-$ModulesFolderName = "Modules"
+[string]$WorkingPath = Get-Location
+$ModulesPath = "\Modules"
 $FunctionPath = "\Functions"
 
  # Include
-Set-Location ($TargetPath + $FunctionPath)
+Set-Location ($WorkingPath + $FunctionPath)
 get-childitem | foreach {. .\$_}
-Set-Location ..
+ # Go back to working directory
+Set-Location $WorkingPath
 
  # Create Profile
 if (!(Test-Path $profile)){
@@ -47,7 +45,7 @@ if (!(Test-Path ($SourcePath + "\" + $ScriptName) -PathType Leaf))
 	Rename-Item $SourcePath ($SourcePath + "-Obsolete")
 	 
 	 # Create a shortcut to the existing powershell profile
-	New-Symlink $SourcePath $TargetPath
+	New-Symlink $SourcePath $WorkingPath
 }
 
  # LoadConfig
@@ -58,6 +56,29 @@ Set-Location HKCU:\
 foreach ($RegistryEntry in $Configuration.RegistryEntries.RegistryEntry)
 {
 	Set-ItemProperty -Path $RegistryEntry.Path -Name $RegistryEntry.Name -Value $RegistryEntry.Value
+}
+
+Set-Location ($TargetPath + $ModulesPath)
+Import-Module Pscx
+
+ # Go back to working directory
+Set-Location $WorkingPath
+
+ # Add System Variables
+foreach ($SystemVariable in $Configuration.SystemVariables.SystemVariable)
+{
+	if($SystemVariable.RelativePath -eq "true")
+	{
+		Set-Location $SystemVariable.Value
+		$SystemVariable.Value = $(Get-Location).Path
+		
+		Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
+		
+		 # Go back to working directory
+		Set-Location $WorkingPath
+	}else{
+		Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
+	}
 }
 
  # Go back to working directory
