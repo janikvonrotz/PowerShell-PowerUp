@@ -17,34 +17,43 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 
 }
 
- # Settings
+#--------------------------------------------------#
+#  Settings
+#--------------------------------------------------#
 [string]$WorkingPath = Get-Location
 $ModulesPath = "\Modules"
 $FunctionPath = "\Functions"
 
- # Include
+#--------------------------------------------------#
+# Includes
+#--------------------------------------------------#
 Set-Location ($WorkingPath + $FunctionPath)
 get-childitem | foreach {. .\$_}
  # Go back to working directory
 Set-Location $WorkingPath
 
- # LoadConfig
+#--------------------------------------------------#
+# Main
+#--------------------------------------------------#
+
+# LoadConfig
+
 $Configuration = Get-XmlConfig Config.xml
 
- # Registry Settings
+# Registry Settings
 Set-Location HKCU:\
 foreach ($RegistryEntry in $Configuration.RegistryEntries.RegistryEntry)
 {
 	Set-ItemProperty -Path $RegistryEntry.Path -Name $RegistryEntry.Name -Value $RegistryEntry.Value
 }
 
- # Import Pscx Extension
+# Import Pscx Extension
 Set-Location ($WorkingPath + $ModulesPath)
 Import-Module Pscx
  # Go back to working directory
 Set-Location $WorkingPath
 
- # Add System Variables
+# Add System Variables
 foreach ($SystemVariable in $Configuration.SystemVariables.SystemVariable)
 {
 	if($SystemVariable.RelativePath -eq "true")
@@ -56,25 +65,29 @@ foreach ($SystemVariable in $Configuration.SystemVariables.SystemVariable)
 	}
 }
 
- # Enable Open Powershell here
+# Enable Open Powershell here
 Enable-OpenPowerShellHere
 
- # Create Profile
-if (!(Test-Path $profile)){
+#--------------------------------------------------#
+# Powershell Default Profile
+#--------------------------------------------------#
+
+# Create Powershell Profile
+if (!(Test-Path $Profile)){
 
 	  # Create a profile
 	New-Item -path $profile -type file -force
 }
 
- # Link Powershell Profile
+# Link Powershell Profile
 $SourcePath = Split-Path $profile -parent
 $ScriptName = $MyInvocation.MyCommand.Name
 
 if (!(Test-Path ($SourcePath + "\" + $ScriptName) -PathType Leaf))
 {
-	 # Rename default source
+	# Rename default source
 	Rename-Item $SourcePath ($SourcePath + "-Obsolete")
 	 
-	 # Create a shortcut to the existing powershell profile
+	# Create a shortcut to the existing powershell profile
 	New-Symlink $SourcePath $WorkingPath
 }

@@ -16,10 +16,10 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 '@
 }
 
- #UI Settings
+# UI Settings
 $PromptSettings = (Get-Host).UI.RawUI
-$PromptSettings.ForegroundColor = "Black"
-$PromptSettings.BackgroundColor = "White"
+# $PromptSettings.ForegroundColor = "Black"
+# $PromptSettings.BackgroundColor = "White"
 $PromptSettings.BufferSize.Width = 120
 $PromptSettings.BufferSize.Height = 999
 $PromptSettings.WindowSize.Width = 120
@@ -28,21 +28,21 @@ $PromptSettings.MaxWindowSize.Width = 120
 $PromptSettings.MaxWindowSize.Height = 50
 $PromptSettings.MaxPhysicalWindowSize.Width = 120
 $PromptSettings.MaxPhysicalWindowSize.Height = 50
-$PromptSettings.WindowTitle = "PowerShell"
+# $PromptSettings.WindowTitle = "PowerShell"
 
- # Settings
+# Settings
 [string]$WorkingPath = Get-Location
 $ScriptPath = Split-Path $MyInvocation.MyCommand.Definition -Parent
 $FunctionPath = "\Functions"
 
- # Include
+# Include
 Set-Location ($ScriptPath + $FunctionPath)
 get-childitem | foreach {. .\$_}
 
- # Logging
+# Logging
 Start-Transcript -path ($ScriptPath + "\Logs\Powershell Commands " + $(Get-LogStamp) + ".txt")
 
- # Go back to working directory
+# Go back to working directory
 Set-Location $WorkingPath
 
 
