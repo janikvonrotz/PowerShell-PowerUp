@@ -7,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "07.01.2013"
-	LastEditDate = "01.03.2013"
-	Version = "2.0.0"
+	LastEditDate = "04.03.2013"
+	Version = "2.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -27,6 +27,37 @@ Set-Location ($WorkingPath + $FunctionPath)
 get-childitem | foreach {. .\$_}
  # Go back to working directory
 Set-Location $WorkingPath
+
+ # LoadConfig
+$Configuration = Get-XmlConfig Config.xml
+
+ # Registry Settings
+Set-Location HKCU:\
+foreach ($RegistryEntry in $Configuration.RegistryEntries.RegistryEntry)
+{
+	Set-ItemProperty -Path $RegistryEntry.Path -Name $RegistryEntry.Name -Value $RegistryEntry.Value
+}
+
+ # Import Pscx Extension
+Set-Location ($WorkingPath + $ModulesPath)
+Import-Module Pscx
+ # Go back to working directory
+Set-Location $WorkingPath
+
+ # Add System Variables
+foreach ($SystemVariable in $Configuration.SystemVariables.SystemVariable)
+{
+	if($SystemVariable.RelativePath -eq "true")
+	{
+		$SystemVariable.Value = ($(Get-Location).Path + $SystemVariable.Value)
+		Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
+	}else{
+		Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
+	}
+}
+
+ # Enable Open Powershell here
+Enable-OpenPowerShellHere
 
  # Create Profile
 if (!(Test-Path $profile)){
@@ -47,39 +78,3 @@ if (!(Test-Path ($SourcePath + "\" + $ScriptName) -PathType Leaf))
 	 # Create a shortcut to the existing powershell profile
 	New-Symlink $SourcePath $WorkingPath
 }
-
- # LoadConfig
-$Configuration = Get-XmlConfig Config.xml
-
- # Registry Settings
-Set-Location HKCU:\
-foreach ($RegistryEntry in $Configuration.RegistryEntries.RegistryEntry)
-{
-	Set-ItemProperty -Path $RegistryEntry.Path -Name $RegistryEntry.Name -Value $RegistryEntry.Value
-}
-
-Set-Location ($TargetPath + $ModulesPath)
-Import-Module Pscx
-
- # Go back to working directory
-Set-Location $WorkingPath
-
- # Add System Variables
-foreach ($SystemVariable in $Configuration.SystemVariables.SystemVariable)
-{
-	if($SystemVariable.RelativePath -eq "true")
-	{
-		Set-Location $SystemVariable.Value
-		$SystemVariable.Value = $(Get-Location).Path
-		
-		Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
-		
-		 # Go back to working directory
-		Set-Location $WorkingPath
-	}else{
-		Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
-	}
-}
-
- # Go back to working directory
-Set-Location $WorkingPath

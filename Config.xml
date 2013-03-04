@@ -11,8 +11,8 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorE-Mail>contact@janikvonrotz.ch</AuthorE-Mail>
 		<CreateDate>07.01.2013</CreateDate>
-		<LastEditDate>01.03.2013</LastEditDate>
-		<Version>1.1.0</Version>
+		<LastEditDate>04.03.2013</LastEditDate>
+		<Version>1.1.1</Version>
 	</Metadata>
 
 	<Configuration>
@@ -22,13 +22,13 @@
 		-->	
 		<SystemVariables>
 			<SystemVariable>
-				<Value>.\Modules</Value>
+				<Value>\Modules</Value>
 				<Name>PSModulePath</Name>
 				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>
 			</SystemVariable>
 			<SystemVariable>
-				<Value>.\Functions</Value>
+				<Value>\Functions</Value>
 				<Name>Path</Name>
 				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>
