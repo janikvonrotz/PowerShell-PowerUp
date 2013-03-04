@@ -8,7 +8,7 @@ $Metadata = @{
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "07.01.2013"
 	LastEditDate = "04.03.2013"
-	Version = "2.0.1"
+	Version = "2.0.2"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -49,7 +49,7 @@ foreach ($RegistryEntry in $Configuration.RegistryEntries.RegistryEntry)
 
 # Import Pscx Extension
 Set-Location ($WorkingPath + $ModulesPath)
-Import-Module Pscx
+Import-Module .\Pscx\Pscx.dll
  # Go back to working directory
 Set-Location $WorkingPath
 
@@ -66,7 +66,7 @@ foreach ($SystemVariable in $Configuration.SystemVariables.SystemVariable)
 }
 
 # Enable Open Powershell here
-Enable-OpenPowerShellHere
+#Enable-OpenPowerShellHere
 
 #--------------------------------------------------#
 # Powershell Default Profile
@@ -76,7 +76,7 @@ Enable-OpenPowerShellHere
 if (!(Test-Path $Profile)){
 
 	  # Create a profile
-	New-Item -path $profile -type file -force
+	New-Item -path $Profile -type file -force
 }
 
 # Link Powershell Profile
