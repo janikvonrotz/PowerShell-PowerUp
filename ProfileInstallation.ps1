@@ -1,9 +1,9 @@
 $Metadata = @{
 	Title = "Profile Installation"
 	Filename = "ProfileInstallation.ps1"
-	Description = "[Description]"
+	Description = ""
 	Tags = "powershell, profile, installation"
-	Project = "[Projectname]"
+	Project = ""
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "07.01.2013"
@@ -91,3 +91,4 @@ if (!(Test-Path ($SourcePath + "\" + $ScriptName) -PathType Leaf))
 	# Create a shortcut to the existing powershell profile
 	New-Symlink $SourcePath $WorkingPath
 }
+

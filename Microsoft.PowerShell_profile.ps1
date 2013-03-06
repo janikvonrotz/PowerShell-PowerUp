@@ -1,9 +1,9 @@
 $Metadata = @{
 	Title = "Powershell Profile"
 	Filename = "Microsoft.PowerShell_profile.ps1"
-	Description = "[Description]"
+	Description = ""
 	Tags = "powershell, profile"
-	Project = "[Projectname]"
+	Project = ""
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "02.01.2013"
@@ -51,5 +51,3 @@ Start-Transcript -path ($ScriptPath + "\Logs\Powershell Commands " + $(Get-LogSt
 
 # Go back to working directory
 Set-Location $WorkingPath
-
-

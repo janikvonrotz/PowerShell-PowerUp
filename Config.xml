@@ -5,14 +5,14 @@
 	<Metadata>
 		<Title>Profile Installation Config File</Title>
 		<Filename>config.xml</Filename>
-		<Description>[Description]</Description>
+		<Description></Description>
 		<Tags>powershell, configuration, installation</Tags>
-		<Project>[Projectname]</Project>
+		<Project></Project>
 		<Author>Janik von Rotz</Author>
 		<AuthorE-Mail>contact@janikvonrotz.ch</AuthorE-Mail>
 		<CreateDate>07.01.2013</CreateDate>
-		<LastEditDate>04.03.2013</LastEditDate>
-		<Version>1.1.1</Version>
+		<LastEditDate>06.03.2013</LastEditDate>
+		<Version>1.1.2</Version>
 	</Metadata>
 
 	<Configuration>
@@ -31,12 +31,6 @@
 				<Value>\Functions</Value>
 				<Name>Path</Name>
 				<RelativePath>true</RelativePath>
-				<Target>Machine</Target>
-			</SystemVariable>
-			<SystemVariable>
-				<Value>H:\SkyDrive\Shared\Apps\SysInternals</Value>
-				<Name>Path</Name>
-				<RelativePath>false</RelativePath>
 				<Target>Machine</Target>
 			</SystemVariable>
 		</SystemVariables>

@@ -1,9 +1,9 @@
 $Metadata = @{
 	Title = "Powershell ISE Profile"
 	Filename = "Microsoft.PowerShellISE_profile.ps1"
-	Description = "[Description]"
+	Description = ""
 	Tags = "powershell, ise, profile"
-	Project = "[Projectname]"
+	Project = ""
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "02.01.2013"
