@@ -8,25 +8,25 @@
 #
 #         PromptTheme = 'WinXP'
 # ---------------------------------------------------------------------------
-#requires -Version 2.0
+#requires -Version 3
 param([hashtable]$Theme)
 
-Set-StrictMode -Version 2.0
+Set-StrictMode -Version Latest
 
 # ---------------------------------------------------------------------------
 # Colors
 # ---------------------------------------------------------------------------
 # Configure console colors.  $null signifies to use the console default color
 if ($Pscx:IsAdmin -and ([System.Environment]::OSVersion.Version.Major -gt 5)) {
-	$Theme.PromptForegroundColor = 'Red'
+    $Theme.PromptForegroundColor = 'Red'
 }
 
 # ---------------------------------------------------------------------------
 # Prompt ScriptBlock
 # ---------------------------------------------------------------------------
 $Theme.PromptScriptBlock = {
-	param($nextCommandId) 
-	
+    param($nextCommandId) 
+    
     # Determine what nesting level we are at (if any)
     $nestingLevel = ''
     if ($nestedpromptlevel -ge 1) {
@@ -35,8 +35,8 @@ $Theme.PromptScriptBlock = {
     
     $promptChar = '>'
     if ($Pscx:IsAdmin) {
-		$promptChar = '#'
-	}
+        $promptChar = '#'
+    }
     
     # Output prompt string
     "${nextCommandId}${nestingLevel}$promptChar"
@@ -46,32 +46,32 @@ $Theme.PromptScriptBlock = {
 # Window Title Update ScriptBlock
 # ---------------------------------------------------------------------------
 $Theme.UpdateWindowTitleScriptBlock = {
-	# Pretty much everyone runs as admin on XP and below so displaying the
-	# admin status in the title bar is a waste of space. Only do this on Vista.
-	$isVistaOrHigher = ([System.Environment]::OSVersion.Version.Major -gt 5)	
+    # Pretty much everyone runs as admin on XP and below so displaying the
+    # admin status in the title bar is a waste of space. Only do this on Vista.
+    $isVistaOrHigher = ([System.Environment]::OSVersion.Version.Major -gt 5)	
 
-	$adminStatus = ''
-	if ($Pscx:IsAdmin -and $isVistaOrHigher) { $adminStatus = 'Admin: ' }
-		
-	$location = Get-Location
-	$version = $PSVersionTable.PSVersion
-	
-	$bitness = ''
-	if ([IntPtr]::Size -eq 8) {
-		$bitness = ' (x64)'
-	}
-	elseif ($Pscx:IsWow64Process) {
-		$bitness = ' (x86)'
-	}
-	
-	"$adminStatus$location - Windows PowerShell $version$bitness"
+    $adminStatus = ''
+    if ($Pscx:IsAdmin -and $isVistaOrHigher) { $adminStatus = 'Admin: ' }
+        
+    $location = Get-Location
+    $version = $PSVersionTable.PSVersion
+    
+    $bitness = ''
+    if ([IntPtr]::Size -eq 8) {
+        $bitness = ' (x64)'
+    }
+    elseif ($Pscx:IsWow64Process) {
+        $bitness = ' (x86)'
+    }
+    
+    "$adminStatus$location - Windows PowerShell $version$bitness"
 }
 
 # SIG # Begin signature block
 # MIIfVQYJKoZIhvcNAQcCoIIfRjCCH0ICAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU8NPBr4XfBru3RIVxN7UsBVDD
-# 6MugghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUKGzZWrx7/P0U7FApqRlzj4Bm
+# /FagghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
 # AQUFADBiMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMSEwHwYDVQQDExhEaWdpQ2VydCBBc3N1cmVk
 # IElEIENBLTEwHhcNMTIwNDA0MDAwMDAwWhcNMTMwNDE4MDAwMDAwWjBHMQswCQYD
@@ -217,23 +217,23 @@ $Theme.UpdateWindowTitleScriptBlock = {
 # ZGlnaWNlcnQuY29tMS4wLAYDVQQDEyVEaWdpQ2VydCBBc3N1cmVkIElEIENvZGUg
 # U2lnbmluZyBDQS0xAhAKFT0IddbjKM4R9plQj7wRMAkGBSsOAwIaBQCgeDAYBgor
 # BgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEE
-# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBRs
-# /gDmpG4YZQGOy3nAjso9OjCOKDANBgkqhkiG9w0BAQEFAASCAQA1FfiWb4pGB3bR
-# HtqQlSQiiqyhJS8nlxqTr+plslrZSeRBa9J6SSy2PoFvzH0vdf3vpOD52fGynY57
-# giU1aY1pry6s7040LH2IrxbmtDGhngihLlMJCVnDBXmL2Gj36fJ/pWoaiv/eB79Y
-# nMkLlcFU8p2Koc4hddpaUwyGwW+uiMtdXDHkizyOhEo48scf8wMJFPgd+y4aDEjd
-# XJYG1GIwxTL1nzWtwcjF33Pu9z5gc6p9Vxgk7kmoywxGX/Ua7uweBhrNvGBrq3ww
-# amvr/S2+ze+QPLRWQitjE+ZFlzJdK9+Rc7o7H7YjO+uU7j1ECR7ow5bon3hMfrgc
-# z+PBNdjMoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
+# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBSs
+# 34V4e2C3g0cTFCYt8SPrUdqBTzANBgkqhkiG9w0BAQEFAASCAQCz9G32wETTTRO9
+# kQEi5A8NkvjoMB/9nl13aDKL4LcXDbiRkhq9lJFR/1AhrxWP9YWHoFVsgsJtjzAX
+# 8K2h/c8rHleT8EdbpdnFPkUgjecq6pnG/udEZzyCotiq/wGmc0WMZ4K/kW+NGUOM
+# bWU7axokM1aQLjhfSA51SLhPHSSBiyx24RTVUxha9j5ggC213bMRW7OcaiT8PJho
+# yxSpc4HtBNULvNOz7fdLZ5Ce2cuES59arX3WpxQtayLD0WTfJjc9P3OY6Nbdhi2t
+# TBLl6xuFFQIASK2r8d0ae3GYlyHVBlsyq/n6O1rlQBJoLvmqm7oAAkZp1ARsz8Rv
+# mXF9GElBoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
 # BhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2lj
 # ZXJ0LmNvbTEhMB8GA1UEAxMYRGlnaUNlcnQgQXNzdXJlZCBJRCBDQS0xAhADi5bw
 # cNniHlWlQmeS4cg6MAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEyMTcwMTUxMTNaMCMGCSqGSIb3DQEJBDEW
-# BBQs4DjD8VVtaypbQKiyTvy7CggSjzANBgkqhkiG9w0BAQEFAASCAQCpVZ9yYIiO
-# fL76HO0P/4JD4GV8SkL2KJYDPlcnC9KzQHv1o3Q3cCReGokuJpdmvKYvuUareBWI
-# TqvbRV5VeC97xM6uNt1aGx+KZjHI3qOYuj92QbOHamPahdaatBHeYV1NciTOhNVu
-# BghmF1mQPGcrLY+U+cikVi5rhaJkSOmojcCT5wCLTxJoOwQXucmk9tziReU37JZ+
-# 74kxH7V+67oIISXC4p5FzWZK+UkEORe/e6MMl93WiQ36ZaU1n7m6+BglkceEW1bf
-# 5Uk1tEVbbezk7Ze+TGpnDOvmj2dBwPyF3DYhkwpn8D0fIiIDnb/90oHVA3zSy1XJ
-# IacWZHSZtij+
+# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEwMjEwMTUyNTRaMCMGCSqGSIb3DQEJBDEW
+# BBTi0vjRjQM89yt3VIXVJjY2BpHjjzANBgkqhkiG9w0BAQEFAASCAQAYXnQjdldB
+# B2JgJfluMmKnoi3PphbXC71lUJJKhgMILsQ4Aa3eMpVchLF40VonIdHOhrXzHX3I
+# 439BoPWQIrGhP+xkJLSQl66MsMIivMbOaFgsGj7uTluIXdFHKeEya24GiRsg9UzI
+# U1X/TMsZqJAcvdL6wtY/7XvJ5+EVW6sbqk8FWVKVresZe+w5HxZ08m1BbqSsCbDv
+# WPRJ44X2kNChufHJ/Gymydukn8lTFcbeRYGi9OveIETg32mjnH+0gWzqe+8e8yzm
+# tWUmUFtQDM7V34/5iwaKDmyLurl1b8DwtuWC1YMoofwNd+ZuCOpjTGE+ARcKY0JY
+# JohVKvEbF1uc
 # SIG # End signature block

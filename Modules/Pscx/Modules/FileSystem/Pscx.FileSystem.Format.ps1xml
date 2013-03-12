@@ -24,7 +24,7 @@
                 <CustomItem>
                   <Text AssemblyName="System.Management.Automation" BaseName="FileSystemProviderStrings" ResourceId="DirectoryDisplayGrouping"/>
                   <ExpressionBinding>
-                    <ScriptBlock>$_.PSParentPath</ScriptBlock>
+                    <ScriptBlock>$ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_.PSParentPath)</ScriptBlock>
                   </ExpressionBinding>
                   <NewLine/>
                 </CustomItem>
@@ -330,8 +330,8 @@
 <!-- SIG # Begin signature block -->
 <!-- MIIfVQYJKoZIhvcNAQcCoIIfRjCCH0ICAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB -->
 <!-- gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR -->
-<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUzy66tP2FHJk9upuVe+2e4Mxu -->
-<!-- pDGgghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B -->
+<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUQY+nv+V1336lLQ0hcZykZNLS -->
+<!-- jh2gghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B -->
 <!-- AQUFADBiMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD -->
 <!-- VQQLExB3d3cuZGlnaWNlcnQuY29tMSEwHwYDVQQDExhEaWdpQ2VydCBBc3N1cmVk -->
 <!-- IElEIENBLTEwHhcNMTIwNDA0MDAwMDAwWhcNMTMwNDE4MDAwMDAwWjBHMQswCQYD -->
@@ -477,23 +477,23 @@
 <!-- ZGlnaWNlcnQuY29tMS4wLAYDVQQDEyVEaWdpQ2VydCBBc3N1cmVkIElEIENvZGUg -->
 <!-- U2lnbmluZyBDQS0xAhAKFT0IddbjKM4R9plQj7wRMAkGBSsOAwIaBQCgeDAYBgor -->
 <!-- BgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEE -->
-<!-- MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBSR -->
-<!-- RuRt3JPgOi/pJsnWZ3OivZ1s2DANBgkqhkiG9w0BAQEFAASCAQAWTgjrk/G/U5aw -->
-<!-- Tmk0eOp1m4W6YcZ5NR3O2thZpzVuhJRcorxf+aYtjB9O6FUbitDNAFsVDy0+lHPU -->
-<!-- qNEWEssCVLzxXw3uYacPcq0EBv1Q60ii63Vwlp/06y3S1gejHoeQomtXuI/Lag9v -->
-<!-- xk0YicyI2zIzOFNrohlJK62TXdEz8RjsZlbpjLOox13bJatCy/hd/ttaP0H1B4u5 -->
-<!-- o1Qfoq05sXwmWWVb/u2hXnc+YzjTjbH57r++0Th4Ba1Pmw3p8MI2icZcx0E4tfbF -->
-<!-- nV/ZiZXiv0vJlDk9I64Hpi9wSxg/RbZCkqx8bnoWMAhcxKfpko9VNrIEsAp/iQKC -->
-<!-- vk51UYvhoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE -->
+<!-- MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBTq -->
+<!-- l6+lrApOW6bz8Va1QJ7pgX369DANBgkqhkiG9w0BAQEFAASCAQCWMj84mtw+LDvG -->
+<!-- uhUXj3IWy+nkPA2xaYnJMnMqZiwl5yb+BWCLiNAAdknYmBRKBr4iNpqIYbNsGzvy -->
+<!-- cZv5g/QfroVeCVtmGGg1kCjtREQKaM1Pqz36ZoS1BszVjNhsNfK42xP1aZWDM7zz -->
+<!-- F3rVMQxN0/rSGYNw6FKb8LwjRXxLKlFx+KKPhwEDcDolVtr08PuNMg91xqq4MiwY -->
+<!-- bLwvaqQt5KY7GpzyuJgewX1W6vf/lb4QudTzKCs5RPSN4fPv4VxLAiELT4bfNl/i -->
+<!-- N3zJqvGATiVaX4QZv9UlwYAMjcjzK3Ap9PU0Z6cuGg0fakfSXta8izrhlBoJZKTi -->
+<!-- M9ZkXabPoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE -->
 <!-- BhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2lj -->
 <!-- ZXJ0LmNvbTEhMB8GA1UEAxMYRGlnaUNlcnQgQXNzdXJlZCBJRCBDQS0xAhADi5bw -->
 <!-- cNniHlWlQmeS4cg6MAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN -->
-<!-- AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEyMTcwMTUxMTJaMCMGCSqGSIb3DQEJBDEW -->
-<!-- BBQz2ZVVMcZ4TAW0ou8lKH53yKu6MzANBgkqhkiG9w0BAQEFAASCAQDE9jz27as8 -->
-<!-- 9Ifpff9KStkoD+OapNcBseYdEfPEbW1G2O+xoKi73nikLmCYPzBkB8LF72U4GPc7 -->
-<!-- c/m5qrwtg1svxu6zMdM0ec+tEj64TqqC/3hflvyzg7mXB/lkZXcd3N/X2TTJb24a -->
-<!-- rbgqvDUOpCZp2cMAwL5SzE0m7gY5mqxGt56XyIYCNfTqyBGeTKY3NIuURB2FGHwO -->
-<!-- IcDoqW41EAVjr1bi2OkHiKKT1wRxxDBu03qvFW1VPIC8gz4Ie452x0FcQGP6ksjD -->
-<!-- Ldku/j9McJ/OHNvpbkcQ4gWT8ieXW04+z46WLF/iuMbJ+8DEoJ+/ohk8FD5R5a4J -->
-<!-- Be+F66qHOykN -->
+<!-- AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEwMjEwMTUyNTJaMCMGCSqGSIb3DQEJBDEW -->
+<!-- BBQD93hhXhxH+fRNhNkdMqB0xxLaaDANBgkqhkiG9w0BAQEFAASCAQB4iJP6UjKS -->
+<!-- Ivs8XBcsahvIHemfTwAzt0AMFPaMRYoIsQHhsTUR6sZiDJqpYxWcnhba572/SlH/ -->
+<!-- IIko6ckpbrVLUTNzKbZ/aoGwQXvpblILcT7Qs5enbDrHQQRzhk5t1hTLo/sHHn2g -->
+<!-- wR9rsW7/gsbInmFdwfHIsZ6CpVRwkOhZALzXLzso0dgDxw9Y761LfzVf/6Kw+aFF -->
+<!-- JKYfnp/+oEhk1AFntWpLZxXJ3fH2fIDIXRnFFTZqTyM7RI8kBbvNOaxPAMacsE+1 -->
+<!-- jFNzoTT2J9XxR8rv5SEBrPpu/AtAJiQs34sxY4bMyCaYXD/Pb/U+x8ctW3mPUYh9 -->
+<!-- 8mvgGk7q+FpN -->
 <!-- SIG # End signature block -->

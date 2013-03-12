@@ -1,10 +1,9 @@
-﻿Set-StrictMode -Version 2.0
+﻿Set-StrictMode -Version Latest
 
 Set-Alias e     Edit-File              -Description "PSCX alias"
 Set-Alias ehp   Edit-HostProfile       -Description "PSCX alias"
 Set-Alias ep    Edit-Profile           -Description "PSCX alias"
 Set-Alias gpar  Get-Parameter          -Description "PSCX alias"
-Set-Alias gpv   Get-PropertyValue      -Description "PSCX alias"
 Set-Alias su    Invoke-Elevated        -Description "PSCX alias"
 Set-Alias igc   Invoke-GC              -Description "PSCX alias"
 Set-Alias ??    Invoke-NullCoalescing  -Description "PSCX alias"
@@ -18,12 +17,6 @@ Set-Alias rvhr  Resolve-HResult        -Description "PSCX alias"
 Set-Alias rvwer Resolve-WindowsError   -Description "PSCX alias"
 Set-Alias sro   Set-ReadOnly           -Description "PSCX alias"
 Set-Alias swr   Set-Writable           -Description "PSCX alias"
-
-# Alias that should be set by PowerShell but only for 2.0 since 3.0 adds this alias.
-if ($PSVersionTable.PSVersion.Major -lt 3)
-{
-    Set-Alias sls   Select-String -Description "PSCX alias"
-}
 
 # Initialize the PSCX RegexLib object.
 & {
@@ -75,30 +68,6 @@ function Enable-OpenPowerShellHere
 
     New-OpenPowerShellContextMenuEntry 'HKCU:\Software\Classes\Directory\shell\PowerShell'
     New-OpenPowerShellContextMenuEntry 'HKCU:\Software\Classes\Drive\shell\PowerShell'
-}
-
-<#
-.SYNOPSIS
-    Gets the specified property's value from each input object.
-.DESCRIPTION
-    Gets the specified property's value from each input object.
-    This filter is different from the Select-Object cmdlet in that it
-    doesn't create a wrapper object (PSCustomObject) around the property.
-    If you just want to get the property's value to assign it to another
-    variable this filter will come in handy.  If you assigned the result
-    of the Select-Object operation you wouldn't get the property's value.
-    You would get an object that wraps that property and its value.
-.PARAMETER InputObject
-    Any object from which to get the specified property
-.EXAMPLE
-    C:\PS> $start = Get-History -Id 143 | Get-PropertyValue StartExecutionTime
-    Gets the value of the StartExecutionTime property off of each HistoryInfo object.
-.NOTES
-    Aliases:  gpv
-    Author:   Keith Hill  
-#>
-filter Get-PropertyValue([string] $propertyName) {
-    $_.$propertyName
 }
 
 <#
@@ -220,7 +189,7 @@ filter Invoke-NullCoalescing {
 #>
 function help
 {
-    [CmdletBinding(DefaultParameterSetName='AllUsersView')]
+    [CmdletBinding(DefaultParameterSetName='AllUsersView', HelpUri='http://go.microsoft.com/fwlink/?LinkID=113316')]
     param(
         [Parameter(Position=0, ValueFromPipelineByPropertyName=$true)]
         [System.String]
@@ -258,8 +227,13 @@ function help
         [System.String]
         ${Parameter},
 
-        [switch]
-        ${Online}
+       [Parameter(ParameterSetName='Online', Mandatory=$true)]
+       [switch]
+       ${Online},
+
+       [Parameter(ParameterSetName='ShowWindow', Mandatory=$true)]
+       [switch]
+       ${ShowWindow}
     )
 
     $outputEncoding=[System.Console]::OutputEncoding
@@ -963,7 +937,7 @@ function Get-ViewDefinition
         }
         $TypesSeen = @{}
         
-        # The functions below reference's object members that may not exist
+        # The functions below reference object members that may not exist
         Set-StrictMode -Version 1.0
         
         function IsViewSelectedByTypeName($view, $typeName, $formatFile)
@@ -1035,7 +1009,7 @@ function Get-ViewDefinition
             for ($i = 0 ; $i -lt $arrFormatFiles.count ; $i++)
             {
                 $formatFile = $arrFormatFiles[$i]
-                $path		= $arrFormatFilePaths[$i]
+                $path        = $arrFormatFilePaths[$i]
                 foreach ($view in $formatFile.Configuration.ViewDefinitions.View)
                 {
                     if ($typeName)
@@ -1371,7 +1345,7 @@ function Get-ScreenHtml
                                 
                         $char = [System.Web.HttpUtility]::HtmlEncode($current.Character)
                         $out.Append($char) | out-null
-                        $prev =	$current	
+                        $prev =    $current    
                     }
                 }
                 
@@ -1762,7 +1736,7 @@ function Show-Tree
 
     Begin
     {
-        Set-StrictMode -Version 2.0
+        Set-StrictMode -Version Latest
         
         # Set default path if not specified
         if (!$Path -and $psCmdlet.ParameterSetName -eq "Path")
@@ -2572,8 +2546,8 @@ Export-ModuleMember -Alias * -Function *
 # SIG # Begin signature block
 # MIIfVQYJKoZIhvcNAQcCoIIfRjCCH0ICAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQULJceY2W6POSeQC0DaXWgDrkx
-# EcagghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUL1bZL9vUcGy7ZJJk8HEXu4/N
+# ZHqgghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
 # AQUFADBiMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMSEwHwYDVQQDExhEaWdpQ2VydCBBc3N1cmVk
 # IElEIENBLTEwHhcNMTIwNDA0MDAwMDAwWhcNMTMwNDE4MDAwMDAwWjBHMQswCQYD
@@ -2719,23 +2693,23 @@ Export-ModuleMember -Alias * -Function *
 # ZGlnaWNlcnQuY29tMS4wLAYDVQQDEyVEaWdpQ2VydCBBc3N1cmVkIElEIENvZGUg
 # U2lnbmluZyBDQS0xAhAKFT0IddbjKM4R9plQj7wRMAkGBSsOAwIaBQCgeDAYBgor
 # BgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEE
-# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBSI
-# rpldNTUJiT7VnfXoYeFvqJlHJTANBgkqhkiG9w0BAQEFAASCAQCyClgW3rzSH5bz
-# 3S3Y/SaNdI5BTszib9UdaYaBWUOdvCrbNENGag5kr8uNF+XrzYU3ZqXwxoVL2EmL
-# 3OWZWUNsmMwVzJWT+szrmSbScjPvRsnVXBavA8w8y8eQzHdt6K20B080dYXdVHQM
-# UyAyt1AR1wR2jEATx/8YEAGQIXOiVvXlbzS82NfKhUWCr+kTn04aznCwUrhd1d6A
-# y1tvim2f4iRWjFEgYxyuWstertKu2CVCEemYU8TP6WD6KEQgLxzxr4fDa0axG0QK
-# iowJ7vjaQJpaXNmxeN/eAUDBvANgxSnZHJaMLdkxK3jkiZsVog/4K/zFZotJNk2O
-# 2J7HGWTWoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
+# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBSp
+# 8hyPXTNAv48aFovoF8pXIufAYjANBgkqhkiG9w0BAQEFAASCAQA/BrM8YDLAOhDf
+# H9yREk96A1yn/YGttrTTA8qrKelaBC6V0uCK3bIfrZIC+vz+XUg0TaFnoZy0dL5V
+# ChgGbuX73+KWk//ydAc0Vkm0tW9ifkRAsgxhp8z4PmzCcBGppjDJQ2zyJ7qxxxvz
+# tqR6jkJX5TwS3ZmVz5AtjE0tuVBObu3gr3k4Rlr0PqZcQSNc+EYfgZ7nagyha6j8
+# oQsiMuIRt215UaY9lNYKkgvwbVHIS8ZFtLSW6sgXhUCL/3h2loNzXYs3c7siBhQI
+# olP9gVTcqkVkACOpbZ5LZbNQfDqvSOStAO4O+yDg2dS5njiZV7MixFFv6VnaZmxR
+# mIKpKLY2oYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
 # BhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2lj
 # ZXJ0LmNvbTEhMB8GA1UEAxMYRGlnaUNlcnQgQXNzdXJlZCBJRCBDQS0xAhADi5bw
 # cNniHlWlQmeS4cg6MAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEyMTcwMTUxMTRaMCMGCSqGSIb3DQEJBDEW
-# BBQ9xZlseWfM6wGK5sylmg3BWiXG8TANBgkqhkiG9w0BAQEFAASCAQCUnt4HWA3Z
-# Nf40N0J475KRi/1zH0LVjdMqF08WmBZ8m2zJRqNC1xXNOshnxmpG8y8RXk8+483N
-# fC/ZTwfjxfmu0FXCj7sMf5fdu3bvrHDN1r9esoRnIJuxxTHpn3xhbiYspJ+fa5OF
-# IH7MW1BmX+mZ0zuVB/Rz4sKOBPHJBKdKXqbu4n17VSI0LixTUy+zeGV7My/6ICng
-# kYxaWFI0HeI0tEhOYZ5b0MN1PreJ080SDAEs2WuY7ZXC8C/OOqVW0TIYsh9GPuZn
-# JZLLR+vOcWCr6QA/WTJhkxP8RgtoLdk3RC0mZFJHxDDG1HjlWAbJm0+Rgx6VcSKo
-# EVSsaO85QSkk
+# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEwMjEwMTUyNTRaMCMGCSqGSIb3DQEJBDEW
+# BBTKojIFUucRYzhLerWZJNie55tD/zANBgkqhkiG9w0BAQEFAASCAQBD3AFxKTem
+# h8zjNnrGOFkV9whvSXk0Pz3jdXGq+z2uOXK156FIyYiIkGPavdIHjMosiU5jeP6V
+# QzJxSigPK1Rx5jfrgJgkqwzhMywJqheWX2/k90Sb8Iyle2nK1Lsf0XQzvY4saDsI
+# V/akca3ymldNwpOWEP+iMtZYISz8GfJT3KpTDjl9+tZUelV7K+lm10OWuCm386iS
+# ANwoKYkBkCguDVXpzco1F1N8PFZHr4ssn/F2nwoJFrOACbJKDfRIAw0/G8frv41D
+# lO4YE8/J9tYyWLuejsen/+TZ1LBq9F4nN5UKC6T7zgfx6hqiJJWqebN2ZH6RC6cX
+# 9ktf+YRNI1Jy
 # SIG # End signature block

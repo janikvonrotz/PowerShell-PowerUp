@@ -9,10 +9,10 @@
 #
 #         PromptTheme = 'Modern'
 # ---------------------------------------------------------------------------
-#requires -Version 2.0
+#requires -Version 3
 param([hashtable]$Theme)
 
-Set-StrictMode -Version 2.0
+Set-StrictMode -Version Latest
 
 # ---------------------------------------------------------------------------
 # Colors
@@ -25,77 +25,73 @@ $Theme.PromptForegroundColor = if ($Pscx:IsAdmin) { 'Gray'    } else { 'White' }
 # Prompt ScriptBlock
 # ---------------------------------------------------------------------------
 $Theme.PromptScriptBlock = {
-	param($Id) 
-	
-	if ($NestedPromptLevel) {
-		new-object string ([char]0xB7), $NestedPromptLevel
-	}
-	
-	$sepChar = '>' # [char]0xBB
-	if ($Pscx:IsAdmin) {
+    param($Id) 
+    
+    if ($NestedPromptLevel) {
+        new-object string ([char]0xB7), $NestedPromptLevel
+    }
+    
+    $sepChar = '>' # [char]0xBB
+    if ($Pscx:IsAdmin) {
         $sepChar = '#'
-	}
-	
-	$path = ''
-	if ($host.Name -eq 'Windows PowerShell ISE Host') {
-		$path = " $(Get-Location)"
-	}
-	
-	"${Id}$path$sepChar"
+    }
+    
+    $path = ''    
+    "${Id}$path$sepChar"
 }
 
 # ---------------------------------------------------------------------------
 # Window Title Update ScriptBlock
 # ---------------------------------------------------------------------------
 $Theme.UpdateWindowTitleScriptBlock = {
-	$adminPrefix = ''
-	if ($Pscx:IsAdmin) {
-		$adminPrefix = 'Admin'
-	}
-	$location = Get-Location
-	$version = $PSVersionTable.PSVersion
-	
-	$bitness = ''
-	if ([IntPtr]::Size -eq 8) {
-		$bitness = ' (x64)'
-	}
-	elseif ($Pscx:IsWow64Process) {
-		$bitness = ' (x86)'
-	}
-	
-	"$adminPrefix $location - Windows PowerShell $version$bitness"
+    $adminPrefix = ''
+    if ($Pscx:IsAdmin) {
+        $adminPrefix = 'Admin'
+    }
+    $location = Get-Location
+    $version = $PSVersionTable.PSVersion
+    
+    $bitness = ''
+    if ([IntPtr]::Size -eq 8) {
+        $bitness = ' (x64)'
+    }
+    elseif ($Pscx:IsWow64Process) {
+        $bitness = ' (x86)'
+    }
+    
+    "$adminPrefix $location - Windows PowerShell $version$bitness"
 }
 
 # ---------------------------------------------------------------------------
 # Startup Message ScriptBlock
 # ---------------------------------------------------------------------------
 $Theme.StartupMessageScriptBlock = {
-	$logo = "Windows PowerShell $($PSVersionTable.PSVersion)"
-	if ([IntPtr]::Size -eq 8) {
-		$logo += ' (x64)'
-	}
-	elseif ($Pscx:IsWow64Process)
-	{
-		$logo += ' (x86)'
-	}
-	$logo
-	
-	$user =	"`nLogged in on $([DateTime]::Now.ToString((Get-Culture))) as $($Pscx:WindowsIdentity.Name)"
-	
-	if ($Pscx:IsAdmin) { 
-		$user += ' (Elevated).' 
-	}
-	else { 
-		$user += '.' 
-	}
-	
-	$user
+    $logo = "Windows PowerShell $($PSVersionTable.PSVersion)"
+    if ([IntPtr]::Size -eq 8) {
+        $logo += ' (x64)'
+    }
+    elseif ($Pscx:IsWow64Process)
+    {
+        $logo += ' (x86)'
+    }
+    $logo
+    
+    $user =	"`nLogged in on $([DateTime]::Now.ToString((Get-Culture))) as $($Pscx:WindowsIdentity.Name)"
+    
+    if ($Pscx:IsAdmin) { 
+        $user += ' (Elevated).' 
+    }
+    else { 
+        $user += '.' 
+    }
+    
+    $user
 }
 # SIG # Begin signature block
 # MIIfVQYJKoZIhvcNAQcCoIIfRjCCH0ICAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUKdKik449d94MV32YRBIkwWAy
-# rtugghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUuE6HU1EoDZbCKke9CjKjLrEd
+# OUigghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
 # AQUFADBiMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMSEwHwYDVQQDExhEaWdpQ2VydCBBc3N1cmVk
 # IElEIENBLTEwHhcNMTIwNDA0MDAwMDAwWhcNMTMwNDE4MDAwMDAwWjBHMQswCQYD
@@ -241,23 +237,23 @@ $Theme.StartupMessageScriptBlock = {
 # ZGlnaWNlcnQuY29tMS4wLAYDVQQDEyVEaWdpQ2VydCBBc3N1cmVkIElEIENvZGUg
 # U2lnbmluZyBDQS0xAhAKFT0IddbjKM4R9plQj7wRMAkGBSsOAwIaBQCgeDAYBgor
 # BgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEE
-# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBQb
-# 8AVUHJX5NlfKKQYpMoE1lQ6RzDANBgkqhkiG9w0BAQEFAASCAQBkMsfbZGYzMPKt
-# aDPsEB6mYCVn/aJXDng+JTu4jA9JnSnem3A4fwFjx3BGjRoF62U2ifT5Ky1FznAI
-# 8YWarbezIaNFTX05qgzxq0ChsWY5uQyMu8WFIzR+UJWZwLG5C8MAOhUYJtE0LRgl
-# JbX6zSFMM5R/U33Z+LP44gSV+axoqmVpdn2PSK7sN82auc1DeU2x6aYp3YGzW2uk
-# pDO0gyocxyxVCAVdVJGAIc/0YYJ9uHXJgBMVc59OIQZ5pmMQ+63H8cT+OPJlUMc6
-# 3Xod86VKeRaAO8bN968nmAXlNtEehSZ8e0xmRbb4ZbV3F1Rsa8ltMU7phHeyh8dy
-# oO5a4vbioYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
+# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBQA
+# YCdP2iAWT4Cdu+s1SJLzMcP7zDANBgkqhkiG9w0BAQEFAASCAQB8tuumPDstpQxv
+# buAshZDllbht0LxwyUQFTI4I2SmU8Z6yahnvEhlV3eHafuhRLxIyDn9Bz7y08saw
+# ZFgGAZm7UJw/z41lfDaygXhmjpldhntWxOpWI744LiPL5SJxSHAfnicO248mPkbc
+# U5zMNx7KaTUQqRpp3DYh44wpLwtLWiWD61bpCNUhLoyR9DcUgEk/sQvuk/3Ng9gf
+# ZQBmoVIIo3bO+e3cLIS9o5T4DWr21OwYEOTq1mZkj923Ac0X0ZRZL9+GQVZuQ/GF
+# Mx0rtVAyMV+K767PT1cFwmWYTrLHpP8hzyUyemyvI8YizA8C7BEJM6+ppIv9ZmAe
+# 5RDY+mwxoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
 # BhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2lj
 # ZXJ0LmNvbTEhMB8GA1UEAxMYRGlnaUNlcnQgQXNzdXJlZCBJRCBDQS0xAhADi5bw
 # cNniHlWlQmeS4cg6MAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEyMTcwMTUxMTNaMCMGCSqGSIb3DQEJBDEW
-# BBRtMSwpNuv4WqzuALrsICGpcOs8GzANBgkqhkiG9w0BAQEFAASCAQB2vI1kz1p6
-# o8DJlnvSv9X57EtXqNu6EEw5cWREkL8lhnF+Myq+AaSnvT2kraicFe22q8h0lMoQ
-# oOrnPXdLbNd58Hn6m942BaXbrP+1keji0drEnsYyoJikUyVUbXSczHMnyK5TCiEl
-# TvjUCOLl3b3zYbDwiOr3e9sLUHYpBQXUtOsha83NLOF909m2bNfvxLDg2M3QL/34
-# xqlkTLqEWrrvALqn8OfPPrSt8yxQVHbSlZb5v5dsCzMMJvXhye9FPKXNflPupLPS
-# X46LpH/tdbj114RwUkVZWUzZ+XAdRiG08T0LGrpdK/J3p64067ySq0RZjmW8aLSD
-# h6CnCHiObwpC
+# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEwMjEwMTUyNTNaMCMGCSqGSIb3DQEJBDEW
+# BBR12LXGJ9s1w2UP4f4tLbXL36YjgTANBgkqhkiG9w0BAQEFAASCAQBXCrtKR93a
+# V3ox4lfvzed92dj0mmfB/PMg3r4CHFBRqSZ0emiEoIWSjHnu5VVfvYEI1iJpsJ17
+# ufmBrDUyjxwMxTPOZf+MrpGVsukSV6QnPeVIxvG6TA64ZHw8pvT4m7wrokuqh5XJ
+# MRJKf59b2p0kgo2BrPkNJJJ+LqmJKZBKqBsCMInofssQZq2yCHywLXoH5FsWS3nC
+# 1+0XisFjN9oAy2LlsJJ13OpuXmy/9eod8nAqjsyh8ishs7K+/X6GClJKnR9KmEOF
+# UZiOfgUyA1VdCxiomVaFHb62lCElMcO4O02U74mfHKwHYOTXS1dYVneyQJHAJMb2
+# VH5u+EeHxs+y
 # SIG # End signature block

@@ -1,23 +1,23 @@
 ﻿TOPIC
-    PowerShell Community Extensions (version 2.1.1.0)
+    PowerShell Community Extensions (version 3.0.0.0)
 
 SHORT DESCRIPTION
     Describes the Windows PowerShell Community Extensions (PSCX) module and 
     how to use the contained cmdlets and functions.
 
 LONG DESCRIPTION
-    PowerShell Community Extensions is a Windows PowerShell module that 
-    provides a number of widely useful cmdlets.  PSCX is not affiliated with 
-    Microsoft or the Windows PowerShell team at Microsoft.  We are a few (at 
-    the moment) passionate PowerShell users who wanted more cmdlets than 
-    Microsoft was able to deliver built into Windows PowerShell.  So we have 
-    taken it upon ourselves to create some of those cmdlets and make them 
-    available to the community.
+    PowerShell Community Extensions is a PowerShell module that provides a
+    number of widely useful cmdlets.  PSCX is not affiliated with Microsoft 
+    or the Windows PowerShell team at Microsoft.  We are a few (at the moment)
+    passionate PowerShell users who wanted more cmdlets than Microsoft was 
+    able to deliver in v1 and v2.  So we have taken it upon ourselves to
+    create some of those cmdlets and make them available to the community.
         
 POWERSHELL COMPATIBILITY
-    Since PSCX 2.1 is module based, it works only in Windows PowerShell 2.0 
-    and 3.0.  It doesn't work in Windows PowerShell 1.0.  If you need PSCX
-    for Windows PowerShell 1.0, please download and install PSCX 1.2.
+    PSCX 3.0 is compiled against .NET 4.0 and consequently works only in 
+	Windows PowerShell 3.0. If you need Windows PowerShell 2.0 support,
+    download PSCX 2.1.  If you need Windows PowerShell 1.0 support, download
+    PSCX 1.2.
     
 PREFERENCE VARIABLES
     Previous versions of PSCX used global variables to store preference 
@@ -99,13 +99,6 @@ CMDLETS
         
     Get-AdoDataProvider
         List all registered ADO.NET Data Providers on the current machine. 
-        
-    Get-AlternateDataStream
-        Gets the alternate data streams in an NTFS file. Use the List parameter 
-        to list all the alternate data streams. 
-        
-    Remove-AlternateDataStream
-        Removes the specified alternate data streams from an NTFS file. 
         
     Test-AlternateDataStream
         Tests for the existence of the specified alternate data stream from an 
@@ -191,9 +184,6 @@ CMDLETS
     Push-EnvironmentBlock
         Stores the state of all environment variables into an environment block 
         and pushes that onto the environment block stack. 
-        
-    Unblock-File
-        Unblock the file so that it can be used locally. 
         
     Get-FileTail
         This implentation efficiently tails the cotents of a file by reading 
@@ -374,15 +364,6 @@ CMDLETS
     New-Symlink
         Creates filesystem symbolic links. Requires Microsoft Windows Vista or 
         later. 
-        
-    Get-TabExpansion
-        This command provides access to the PSCX tab expansion engine. If you are 
-        not using the PSCX profile, call this command from your TabExpansion 
-        function. 
-        
-    Start-TabExpansion
-        Initializes the caches used by Get-TabExpansion. These may include the 
-        .NET namespace and type cache, the WMI class cache, and more. 
         
     Write-Tar
         Create Tape Archive (TAR) format files from pipeline or parameter input. 
@@ -566,7 +547,7 @@ FUNCTIONS
     Resolve-WindowsError (rvwer)
         Resolves a Windows error number a textual description of the error. 
         
-    Set-LocationEx
+    Set-LocationEx (cd)
         CD function that tracks location history allowing easy navigation to 
         previous locations. 
         
@@ -601,7 +582,6 @@ PSCX ALIASES
     fxml          : alias for Format-Xml cmdlet
     gcb           : alias for Get-Clipboard cmdlet
     gpar          : alias for Get-Parameter function
-    gpv           : alias for Get-PropertyValue filter
     gtn           : alias for Get-TypeName cmdlet
     igc           : alias for Invoke-GC function
     ln            : alias for New-HardLink cmdlet
@@ -670,8 +650,12 @@ UTILITY APPLICATIONS
         Arg 3 is <-d:user>
         Arg 4 is </e:foo.cs>
 
+        Command line:
+        "C:\Program Files (x86)\PowerShell Community Extensions\Pscx3\Pscx\
+        Apps\EchoArgs.exe"  a /b -c -d:user /e:foo.cs
+
         405
-        
+
         Notice that ';' is the statement separator in PowerShell so the '405' 
         part of the parameter '/e:foo.cs;405' is not even considered a 
         parameter to the legacy application.  These sort of problems are 
@@ -683,6 +667,10 @@ UTILITY APPLICATIONS
         Arg 2 is <-c>
         Arg 3 is <-d:user>
         Arg 4 is </e:foo.cs;405>
+
+        Command line:
+        "C:\Program Files (x86)\PowerShell Community Extensions\Pscx3\Pscx\
+        Apps\EchoArgs.exe"  a /b -c -d:user /e:foo.cs;405
 
 MISCELLANOUS FEATURES
     If you want to add an "Open PowerShell Prompt" context menu item to 
@@ -735,6 +723,9 @@ CREDITS
     Richard Deeming / Trinet.Core.IO.Ntfs
     http://www.codeproject.com/KB/cs/ntfsstreams.aspx
     
+    SevenZipSharp Team
+    http://SevenZipSharp.codeplex.com
+
     The nUnit Team
     http://www.nunit.org/
     

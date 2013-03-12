@@ -8,34 +8,34 @@
 # Usage:  In your Pscx.UserPreferences.ps1 file, set the prompt theme to one
 #         of: Modern, WinXP or Jachym.
 # ---------------------------------------------------------------------------
-Set-StrictMode -Version 2.0
+Set-StrictMode -Version Latest
 
 $Theme = @{
-	# Host RawUI Colors	
-	HostBackgroundColor   = $null
-	HostForegroundColor   = $null
-	
-	PromptBackgroundColor = $null
-	PromptForegroundColor = $null	
-	
-	#Host Private Data Colors
-	PrivateData = @{
-		ErrorForegroundColor    = $null  # Console = Red,      ISE = #FFFF0000
-		ErrorBackgroundColor    = $null  # Console = Black,    ISE = #00FFFFFF
-		WarningForegroundColor  = $null  # Console = Yellow,   ISE = #FFFF8C00
-		WarningBackgroundColor  = $null  # Console = Black,    ISE = #00FFFFFF
-		DebugForegroundColor    = $null  # Console = Yellow,   ISE = #FF0000FF
-		DebugBackgroundColor    = $null  # Console = Black,    ISE = #00FFFFFF
-		VerboseForegroundColor  = $null  # Console = Yellow,   ISE = #FF0000FF
-		VerboseBackgroundColor  = $null  # Console = Black,    ISE = #00FFFFFF
-		ProgressForegroundColor = $null  # Console = Yellow,   ISE = <not defined>
-		ProgressBackgroundColor = $null  # Console = DarkCyan, ISE = <not defined>	
-	}
-	
-	# Behavior (ie scriptblocks)
-	PromptScriptBlock            = $null 
-	StartupMessageScriptBlock    = $null
-	UpdateWindowTitleScriptBlock = $null
+    # Host RawUI Colors	
+    HostBackgroundColor   = $null
+    HostForegroundColor   = $null
+    
+    PromptBackgroundColor = $null
+    PromptForegroundColor = $null	
+    
+    #Host Private Data Colors
+    PrivateData = @{
+        ErrorForegroundColor    = $null  # Console = Red,      ISE = #FFFF0000
+        ErrorBackgroundColor    = $null  # Console = Black,    ISE = #00FFFFFF
+        WarningForegroundColor  = $null  # Console = Yellow,   ISE = #FFFF8C00
+        WarningBackgroundColor  = $null  # Console = Black,    ISE = #00FFFFFF
+        DebugForegroundColor    = $null  # Console = Yellow,   ISE = #FF0000FF
+        DebugBackgroundColor    = $null  # Console = Black,    ISE = #00FFFFFF
+        VerboseForegroundColor  = $null  # Console = Yellow,   ISE = #FF0000FF
+        VerboseBackgroundColor  = $null  # Console = Black,    ISE = #00FFFFFF
+        ProgressForegroundColor = $null  # Console = Yellow,   ISE = <not defined>
+        ProgressBackgroundColor = $null  # Console = DarkCyan, ISE = <not defined>	
+    }
+    
+    # Behavior (ie scriptblocks)
+    PromptScriptBlock            = $null 
+    StartupMessageScriptBlock    = $null
+    UpdateWindowTitleScriptBlock = $null
 }
 
 # ---------------------------------------------------------------------------
@@ -43,19 +43,19 @@ $Theme = @{
 # ---------------------------------------------------------------------------
 function Update-HostWindowTitle
 {
-	if (!$Theme.UpdateWindowTitleScriptBlock) { return }
-	
-	if ($Theme.UpdateWindowTitleScriptBlock -is [scriptblock])
-	{
-		$title = & $Theme.UpdateWindowTitleScriptBlock
-	}
-	else
-	{
-		$title = "$($Theme.UpdateWindowTitleScriptBlock)"
-	}
+    if (!$Theme.UpdateWindowTitleScriptBlock) { return }
+    
+    if ($Theme.UpdateWindowTitleScriptBlock -is [scriptblock])
+    {
+        $title = & $Theme.UpdateWindowTitleScriptBlock
+    }
+    else
+    {
+        $title = "$($Theme.UpdateWindowTitleScriptBlock)"
+    }
 
-	$OFS = ''
-	$Host.UI.RawUI.WindowTitle = "$title"	
+    $OFS = ''
+    $Host.UI.RawUI.WindowTitle = "$title"	
 }
 
 # ---------------------------------------------------------------------------
@@ -63,36 +63,36 @@ function Update-HostWindowTitle
 # ---------------------------------------------------------------------------
 function Write-StartupMessage
 {
-	if (!$Theme.StartupMessageScriptBlock) { return }
-	
-	if ($Theme.StartupMessageScriptBlock -is [scriptblock])
-	{
-		$message = & $Theme.StartupMessageScriptBlock
-	}
-	else
-	{
-		$message = "$($Theme.StartupMessageScriptBlock)"
-	}
-	
+    if (!$Theme.StartupMessageScriptBlock) { return }
+    
+    if ($Theme.StartupMessageScriptBlock -is [scriptblock])
+    {
+        $message = & $Theme.StartupMessageScriptBlock
+    }
+    else
+    {
+        $message = "$($Theme.StartupMessageScriptBlock)"
+    }
+    
     if (!$Pscx:Preferences['ShowModuleLoadDetails'])
     {
-		Clear-Host
-	}
-			
-	if ($message) 
-	{
-		$foreColor = $Host.UI.RawUI.ForegroundColor
-		
-		if ($Host.Name -eq 'ConsoleHost')
-		{
-			if ($Theme.PromptForegroundColor)
-			{
-				$foreColor = $Theme.PromptForegroundColor
-			}
-		}
-		
-		Write-Host $message -ForegroundColor $foreColor
-	}
+        Clear-Host
+    }
+            
+    if ($message) 
+    {
+        $foreColor = $Host.UI.RawUI.ForegroundColor
+        
+        if ($Host.Name -eq 'ConsoleHost')
+        {
+            if ($Theme.PromptForegroundColor)
+            {
+                $foreColor = $Theme.PromptForegroundColor
+            }
+        }
+        
+        Write-Host $message -ForegroundColor $foreColor
+    }
 }
 
 # ---------------------------------------------------------------------------
@@ -100,44 +100,44 @@ function Write-StartupMessage
 # ---------------------------------------------------------------------------
 function Write-Prompt($Id)
 {
-	# Default prompt
-	$prompt = "PS $(Get-Location)>"	
-	if ($Theme.PromptScriptBlock -is [scriptblock])
-	{
-		$OFS = ''
-		$prompt = "$(& $Theme.PromptScriptBlock $Id)"	
-	}
-	elseif ($Theme.PromptScriptBlock -is [string])
-	{
-		$prompt = $Theme.PromptScriptBlock
-	}
-	
-	if ($Host.Name -eq 'ConsoleHost')
-	{
-		if ($Host.UI.RawUI.CursorPosition.X -ne 0)
-		{
-			Write-Host
-		}	
-		
-		$foreColor = $Host.UI.RawUI.ForegroundColor
-		if ($Theme.PromptForegroundColor)
-		{
-			$foreColor = $Theme.PromptForegroundColor
-		}
+    # Default prompt
+    $prompt = "PS $(Get-Location)>"	
+    if ($Theme.PromptScriptBlock -is [scriptblock])
+    {
+        $OFS = ''
+        $prompt = "$(& $Theme.PromptScriptBlock $Id)"	
+    }
+    elseif ($Theme.PromptScriptBlock -is [string])
+    {
+        $prompt = $Theme.PromptScriptBlock
+    }
+    
+    if ($Host.Name -eq 'ConsoleHost')
+    {
+        if ($Host.UI.RawUI.CursorPosition.X -ne 0)
+        {
+            Write-Host
+        }	
+        
+        $foreColor = $Host.UI.RawUI.ForegroundColor
+        if ($Theme.PromptForegroundColor)
+        {
+            $foreColor = $Theme.PromptForegroundColor
+        }
 
-		$backColor = $Host.UI.RawUI.BackgroundColor
-		if ($Theme.PromptBackgroundColor)
-		{
-			$backColor = $Theme.PromptBackgroundColor
-		}
-				
-		Write-Host $prompt -NoNewLine -ForegroundColor $foreColor -BackgroundColor $backColor
-	}
-	else
-	{
-		# For any other host besides powershell.exe, just return the prompt string
-		$prompt
-	}
+        $backColor = $Host.UI.RawUI.BackgroundColor
+        if ($Theme.PromptBackgroundColor)
+        {
+            $backColor = $Theme.PromptBackgroundColor
+        }
+                
+        Write-Host $prompt -NoNewLine -ForegroundColor $foreColor -BackgroundColor $backColor
+    }
+    else
+    {
+        # For any other host besides powershell.exe, just return the prompt string
+        "$prompt "
+    }
 }
 
 # ---------------------------------------------------------------------------
@@ -145,21 +145,21 @@ function Write-Prompt($Id)
 # ---------------------------------------------------------------------------
 function Prompt
 {
-	$id = 0
-	$histItem = Get-History -Count 1
-	if ($histItem)
-	{
-		$id = $histItem.Id
-	}
-	
-	if ($id -eq 0)
-	{
-		Write-StartupMessage
-	}
-	
-	Write-Prompt ($id + 1)
-	Update-HostWindowTitle
-	return ' ' # If you don't return anything PowerShell gives you PS>
+    $id = 0
+    $histItem = Get-History -Count 1
+    if ($histItem)
+    {
+        $id = $histItem.Id
+    }
+    
+    if ($id -eq 0)
+    {
+        Write-StartupMessage
+    }
+    
+    Write-Prompt ($id + 1)
+    Update-HostWindowTitle
+    return ' ' # If you don't return anything PowerShell gives you PS>
 }
 
 # ---------------------------------------------------------------------------
@@ -182,25 +182,25 @@ if ($Host.Name -eq 'ConsoleHost')
 {
     if ($Theme.HostForegroundColor)
     {
-	    $Host.UI.RawUI.ForegroundColor = $Theme.HostForegroundColor
+        $Host.UI.RawUI.ForegroundColor = $Theme.HostForegroundColor
     }
     if ($Theme.HostBackgroundColor)
     {
-	    $Host.UI.RawUI.BackgroundColor           = $Theme.HostBackgroundColor
-	    $Host.PrivateData.ErrorBackgroundColor   = $Theme.HostBackgroundColor
-	    $Host.PrivateData.WarningBackgroundColor = $Theme.HostBackgroundColor
-	    $Host.PrivateData.DebugBackgroundColor   = $Theme.HostBackgroundColor
-	    $Host.PrivateData.VerboseBackgroundColor = $Theme.HostBackgroundColor
+        $Host.UI.RawUI.BackgroundColor           = $Theme.HostBackgroundColor
+        $Host.PrivateData.ErrorBackgroundColor   = $Theme.HostBackgroundColor
+        $Host.PrivateData.WarningBackgroundColor = $Theme.HostBackgroundColor
+        $Host.PrivateData.DebugBackgroundColor   = $Theme.HostBackgroundColor
+        $Host.PrivateData.VerboseBackgroundColor = $Theme.HostBackgroundColor
     }	
     foreach ($key in $Theme.PrivateData.Keys)
     {
-	    if ($Theme.PrivateData.$key)
-	    {
-		    $Host.PrivateData.$key = $Theme.PrivateData.$key
-	    }
+        if ($Theme.PrivateData.$key)
+        {
+            $Host.PrivateData.$key = $Theme.PrivateData.$key
+        }
     }    
 }
-	
+    
 # Update window title if a scriptblock has been provided
 Update-HostWindowTitle
 
@@ -208,8 +208,8 @@ Export-ModuleMember -Function Prompt
 # SIG # Begin signature block
 # MIIfVQYJKoZIhvcNAQcCoIIfRjCCH0ICAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUWIQ3h7X/Xx4K+daJqTEVI7Tq
-# HgqgghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUbNYxUbIyh5bgkoSdeeh8JRV2
+# UVWgghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
 # AQUFADBiMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMSEwHwYDVQQDExhEaWdpQ2VydCBBc3N1cmVk
 # IElEIENBLTEwHhcNMTIwNDA0MDAwMDAwWhcNMTMwNDE4MDAwMDAwWjBHMQswCQYD
@@ -355,23 +355,23 @@ Export-ModuleMember -Function Prompt
 # ZGlnaWNlcnQuY29tMS4wLAYDVQQDEyVEaWdpQ2VydCBBc3N1cmVkIElEIENvZGUg
 # U2lnbmluZyBDQS0xAhAKFT0IddbjKM4R9plQj7wRMAkGBSsOAwIaBQCgeDAYBgor
 # BgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEE
-# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBTu
-# SL8u3ehmO40vBXsJE5qdUddDKzANBgkqhkiG9w0BAQEFAASCAQBGxSkriHkQoD6W
-# B7hnhanpvx+AsD1JkkRsRWdLGRQ46mwU3K3QuZDBmeTUgzge6qm3WHtRUt9bzb0+
-# KdxVuB1a2FugSHW673srHUe408ALap8NfGxTDiZDKDMG9QwJgP5TJvEID5RFWztS
-# iQSKuuSV1I/GtmD2bmN0xg4qoXSN/IGD/vA2sQS7bVvdli/SnNH6RdURQcovq/sW
-# PN2DQNukPcsxJo/cVzVzUH3/lTW1YugIEoaHXu48FPJOKjGC2IFfb1AR1yFc9Cp3
-# 7yjsG0umPEPfEyCgPgW9bknozF2dKOHjS5GjSw4gnfxmd+Xj8hJeTHGUGVQ461HU
-# haRk7S0noYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
+# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBSE
+# haMFgV9saRUlyLHiVtIy7ue7mzANBgkqhkiG9w0BAQEFAASCAQAFeEq3dIx1oIVA
+# XXKUibyVeeJC0NeLmqSODeeo4vjbU5a596oghJrsvjoptd/jX6TmDIdoqvwDfBOF
+# Nv4q5u1lY0wmZALKwB0YDE57fPT0yOVyndH7wSyc13qiY9sFvHceBcdNni7qE6ry
+# ftgVKNXsOkHf2xagfhXUIuCLcVTrXap6GH8+PqR27RZZHsminr+HRHFj1UDZ1t5v
+# Uje1TuhvKyQHnUrrvaoAuAsAgZVL0tvwzRb/4tteradVQjlSl9WrOsYmasOMLt1K
+# DjuGI8LBWgDQz5x0l06/tsKa/klJmHB2Uqijbrz1LyhiETUUH1PJVzNwppY1aru1
+# 4zx68mBsoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
 # BhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2lj
 # ZXJ0LmNvbTEhMB8GA1UEAxMYRGlnaUNlcnQgQXNzdXJlZCBJRCBDQS0xAhADi5bw
 # cNniHlWlQmeS4cg6MAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEyMTcwMTUxMTNaMCMGCSqGSIb3DQEJBDEW
-# BBR4GX0j97Bowmku3VtkTGNHSXH5jzANBgkqhkiG9w0BAQEFAASCAQDCP220ShJK
-# uedGdd9X5sugefiY8JcJUCaM2LXcSWYfkVr2JPtovH5x0U7zii5EJyHgE9rHX0o8
-# T5DxJO+/yY63zR5Ofo6g37XqJY+KZSuUq6C/p2CRgtuj2rGpEkgPApMjWSzLhRyG
-# Qjc44vlqMT724ZG5jq5trwJb/4jB3CwIH1ASihM9oo5yz0PQfvMxwHzd/pfRaT3m
-# SgPbaek+RPUb/vEOceRyWA2pXWCgDU9yh+okatrxiOZh82BwU4laElAgcAjeeLVI
-# PXmCoChJCcO5xSbJd7k1Hog//xrVsO8Rf/yCHhOKuRjwaLFDXSrGM2uwukAa/En3
-# VyypMnJDYxbZ
+# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEwMjEwMTUyNTRaMCMGCSqGSIb3DQEJBDEW
+# BBR2BgLG77OC9lq7lmV9y+2vvqrfuzANBgkqhkiG9w0BAQEFAASCAQAqkVvxhGUm
+# fr2MR+EAAFzggx4xr9OQpxIeuV+DtCg922Cn9ALBI3u4YqVs5qeXgUeGQ/0cXYS0
+# 9VHuIi4jNpvkq9t6qRsGfQuZ7VFuFYFHLoshBNuJ8b2GCJ3ThQuq4Bm76roHbVGJ
+# ze0DYvCsRQPQYXz+jN7iTXZCl2Fjli9YqLaLb4cCobIEY4P54Pm0AZmaxu4KtMy6
+# Icfc+1UWLE1ZeqkklAWXuJk2PUCQEGv2K+ExjixxrvkRvqE3lxT06El++bg1yqh7
+# ZZZ3mQdZQieQm5UBaF2I8rHcYgqgMQ+EJslN0qbP5sUOfySucvad1yRDAr6Cx9mh
+# ajlrUXps0uDQ
 # SIG # End signature block

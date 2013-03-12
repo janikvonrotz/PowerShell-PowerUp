@@ -6,8 +6,8 @@
 # Date:   Nov 18, 2006
 # Site:   http://pscx.codeplex.com
 #---------------------------------------------------------------------------
-#requires -Version 2.0
-Set-StrictMode -Version 2.0
+#requires -Version 3
+Set-StrictMode -Version Latest
 
 $backwardStack = new-object System.Collections.ArrayList
 $forewardStack = new-object System.Collections.ArrayList
@@ -93,7 +93,7 @@ function Set-LocationEx
     
     Begin 
     {
-		Set-StrictMode -Version 2.0
+		Set-StrictMode -Version Latest
 		
 		# String resources
 		Import-LocalizedData -BindingVariable msgTbl -FileName Messages
@@ -301,8 +301,8 @@ function Set-LocationEx
 # SIG # Begin signature block
 # MIIfVQYJKoZIhvcNAQcCoIIfRjCCH0ICAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUlYqx8htQCj7hfc7x3SvbxbgU
-# 05GgghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU5GOqWPGMG6zFDqScR8f8iKH8
+# G2KgghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
 # AQUFADBiMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMSEwHwYDVQQDExhEaWdpQ2VydCBBc3N1cmVk
 # IElEIENBLTEwHhcNMTIwNDA0MDAwMDAwWhcNMTMwNDE4MDAwMDAwWjBHMQswCQYD
@@ -448,23 +448,23 @@ function Set-LocationEx
 # ZGlnaWNlcnQuY29tMS4wLAYDVQQDEyVEaWdpQ2VydCBBc3N1cmVkIElEIENvZGUg
 # U2lnbmluZyBDQS0xAhAKFT0IddbjKM4R9plQj7wRMAkGBSsOAwIaBQCgeDAYBgor
 # BgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEE
-# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBQg
-# 8HuHLeV0v4MbBjMwIlauDGyoxzANBgkqhkiG9w0BAQEFAASCAQBCXfQ6drVozIx/
-# eNiIuUZzDGlRZCqznr/8TybcciBCtL953UaduaueIB1R6WuO7XrNyfYEIZprQZri
-# rCR8fsdplBVNVv6vTZ88xpWoABTw90C1WypEUK2upT2MJI+JROtuDFx2DTXI6H5M
-# VS4nVfsJqrV/77/HsMWgb61t/EVDYDrMxMw1nFQJf5+MPYPDmWwsTbfOR2eXu/0J
-# 3h6Fq2Cd3SCPdeUsHLmsX5v99fvzLQe33mr8dGZtMH3d85lgHED5pj2MOOd/MUBp
-# r7xJCvW6/W0zCnbnOVkltVSY/bQLlr+96ttJNlERtc5R9s1SRlejaslFUElr/3SH
-# Zc64wvC6oYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
+# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBRS
+# tUBtMQ/GYPGunGa57htkRosdyzANBgkqhkiG9w0BAQEFAASCAQBKNcu/YE7V2xDS
+# /pLpwB/6QVRyoJhBeDXprV1xwrTwMDr2oYs9+LOFIYD89gNYM9WHJPYieAkef7i7
+# fAd/tAamucD7aGHOQ3I8iKM7d6dZARdABERR3CZWgsdjcH1FsrQmL+h1rKByNV6y
+# PBWI+ew2e6NH9CyWeTCfYzjspZYU3kGxmShuP5r/yjcbwjDCa2vjcsXe+Qd9Kyk7
+# nm4Tte+QJTrUOErbVJn9sZ/dW9sihlS1VnWE1BugwslTX7AYcAz+l5T/CPlj8GRJ
+# 9h9tF9T03wdwdsgQHb3M0OxSGVDrlfHtBNwWGOiGOe+yI1xMkw6WOhbL3JMIHzdC
+# cS9Xa/UZoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
 # BhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2lj
 # ZXJ0LmNvbTEhMB8GA1UEAxMYRGlnaUNlcnQgQXNzdXJlZCBJRCBDQS0xAhADi5bw
 # cNniHlWlQmeS4cg6MAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEyMTcwMTUxMTFaMCMGCSqGSIb3DQEJBDEW
-# BBTG/9zr5qwxLtZe9oeTIv1lxL1ZhzANBgkqhkiG9w0BAQEFAASCAQBdvxvD5wgN
-# 5sVl0TSdAC7sJk9CGrDyTEZ8V0uUqQBwXvCekkchD6/hbR1KqiHCu2hE2vpAmJMy
-# VzvS0yUUQjhW6Hz06jhjoDbtjn/s/svuGS7LEln/pl+KOOfXO+D8SNewmNSrWqdX
-# U4P+KWRj8zlvOpXli4hp/dcekot4RIrbi13/e2yGEvvE+Ignw21Cnp5pry2EMzzx
-# luz47m6DE0jIP1rPVeIPOh9P+ws593JpHSP2pqjjrKHFO5drsckK2LWm8JgdrDbA
-# 313R9ZeQgmEqoRMj0q/19V9XAYmidseCNUIBXvKI0g8aNtkLTGLOyUQIeLvp0+gZ
-# iW6FV08EOxoB
+# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEwMjEwMTUyNTJaMCMGCSqGSIb3DQEJBDEW
+# BBT97igSCbhd0k5nJ3EGZykCU5wY6DANBgkqhkiG9w0BAQEFAASCAQCqO0Lk2pyG
+# 7f3Agy+SNB6TjpoPiRvmp81mGs6YHaiAiSISoybmWR2vAFX0MVnO+35on4Q9R5wh
+# B41jK9L09TWE+eePZ3A4rsDHy2r/4Xqx03fuy7qvL4TbAQHndkUf9LcUH4U9ktzZ
+# tAE+1REWint6Apz72ICU+rt5MclX2EqtH3nVXURWOZQQriugexzo/K5Mwzr6n6AG
+# mDItQP3uHwDbUJbTa2NZjjNPUviwXYucmxt/kjDtefkc5CI5bDqNxtX174gnwfbN
+# R9qxcxvgY2twzIloTh2dMX9+DV5/FpWm/pbZjzxZuneK4OjWoj9F1D3PLPl3dic2
+# yggIEcSoIhIz
 # SIG # End signature block

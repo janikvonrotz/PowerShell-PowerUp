@@ -43,18 +43,16 @@
                                       # If this value is set to $true, file sizes are displayed in
                                       # using KB,MG,GB and TB units.
                                       
-    ModulesToImport = @{
-        CD                = $true
-        DirectoryServices = $true
-        FileSystem        = $true
-        GetChildItem      = $false    # Disabled by default because it handles only the CodeSigningCert dynamic parameters. Adds ContainerOnly and LeafOnly parameters.
-        GetHelp           = $true
-        Net               = $true
-        Prompt            = $false    # Disabled by default because a lot of users have already established prompt functions.
-        TabExpansion      = $false    # Disabled by default due to various completion issues including function name completion.
-        TranscribeSession = $false    # Disabled by default for security and privacy reasons.
-        Utility           = $true
-        Vhd               = $true
-        Wmi               = $true
-    }    
+	ModulesToImport = @{
+		CD                = $true
+		DirectoryServices = $true
+		FileSystem        = $true
+		GetHelp           = $true
+		Net               = $true
+		Prompt            = $false    # Disabled by default because a lot of users have already established prompt functions.
+		TranscribeSession = $false    # Disabled by default for security and privacy reasons.
+		Utility           = $true
+		Vhd               = $true
+		Wmi               = $true
+	}    
 }

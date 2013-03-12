@@ -6,19 +6,19 @@
 #       settings in hashtable form as shown in Pscx.Options.ps1 or you
 #       can pass in a hashtable with the appropriate settings directly.
 # -----------------------------------------------------------------------
-Set-StrictMode -Version 2.0
+Set-StrictMode -Version Latest
 
 # -----------------------------------------------------------------------
 # Displays help usage
 # -----------------------------------------------------------------------
 function WriteUsage([string]$msg)
 {
-	$moduleNames = $Pscx:Preferences.ModulesToImport.Keys | Sort
+    $moduleNames = $Pscx:Preferences.ModulesToImport.Keys | Sort
 
-	if ($msg) { Write-Host $msg }
-	
-	$OFS = ','
-	Write-Host @"
+    if ($msg) { Write-Host $msg }
+    
+    $OFS = ','
+    Write-Host @"
  
 To load all PSCX modules using the default PSCX preferences execute: 
 
@@ -49,34 +49,34 @@ $moduleNames
 # -----------------------------------------------------------------------
 function UpdateDefaultPreferencesWithUserPreferences([hashtable]$userPreferences)
 {
-	# Walk the user specified settings and overwrite the defaults with them
-	foreach ($key in $userPreferences.Keys)
-	{
-		if (!$Pscx:Preferences.ContainsKey($key))
-		{
-			Write-Warning "$key is not a recognized PSCX preference"
-			continue
-		}
+    # Walk the user specified settings and overwrite the defaults with them
+    foreach ($key in $userPreferences.Keys)
+    {
+        if (!$Pscx:Preferences.ContainsKey($key))
+        {
+            Write-Warning "$key is not a recognized PSCX preference"
+            continue
+        }
 
-		if ($key -eq 'ModulesToImport')
-		{
-		    foreach ($modkey in $userPreferences.ModulesToImport.Keys)
-		    {	
-			    if ($Pscx:Preferences.ModulesToImport.ContainsKey($modkey))
-			    {
-				    $Pscx:Preferences.ModulesToImport.$modkey = $userPreferences.ModulesToImport.$modkey
-			    }
-			    else
-			    {
-				    Write-Warning "$modkey is not a recognized PSCX nested module"
-			    }
-		    }
-		}
-		else
-		{
-			$Pscx:Preferences.$key = $userPreferences.$key		
-		}
-	}
+        if ($key -eq 'ModulesToImport')
+        {
+            foreach ($modkey in $userPreferences.ModulesToImport.Keys)
+            {	
+                if ($Pscx:Preferences.ModulesToImport.ContainsKey($modkey))
+                {
+                    $Pscx:Preferences.ModulesToImport.$modkey = $userPreferences.ModulesToImport.$modkey
+                }
+                else
+                {
+                    Write-Warning "$modkey is not a recognized PSCX nested module"
+                }
+            }
+        }
+        else
+        {
+            $Pscx:Preferences.$key = $userPreferences.$key		
+        }
+    }
 }
 
 # -----------------------------------------------------------------------
@@ -85,35 +85,35 @@ function UpdateDefaultPreferencesWithUserPreferences([hashtable]$userPreferences
 # -----------------------------------------------------------------------
 if ($args.Length -gt 0) 
 {
-	if ($args[0] -eq 'help') 
-	{
-		# Display help/usage info
-		WriteUsage
-		return	
-	}
-	elseif ($args[0] -is [hashtable])
-	{
-		# Hashtable of settings passed directly
-		UpdateDefaultPreferencesWithUserPreferences $args[0]
-	}
-	elseif (Test-Path $args[0])
-	{
-		# Attempt to load the user specified settings by executing the specified script
-		$userPreferences = & $args[0]	
-		if ($userPreferences -isnot [hashtable]) 
-		{
-			WriteUsage "'$($args[0])' must return a hashtable instead of a $($userPreferences.GetType().FullName)"
-			return
-		}
+    if ($args[0] -eq 'help') 
+    {
+        # Display help/usage info
+        WriteUsage
+        return	
+    }
+    elseif ($args[0] -is [hashtable])
+    {
+        # Hashtable of settings passed directly
+        UpdateDefaultPreferencesWithUserPreferences $args[0]
+    }
+    elseif (Test-Path $args[0])
+    {
+        # Attempt to load the user specified settings by executing the specified script
+        $userPreferences = & $args[0]	
+        if ($userPreferences -isnot [hashtable]) 
+        {
+            WriteUsage "'$($args[0])' must return a hashtable instead of a $($userPreferences.GetType().FullName)"
+            return
+        }
 
-		UpdateDefaultPreferencesWithUserPreferences $userPreferences
-	}
-	else
-	{
-		# Display help/usage info
-		WriteUsage "'$($args[0])' is not recognized as either a hashtable or a valid path"
-		return		
-	}
+        UpdateDefaultPreferencesWithUserPreferences $userPreferences
+    }
+    else
+    {
+        # Display help/usage info
+        WriteUsage "'$($args[0])' is not recognized as either a hashtable or a valid path"
+        return		
+    }
 }	
 
 # -----------------------------------------------------------------------
@@ -141,92 +141,92 @@ $stopWatch = new-object System.Diagnostics.StopWatch
 $keys = @($Pscx:Preferences.ModulesToImport.Keys)
 if ($Pscx:Preferences.ShowModuleLoadDetails) 
 { 
-	Write-Host "PowerShell Community Extensions $($Pscx:Version)`n"
-	$totalModuleLoadTimeMs = 0
-	$stopWatch.Reset()
-	$stopWatch.Start()
-	$keys = @($keys | Sort)
+    Write-Host "PowerShell Community Extensions $($Pscx:Version)`n"
+    $totalModuleLoadTimeMs = 0
+    $stopWatch.Reset()
+    $stopWatch.Start()
+    $keys = @($keys | Sort)
 }
 
 foreach ($key in $keys)
 {
-	if ($Pscx:Preferences.ShowModuleLoadDetails) 
-	{
-		$stopWatch.Reset()
-		$stopWatch.Start()
-		Write-Host " $key $(' ' * (20 - $key.length))[ " -NoNewline
-	}
-	
-	if (!$Pscx:Preferences.ModulesToImport.$key) 
-	{ 	
-		# Not selected for loading by user 
-		if ($Pscx:Preferences.ShowModuleLoadDetails) 
-		{	
-			Write-Host "Skipped" -nonew
-		}		
-	}
-	else 
-	{
-	    $subModuleBasePath = "$PSScriptRoot\Modules\{0}\Pscx.{0}" -f $key
-	    
-		# Check for PSD1 first
-		$path = "$subModuleBasePath.psd1"
-		if (!(Test-Path -PathType Leaf $path)) 
-		{
-			# Assume PSM1 only
-			$path = "$subModuleBasePath.psm1"
-			if (!(Test-Path -PathType Leaf $path))
-			{
-				# Missing/invalid module
-				if ($Pscx:Preferences.ShowModuleLoadDetails) 
-				{
-					Write-Host "Module $path is missing ]"
-				} 
-				else 
-				{
-					Write-Warning "Module $path is missing."
-				}			
-				continue
-			}
-		}
-		
-		try 
-		{
-			# Don't complain about non-standard verbs with nested imports but
-			# we will still have one complaint for the final global scope import
-			Import-Module $path -DisableNameChecking 
-			
-			if ($Pscx:Preferences.ShowModuleLoadDetails) 
-			{ 
-				$stopWatch.Stop()
-				$totalModuleLoadTimeMs += $stopWatch.ElapsedMilliseconds
-				$loadTimeMsg = "Loaded in {0,4} mS" -f $stopWatch.ElapsedMilliseconds
-				Write-Host $loadTimeMsg -nonew
-			}
-		} 
-		catch 
-		{
-			# Problem in module
-			if ($Pscx:Preferences.ShowModuleLoadDetails) 
-			{
-				Write-Host "Module $key load error: $_" -nonew 
-			} 
-			else 
-			{
-				Write-Warning "Module $key load error: $_"
-			}
-		}		
-	} 
-	
-	if ($Pscx:Preferences.ShowModuleLoadDetails) 
-	{ 
-		Write-Host " ]" 
-	}
+    if ($Pscx:Preferences.ShowModuleLoadDetails) 
+    {
+        $stopWatch.Reset()
+        $stopWatch.Start()
+        Write-Host " $key $(' ' * (20 - $key.length))[ " -NoNewline
+    }
+    
+    if (!$Pscx:Preferences.ModulesToImport.$key) 
+    { 	
+        # Not selected for loading by user 
+        if ($Pscx:Preferences.ShowModuleLoadDetails) 
+        {	
+            Write-Host "Skipped" -nonew
+        }		
+    }
+    else 
+    {
+        $subModuleBasePath = "$PSScriptRoot\Modules\{0}\Pscx.{0}" -f $key
+        
+        # Check for PSD1 first
+        $path = "$subModuleBasePath.psd1"
+        if (!(Test-Path -PathType Leaf $path)) 
+        {
+            # Assume PSM1 only
+            $path = "$subModuleBasePath.psm1"
+            if (!(Test-Path -PathType Leaf $path))
+            {
+                # Missing/invalid module
+                if ($Pscx:Preferences.ShowModuleLoadDetails) 
+                {
+                    Write-Host "Module $path is missing ]"
+                } 
+                else 
+                {
+                    Write-Warning "Module $path is missing."
+                }			
+                continue
+            }
+        }
+        
+        try 
+        {
+            # Don't complain about non-standard verbs with nested imports but
+            # we will still have one complaint for the final global scope import
+            Import-Module $path -DisableNameChecking 
+            
+            if ($Pscx:Preferences.ShowModuleLoadDetails) 
+            { 
+                $stopWatch.Stop()
+                $totalModuleLoadTimeMs += $stopWatch.ElapsedMilliseconds
+                $loadTimeMsg = "Loaded in {0,4} mS" -f $stopWatch.ElapsedMilliseconds
+                Write-Host $loadTimeMsg -nonew
+            }
+        } 
+        catch 
+        {
+            # Problem in module
+            if ($Pscx:Preferences.ShowModuleLoadDetails) 
+            {
+                Write-Host "Module $key load error: $_" -nonew 
+            } 
+            else 
+            {
+                Write-Warning "Module $key load error: $_"
+            }
+        }		
+    } 
+    
+    if ($Pscx:Preferences.ShowModuleLoadDetails) 
+    { 
+        Write-Host " ]" 
+    }
 }
 
 if ($Pscx:Preferences.ShowModuleLoadDetails) 
 { 
-	Write-Host "`nTotal module load time: $totalModuleLoadTimeMs mS"
+    Write-Host "`nTotal module load time: $totalModuleLoadTimeMs mS"
 }
 
 Remove-Item Function:\WriteUsage
@@ -235,8 +235,8 @@ Export-ModuleMember -Alias * -Function * -Cmdlet *
 # SIG # Begin signature block
 # MIIfVQYJKoZIhvcNAQcCoIIfRjCCH0ICAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUwHQXN2AftAWsJlFrWsyJwYFY
-# DfmgghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUpU+OtkLkOYMdSIWcu26Irybd
+# 8uSgghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
 # AQUFADBiMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMSEwHwYDVQQDExhEaWdpQ2VydCBBc3N1cmVk
 # IElEIENBLTEwHhcNMTIwNDA0MDAwMDAwWhcNMTMwNDE4MDAwMDAwWjBHMQswCQYD
@@ -382,23 +382,23 @@ Export-ModuleMember -Alias * -Function * -Cmdlet *
 # ZGlnaWNlcnQuY29tMS4wLAYDVQQDEyVEaWdpQ2VydCBBc3N1cmVkIElEIENvZGUg
 # U2lnbmluZyBDQS0xAhAKFT0IddbjKM4R9plQj7wRMAkGBSsOAwIaBQCgeDAYBgor
 # BgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEE
-# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBT8
-# vGK/TpknjfkGkOMzMEEzjNE1UzANBgkqhkiG9w0BAQEFAASCAQA0zWrbQbq+jepg
-# LKXiDvKRGaeSj88QzOnMysLBRTq5ASv303RusDqvI770u4mKsD4Dg1TUDwLoz/V7
-# FVRuxTMlPmAadBAz1BTEmFq9Sti2Kn3jLMltzVFyWxYypii20o0GRwjPhM3Dt7Ln
-# ApFqiFZgxvsSiS4EDz7rDOgHn6NbQ7HDLNC2gDzG3fg6EtYvPF29RvMQPyuCB+6D
-# HvVu76oQgODgRoSWJEO01MMnYMq7J+adBAM+jdcveIvOORe4WpaigOwoWUii0kkl
-# NJg8pqeawGLAT5VF8NcCZg5yE4zvIg8xGxuaVp9SUeO/njB41QVze6LNjLr6BKcX
-# wDY8wMiqoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
+# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBTw
+# YQgNasprpkC7Y8EHtw+At6d9mjANBgkqhkiG9w0BAQEFAASCAQAv31f4gfVWlkWy
+# pLoLOLKXL6RJ7QqsV9OWu/IFcaVtIhPiJ+e2u/oRKyocJud9l1TbXoKjwhrr/Vow
+# wZ5dZ3Yx+Skao4760FPQHBSvvIYoaQhRqiEsrW3rgQn41k0L/ronzP8ZpbjFxGe6
+# QOg1Hp2rtxF6fh+Xs0WraQlmGCybWE4p5r7ManKeI9joSuVcQVmsrtOfbBf3+u/5
+# Vg5c6ri7F4NoDn+f2NRNbvXc3aHP6u+4qozDmt2ecZEgIWr3nj82ExALjrMoXqCP
+# DPKRenv8D3+w/wREA8SgEwbEsPh0GCLzJHnEBLOTHC01qAeLCSkIXYESvLiwPHSn
+# V8jEtC5soYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
 # BhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2lj
 # ZXJ0LmNvbTEhMB8GA1UEAxMYRGlnaUNlcnQgQXNzdXJlZCBJRCBDQS0xAhADi5bw
 # cNniHlWlQmeS4cg6MAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEyMTcwMTUxMTVaMCMGCSqGSIb3DQEJBDEW
-# BBS/rkxMR7GqxjHA4/K0s0dKmxbD+zANBgkqhkiG9w0BAQEFAASCAQBHgjFqrud4
-# TppS4514V7HVEvWJ839fTGlvkS8VL4b/sRM5VeIQCjWm9wJxh2uvTm0JP3RGF4oZ
-# uZmXbZ8dii6xaGE5kMsTxz82dRobODmrPEBppXfRH8IWhpSZCXObyTh4UK/hWtWs
-# 49djdiup3yU+dfFihgL7+z4hQIVvsC5VcABpIxqmX2kUvtfrcu1bLHoOaWdR6dkR
-# Fh8BdB1BiDmmgT9XQOceyGFjHcsELsxf3PQEzyztuOtcXCmH8BlJcQis+aNYZqGX
-# NhCVsiicotXje+oTrirC6QMVu2J7UJel5QigXCDt9W9XJqgC65K4ABl4YKWCYLpt
-# 55b3aysbdlV0
+# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEwMjEwMTUyNTVaMCMGCSqGSIb3DQEJBDEW
+# BBR/sbubr27ChN6AC58t4Fz9BIcFuDANBgkqhkiG9w0BAQEFAASCAQB2LzDie9LY
+# QT+i8wqJpo2okcWs7otbQ9K7RPh9vGq329TIo6yuTyFnToaorHIGtCMff/M8D9KJ
+# LHpjDnA6V8gjAGL0zZ8dC0s0RzmofAzV+7EuJQL5EOSPTrklFOiCr/42elW3HPIe
+# R78CMq8xty1QcQCsjH9iM+vdqoxqMsLSsFn75yLdjfOFsCzdBy3PCqznMdfo+XZl
+# V7tUDbC/g9/9vRJL/t9lN0mBdX9FqzRHt/I5yT7o0h+y/WSW33mOZm/Wer6vN60q
+# HgQ+1PNMzzwwahdCyxBvfsbr+V28g3piWNWpNMiYTUujM4KzYJHHusApqdEUlQXu
+# e6jbtbeQzrs1
 # SIG # End signature block

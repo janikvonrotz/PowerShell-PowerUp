@@ -52,19 +52,19 @@ function Search-Transcript
     # Don't log any of the search activity to the transcript because it results in
     # confusion when the results of previous searches turn up in the current search results.
     Stop-Transcript | Out-Null
-    	
+        
     # Trap any errors in the following nested scope so that we can be assured of starting
     # the transcript back up.
     try
     {
         Push-Location $TranscriptDir
-	    $transcriptFiles = @($TranscriptFile)
-	    if (!$CurrentOnly -and $TranscriptDir) 
-	    {
-		    $transcriptFiles += Get-ChildItem *.txt -Exclude $TranscriptFile
-	    }
-    		
-	    Select-String $Pattern -Path $transcriptFiles -SimpleMatch:$SimpleMatch -List:$List
+        $transcriptFiles = @($TranscriptFile)
+        if (!$CurrentOnly -and $TranscriptDir) 
+        {
+            $transcriptFiles += Get-ChildItem *.txt -Exclude $TranscriptFile
+        }
+            
+        Select-String $Pattern -Path $transcriptFiles -SimpleMatch:$SimpleMatch -List:$List
     }
     finally
     {
@@ -79,17 +79,15 @@ function Search-Transcript
 # ---------------------------------------------------------------------------
 if (($Host.Name -ne 'ConsoleHost') -or $Pscx:Session['TranscribeSession_Loaded']) 
 { 
-	return
+    return
 }
 
 $Pscx:Session['TranscribeSession_Loaded'] = $true
 
-Set-Alias srts Search-Transcript -Description "PSCX alias"
-
 # Create Transcripts dir under user's profile directory
 $TranscriptDir = Join-Path (Split-Path $Profile -Parent) Transcripts
 if (!(Test-Path $TranscriptDir)) {
-	New-Item $TranscriptDir -ItemType Directory > $null
+    New-Item $TranscriptDir -ItemType Directory > $null
 }
 
 $TranscriptFile = "{0}-{1:0###}.txt" -f (Get-Date -Format yyyyMMdd-HHmm), $PID
@@ -100,8 +98,8 @@ Export-ModuleMember -Alias * -Function *
 # SIG # Begin signature block
 # MIIfVQYJKoZIhvcNAQcCoIIfRjCCH0ICAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU/Eb55eJQIq0D7128E2zPqPwm
-# aL+gghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUbwL+s6/UE+6hCWkxzEDuwDn5
+# GH6gghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
 # AQUFADBiMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMSEwHwYDVQQDExhEaWdpQ2VydCBBc3N1cmVk
 # IElEIENBLTEwHhcNMTIwNDA0MDAwMDAwWhcNMTMwNDE4MDAwMDAwWjBHMQswCQYD
@@ -247,23 +245,23 @@ Export-ModuleMember -Alias * -Function *
 # ZGlnaWNlcnQuY29tMS4wLAYDVQQDEyVEaWdpQ2VydCBBc3N1cmVkIElEIENvZGUg
 # U2lnbmluZyBDQS0xAhAKFT0IddbjKM4R9plQj7wRMAkGBSsOAwIaBQCgeDAYBgor
 # BgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEE
-# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBT3
-# lcm/7VfzwD/YgVNc/vHP2xuwizANBgkqhkiG9w0BAQEFAASCAQCOBYcXCcY/Wbzt
-# 7H4zsCCESvX2mpltkM5+zI1p+3wklc+BgGlVvPkE4gBP5gotpr9XlVX/nqk0JMFv
-# 8TWono2t89CVkvpmNHq4gW5yQySLTZpSTXABp20FabyH+juXHtRbpfuHpmhwl6lA
-# sKBVtdAkpAxuKVR1TR8dtSDoSjBmX/JtXlGEvDVlD8FTYIs7+s835mtJ2WHbcoqQ
-# ljyx5ZPV7hzvBAGZ7Acxwa25O2xvX6sGqyJTvmkrjQvJRO7L5h92H4gt5tL4WXQp
-# 1qHabcaSry8EPOSsLwH4VoMJgh+m6nOu3Vmq3fEWkEM4Vi86x1ULi8c19jM0lSOn
-# jYyKsmMxoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
+# MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBRQ
+# dR9uYe+ee8ygW2q9O6qRUb2eqzANBgkqhkiG9w0BAQEFAASCAQB1cMzNkEPiRigN
+# 33DcWrwtLCgIVZ1/u0Klod/KDMf19IoRJTPbGg2apiNeuSo8XPDJ+7guFdu7QnBz
+# nqER6mTbNF8sLQsZILnHArCM0Z23NStQtQHyGdn9qbFrartM0T9vHnzuZdKbziJ0
+# BZoTDxB44YEixltfsOOPwsh/9HtYd3hjVnS8DTSiEHoGk91T6T805ZSpu9UnMqAb
+# eP92p6TqXsEWHaxhHs3PMFIq/Zc7aPVEQ5Rwe8DBvpDqt04seiZpYfvjKNnT5GAO
+# GF3eBpWGfETVA+qbknc/Z+iDrovaBnNI5lBLhG3/Ut3MJIejuru3iQGWaJv3Ksei
+# oywtVMDCoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
 # BhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2lj
 # ZXJ0LmNvbTEhMB8GA1UEAxMYRGlnaUNlcnQgQXNzdXJlZCBJRCBDQS0xAhADi5bw
 # cNniHlWlQmeS4cg6MAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEyMTcwMTUxMTNaMCMGCSqGSIb3DQEJBDEW
-# BBTGy5iMgCIRUQxEJDwHlTsy8fLTpTANBgkqhkiG9w0BAQEFAASCAQBs5yNdufOV
-# dYuCEZALR2mV7nDToFizBOlY53iaOlaAJUJMpKzzEvrgigZQ2+jiUwyphpnuySxH
-# 0PqrLhP2+PviHI7f9Y05I0ZVn0oqTuo9AUrEbbGgRNzMkBOZYhF2Owi1zyenhdw3
-# 82vAtjrnVkChPEV7mnSLVzJMRj0kzeEXtEV32CZpRyf1EgoGZhOr6Ouu6fLYgNim
-# 8lCuTG6UNSdzcfir/pMEx7WIUWJ6azEJbRQhSAWYyOpFawFoC8uQhOAgoe1isqYa
-# EsS0fIMCgr1Zk2+0UtV0YvGc6CjvVPjsFg5aofbTH2vtngBzzvbXmiJIMV4KrnmJ
-# X07YeHOJk+os
+# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEwMjEwMTUyNTRaMCMGCSqGSIb3DQEJBDEW
+# BBT8H+zwj3Z9x5wl+iemBgVNFz8AajANBgkqhkiG9w0BAQEFAASCAQCF//jfq0Ra
+# TK7YyHMcF4m2rKQNs4HjCO9SJ4xhYESJGgDuPqkejoeE62O8oKvswhrpeofzRs05
+# cvHg4uo5/L7ACiBonCH0Vs65qdltPeVFGeKjfIkk2W4EfJYoPzbgkuoOcQHIO5h6
+# sW4dW3IhBRDvbrTEfplGnTivKTDyXlxOjdEQPxXEsvruO0JLreN7kcq8iaAKzSJu
+# syFZD5bsclZPK0ddmjeqnV/KSwG1LAym51FOOn2RJQf3VBWKWtG/C9xbLWNlE5dE
+# mykFMKLMyWL2KJtfYlHtkFN03v7bmb9amxWZecMDZb9ozmdpuP5q5sY/JffztFeQ
+# HDoKWZNuuiDi
 # SIG # End signature block

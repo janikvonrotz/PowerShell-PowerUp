@@ -33,6 +33,12 @@
 				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>
 			</SystemVariable>
+			<SystemVariable>
+				<Value>H:\SkyDrive\Shared\Apps\SysInternals</Value>
+				<Name>Path</Name>
+				<RelativePath>false</RelativePath>
+				<Target>Machine</Target>
+			</SystemVariable>
 		</SystemVariables>
 		
 		<!--
