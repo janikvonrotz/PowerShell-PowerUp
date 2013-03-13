@@ -21,7 +21,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 # Example
 #--------------------------------------------------#
 
-Move-SPLists -SPSourceWebUrl http://server.SharePoint.Com/Sub1 -SPDestWebUrl http://server.SharePoint.com/Sub1/forums -SPLists "List Number 1", "List Number 2"
+Move-SPLists -SPSourceWebUrl "http://sharepoint.vbl.ch/SitePages/Homepage.aspx" -SPDestWebUrl "http://sharepoint.vbl.ch/Direktion/Erweiterte%20Gesch%c3%a4ftsleitung/SitePages/Homepage.aspx" -SPLists "IT Architektur Board"
 
 #>
 
@@ -41,13 +41,7 @@ function Move-SPLists{
         [string[]] 
         $SPLists
     )
-
-    #--------------------------------------------------#
-    # Settings
-    #--------------------------------------------------#
-    # LoadConfig
-    $LocalTempExportPath = "C:\temp\SharePointExport\"
-    $SPListFileExtension = ".cmp"
+    
 
     #--------------------------------------------------#
     # Includes
@@ -56,29 +50,53 @@ function Move-SPLists{
     if ((Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue) -eq $null) 
     {
         Add-PSSnapin "Microsoft.SharePoint.PowerShell"
+    }
+    
+    #--------------------------------------------------#
+    # Settings
+    #--------------------------------------------------#
+    # LoadConfig
+    $LocalTempExportPath = "C:\temp\SharePointExport\"
+    if (!(Test-Path -path $LocalTempExportPath)) {New-Item $LocalTempExportPath -Type Directory}
+    $SPListFileExtension = $(Get-LogStamp) + ".cmp"
+    $SPListPath ="/Lists/"
 
+    #--------------------------------------------------#
+    # Main
+    #--------------------------------------------------#
+    
+    #Clean up
+    $SPSourceWeburl = Clean-Url $SPSourceWeburl
+    $SPDestWebUrl = Clean-Url $SPDestWebUrl
+    $SPSourceWeburl = $SPSourceWeburl -replace "/SitePages/Homepage.aspx", ""
+    $SPDestWebUrl = $SPDestWebUrl -replace "/SitePages/Homepage.aspx", ""
+    
+    
+    foreach($SPList in $SPLists){
+        Write-Host ("`nExporting " + $SPSourceWebUrl + $SPListPath + $SPList) -BackgroundColor Yellow -ForegroundColor Black
+        
+        #Export the list
+        Export-SPWeb ($SPSourceWebUrl) -ItemUrl ($SPListPath +  $SPList) -IncludeUserSecurity -IncludeVersions All -path ($LocalTempExportPath + $SPList + $SPListFileExtension) -nologfile -Force
+        
+        Write-Host ("`nExporting complete") -BackgroundColor Green -ForegroundColor Black
 
-        #--------------------------------------------------#
-        # Main
-        #--------------------------------------------------#
-        foreach($List in $SPLists){
-            Write-Host ("`nExporting " + $SPSourceWebUrl + "/lists/" + $List) -BackgroundColor Yellow -ForegroundColor Black
-            Export-spweb $SPSourceWebUrl -ItemUrl ("lists/" + $List) -IncludeUserSecurity -IncludeVersions All -path ($LocalTempExportPath + $List + $SPListFileExtension) -nologfile
-            Write-Host ("`nExporting complete") -BackgroundColor Green -ForegroundColor DarkGreen
+        Write-Host ("`nImporting " + $SPDestWebUrl + $SPListPath + $SPList) -BackgroundColor Yellow -ForegroundColor Black
+        
+        #Import the list
+        Import-spweb $SPDestWebUrl -IncludeUserSecurity -path ($LocalTempExportPath + $SPList + $SPListFileExtension) -nologfile -Force
+        
+        Write-Host ("`nImporting complete") -BackgroundColor Green -ForegroundColor Black
 
-            Write-Host ("`nExporting " + $SPSourceWebUrl + "/lists/" + $List) -BackgroundColor Yellow -ForegroundColor Black
-            Import-spweb $SPDestWebUrl -IncludeUserSecurity -path ($LocalTempExportPath + $List + $SPListFileExtension) -nologfile
-            Write-Host ("`nImporting complete") -BackgroundColor Green -ForegroundColor DarkGreen
-
-            $Choice = Read-Host "Delete the Source Lists (y/n)?"
-
-            $SPWeb = Get-SPWeb -Identity SPSourceWebUrl
-            $SPList = $web.lists[$List]
+        #Ask wether to delte the source list or not
+        $Choice = Read-Host "`nDelete the Source Lists (y/n)?"
+        if($Choice -eq "y"){
+            $SPWeb = Get-SPWeb -Identity $SPSourceWebUrl
+            $SPList = $SPWeb.lists[$SPList]
             $SPList.AllowDeletion = $true
             $SPList.Update()
             $SPList.Delete()
+            Write-Host ("`nList deleted")  -BackgroundColor Yellow -ForegroundColor Black
+
         }
-    }else{
-        throw "Microsoft.SharePoint.PowerShell not available"
     }
 }
