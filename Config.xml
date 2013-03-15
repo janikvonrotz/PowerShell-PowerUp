@@ -11,7 +11,7 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorE-Mail>contact@janikvonrotz.ch</AuthorE-Mail>
 		<CreateDate>07.01.2013</CreateDate>
-		<LastEditDate>06.03.2013</LastEditDate>
+		<LastEditDate>15.03.2013</LastEditDate>
 		<Version>1.1.2</Version>
 	</Metadata>
 
@@ -21,18 +21,37 @@
 		 # List of SystemVariables
 		-->	
 		<SystemVariables>
+			<!-- will be added by default
+			
 			<SystemVariable>
 				<Value>\Modules</Value>
 				<Name>PSModulePath</Name>
 				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>
 			</SystemVariable>
+			
+			-->
 			<SystemVariable>
 				<Value>\Functions</Value>
 				<Name>Path</Name>
 				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>
 			</SystemVariable>
+			
+			<SystemVariable>
+				<Value>C:\Program Files\Git\cmd</Value>
+				<Name>Path</Name>
+				<RelativePath>false</RelativePath>
+				<Target>Machine</Target>
+			</SystemVariable>
+			
+			<SystemVariable>
+				<Value>C:\Program Files (x86)\Git\cmd</Value>
+				<Name>Path</Name>
+				<RelativePath>false</RelativePath>
+				<Target>Machine</Target>
+			</SystemVariable>
+			
 			<SystemVariable>
 				<Value>H:\SkyDrive\Shared\Apps\SysInternals</Value>
 				<Name>Path</Name>

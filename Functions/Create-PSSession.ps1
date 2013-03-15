@@ -7,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "12.03.2013"
-	LastEditDate = "12.03.2013"
-	Version = "1.0.0"
+	LastEditDate = "15.03.2013"
+	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -50,11 +50,18 @@ function Create-PSSession{
 	)
 	
 	# Settings
-	$Config = Get-JsonConfig -Path ".\Create-PSSession.config.json.ps1" 
+	$Config = Get-JsonConfig -Path ".\Documents\WindowsPowerShell\Create-PSSession.config.json.ps1" 
 
 	foreach($Server in $Config.Servers){
 		if($Server.Name -eq $Name){
+		
+			# Delete Session if already opened
+			Remove-PSSession -ComputerName $Server.Server -ErrorAction SilentlyContinue
+			
+			# Open Session
 			$s = New-PSSession -ComputerName $Server.Server -Credential $Server.ADCredential
+			
+			# Load SnapIns
 			foreach($SnapIn in $Server.SnapIns){
 				Invoke-Command -Session $s -ScriptBlock {param ($Name) Add-PSSnapin -Name $Name} -ArgumentList $SnapIn
 			}

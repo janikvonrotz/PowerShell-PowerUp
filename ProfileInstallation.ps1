@@ -1,3 +1,8 @@
+param([Switch]$NoExit)
+if($NoExit -eq $false){
+	powershell -NoExit $MyInvocation.MyCommand.Definition -NoExit
+}
+
 $Metadata = @{
 	Title = "Profile Installation"
 	Filename = "ProfileInstallation.ps1"
@@ -7,7 +12,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "07.01.2013"
-	LastEditDate = "12.03.2013"
+	LastEditDate = "15.03.2013"
 	Version = "2.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -91,4 +96,6 @@ if($Host.Version.Major -ne 3){
 	    # Create a shortcut to the existing powershell profile
 	    New-Symlink $SourcePath $WorkingPath
     }
+	
+	Write-Host “`nFinished`n” -BackgroundColor Green -ForegroundColor Black
 }
