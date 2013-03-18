@@ -52,6 +52,4 @@ Start-Transcript -path ($ScriptPath + "\Logs\Powershell Commands " + $(Get-LogSt
 # Go back to working directory
 Set-Location $WorkingPath
 
-# Load posh-git example profile
-# . 'C:\Users\vonrotz\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1'
 
