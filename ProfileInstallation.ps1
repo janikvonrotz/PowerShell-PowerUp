@@ -116,5 +116,6 @@ if($Host.Version.Major -lt 2){
 		}
 	}
 
-	Read-Host “`nFinished`n” -BackgroundColor Green -ForegroundColor Black
+	Write-Host “`nFinished`n” -BackgroundColor Green -ForegroundColor Black
+	Read-Host "`nPress Enter to exit"
 }
