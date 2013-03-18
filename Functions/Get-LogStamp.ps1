@@ -17,5 +17,5 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 
 Function Get-LogStamp {
-	return $(Get-Date -Format "yyyy-mm-dd hh-mm-ss")
+	return $(Get-Date -Format "yyyy-MM-dd hh-mm-ss")
 }

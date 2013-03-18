@@ -1,8 +1,3 @@
-param([Switch]$NoExit)
-if($NoExit -eq $false){
-	powershell -NoExit $MyInvocation.MyCommand.Definition -NoExit
-}
-
 $Metadata = @{
 	Title = "Profile Installation"
 	Filename = "ProfileInstallation.ps1"
@@ -11,8 +6,8 @@ $Metadata = @{
 	Project = ""
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
-	CreateDate = "07.01.2013"
-	LastEditDate = "15.03.2013"
+	CreateDate = "2013-03-18"
+	LastEditDate = "2013-03-18"
 	Version = "2.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -22,8 +17,8 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 
 }
 
-if($Host.Version.Major -ne 3){
-    throw "Only compatible with Powershell version 3"
+if($Host.Version.Major -lt 2){
+    throw "Only compatible with Powershell version 2 and higher"
 }else{
 
     #--------------------------------------------------#
@@ -52,6 +47,8 @@ if($Host.Version.Major -ne 3){
     foreach ($RegistryEntry in $Configuration.RegistryEntries.RegistryEntry)
     {
 	    Set-ItemProperty -Path $RegistryEntry.Path -Name $RegistryEntry.Name -Value $RegistryEntry.Value
+        [string]$Name =  $RegistryEntry.Name
+		Write-Host "`nAdded registry entry: $Name"  -BackgroundColor Yellow -ForegroundColor Black
     }
 
     # Import Pscx Extension
@@ -67,11 +64,13 @@ if($Host.Version.Major -ne 3){
 		    Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
 	    }else{
 		    Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
-	    }
+	    }        [string]$Name =  $SystemVariable.Value
+		Write-Host "`nAdded path variable: $Name"  -BackgroundColor Yellow -ForegroundColor Black
     }
 
     # Enable Open Powershell here
     Enable-OpenPowerShellHere
+	Write-Host "`nAdded 'Open PowerShell Here' to context menu"  -BackgroundColor Yellow -ForegroundColor Black
 
     #--------------------------------------------------#
     # Powershell Default Profile
@@ -96,6 +95,29 @@ if($Host.Version.Major -ne 3){
 	    # Create a shortcut to the existing powershell profile
 	    New-Symlink $SourcePath $WorkingPath
     }
+	
+    #--------------------------------------------------#
+    # Features
+    #--------------------------------------------------#
+	
+	foreach($Feature in $Configuration.Features.Feature){
+		if($Feature.Install = "Enabled"){
+			switch($Feature.Name){
+				"Git Update Task" {
+                    $PathToTask = $WorkingPath + '\Tasks\Git Update Task.xml'
+                    [string]$Name =  $Feature.Name
+					[xml]$TaskDefinition = (get-content $PathToTask)
+                    $TaskDefinition.Task.Actions.Exec.WorkingDirectory = $WorkingPath
+                    $TaskDefinition.Save($PathToTask)
+                    SchTasks /Create /TN "$Name" /XML $PathToTask
+					Write-Host "`nAdded system task: $Name"  -BackgroundColor Yellow -ForegroundColor Black
+				}
+			}
+		}
+	}
+	
+	
+	
 	
 	Write-Host “`nFinished`n” -BackgroundColor Green -ForegroundColor Black
 }
