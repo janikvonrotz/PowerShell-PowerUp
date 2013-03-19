@@ -23,3 +23,6 @@ Set-Item WSMan:\localhost\Client\TrustedHosts "RemoteComputer" -Force
 Set-Item WSMan:\localhost\Shell\MaxMemoryPerShellMB 1024
 
 restart-Service WinRM
+
+Write-Host "`nFinished" -BackgroundColor Green -ForegroundColor Black
+Read-Host "`nPress Enter to exit"
