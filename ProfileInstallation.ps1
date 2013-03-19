@@ -101,7 +101,7 @@ if($Host.Version.Major -lt 2){
     #--------------------------------------------------#
 	
 	foreach($Feature in $Configuration.Features.Feature){
-		if($Feature.Install -eq "Enabled"){
+		if($Feature.Install -eq "Enable"){
 			switch($Feature.Name){
 				"Git Update Task" {
                     $PathToTask = $WorkingPath + '\Tasks\Git Update Task.xml'

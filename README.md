@@ -15,14 +15,11 @@ One of the most advanced Powershell profile configurations for Administrators.
 
 Edit the config.xml file
 
+
 	PS C:\Powershell-Profile> .\ProfileInstallation.ps1
 
 ##Configure Git:##
 
-	Import-Module posh-git
-	
-	PS C:\Users\[username]> mdkir .ssh
-	
-Add your ssh key to the created location and start using git
+Install Git for Windows to the Apps folder
 	
 
