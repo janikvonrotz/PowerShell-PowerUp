@@ -1,14 +1,14 @@
 ﻿$Metadata = @{
-	Title = "Move SharePoint Lists"
-	Filename = "Move-SPLists.ps1"
+	Title = "Move SharePoint Objects"
+	Filename = "Move-SPobjects.ps1"
 	Description = ""
-	Tags = "powershell, sharepoint, lists"
+	Tags = "powershell, sharepoint, function"
 	Project = ""
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "2013-03-12"
-	LastEditDate = "2013-03-13"
-	Version = "0.0.1"
+	LastEditDate = "2013-03-20"
+	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -21,13 +21,13 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 # Example
 #--------------------------------------------------#
 
-Move-SPLists -SPSourceWebUrl "http://sharepoint.vbl.ch/SitePages/Homepage.aspx" -SPDestWebUrl "http://sharepoint.vbl.ch/Direktion/Erweiterte%20Gesch%c3%a4ftsleitung/SitePages/Homepage.aspx" -SPLists "IT Architektur Board"
+Move-SPobjects -SPSourceWebUrl "http://sharepoint.vbl.ch/SitePages/Homepage.aspx" -SPDestWebUrl "http://sharepoint.vbl.ch/Direktion/Erweiterte%20Gesch%c3%a4ftsleitung/SitePages/Homepage.aspx" -SPLists "IT Architektur Board"
 
-Move-SPLists -SPSourceWebUrl "http://sharepoint.vbl.ch/finanzen/it/Abteilungssite/SitePages/Homepage.aspx" -SPDestWebUrl "http://sharepoint.vbl.ch/Direktion/Erweiterte%20Gesch%c3%a4ftsleitung/SitePages/Homepage.aspx" -SPLibs "Abteilung"
+Move-SPobjects -SPSourceWebUrl "http://sharepoint.vbl.ch/finanzen/it/Abteilungssite/SitePages/Homepage.aspx" -SPDestWebUrl "http://sharepoint.vbl.ch/Direktion/Erweiterte%20Gesch%c3%a4ftsleitung/SitePages/Homepage.aspx" -SPLibs "Abteilung"
 
 #>
 
-function Move-SPLists{
+function Move-SPobjects{
 
     #--------------------------------------------------#
     # Parameter

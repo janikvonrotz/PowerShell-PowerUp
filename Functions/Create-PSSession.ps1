@@ -6,9 +6,9 @@ $Metadata = @{
 	Project = ""
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
-	CreateDate = "12.03.2013"
-	LastEditDate = "15.03.2013"
-	Version = "1.0.1"
+	CreateDate = "2013-03-12"
+	LastEditDate = "2013-03-19"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -18,7 +18,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 
 <#
 #--------------------------------------------------#
-# Example Create-PSSession.config.json.ps1
+# Example Create-PSSession.config.json.ps1 in the profile folder
 #--------------------------------------------------#
 
 return $Content = @"
@@ -44,22 +44,36 @@ return $Content = @"
 #>
 
 function Create-PSSession{
+	#--------------------------------------------------#
+	# Parameter
+	#--------------------------------------------------#
 	param (
         [parameter(Mandatory=$true)]
 		$Name
 	)
 	
+	#--------------------------------------------------#
 	# Settings
-	$Config = Get-JsonConfig -Path ".\Documents\WindowsPowerShell\Create-PSSession.config.json.ps1" 
-
+	#--------------------------------------------------#
+	$ConfigFile = "Create-PSSession.config.json.ps1"
+	$ProfilePath = Split-Path $profile -parent
+	$Config = Get-JsonConfig -Path ($ProfilePath + "\" + $ConfigFile)
+	
+	#--------------------------------------------------#
+	# Main
+	#--------------------------------------------------#
 	foreach($Server in $Config.Servers){
 		if($Server.Name -eq $Name){
 		
 			# Delete Session if already opened
 			Remove-PSSession -ComputerName $Server.Server -ErrorAction SilentlyContinue
 			
+			$Username = $Server.ADCredential
+			$Password = Read-Host -Prompt "`nEnter password for $Username" -AsSecureString
+			$Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList $Username, $Password
+			
 			# Open Session
-			$s = New-PSSession -ComputerName $Server.Server -Credential $Server.ADCredential
+			$s = New-PSSession -ComputerName $Server.Server -Credential $Credentials
 			
 			# Load SnapIns
 			foreach($SnapIn in $Server.SnapIns){

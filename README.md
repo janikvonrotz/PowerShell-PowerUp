@@ -20,6 +20,15 @@ Edit the config.xml file
 
 ##Configure Git:##
 
-Install Git for Windows to the Apps folder
-	
+Download Portable Git for Windows from
 
+	https://code.google.com/p/msysgit/downloads/list
+	
+Install Git for Windows to the Apps folder
+
+	Powershell-Profile\Apps\Git\
+	 |
+	 |-bin
+	 |-cmd
+	 |-doc
+	 \-...
