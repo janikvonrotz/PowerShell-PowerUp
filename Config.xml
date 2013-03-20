@@ -68,7 +68,7 @@
 		
 			<Feature>
 				<Name>Git Update Task</Name>
-				<Install>Enable</Install>
+				<Install>Disable</Install>
 			</Feature>		
 
 		</Features>

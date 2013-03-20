@@ -7,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "2013-03-18"
-	LastEditDate = "2013-03-18"
-	Version = "2.1.0"
+	LastEditDate = "2013-03-20"
+	Version = "3.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or

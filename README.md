@@ -39,6 +39,4 @@ Excute the install script
 
 	PS C:\Powershell-Profile> .\ProfileInstallation.ps1
 
-In case you've enabled the auto update feature, activate it in the taskplaner
-
 	
