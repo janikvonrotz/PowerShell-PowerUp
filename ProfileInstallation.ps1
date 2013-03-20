@@ -104,10 +104,13 @@ if($Host.Version.Major -lt 2){
 		if($Feature.Install -eq "Enable"){
 			switch($Feature.Name){
 				"Git Update Task" {
+					#Settings
                     $PathToTask = $WorkingPath + '\Tasks\Git Update Task.xml'
+					$UpdateScriptName = "Git-Update.ps1"
+					
                     [string]$Name =  $Feature.Name
 					[xml]$TaskDefinition = (get-content $PathToTask)
-                    $TaskDefinition.Task.Actions.Exec.WorkingDirectory = $WorkingPath
+                    $TaskDefinition.Task.Actions.Exec.Command = "Powershell " + $WorkingPath + "\" + $UpdateScriptName
                     $TaskDefinition.Save($PathToTask)
                     SchTasks /Create /TN "$Name" /XML $PathToTask
 					Write-Host "`nAdded system task: $Name"  -BackgroundColor Yellow -ForegroundColor Black
