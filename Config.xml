@@ -18,7 +18,7 @@
 	<Configuration>
 
 		<!--
-		 # List of SystemVariables
+		# List of SystemVariables
 		-->	
 		<SystemVariables>
 
@@ -60,15 +60,15 @@
 		</SystemVariables>
 		
 		<!--
-		 # Feature Install Settings
+		# Feature Install Settings
 		 
-		 # To Install Change Install Content to "Enable"
+		# To enable a feature change <Install> content to "Enable"
 		-->
 		<Features>
 		
 			<Feature>
 				<Name>Git Update Task</Name>
-				<Install>Disable</Install>
+				<Install>Enable</Install>
 			</Feature>		
 
 		</Features>
