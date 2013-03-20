@@ -1,6 +1,6 @@
 $Metadata = @{
-	Title = "Move SharePoint Site"
-	Filename = "Move-SPsite.ps1"
+	Title = "Move SharePoint Website"
+	Filename = "Move-SPWebsite.ps1"
 	Description = ""
 	Tags = "powershell, function, sharepoint"
 	Project = ""
@@ -16,7 +16,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 '@
 }
 
-function Mount-Dir{
+function Move-SPWebsite{
 <#
 	.SYNOPSIS
 		Move a SharePoint Site from one place to another
@@ -31,7 +31,7 @@ function Mount-Dir{
 		Destination Url of the SharePoint Site
  
 	.EXAMPLE
-		Move-SPsite -SPsiteSrcUrl http://sharepoint.vbl.ch/Direktion/SitePages/Homepage.aspx -SPsiteDestUrl http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx
+		Move-SPWebsite -SPsiteSrcUrl http://sharepoint.vbl.ch/Direktion/SitePages/Homepage.aspx -SPsiteDestUrl http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx
  
 	.INPUTS
 		.
