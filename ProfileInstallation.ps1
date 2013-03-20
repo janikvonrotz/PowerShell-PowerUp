@@ -110,7 +110,8 @@ if($Host.Version.Major -lt 2){
 					
                     [string]$Name =  $Feature.Name
 					[xml]$TaskDefinition = (get-content $PathToTask)
-                    $TaskDefinition.Task.Actions.Exec.Command = "Powershell " + $WorkingPath + "\" + $UpdateScriptName
+                    $TaskDefinition.Task.Actions.Exec.Arguments = $WorkingPath + "\" + $UpdateScriptName
+					$TaskDefinition.Task.Actions.Exec.WorkingDirectory = $WorkingPath
                     $TaskDefinition.Save($PathToTask)
                     SchTasks /Create /TN "$Name" /XML $PathToTask
 					Write-Host "`nAdded system task: $Name"  -BackgroundColor Yellow -ForegroundColor Black
