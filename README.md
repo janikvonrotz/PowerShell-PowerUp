@@ -29,6 +29,8 @@ It should look now like this
 
 Edit the config.xml file and head for the feature section. Now decide wether you would like to enable the auto update feature and save the config.xml file.
 	
+	Edit config.xml
+	
 Open your Powershell commandline and enter:
 
 	PS C:\Powershell-Profile> Set-ExecutionPolicy bypass
