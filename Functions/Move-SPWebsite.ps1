@@ -7,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "2013-03-20"
-	LastEditDate = "2013-03-20"
-	Version = "1.0.0"
+	LastEditDate = "2013-03-25"
+	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -83,22 +83,39 @@ function Move-SPWebsite{
 	if (!(Test-Path -path $LocalTempExportPath)) {New-Item $LocalTempExportPath -Type Directory}
 	
 	# Urls cleanup
-	$SPsiteSrcUrl = ([System.Uri]$SPsiteSrcUrl).LocalPath -replace "/SitePages/Homepage.aspx", ""
-    $SPsiteDestUrl = ([System.Uri]$SPDestWebUrl).LocalPath -replace "/SitePages/Homepage.aspx", ""
+	$SPsiteSrcUrl = ("http://" + ([System.Uri]$SPsiteSrcUrl).Host + ([System.Uri]$SPsiteSrcUrl).LocalPath) -replace "/SitePages/Homepage.aspx", ""
+    $SPsiteDestUrl = ("http://" + ([System.Uri]$SPsiteDestUrl).Host + ([System.Uri]$SPsiteDestUrl).LocalPath) -replace "/SitePages/Homepage.aspx", ""
 	
 	#Export SharePoint Website
+    $SPweb = Get-SPWeb $SPsiteSrcUrl
+    $SPSiteTitle = $SPweb.Title
+        
 	Write-Host ("`nExporting " + $SPsiteSrcUrl) -BackgroundColor Yellow -ForegroundColor Black
-	Export-SPWeb $SPsiteSrcUrl -Path ($LocalTempExportPath+$SPFileExtension) -Force -IncludeUserSecurity -IncludeVersions
+	Export-SPWeb $SPsiteSrcUrl -Path ($LocalTempExportPath + $SPSiteTitle + $SPFileExtension) -IncludeUserSecurity -IncludeVersions All  -Force -NoLogFile  -WhatIf
+	Export-SPWeb $SPsiteSrcUrl -Path ($LocalTempExportPath + $SPSiteTitle + $SPFileExtension) -IncludeUserSecurity -IncludeVersions All  -Force -NoLogFile  -Confirm
 	
+    #Create the destination site
+    $SPSiteDestUrl += "/" + $SPSiteTitle
+    
+    Write-Host ("`nCreating " + $SPSiteDestUrl) -BackgroundColor Yellow -ForegroundColor Black    
+    New-SPWeb ($SPSiteDestUrl) -Template "STS#0" -WhatIf
+    New-SPWeb ($SPSiteDestUrl) -Template "STS#0" -Confirm
+    
+    #Update the title
+    $SPweb = Get-SPWeb $SPSiteDestUrl
+    $SPweb.Title = $SPSiteTitle
+    $SPweb.Update()
+        
 	#Import SharePoint Website
-	Write-Host ("`nImporting " + $SPsiteDestUrl) -BackgroundColor Yellow -ForegroundColor Black
-	Import-SPWeb SPsiteDestUrl –Path ($LocalTempExportPath+$SPFileExtension) –UpdateVersions Overwrite -IncludeUserSecurity -Force
-	
+	Write-Host ("`nImporting to " + $SPsiteDestUrl) -BackgroundColor Yellow -ForegroundColor Black
+	Import-SPWeb $SPsiteDestUrl -Path ($LocalTempExportPath + $SPSiteTitle + $SPFileExtension) -UpdateVersions Overwrite -IncludeUserSecurity -Force -NoLogFile -WhatIf
+    Import-SPWeb $SPsiteDestUrl -Path ($LocalTempExportPath + $SPSiteTitle + $SPFileExtension) -UpdateVersions Overwrite -IncludeUserSecurity -Force -NoLogFile -Confirm
+    
 	#Remoe SharePoint Website Source
-	$Choice = Read-Host "`nDelete the Source (y/n)?"
-	if($Choice -eq "y"){
-		Write-Host ("`n Deleting " + $SPsiteSrcUrl) -BackgroundColor Yellow -ForegroundColor Black
-		Remove-SPSite -Identity $SPsiteSrcUrl -GradualDelete -Confirm:$False
-	}
-	
+	Write-Host ("`n Deleting " + $SPsiteSrcUrl) -BackgroundColor Yellow -ForegroundColor Black
+    Remove-SPweb -Identity $SPsiteSrcUrl -WhatIf
+	Remove-SPweb -Identity $SPsiteSrcUrl -Confirm
+    
+    Write-Host "`nFinished" -BackgroundColor Green -ForegroundColor Black
+
 }

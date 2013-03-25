@@ -7,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "2013-01-02"
-	LastEditDate = "2013-03-13"
-	Version = "1.0.0"
+	LastEditDate = "2013-03-25"
+	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -17,5 +17,5 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 
 Function Get-LogStamp {
-	return $(Get-Date -Format "yyyy-MM-dd hh-mm-ss")
+	return $(Get-Date -Format "yyyy-MM-dd HH-mm-ss")
 }
