@@ -29,45 +29,51 @@ $Report = .\Report-ActiveDirectoryUserGroups.ps1 -Usernames "User1", "User2"
 
 #>
 
-#--------------------------------------------------#
-# Includes
-#--------------------------------------------------#
-Import-Module Quest.ActiveRoles.ArsPowerShellSnapIn
-
-#--------------------------------------------------#
-# Main
-#--------------------------------------------------#
-$ADUserGroupReport = @()
- 
-function New-ADReportItem {
-    param(
-        $Name,
-        $DN,
-        $SamAccountName,
-        $GroupName
-    )
-    New-Object PSObject -Property @{
-        Name = $Name
-        DN = $DN
-        SamAccountName = $SamAccountName
-        GroupName =$GroupName
-    }
-}
-
-$ADusers = Get-QADUser vonrotz –Properties Name,DN,SamAccountName,MemberOf | Select-Object Name,DN,SamAccountName,MemberOf
-foreach($ADUser in $ADusers){
-    foreach($ADUserGroups in $ADUser.Memberof){            
-        $ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $(Get-QADGroup $ADUserGroups).Name      
-        foreach($ADGroup in (Get-QADGroup -ContainsIndirectMember $ADUserGroups | Select-Object Name)){
-                        $ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADGroup.Name
-        }  
-    } 
-}
-
-if($OutPutToGridView -eq $true){
-    $ADUserGroupReport | Out-GridView
-	Write-Host "`nFinished" -BackgroundColor Green -ForegroundColor Black
-	Read-Host "`nPress Enter to exit"
+if($Host.Version.Major -gt 2){
+    throw "Only compatible with Powershell version 2 and less"
 }else{
-    return $ADUserGroupReport
+
+	#--------------------------------------------------#
+	# Includes
+	#--------------------------------------------------#
+	Import-Module Quest.ActiveRoles.ArsPowerShellSnapIn
+
+	#--------------------------------------------------#
+	# Main
+	#--------------------------------------------------#
+	$ADUserGroupReport = @()
+	 
+	function New-ADReportItem {
+		param(
+			$Name,
+			$DN,
+			$SamAccountName,
+			$GroupName
+		)
+		New-Object PSObject -Property @{
+			Name = $Name
+			DN = $DN
+			SamAccountName = $SamAccountName
+			GroupName =$GroupName
+		}
+	}
+
+	$ADusers = Get-QADUser vonrotz –Properties Name,DN,SamAccountName,MemberOf | Select-Object Name,DN,SamAccountName,MemberOf
+	foreach($ADUser in $ADusers){
+		foreach($ADUserGroups in $ADUser.Memberof){            
+			$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $(Get-QADGroup $ADUserGroups).Name      
+			foreach($ADGroup in (Get-QADGroup -ContainsIndirectMember $ADUserGroups | Select-Object Name)){
+							$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADGroup.Name
+			}  
+		} 
+	}
+
+	if($OutPutToGridView -eq $true){
+		$ADUserGroupReport | Out-GridView
+		Write-Host "`nFinished" -BackgroundColor Green -ForegroundColor Black
+		Read-Host "`nPress Enter to exit"
+	}else{
+		return $ADUserGroupReport
+	}
+	
 }
