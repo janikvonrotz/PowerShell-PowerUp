@@ -58,12 +58,19 @@ if($Host.Version.Major -gt 2){
 		}
 	}
 
-	$ADusers = Get-QADUser vonrotz –Properties Name,DN,SamAccountName,MemberOf | Select-Object Name,DN,SamAccountName,MemberOf
+	$ADusers = Get-QADUser vonrotz -Properties Name,DN,SamAccountName,MemberOf | Select-Object Name,DN,SamAccountName,MemberOf
 	foreach($ADUser in $ADusers){
-		foreach($ADUserGroups in $ADUser.Memberof){            
-			$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $(Get-QADGroup $ADUserGroups).Name      
+		foreach($ADUserGroups in $ADUser.Memberof){ 
+        
+            $GroupName = $(Get-QADGroup $ADUserGroups).Name
+            Write-Host $GroupName  -BackgroundColor Yellow -ForegroundColor Black
+
+			$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $GroupName
+                   
 			foreach($ADGroup in (Get-QADGroup -ContainsIndirectMember $ADUserGroups | Select-Object Name)){
-							$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADGroup.Name
+            
+                Write-Host ($ADGroup.Name)  -BackgroundColor Yellow -ForegroundColor Black
+				$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADGroup.Name
 			}  
 		} 
 	}

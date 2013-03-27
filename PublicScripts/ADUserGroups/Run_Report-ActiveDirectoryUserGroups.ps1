@@ -1,8 +1,8 @@
 $Usernames = @()
 While(1){
-	$Username = Read-Host "Enter a username (or . to finish)}
+	$Username = Read-Host "`nEnter a username (or . to finish)"
 	if($Username -eq "."){
-		break;
+		break
 	}else{
 		$Usernames += $Username
 	}
