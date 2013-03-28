@@ -60,7 +60,7 @@ if($Host.Version.Major -gt 2){
 	
 	foreach($Username in $Usernames){
 	
-		$ADusers = Get-QADUser vonrotz -Properties Name,DN,SamAccountName,MemberOf | Select-Object Name,DN,SamAccountName,MemberOf
+		$ADusers = Get-QADUser $Username -Properties Name,DN,SamAccountName,MemberOf | Select-Object Name,DN,SamAccountName,MemberOf
 		foreach($ADUser in $ADusers){
 			foreach($ADUserGroups in $ADUser.Memberof){ 
 			
