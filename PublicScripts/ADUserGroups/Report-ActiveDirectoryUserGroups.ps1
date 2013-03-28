@@ -9,8 +9,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "2013-03-27"
-	LastEditDate = "2013-03-27"
-	Version = "1.0.0"
+	LastEditDate = "2013-03-28"
+	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -42,7 +42,7 @@ if($Host.Version.Major -gt 2){
 	# Main
 	#--------------------------------------------------#
 	$ADUserGroupReport = @()
-	 
+	
 	function New-ADReportItem {
 		param(
 			$Name,
@@ -57,22 +57,25 @@ if($Host.Version.Major -gt 2){
 			GroupName =$GroupName
 		}
 	}
+	
+	foreach($Username in $Usernames){
+	
+		$ADusers = Get-QADUser vonrotz -Properties Name,DN,SamAccountName,MemberOf | Select-Object Name,DN,SamAccountName,MemberOf
+		foreach($ADUser in $ADusers){
+			foreach($ADUserGroups in $ADUser.Memberof){ 
+			
+				$GroupName = $(Get-QADGroup $ADUserGroups).Name
+				Write-Host $GroupName  -BackgroundColor Yellow -ForegroundColor Black
 
-	$ADusers = Get-QADUser vonrotz -Properties Name,DN,SamAccountName,MemberOf | Select-Object Name,DN,SamAccountName,MemberOf
-	foreach($ADUser in $ADusers){
-		foreach($ADUserGroups in $ADUser.Memberof){ 
-        
-            $GroupName = $(Get-QADGroup $ADUserGroups).Name
-            Write-Host $GroupName  -BackgroundColor Yellow -ForegroundColor Black
-
-			$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $GroupName
-                   
-			foreach($ADGroup in (Get-QADGroup -ContainsIndirectMember $ADUserGroups | Select-Object Name)){
-            
-                Write-Host ($ADGroup.Name)  -BackgroundColor Yellow -ForegroundColor Black
-				$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADGroup.Name
-			}  
-		} 
+				$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $GroupName
+					   
+				foreach($ADGroup in (Get-QADGroup -ContainsIndirectMember $ADUserGroups | Select-Object Name)){
+				
+					Write-Host ($ADGroup.Name)  -BackgroundColor Yellow -ForegroundColor Black
+					$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADGroup.Name
+				}  
+			} 
+		}
 	}
 
 	if($OutPutToGridView -eq $true){
