@@ -12,21 +12,17 @@ $s1 = Create-PSSession sharepoint
 While(1){
 
 	$Usernames = @()
-	$FirstEntry = $true
 
 	While(1){
 		$Username = Read-Host "`nEnter a username (or . to finish)"
 		if($Username -eq "."){
 			break
-		}elseif($FirstEntry -eq $true){
-			$Usernames += $Username		
-			$FirstEntry = $false
 		}else{
-			$Usernames += "," + $Username
+		$Usernames += $Username	
 		}
 	}
 
-	$ReportUserGroups = Invoke-Command -Session $s1 -ScriptBlock {param ($Usernames) (D:\Powershell-Profile\PublicScripts\ADUserGroups\Report-ActiveDirectoryUserGroups.ps1 -Usernames $Usernames)} -ArgumentList $Usernames
+	$ReportUserGroups = Invoke-Command -Session $s1 -ScriptBlock {param([array]$Usernames) D:\Powershell-Profile\PublicScripts\ADUserGroups\Report-ActiveDirectoryUserGroups.ps1 -Usernames $Usernames} -ArgumentList (,$Usernames)
 
 	#$Report | Out-GridView
 
