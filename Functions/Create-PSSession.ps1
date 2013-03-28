@@ -1,48 +1,3 @@
-$Metadata = @{
-	Title = "Create Powershell Remote Session"
-	Filename = "Create-PSSession.ps1"
-	Description = ""
-	Tags = "powershell, remote, session"
-	Project = ""
-	Author = "Janik von Rotz"
-	AuthorEMail = "contact@janikvonrotz.ch"
-	CreateDate = "2013-03-12"
-	LastEditDate = "2013-03-19"
-	Version = "1.1.0"
-	License = @'
-This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
-To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
-send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
-'@
-}
-
-<#
-#--------------------------------------------------#
-# Example Create-PSSession.config.json.ps1 in the profile folder
-#--------------------------------------------------#
-
-return $Content = @"
-{
-	"Servers":[
-		{ 
-		"Name": "sharepoint",
-		"Server": "windows1.local.com", 
-		"ADCredential":"vbl\\user",
-		"SnapIns": ["Microsoft.SharePoint.PowerShell"]
-		},
-		{ 
-		"Name": "sharepoint2",
-		"Server": "windows2.local.com", 
-		"ADCredential":"vbl\\user",
-		"SnapIns": ["Microsoft.SharePoint.PowerShell","ActiveDirectory"]
-		}
-	]
-}
-"@
-
- 
-#>
-
 function Create-PSSession{
 	#--------------------------------------------------#
 	# Parameter
@@ -51,17 +6,46 @@ function Create-PSSession{
         [parameter(Mandatory=$true)]
 		$Name
 	)
-	
+	$Metadata = @{
+		Title = "Create Powershell Remote Session"
+		Filename = "Create-PSSession.ps1"
+		Description = ""
+		Tags = "powershell, remote, session"
+		Project = ""
+		Author = "Janik von Rotz"
+		AuthorEMail = "contact@janikvonrotz.ch"
+		CreateDate = "2013-03-12"
+		LastEditDate = "2013-03-28"
+		Version = "2.1.0"
+		License = @'
+This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
+send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+'@
+}
 	#--------------------------------------------------#
 	# Settings
 	#--------------------------------------------------#
-	$ConfigFile = "Create-PSSession.config.json.ps1"
-	$ProfilePath = Split-Path $profile -parent
-	$Config = Get-JsonConfig -Path ($ProfilePath + "\" + $ConfigFile)
+	$XmlConfigFile = "Create-PSSession.config.xml"
+	$JsonConfigFile = "Create-PSSession.config.json.ps1"
 	
 	#--------------------------------------------------#
 	# Main
 	#--------------------------------------------------#
+	$ProfilePath = Split-Path $profile -parent
+	if(test-path ($ProfilePath + "\" + $JsonConfigFile)){
+		$Config = Get-JsonConfig -Path ($ProfilePath + "\" + $JsonConfigFile)
+	}elseif(test-path($ProfilePath + "\" + $XmlConfigFile)){
+		$Config = [xml]$(get-content ($ProfilePath + "\" + $XmlConfigFile))
+        $Config = $Config.Content
+	}else{
+        Write-Host "`nNo configuration file found" -ForegroundColor Red
+        Write-Host "`nPlease create a config file under $ProfilePath" -BackgroundColor Yellow -ForegroundColor Black
+        Write-Host "If you'll use Powershell verison 2.0 name it $XmlConfigFile" -BackgroundColor Yellow -ForegroundColor Black
+        Write-Host "If you'll use Powershell version 3.0 name it $JsonConfigFile" -BackgroundColor Yellow -ForegroundColor Black
+        Write-Host "You'll find the templates for the config files on https://gist.github.com/janikvonrotz/103d7bfc7cfa2a5d21ed" -BackgroundColor Yellow -ForegroundColor Black
+	}
+	
 	foreach($Server in $Config.Servers){
 		if($Server.Name -eq $Name){
 		

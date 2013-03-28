@@ -7,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "2013-03-18"
-	LastEditDate = "2013-03-20"
-	Version = "3.0.0"
+	LastEditDate = "2013-03-28"
+	Version = "3.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -115,6 +115,14 @@ if($Host.Version.Major -lt 2){
                     $TaskDefinition.Save($PathToTask)
                     SchTasks /Create /TN "$Name" /XML $PathToTask
 					Write-Host "`nAdded system task: $Name"  -BackgroundColor Yellow -ForegroundColor Black
+				}
+				
+				"Powershell Remoting"{
+					Enable-PSRemoting
+					Set-Item WSMan:\localhost\Client\TrustedHosts "RemoteComputer" -Force
+					Set-Item WSMan:\localhost\Shell\MaxMemoryPerShellMB 1024
+					restart-Service WinRM
+					Write-Host "`nPowershell Remoting enabled"  -BackgroundColor Yellow -ForegroundColor Black
 				}
 			}
 		}
