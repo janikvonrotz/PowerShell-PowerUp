@@ -7,8 +7,8 @@
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "2013-03-12"
-	LastEditDate = "2013-03-20"
-	Version = "1.0.0"
+	LastEditDate = "2013-04-02"
+	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -108,7 +108,9 @@ function Move-SPobjects{
 
             }
         }
-    }elseif($SPLibs -ne $Null){	
+    }
+
+    if($SPLibs -ne $Null){	
     	foreach($SPLib in $SPLibs){
             Write-Host ("`nExporting " + $SPSharePointUrl + $SPSourceWebUrl + "/" + $SPLib) -BackgroundColor Yellow -ForegroundColor Black        
             #Export the list
