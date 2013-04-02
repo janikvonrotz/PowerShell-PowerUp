@@ -116,7 +116,7 @@ function Move-SPobjects{
             #Export the list
             Export-SPWeb ($SPSharePointUrl + $SPSourceWebUrl) -ItemUrl ($SPSourceWebUrl + "/" + $SPLib) -IncludeUserSecurity -IncludeVersions All -path ($LocalTempExportPath + $SPLib + $SPFileExtension) -nologfile -Force
 
-            Write-Host ("`nImporting " + $SPSharePointUrl  + $SPDestWebUrl + $SPLib) -BackgroundColor Yellow -ForegroundColor Black        
+            Write-Host ("`nImporting " + $SPSharePointUrl  + $SPDestWebUrl + "/" + $SPLib) -BackgroundColor Yellow -ForegroundColor Black        
             #Import the list
             Import-spweb ($SPSharePointUrl + $SPDestWebUrl) -IncludeUserSecurity -path ($LocalTempExportPath + $SPLib + $SPFileExtension) -nologfile -Force
 
