@@ -7,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
 	CreateDate = "2013-03-18"
-	LastEditDate = "2013-03-28"
-	Version = "3.0.1"
+	LastEditDate = "2013-04-03"
+	Version = "3.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -60,8 +60,10 @@ if($Host.Version.Major -lt 2){
     {
 	    if($SystemVariable.RelativePath -eq "true")
 	    {
-		    $SystemVariable.Value = ($(Get-Location).Path + $SystemVariable.Value)
-		    Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
+            #Gets the static path from a relative path
+		    $StaticPath = Convert-Path -Path (Join-Path -Path $(Get-Location).Path -Childpath $SystemVariable.Value)
+
+		    Add-PathVariable -Value $StaticPath -Name $SystemVariable.Name -Target $SystemVariable.Target
 	    }else{
 		    Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
 	    }        [string]$Name =  $SystemVariable.Value

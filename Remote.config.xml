@@ -30,4 +30,10 @@
 		<ADCredential>vbl\Administrator</ADCredential>
 		<SnapIns></SnapIns>
 	</Servers>
+	<Servers>
+		<Name>web1</Name>
+		<Server>vblw2k3web03</Server>
+		<ADCredential>Administrator</ADCredential>
+		<SnapIns></SnapIns>
+	</Servers>
 </Content>

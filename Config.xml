@@ -11,8 +11,8 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorE-Mail>contact@janikvonrotz.ch</AuthorE-Mail>
 		<CreateDate>2013-01-07</CreateDate>
-		<LastEditDate>2013-03-28</LastEditDate>
-		<Version>1.1.4</Version>
+		<LastEditDate>2013-04-03</LastEditDate>
+		<Version>1.1.6</Version>
 	</Metadata>
 
 	<Configuration>
@@ -44,16 +44,16 @@
 			</SystemVariable>
 			
 			<SystemVariable>
-				<Value>H:\SkyDrive\Shared\Apps\SysInternals</Value>
+				<Value>..\SysInternals</Value>
 				<Name>Path</Name>
-				<RelativePath>false</RelativePath>
+				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>
 			</SystemVariable>
 			
 			<SystemVariable>
-				<Value>H:\SkyDrive\Shared\Apps\SysInternals</Value>
+				<Value>..\Putty</Value>
 				<Name>Path</Name>
-				<RelativePath>false</RelativePath>
+				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>
 			</SystemVariable>
 			
