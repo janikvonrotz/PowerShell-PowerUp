@@ -26,8 +26,8 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
 	# Settings
 	#--------------------------------------------------#
-	$XmlConfigFile = "Create-PSSession.config.xml"
-	$JsonConfigFile = "Create-PSSession.config.json.ps1"
+	$XmlConfigFile = "Remote.config.xml"
+	$JsonConfigFile = "Remote.config.json.ps1"
 	
 	#--------------------------------------------------#
 	# Main
