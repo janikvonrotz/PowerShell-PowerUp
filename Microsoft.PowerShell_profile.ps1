@@ -6,9 +6,9 @@ $Metadata = @{
 	Project = ""
 	Author = "Janik von Rotz"
 	AuthorEMail = "contact@janikvonrotz.ch"
-	CreateDate = "02.01.2013"
-	LastEditDate = "04.03.2013"
-	Version = "2.0.0"
+	CreateDate = "2013-04.03"
+	LastEditDate = "2013-04.03"
+	Version = "2.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -43,6 +43,11 @@ $FunctionPath = "\Functions"
 Set-Location ($ScriptPath + $FunctionPath)
 get-childitem | foreach {. .\$_}
 
+#--------------------------------------------------#
+# Alias
+#--------------------------------------------------#	
+nal -Name rdp -Value "Start-RDPSession"
+	
 #--------------------------------------------------#
 # Main Code
 #--------------------------------------------------#
