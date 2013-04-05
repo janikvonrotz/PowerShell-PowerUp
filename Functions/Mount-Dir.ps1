@@ -1,15 +1,24 @@
-﻿$Metadata = @{
-	Title = "Mount Directory"
-	Filename = "Mount-Dir.ps1"
-	Description = ""
-	Tags = "powershell, function, mount, subst"
-	Project = ""
-	Author = "Janik von Rotz"
-	AuthorEMail = "contact@janikvonrotz.ch"
-	CreateDate = "12.03.2013"
-	LastEditDate = "12.03.2013"
-	Version = "1.0.0"
-	License = @'
+﻿function Mount-Dir{
+    #--------------------------------------------------#
+    # Parameter
+    #--------------------------------------------------#
+    param(
+        [parameter(Mandatory=$true)]
+        [string[]] 
+        $Paths
+    )
+	$Metadata = @{
+		Title = "Mount Directory"
+		Filename = "Mount-Dir.ps1"
+		Description = ""
+		Tags = "powershell, function, mount, subst"
+		Project = ""
+		Author = "Janik von Rotz"
+		AuthorContact = "www.janikvonrotz.ch"
+		CreateDate = "2013-03-12"
+		LastEditDate = "2013-03-12"
+		Version = "1.0.0"
+		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
@@ -25,17 +34,6 @@ Mount-Dir -Path "C:\FolderXY"
 Mount-Dir -Path @("C:\FolderXY", "D:\")
 
 #>
-
-function Mount-Dir{
-
-    #--------------------------------------------------#
-    # Parameter
-    #--------------------------------------------------#
-    param(
-        [parameter(Mandatory=$true)]
-        [string[]] 
-        $Paths
-    )
 
     #--------------------------------------------------#
     # Main

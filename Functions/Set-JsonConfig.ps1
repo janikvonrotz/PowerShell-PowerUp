@@ -16,7 +16,7 @@ function Set-JsonConfig {
 		Tags = "powershell, functions"
 		Project = ""
 		Author = "Janik von Rotz"
-		AuthorEMail = "contact@janikvonrotz.ch"
+		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-03-12"
 		LastEditDate = "2013-03-28"
 		Version = "1.0.0"
@@ -25,7 +25,7 @@ This work is licensed under the Creative Commons Attribution-NonCommercial-NoDer
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 '@
-	}
+}
 	
 	#--------------------------------------------------#
 	# Main

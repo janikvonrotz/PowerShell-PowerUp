@@ -5,7 +5,7 @@ $Metadata = @{
 	Tags = "powershell, profile, installation"
 	Project = ""
 	Author = "Janik von Rotz"
-	AuthorEMail = "contact@janikvonrotz.ch"
+	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-03-18"
 	LastEditDate = "2013-04-03"
 	Version = "3.1.0"
@@ -14,7 +14,6 @@ This work is licensed under the Creative Commons Attribution-NonCommercial-NoDer
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 '@
-
 }
 
 if($Host.Version.Major -lt 2){

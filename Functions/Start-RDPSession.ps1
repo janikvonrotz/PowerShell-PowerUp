@@ -30,7 +30,7 @@
 		Tags = "powershell, remote, session, rdp"
 		Project = ""
 		Author = "Janik von Rotz"
-		AuthorEMail = "contact@janikvonrotz.ch"
+		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-04-03"
 		LastEditDate = "2013-04-03"
 		Version = "1.0.0"

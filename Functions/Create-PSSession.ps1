@@ -6,6 +6,7 @@ function Create-PSSession{
         [parameter(Mandatory=$true)]
 		$Name
 	)
+	
 	$Metadata = @{
 		Title = "Create Powershell Remote Session"
 		Filename = "Create-PSSession.ps1"
@@ -13,7 +14,7 @@ function Create-PSSession{
 		Tags = "powershell, remote, session"
 		Project = ""
 		Author = "Janik von Rotz"
-		AuthorEMail = "contact@janikvonrotz.ch"
+		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-03-12"
 		LastEditDate = "2013-03-28"
 		Version = "2.1.0"
@@ -23,6 +24,7 @@ To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 '@
 }
+
 	#--------------------------------------------------#
 	# Settings
 	#--------------------------------------------------#
