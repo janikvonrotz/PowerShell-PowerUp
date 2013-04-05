@@ -11,7 +11,7 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-01-07</CreateDate>
-		<LastEditDate>2013-04-03</LastEditDate>
+		<LastEditDate>2013-04-05</LastEditDate>
 		<Version>1.1.6</Version>
 	</Metadata>
 
@@ -23,21 +23,21 @@
 		<SystemVariables>
 
 			<SystemVariable>
-				<Value>\Functions</Value>
+				<Value>\functions</Value>
 				<Name>Path</Name>
 				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>
 			</SystemVariable>
 			
 			<SystemVariable>
-				<Value>\Apps\Git\cmd</Value>
+				<Value>\apps\Git\cmd</Value>
 				<Name>Path</Name>
 				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>
 			</SystemVariable>
 			
 			<SystemVariable>
-				<Value>\Apps\Git\bin</Value>
+				<Value>\apps\Git\bin</Value>
 				<Name>Path</Name>
 				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>

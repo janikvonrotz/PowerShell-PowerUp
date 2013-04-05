@@ -1,3 +1,8 @@
+if($Host.Version.Major -gt 2){
+	powershell -Version 2 $MyInvocation.MyCommand.Definition
+	exit
+}
+
 $Metadata = @{
 	Title = "Profile Installation"
 	Filename = "ProfileInstallation.ps1"
@@ -7,8 +12,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-03-18"
-	LastEditDate = "2013-04-03"
-	Version = "3.1.0"
+	LastEditDate = "2013-04-05"
+	Version = "3.1.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
