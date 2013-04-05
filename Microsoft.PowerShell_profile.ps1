@@ -47,7 +47,8 @@ get-childitem | foreach {. .\$_}
 # Alias
 #--------------------------------------------------#	
 nal -Name rdp -Value "Start-RDPSession"
-	
+nal -Name rps -Value "Create-PSSession"
+
 #--------------------------------------------------#
 # Main Code
 #--------------------------------------------------#

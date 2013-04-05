@@ -75,7 +75,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 		    if(($Names).contains($Server.Name)){
 		        
                 $Servername = $Server.Server
-                $Username = $Server.ADCredential
+                $Username = $Server.User
 
                 # Delete existing user credentials
                 $Null = Invoke-Expression "cmdkey /delete:'$Servername'"

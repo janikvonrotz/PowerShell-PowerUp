@@ -20,8 +20,8 @@ function Merge-Object{
 
 Write-Host "`nExtract Data ..."
 
-$s1 = Create-PSSession sharepoint
-$s2 = Create-PSSession data03
+$s1 = rps sp1
+$s2 = rps data1
 $Report = @()
 
 $ReportSession1 = Invoke-Command -Session $s1 -ScriptBlock {D:\Powershell-Profile\PublicScripts\SPSecurableObjectPermissions\Report-SPSecurableObjectPermissions.ps1}
@@ -42,18 +42,17 @@ While(1){
 		}
 	}
 
-	$ReportUserGroups = Invoke-Command -Session $s1 -ScriptBlock {param([array]$Usernames) D:\Powershell-Profile\PublicScripts\ADUserGroups\Report-ActiveDirectoryUserGroups.ps1 -Usernames $Usernames} -ArgumentList (,$Usernames)
+	$ReportUserandGroups = Invoke-Command -Session $s1 -ScriptBlock {param([array]$Usernames) D:\Powershell-Profile\PublicScripts\ADUserGroups\Report-ActiveDirectoryUserGroups.ps1 -Usernames $Usernames} -ArgumentList (,$Usernames)
     
-    foreach ($Username in $Usernames){
 
-        foreach ($UserGroup in $ReportUserGroups){
+    foreach ($UserGroup in $ReportUserandGroups){
 
-	        $ReportElements = ($ReportGroupPermission | Where-Object {$_.Member -like $UserGroup.GroupName -and $UserGroup.SamAccountName -like $Username})
+	    $ReportElements = ($ReportGroupPermission | Where-Object {$_.Member -like $UserGroup.GroupName})
         
-            foreach($ReportElement in $ReportElements){
-                $ReportElement = Merge-Object -Base $ReportElement -Additional $UserGroup
-                $Report += $ReportElement
-            }
+        foreach($ReportElement in $ReportElements){
+
+            $Report += Merge-Object -Base $ReportElement -Additional $UserGroup
+            
         }
     }
 

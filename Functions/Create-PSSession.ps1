@@ -54,7 +54,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 			# Delete Session if already opened
 			Remove-PSSession -ComputerName $Server.Server -ErrorAction SilentlyContinue
 			
-			$Username = $Server.ADCredential
+			$Username = $Server.User
 			$Password = Read-Host -Prompt "`nEnter password for $Username" -AsSecureString
 			$Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList $Username, $Password
 			
