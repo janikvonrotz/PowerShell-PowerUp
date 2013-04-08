@@ -1,1 +1,0 @@
-powershell ".\Report-SPSecurableObjectPermissions.ps1" -OutPutToGridView
