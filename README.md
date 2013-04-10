@@ -13,11 +13,13 @@ One of the most advanced Powershell profile configurations for Administrators.
     * Register your profile for further updates through the GitHub repo
     * Enable Powershell Remoting
 
+
 * Powershell profile configurations:
     * Auto logger for every powershell session
     * Default Settings for the console
     * Auto loader for custom functions (function folder)
     * Easy integration of new Powershell modules (Just add them to the modules folder or download them with PsGet)
+
 
 * Powershell IDE:
     * Manage your remote configurations (Enter Get-RemoteConfigurations -ListAvailable to start)
