@@ -57,6 +57,13 @@
 				<Target>Machine</Target>
 			</SystemVariable>
 			
+			<SystemVariable>
+				<Value>..\Node.js</Value>
+				<Name>Path</Name>
+				<RelativePath>true</RelativePath>
+				<Target>Machine</Target>
+			</SystemVariable>
+			
 		</SystemVariables>
 		
 		<!--
