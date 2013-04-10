@@ -229,7 +229,6 @@ function help
         [System.String]
         ${Path},
 
-        [ValidateSet('Alias','Cmdlet','Provider','General','FAQ','Glossary','HelpFile','ScriptCommand','Function','Filter','ExternalScript','All','DefaultHelp','Workflow')]
         [System.String[]]
         ${Category},
 
@@ -242,7 +241,7 @@ function help
         [System.String[]]
         ${Role},
 
-        [Parameter(ParameterSetName='DetailedView', Mandatory=$true)]
+        [Parameter(ParameterSetName='DetailedView')]
         [Switch]
         ${Detailed},
 
@@ -250,15 +249,15 @@ function help
         [Switch]
         ${Full},
 
-        [Parameter(ParameterSetName='Examples', Mandatory=$true)]
+        [Parameter(ParameterSetName='Examples')]
         [Switch]
         ${Examples},
 
-        [Parameter(ParameterSetName='Parameters', Mandatory=$true)]
+        [Parameter(ParameterSetName='Parameters')]
         [System.String]
         ${Parameter},
 
-        [switch]
+        [Switch]
         ${Online}
     )
 
@@ -556,18 +555,11 @@ function Invoke-Elevated
     elseif ($args[0] -is [Scriptblock]) 
     {
         $script = $args[0]
-        if ($script -match '(?si)\s*param\s*\(')
-        {
-            $startProcessArgs['ArgumentList'] = "-NoExit", "-Command", "& {$script}"
-        }
-        else
-        {
-            $startProcessArgs['ArgumentList'] = "-NoExit", "-Command", "& {Set-Location '$pwd'; $script}"
-        }
-        [string[]]$cmdArgs = @()
+        $startProcessArgs['ArgumentList'] = "-NoExit", "-Command", "& {Set-Location '$pwd'; $script}"
+        $cmdArgs = @('')
         if ($args.Count -gt 1)
         {
-            $cmdArgs = $args[1..$($args.Length-1)]
+            $cmdArgs = $args[1..$($args.Length)]
             $startProcessArgs['ArgumentList'] += $cmdArgs
         }
         Write-Debug "  Starting PowerShell with scriptblock: {$script} and args: $cmdArgs"
@@ -575,10 +567,10 @@ function Invoke-Elevated
     else
     {
         $app = Get-Command $args[0] | Select -First 1 | Where {$_.CommandType -eq 'Application'}
-        [string[]]$cmdArgs = @()
+        $cmdArgs = @('')
         if ($args.Count -gt 1)
         {
-            $cmdArgs = $args[1..$($args.Length-1)]
+            $cmdArgs = $args[1..$($args.Length)]
         }
         if ($app) {
             $startProcessArgs['FilePath'] = $app.Path
@@ -2572,8 +2564,8 @@ Export-ModuleMember -Alias * -Function *
 # SIG # Begin signature block
 # MIIfVQYJKoZIhvcNAQcCoIIfRjCCH0ICAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQULJceY2W6POSeQC0DaXWgDrkx
-# EcagghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQULncn4EDaAjG1BM9lDjxXHbFI
+# cNagghqHMIIGbzCCBVegAwIBAgIQA4uW8HDZ4h5VpUJnkuHIOjANBgkqhkiG9w0B
 # AQUFADBiMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMSEwHwYDVQQDExhEaWdpQ2VydCBBc3N1cmVk
 # IElEIENBLTEwHhcNMTIwNDA0MDAwMDAwWhcNMTMwNDE4MDAwMDAwWjBHMQswCQYD
@@ -2720,22 +2712,22 @@ Export-ModuleMember -Alias * -Function *
 # U2lnbmluZyBDQS0xAhAKFT0IddbjKM4R9plQj7wRMAkGBSsOAwIaBQCgeDAYBgor
 # BgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEE
 # MBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBSI
-# rpldNTUJiT7VnfXoYeFvqJlHJTANBgkqhkiG9w0BAQEFAASCAQCyClgW3rzSH5bz
-# 3S3Y/SaNdI5BTszib9UdaYaBWUOdvCrbNENGag5kr8uNF+XrzYU3ZqXwxoVL2EmL
-# 3OWZWUNsmMwVzJWT+szrmSbScjPvRsnVXBavA8w8y8eQzHdt6K20B080dYXdVHQM
-# UyAyt1AR1wR2jEATx/8YEAGQIXOiVvXlbzS82NfKhUWCr+kTn04aznCwUrhd1d6A
-# y1tvim2f4iRWjFEgYxyuWstertKu2CVCEemYU8TP6WD6KEQgLxzxr4fDa0axG0QK
-# iowJ7vjaQJpaXNmxeN/eAUDBvANgxSnZHJaMLdkxK3jkiZsVog/4K/zFZotJNk2O
-# 2J7HGWTWoYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
+# Hy2MgMC6Cmbr9t3GrZQDFmJlfjANBgkqhkiG9w0BAQEFAASCAQCKNRVLP0Ail2Nr
+# 6JKFjYNDdZjHjnrnvITH+FEX/wFWQ6RSyvHOUMwXZD/hSHJsCf/foOJbWkoJRn7W
+# HMeV5BYnnuoBbLbqFeMxnMdFGZlVKSuZoBrYjkFg6Pfg4Jr20WpAdeJAgRA1Ni/w
+# B8FyF84W9jlnBQiqHuZcGPFGmNQ1PylbQhnOQCQv0/uKnOnOhLPY9F+XgntMC/vc
+# cgjwzWyA357UVrpwAQCjpyob2X/p+I20qwkwOxAu5sUBCFmtSgY4tuLB03j6KJx6
+# FoPNodq9YHH8YaZuLbi57TAeJwArcJcuF7zp/eCVNSkuxdgXphkv5E3QFk4UrpsT
+# /saI/an2oYICDzCCAgsGCSqGSIb3DQEJBjGCAfwwggH4AgEBMHYwYjELMAkGA1UE
 # BhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2lj
 # ZXJ0LmNvbTEhMB8GA1UEAxMYRGlnaUNlcnQgQXNzdXJlZCBJRCBDQS0xAhADi5bw
 # cNniHlWlQmeS4cg6MAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjEyMTcwMTUxMTRaMCMGCSqGSIb3DQEJBDEW
-# BBQ9xZlseWfM6wGK5sylmg3BWiXG8TANBgkqhkiG9w0BAQEFAASCAQCUnt4HWA3Z
-# Nf40N0J475KRi/1zH0LVjdMqF08WmBZ8m2zJRqNC1xXNOshnxmpG8y8RXk8+483N
-# fC/ZTwfjxfmu0FXCj7sMf5fdu3bvrHDN1r9esoRnIJuxxTHpn3xhbiYspJ+fa5OF
-# IH7MW1BmX+mZ0zuVB/Rz4sKOBPHJBKdKXqbu4n17VSI0LixTUy+zeGV7My/6ICng
-# kYxaWFI0HeI0tEhOYZ5b0MN1PreJ080SDAEs2WuY7ZXC8C/OOqVW0TIYsh9GPuZn
-# JZLLR+vOcWCr6QA/WTJhkxP8RgtoLdk3RC0mZFJHxDDG1HjlWAbJm0+Rgx6VcSKo
-# EVSsaO85QSkk
+# AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjA5MTYwMTMwMTlaMCMGCSqGSIb3DQEJBDEW
+# BBQKWKITop3FE7jZlPDp76+GtZj4tzANBgkqhkiG9w0BAQEFAASCAQBVZtJ4V1pT
+# itUGm2sBMhBTtXf55UYwJi8NiIuweQF5KKz1r43EUOAPjZi7olWWjbolB9c8qJjU
+# QQCQgiLgZjemQ/DEy1iyNa72FhQOzTpuS4SfuATMWRaYFf2x37tU3pOqMJ3gpCKT
+# K2ghGTMFEYAhZy2ReVrZNvcwEo0afW4rU3BBg4ERLqFr8FmdqBMDh9IF+aEHIScV
+# Hiqusxr/mKbwNQT4YGWvBoXdFp1KIFDAUvqZYCgvXpyoQHCKjnl0M8MRBa0pbixZ
+# zKG4qtGS9ncLA0yIxhrlAj1D0YPxnLAD/o4vh4ZKRgpYznRtIOCQpn/Ap8pB7Jk2
+# 7UZgo92x9Uk/
 # SIG # End signature block

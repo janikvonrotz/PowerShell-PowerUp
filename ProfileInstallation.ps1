@@ -12,7 +12,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-03-18"
-	LastEditDate = "2013-04-05"
+	LastEditDate = "2013-04-10"
 	Version = "3.1.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -139,6 +139,7 @@ if($Host.Version.Major -lt 2){
 		}
 	}
 
-	Write-Host “`nFinished” -BackgroundColor Green -ForegroundColor Black
+	Write-Host "`nFinished" -BackgroundColor Black -ForegroundColor Green
 	Read-Host "`nPress Enter to exit"
+
 }

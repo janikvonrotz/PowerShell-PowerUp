@@ -73,7 +73,12 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
     }
     
     if($ListAvailable -and $Names -eq $null){
-        $Config | Format-Table
+		try{
+			$Config | Out-Gridview
+		}catch{
+			$error[0]
+			$Config | format-table
+		}
     }else{
         if($Names -ne $null){
 
@@ -83,7 +88,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
                 }
             }
         }else{
-            throw "Enter values ​​for the following parameters: Names[]"            
+            throw "Enter values for the following parameters: Names[]"  
         }
     }
 }

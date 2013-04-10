@@ -1,5 +1,5 @@
 ﻿TOPIC
-    PowerShell Community Extensions (version 2.1.1.0)
+    PowerShell Community Extensions (version 2.1.0.0)
 
 SHORT DESCRIPTION
     Describes the Windows PowerShell Community Extensions (PSCX) module and 
@@ -15,7 +15,7 @@ LONG DESCRIPTION
     available to the community.
         
 POWERSHELL COMPATIBILITY
-    Since PSCX 2.1 is module based, it works only in Windows PowerShell 2.0 
+    Since PSCX 2.1 is module based, it only works in Windows PowerShell 2.0 
     and 3.0.  It doesn't work in Windows PowerShell 1.0.  If you need PSCX
     for Windows PowerShell 1.0, please download and install PSCX 1.2.
     
@@ -716,30 +716,26 @@ CONTRIBUTING TO PSCX
 
 CREDITS
     This is a list of people and/or groups who have directly or indirectly
-    helped by offering significant suggestions, code, certs or linkable 
-    binaries without which PSCX would be a lesser product. In alphabetical 
-    order:
+    helped by offering significant suggestions, code or linkable binaries
+    without which PSCX would be a lesser product. In no particular order:
     
-    DigiCert for donating code signing certificates.
-    http://www.digicert.com
-
-    Eugene Sichkar / 7z Wrapper
-    http://www.nomad-net.info/
-    
-    Igor Pavlov / 7-Zip
-    http://www.7-zip.org/ 
+    Wintellect 
+    http://www.wintellect.com/
     
     Mike Krueger/John Reilly #ZipLib
     http://www.icsharpcode.net/OpenSource/SharpZipLib/
     
-    Richard Deeming / Trinet.Core.IO.Ntfs
-    http://www.codeproject.com/KB/cs/ntfsstreams.aspx
+    Igor Pavlov / 7-Zip
+    http://www.7-zip.org/ 
     
     The nUnit Team
     http://www.nunit.org/
     
-    Wintellect for PowerCollections.dll
-    http://www.wintellect.com/
+    Eugene Sichkar
+    http://www.nomad-net.info/
+    
+    Richard Deeming / Trinet.Core.IO.Ntfs
+    http://www.codeproject.com/KB/cs/ntfsstreams.aspx
     
 SEE ALSO
     For more information, most of the cmdlets have help associated with 

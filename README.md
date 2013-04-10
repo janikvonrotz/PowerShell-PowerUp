@@ -5,16 +5,23 @@ One of the most advanced Powershell profile configurations for Administrators.
 
 ##What you'll get##
 
-* Powershell profile configuration
-* Powershell remoting support
-* Auto logger for every powershell session
-* Easy integration of custom function (Just add them to the Function Folder)
-* Easy integration of new Powershell modules (Just add them to the Modules Folder)
-* Windows sheduled task support
-* Update directly from GitHub repo
-* Add default registry keys
-* Start rdp session from the commandline
-* Some good examples for powerfull and sophisticated Powershell scripts
+* Powershell profile installation with some advanced features:
+** Install the profile in the folder of your choice
+** Add default registry keys
+** Create System Path Variables
+** Add the context menu feature "Open Powershell here"
+** Register your profile for further updates through the GitHub repo
+** Enable Powershell Remoting
+
+* Powershell profile configurations:
+** Auto logger for every powershell session
+** Default Settings for the console
+** Auto loader for custom functions (function folder)
+** Easy integration of new Powershell modules (Just add them to the modules folder or download them with PsGet)
+
+* Powershell IDE:
+** Manage your remote configurations (Enter Get-RemoteConfigurations -ListAvailable to start)
+** Get some powerfull and sophisticated Powershell scripts (scripts folder)
 
 ##How to install:##
 

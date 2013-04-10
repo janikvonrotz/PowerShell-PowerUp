@@ -24,8 +24,8 @@ $s1 = rps sp1
 $s2 = rps data1
 $Report = @()
 
-$ReportSession1 = Invoke-Command -Session $s1 -ScriptBlock {D:\Powershell-Profile\PublicScripts\SPSecurableObjectPermissions\Report-SPSecurableObjectPermissions.ps1}
-$ReportSession2 = Invoke-Command -Session $s2 -ScriptBlock {(C:\Powershell-Profile\PublicScripts\FileSystemPermissions\Report-FileSystemPermissions#NoDependencies.ps1 -Path "F:\Dat" -Levels 3)}
+$ReportSession1 = Invoke-Command -Session $s1 -ScriptBlock {D:\Powershell-Profile\Scripts\SPSecurableObjectPermissions\Report-SPSecurableObjectPermissions.ps1}
+$ReportSession2 = Invoke-Command -Session $s2 -ScriptBlock {(C:\Powershell-Profile\Scripts\FileSystemPermissions\Report-FileSystemPermissions#NoDependencies.ps1 -Path "F:\Dat" -Levels 3)}
 $ReportGroupPermission = $ReportSession1 + $ReportSession2
 
 
@@ -42,7 +42,7 @@ While(1){
 		}
 	}
 
-	$ReportUserandGroups = Invoke-Command -Session $s1 -ScriptBlock {param([array]$Usernames) D:\Powershell-Profile\PublicScripts\ADUserGroups\Report-ActiveDirectoryUserGroups.ps1 -Usernames $Usernames} -ArgumentList (,$Usernames)
+	$ReportUserandGroups = Invoke-Command -Session $s1 -ScriptBlock {param([array]$Usernames) D:\Powershell-Profile\Scripts\ADUserGroups\Report-ActiveDirectoryUserGroups.ps1 -Usernames $Usernames} -ArgumentList (,$Usernames)
     
 
     foreach ($UserGroup in $ReportUserandGroups){
@@ -61,6 +61,3 @@ While(1){
 	$Choice = Read-Host "`nNew Report? (y/n)"
 	if($Choice -ne "y"){break}
 }
-
-Write-Host "`nFinished" -BackgroundColor Green -ForegroundColor Black
-Read-Host "`nPress Enter to exit"

@@ -1,15 +1,9 @@
-PowerShell Community Extensions 2.1.1 Release Notes
-Nov 25, 2012
-
-BUGS FIXED:
-
-33314 - Powershell 3.0 Specific HelpUri parameter to the CmdletBinding attribute
+PowerShell Community Extensions 2.1 Release Notes
+Sept 15, 2012
 
 The primary purpose of the Pscx 2.1 release is to convert from the previous 
 approach of using a PSSnapin and scripts over to a completely module-based 
-approach as well as provide support for Windows PowerShell 3.0.  As a 
-consequence, Pscx 2.1 does not work in PowerShell 1.0. 
-
+approach.  As a consequence, Pscx 2.1 only works with Windows PowerShell 2.1. 
 If you need support for Windows PowerShell 1.0, you can still download the 
 Pscx 1.2 release.  The other major change is that Pscx no longer uses an MSI 
 installer.  In fact, the "install" is merely an xcopy deployment of the Pscx 
@@ -18,7 +12,7 @@ module into your modules folder (~\Documents\WindowsPowerShell\Modules).
 NOTES ABOUT XCOPY DEPLOYMENT
 
 Files downloaded from the web are usually blocked on Windows including the 
-Pscx-2.1.1.zip file.  If you do not unblock the ZIP file first then each of the 
+Pscx-2.1.0.zip file.  If you do not unblock the ZIP file first then each of the 
 files extracted from the ZIP will also be blocked.  This will cause numerous 
 errors when you import Pscx like this:
 
@@ -34,16 +28,16 @@ Please see "get-help about_signing" for more details...
 
 To avoid these errors follow the unblocking directions below.
 
-UNBLOCKING THE PSCX-2.1.1.zip FILE:
+UNBLOCKING THE PSCX-2.1.0.zip FILE:
 
-1. Locate the Pscx-2.1.1.zip file in Windows Explorer.
+1. Locate the Pscx-2.1.0.zip file in Windows Explorer.
 2. Right-click on the file and select "Properties".
 3. On the General tab of the Properties dialog, locate the "Unblock" button in
    the lower right-hand corner and press.
 
 COPYING THE PSCX MODULE INTO YOUR MODULE DIR
 
-Once you have unblocked the Pscx-2.1.1.zip, extract the contents of the ZIP file
+Once you have unblocked the Pscx-2.1.0.zip, extract the contents of the ZIP file
 to your $env:Home\Documents\WindowsPowerShell\Modules folder.  If this folder 
 doesn't exist then you will need to create it.  If you want Pscx to be avaible
 to all users on a computer, then extract the files to $PSHome\Modules instead.
@@ -128,7 +122,6 @@ UPDATED AND SHORTENED LIST OF ALIASES
     gpar          Get-Parameter
     gpv           Get-PropertyValue
     gtn           Get-TypeName
-    igc           Invoke-GC
     ln            New-HardLink
     lorem         Get-LoremIpsum
     nho           New-HashObject
@@ -142,6 +135,7 @@ UPDATED AND SHORTENED LIST OF ALIASES
     skip          Skip-Object
     sls           Select-String
     sro           Set-ReadOnly
+    srts          Search-Transcript
     su            Invoke-Elevated
     swr           Set-Writable
     tail          Get-FileTail
@@ -157,8 +151,7 @@ REMOVED:
     Get-Url           - Use Get-HttpResource.
     Get-WebService    - Use New-WebServiceProxy.
     Import-Assembly   - Use Add-Type.    
-    New-GenericObject - Use New-Object which handles generics better in 
-                        PowerShell 2.0.
+    New-GenericObject - Use New-Object which handles generics better in 2.1.
 
     Connect-VirtualServer
     Get-Manager
@@ -171,7 +164,7 @@ REMOVED:
 
     Obsoleted Aliases
         egp, eghp, ephy, galpscx, gcmpscx, gdrpscx, gvs, help, hrexc, iphy, 
-        mail, man, pager, ping, ra, rehash, rnd, saps, srts, start, up and winexc.
+        mail, man, pager, ping, ra, rehash, rnd, saps, start, up and winexc.
         
 MISC UPDATES:
     cd
