@@ -12,15 +12,11 @@ One of the most advanced Powershell profile configurations for Administrators.
     * Add the context menu feature "Open Powershell here"
     * Register your profile for further updates through the GitHub repo
     * Enable Powershell Remoting
-
-
 * Powershell profile configurations:
     * Auto logger for every powershell session
     * Default Settings for the console
     * Auto loader for custom functions (function folder)
     * Easy integration of new Powershell modules (Just add them to the modules folder or download them with PsGet)
-
-
 * Powershell IDE:
     * Manage your remote configurations (Enter Get-RemoteConfigurations -ListAvailable to start)
     * Get some powerfull and sophisticated Powershell scripts (scripts folder)
@@ -67,5 +63,5 @@ Excute the install script
 
 - [x] Create a task List
 - [ ] Add a Start-Putty function
-- [ ] Get rid of the Get-XmlConfig function (remove dependencies)
+- [x] Get rid of the Get-XmlConfig function (remove dependencies)
 	
