@@ -62,9 +62,3 @@ Start-Transcript -path ($ScriptPath + "\Logs\Powershell Commands " + $(Get-LogSt
 
 # Go back to working directory
 Set-Location $WorkingPath
-
-
-
-# Load posh-npm example profile
-. 'C:\Users\vonrotz\Documents\WindowsPowerShell\Modules\posh-npm\profile.example.ps1'
-
