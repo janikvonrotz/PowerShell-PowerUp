@@ -3,20 +3,20 @@
 <Content>
 
 	<Metadata>
-		<Title>Profile Installation Config File</Title>
-		<Filename>config.xml</Filename>
+		<Title>Profile installation configuration file</Title>
+		<Filename>Default.profile.config.xml</Filename>
 		<Description></Description>
-		<Tags>powershell, configuration, installation</Tags>
+		<Tags>powershell, configuration, installation, profile</Tags>
 		<Project></Project>
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
-		<CreateDate>2013-01-07</CreateDate>
-		<LastEditDate>2013-04-05</LastEditDate>
-		<Version>1.1.6</Version>
+		<CreateDate>2013-04-11</CreateDate>
+		<LastEditDate>2013-04-11</LastEditDate>
+		<Version>1.0.0</Version>
 	</Metadata>
 
 	<Configuration>
-
+	
 		<!--
 		# List of SystemVariables
 		-->	
