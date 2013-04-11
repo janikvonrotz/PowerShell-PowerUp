@@ -41,7 +41,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
 	# Functions
 	#--------------------------------------------------#
-
+    
     function Merge-Object{
         param(
             [parameter(Mandatory=$true)]
@@ -79,15 +79,18 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
         foreach($ConfigurationFile in $ConfigurationFiles){
             switch($ConfigurationFile.Extension){
                 ".xml"{
-                    $Content += [xml]$(get-content ($ConfigurationFile.FullName))
+                    $XmlContent = [xml]$(get-content $ConfigurationFile.FullName)
+                    Write-Output ($XmlContent)
                 }
                 ".json"{
-                    $JsonContent = $(get-content ($ConfigurationFile.FullName))
-                    $Content += ConvertFrom-Json -JSON $Content
+                    $JsonContent = get-content $ConfigurationFile.FullName
+                    Write-Output (ConvertFrom-Json $JsonContent)
                 }
                 default{throw "file type of this configuration file: ($ConfigurationFile.Extension) is not supported"}
             }
 	    }
+
+        <#
 
         if($MergeContent){
             $Configuration = $Content[0]
@@ -98,14 +101,13 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
             $Configuration = $Content
         }
 
+        #>
+
 	}else{
 		Write-Error "`nNo configuration file found"
 		Write-Error "`nPlease create a config file under $Path" 
 		Write-warning "You'll find the templates for the config files on https://gist.github.com/janikvonrotz/103d7bfc7cfa2a5d21ed"
 	    break
     }
-    
-
-    return $Configuration
 
 }
