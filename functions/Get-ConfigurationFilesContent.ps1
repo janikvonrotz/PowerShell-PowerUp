@@ -106,7 +106,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	}else{
 		Write-Error "`nNo configuration file found"
 		Write-Error "`nPlease create a config file under $Path" 
-		Write-warning "You'll find the templates for the config files on https://gist.github.com/janikvonrotz/103d7bfc7cfa2a5d21ed"
+		Write-warning "You'll find the templates for the config files on https://gist.github.com/janikvonrotz/5370179"
 	    break
     }
 
