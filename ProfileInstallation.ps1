@@ -29,7 +29,7 @@ if($Host.Version.Major -lt 2){
     #--------------------------------------------------#
     #  Settings
     #--------------------------------------------------#
-    $PSConfig = .\"Microsoft.PowerShell_profile.config.ps1"
+    $PSConfig = .\Microsoft.PowerShell_profile.config.ps1
 
     #--------------------------------------------------#
     # Main
