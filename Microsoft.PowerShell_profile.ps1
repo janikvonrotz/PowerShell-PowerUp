@@ -32,7 +32,7 @@ $PromptSettings.MaxWindowSize.Height = 50
 $PromptSettings.MaxPhysicalWindowSize.Width = 120
 $PromptSettings.MaxPhysicalWindowSize.Height = 50
 # $PromptSettings.WindowTitle = "PowerShell"
-$PSConfig = ".\'Microsoft.PowerShell_profile.config.ps1'"
+$PSConfig = "\Microsoft.PowerShell_profile.config.ps1"
 
 #--------------------------------------------------#
 # Main
