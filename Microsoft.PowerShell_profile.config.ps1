@@ -35,10 +35,6 @@ $PSConfig = @{
 		Path = $ProfilePath + "\modules"
 	}
 
-	tasks = @{
-		Path = $ProfilePath + "\tasks"
-	}
-
 	configs = @{
 		Path = $ProfilePath + "\configs"
 	}	
