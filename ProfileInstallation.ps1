@@ -57,7 +57,7 @@ if($Host.Version.Major -lt 2){
 	
     foreach($Config in $Configs){
         
-        $Configuration = $Configs.Content.Configuration
+        $Configuration = $Config.Content.Configuration
 
         # Registry Settings
         foreach ($RegistryEntry in $Configuration.RegistryEntries.RegistryEntry)
@@ -97,14 +97,14 @@ if($Host.Version.Major -lt 2){
 						$PathToScript = Get-ChildItem -Path $PSConfigs.tasks.Path -Filter Git-Update.ps1 -Recurse
 						
                         # Update task definitions
-					    [xml]$TaskDefinition = (get-content $$PathToTask)
-                        $TaskDefinition.Task.Actions.Exec.Arguments = PathToScript
+					    [xml]$TaskDefinition = (get-content $PathToTask.Fullname)
+                        $TaskDefinition.Task.Actions.Exec.Arguments = $PathToScript.Fullname
 					    $TaskDefinition.Task.Actions.Exec.WorkingDirectory = $WorkingPath
-                        $TaskDefinition.Save($PathToTask)
+                        $TaskDefinition.Save($PathToTask.Fullname)
 
                         # Create task
                         [string]$Name =  $Feature.Name
-                        SchTasks /Create /TN "$Name" /XML $PathToTask
+                        SchTasks /Create /TN "$Name" /XML $PathToTask.Fullname
 					    Write-Warning "`nAdded system task: $Name"
 				    }
 				
