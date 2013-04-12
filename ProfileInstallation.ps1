@@ -93,8 +93,8 @@ if($Host.Version.Major -lt 2){
 				    "Git Update Task" {
 
 					    # Settings						
-                        $PathToTask = Get-ChildItem -Path $PSConfig.tasks.Path -Filter GitUpdateTask.xml -Recurse
-						$PathToScript = Get-ChildItem -Path $PSConfig.tasks.Path -Filter Git-Update.ps1 -Recurse
+                        $PathToTask = Get-ChildItem -Path $PSConfigs.tasks.Path -Filter GitUpdateTask.xml -Recurse
+						$PathToScript = Get-ChildItem -Path $PSConfigs.tasks.Path -Filter Git-Update.ps1 -Recurse
 						
                         # Update task definitions
 					    [xml]$TaskDefinition = (get-content $$PathToTask)

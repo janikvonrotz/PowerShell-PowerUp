@@ -46,7 +46,8 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 		#--------------------------------------------------#
 		# Settings
 		#--------------------------------------------------#
-		$RDPDefaultFile = Get-ChildItem -Path $PSConfig.tasks.Path -FilterDefault.rdp -Recurse
+		$RDPDefaultFile = Get-ChildItem -Path $PSConfig.configs.Path -Filter Default.rdp -Recurse
+        [string]$RDPDefaultFile = $RDPDefaultFile.Fullname
 
         #--------------------------------------------------#
         # Main

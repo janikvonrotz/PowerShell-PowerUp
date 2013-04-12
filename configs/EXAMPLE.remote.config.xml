@@ -24,7 +24,7 @@
 	</Servers>
 	
 	<Servers>
-		<Name>sp1</Name>
+		<Name>ServerSharePoint1</Name>
 		<Server>ServerSharePoint1</Server>
 		<User>Domain\Administrator</User>
 		<Description></Description>
