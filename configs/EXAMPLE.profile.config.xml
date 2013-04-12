@@ -4,7 +4,7 @@
 
 	<Metadata>
 		<Title>Profile installation configuration file</Title>
-		<Filename>Default.profile.config.xml</Filename>
+		<Filename>EXAMPLE.profile.config.xml</Filename>
 		<Description></Description>
 		<Tags>powershell, configuration, installation, profile</Tags>
 		<Project></Project>
@@ -21,13 +21,6 @@
 		# List of SystemVariables
 		-->	
 		<SystemVariables>
-
-			<SystemVariable>
-				<Value>\functions</Value>
-				<Name>Path</Name>
-				<RelativePath>true</RelativePath>
-				<Target>Machine</Target>
-			</SystemVariable>
 			
 			<SystemVariable>
 				<Value>\apps\Git\cmd</Value>
@@ -42,28 +35,7 @@
 				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>
 			</SystemVariable>
-			
-			<SystemVariable>
-				<Value>..\SysInternals</Value>
-				<Name>Path</Name>
-				<RelativePath>true</RelativePath>
-				<Target>Machine</Target>
-			</SystemVariable>
-			
-			<SystemVariable>
-				<Value>..\Putty</Value>
-				<Name>Path</Name>
-				<RelativePath>true</RelativePath>
-				<Target>Machine</Target>
-			</SystemVariable>
-			
-			<SystemVariable>
-				<Value>..\Node.js</Value>
-				<Name>Path</Name>
-				<RelativePath>true</RelativePath>
-				<Target>Machine</Target>
-			</SystemVariable>
-			
+						
 		</SystemVariables>
 		
 		<!--
@@ -75,7 +47,7 @@
 		
 			<Feature>
 				<Name>Git Update Task</Name>
-				<Install>Disable</Install>
+				<Install>Enable</Install>
 			</Feature>		
 
 			<Feature>
@@ -89,16 +61,19 @@
 		 # Explorer Settings
 		-->
 		<RegistryEntries>	
+		
 			<RegistryEntry>
 				<Path>HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced</Path>
 				<Name>HideFileExt</Name>
 				<Value>0</Value>
-			</RegistryEntry>		
+			</RegistryEntry>
+			
 			<RegistryEntry>
 				<Path>HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Search\PrimaryProperties\UnindexedLocations</Path>
 				<Name>SearchOnly</Name>
 				<Value>00000000</Value>
 			</RegistryEntry>
+			
 		</RegistryEntries>
 		
 	</Configuration>

@@ -47,6 +47,14 @@ if($Host.Version.Major -lt 2){
 
     $Configs = Get-ConfigurationFilesContent -Path $PSConfig.configs.Path -SearchExpression "*.profile.config.*"
 
+	# Import Pscx Extension
+	$env:PSModulePath += ";"+ ($PSConfig.modules.Path)
+	Import-Module Pscx
+	
+	# Enable Open Powershell here
+	Enable-OpenPowerShellHere
+	Write-Warning "`nAdded 'Open PowerShell Here' to context menu"
+	
     foreach($Config in $Configs){
         
         $Configuration = $Configs.Content.Configuration
@@ -58,10 +66,6 @@ if($Host.Version.Major -lt 2){
             [string]$Name =  $RegistryEntry.Name
 		    Write-Warning "`nAdded registry entry: $Name"
         }
-
-        # Import Pscx Extension
-        $env:PSModulePath += ";"+ ($PSConfig.modules.Path)
-        Import-Module Pscx
 
         # Add System Variables
         foreach ($SystemVariable in $Configuration.SystemVariables.SystemVariable)
@@ -77,57 +81,35 @@ if($Host.Version.Major -lt 2){
 	        }            [string]$Name =  $SystemVariable.Value
 		    Write-Warning "`nAdded path variable: $Name"
         }
-
-        # Enable Open Powershell here
-        Enable-OpenPowerShellHere
-	    Write-Warning "`nAdded 'Open PowerShell Here' to context menu"
-
-        #--------------------------------------------------#
-        # Powershell Default Profile
-        #--------------------------------------------------#
-
-        # Create Powershell Profile
-        if (!(Test-Path $Profile)){
-
-	          # Create a profile
-	        New-Item -path $Profile -type file -force
-        }
-
-        # Link Powershell Profile
-        $SourcePath = Split-Path $profile -parent
-        $ScriptName = $MyInvocation.MyCommand.Name
-
-        if (!(Test-Path ($SourcePath + "\" + $ScriptName) -PathType Leaf))
-        {
-	        # Rename default source
-	        Rename-Item $SourcePath ($SourcePath + "-Obsolete")
-	 
-	        # Create a shortcut to the existing powershell profile
-	        New-Symlink $SourcePath $WorkingPath
-        }
-	
-        #--------------------------------------------------#
+		
+		#--------------------------------------------------#
         # Features
         #--------------------------------------------------#
 	
 	    foreach($Feature in $Configuration.Features.Feature){
 		    if($Feature.Install -eq "Enable"){
 			    switch($Feature.Name){
+
 				    "Git Update Task" {
-					    #Settings
-                        $PathToTask = $PSConfig.tasks.Path + '\Git Update Task.xml'
-					    $UpdateScriptName = "Git-Update.ps1"
-					
-                        [string]$Name =  $Feature.Name
-					    [xml]$TaskDefinition = (get-content $PathToTask)
-                        $TaskDefinition.Task.Actions.Exec.Arguments = $WorkingPath + "\" + $UpdateScriptName
+
+					    # Settings						
+                        $PathToTask = Get-ChildItem -Path $PSConfig.tasks.Path -Filter GitUpdateTask.xml -Recurse
+						$PathToScript = Get-ChildItem -Path $PSConfig.tasks.Path -Filter Git-Update.ps1 -Recurse
+						
+                        # Update task definitions
+					    [xml]$TaskDefinition = (get-content $$PathToTask)
+                        $TaskDefinition.Task.Actions.Exec.Arguments = PathToScript
 					    $TaskDefinition.Task.Actions.Exec.WorkingDirectory = $WorkingPath
                         $TaskDefinition.Save($PathToTask)
+
+                        # Create task
+                        [string]$Name =  $Feature.Name
                         SchTasks /Create /TN "$Name" /XML $PathToTask
 					    Write-Warning "`nAdded system task: $Name"
 				    }
 				
 				    "Powershell Remoting"{
+
 					    Enable-PSRemoting
 					    Set-Item WSMan:\localhost\Client\TrustedHosts "RemoteComputer" -Force
 					    Set-Item WSMan:\localhost\Shell\MaxMemoryPerShellMB 1024
@@ -137,9 +119,33 @@ if($Host.Version.Major -lt 2){
 			    }
 		    }
 	    }
+	}
+	
+	
+	#--------------------------------------------------#
+	# Powershell Default Profile
+	#--------------------------------------------------#
 
-    }
+	# Create Powershell Profile
+	if (!(Test-Path $Profile)){
 
+		  # Create a profile
+		New-Item -path $Profile -type file -force
+	}
+
+	# Link Powershell Profile
+	$SourcePath = Split-Path $profile -parent
+	$ScriptName = $MyInvocation.MyCommand.Name
+
+	if (!(Test-Path ($SourcePath + "\" + $ScriptName) -PathType Leaf))
+	{
+		# Rename default source
+		Rename-Item $SourcePath ($SourcePath + "-Obsolete")
+ 
+		# Create a shortcut to the existing powershell profile
+		New-Symlink $SourcePath $WorkingPath
+	}
+	
 	Write-Host "`nFinished" -BackgroundColor Black -ForegroundColor Green
 	Read-Host "`nPress Enter to exit"
 

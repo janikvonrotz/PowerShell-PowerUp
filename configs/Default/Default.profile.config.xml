@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>Profile installation configuration file</Title>
+		<Filename>Default.profile.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, profile</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
+		<CreateDate>2013-04-11</CreateDate>
+		<LastEditDate>2013-04-11</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+
+	<Configuration>
+	
+		<!--
+		# List of SystemVariables
+		-->	
+		<SystemVariables>
+			
+			<SystemVariable>
+				<Value>\apps\Git\cmd</Value>
+				<Name>Path</Name>
+				<RelativePath>true</RelativePath>
+				<Target>Machine</Target>
+			</SystemVariable>
+			
+			<SystemVariable>
+				<Value>\apps\Git\bin</Value>
+				<Name>Path</Name>
+				<RelativePath>true</RelativePath>
+				<Target>Machine</Target>
+			</SystemVariable>
+						
+		</SystemVariables>
+		
+		<!--
+		# Feature Install Settings
+		 
+		# To enable a feature change <Install> content to "Enable"
+		-->
+		<Features>
+		
+			<Feature>
+				<Name>Git Update Task</Name>
+				<Install>Enable</Install>
+			</Feature>		
+
+			<Feature>
+				<Name>Powershell Remoting</Name>
+				<Install>Disable</Install>
+			</Feature>	
+			
+		</Features>
+		
+		<!--
+		 # Explorer Settings
+		-->
+		<RegistryEntries>	
+		
+			<RegistryEntry>
+				<Path>HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced</Path>
+				<Name>HideFileExt</Name>
+				<Value>0</Value>
+			</RegistryEntry>
+			
+			<RegistryEntry>
+				<Path>HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Search\PrimaryProperties\UnindexedLocations</Path>
+				<Name>SearchOnly</Name>
+				<Value>00000000</Value>
+			</RegistryEntry>
+			
+		</RegistryEntries>
+		
+	</Configuration>
+
+</Content>

@@ -43,6 +43,10 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
     
     if ((Get-Command "cmdkey.exe") -and (Get-Command "mstsc.exe")) 
     { 
+		#--------------------------------------------------#
+		# Settings
+		#--------------------------------------------------#
+		$RDPDefaultFile = Get-ChildItem -Path $PSConfig.tasks.Path -FilterDefault.rdp -Recurse
 
         #--------------------------------------------------#
         # Main

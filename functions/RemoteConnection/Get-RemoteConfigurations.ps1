@@ -29,11 +29,6 @@ To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 '@
 }
-	#--------------------------------------------------#
-	# Settings
-	#--------------------------------------------------#
-	$RDPDefaultFile = Join-Path -Path $PSConfig.configs.Path -ChildPath "Default.rdp"
-
 	
 	#--------------------------------------------------#
 	# Main
