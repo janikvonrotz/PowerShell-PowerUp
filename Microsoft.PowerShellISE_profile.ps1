@@ -20,7 +20,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 #--------------------------------------------------#
 # Settings
 #--------------------------------------------------#
-$PSConfig = ".\'Microsoft.PowerShell_profile.config.ps1'"
+$PSConfig = "\Microsoft.PowerShell_profile.config.ps1"
 
 #--------------------------------------------------#
 # Main
