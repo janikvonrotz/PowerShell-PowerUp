@@ -19,25 +19,26 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 [string]$ProfilePath = Split-Path $MyInvocation.MyCommand.Definition -Parent
 
 $PSConfig = @{
-	apps = @{
-		Path = $ProfilePath + "\apps"
-	}
 	
 	functions = @{
-		Path = $ProfilePath + "\functions"
+		Path = Convert-Path($ProfilePath + "\functions")
 	}
 	
 	logs = @{
-		Path = $ProfilePath + "\logs"
+		Path = Convert-Path($ProfilePath + "\logs")
 	}
 	
 	modules = @{
-		Path = $ProfilePath + "\modules"
+		Path = Convert-Path($ProfilePath + "\modules")
 	}
 
 	configs = @{
-		Path = $ProfilePath + "\configs"
+		Path = Convert-Path($ProfilePath + "\configs")
 	}	
+	
+	scripts = @{
+		Path = Convert-Path($ProfilePath + "\scripts")
+	}
 }
 
 return $PSConfig

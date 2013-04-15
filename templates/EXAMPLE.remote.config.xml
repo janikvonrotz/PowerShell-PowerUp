@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Content>
+	<Metadata>
+		<Title>Remote Server Configurations</Title>
+		<Filename>EXAMPLE.remote.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, remote, session</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
+		<CreateDate>2013-03-28</CreateDate>
+		<LastEditDate>2013-04-11</LastEditDate>
+		<Version>2.0.0</Version>
+	</Metadata>
+	
+	<Servers>
+		<Name>linux1</Name>
+		<Server>ServerLinux1</Server>
+		<User>Root</User>
+		<Description></Description>
+		<Protocol>ssh,scp</Protocol>
+		<SnapIns></SnapIns>
+		<PrivatKey></PrivatKey>
+	</Servers>
+	
+	<Servers>
+		<Name>ServerSharePoint1</Name>
+		<Server>ServerSharePoint1</Server>
+		<User>Domain\Administrator</User>
+		<Description></Description>
+		<Protocol>rdp,rps</Protocol>
+		<SnapIns>Microsoft.SharePoint.PowerShell</SnapIns>
+		<PrivatKey></PrivatKey>
+	</Servers>
+		
+</Content>

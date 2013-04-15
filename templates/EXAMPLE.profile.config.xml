@@ -4,7 +4,7 @@
 
 	<Metadata>
 		<Title>Profile installation configuration file</Title>
-		<Filename>Default.profile.config.xml</Filename>
+		<Filename>EXAMPLE.profile.config.xml</Filename>
 		<Description></Description>
 		<Tags>powershell, configuration, installation, profile</Tags>
 		<Project></Project>
@@ -20,6 +20,8 @@
 		<!--
 		# List of SystemVariables
 		-->	
+		
+		<!--
 		<SystemVariables>
 			
 			<SystemVariable>
@@ -37,12 +39,15 @@
 			</SystemVariable>
 						
 		</SystemVariables>
+		-->
 		
 		<!--
 		# Feature Install Settings
 		 
 		# To enable a feature change <Install> content to "Enable"
 		-->
+		
+		<!--
 		<Features>
 		
 			<Feature>
@@ -52,14 +57,16 @@
 
 			<Feature>
 				<Name>Powershell Remoting</Name>
-				<Install>Disable</Install>
+				<Install>Enable</Install>
 			</Feature>	
 			
 		</Features>
+		-->
 		
 		<!--
 		 # Explorer Settings
 		-->
+		<!--
 		<RegistryEntries>	
 		
 			<RegistryEntry>
@@ -75,6 +82,7 @@
 			</RegistryEntry>
 			
 		</RegistryEntries>
+		-->
 		
 	</Configuration>
 

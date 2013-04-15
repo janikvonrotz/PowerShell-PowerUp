@@ -32,6 +32,13 @@ if($Host.Version.Major -lt 2){
     $PSConfig = .\Microsoft.PowerShell_profile.config.ps1
 
     #--------------------------------------------------#
+    #  Includes
+    #--------------------------------------------------#
+    # Import Pscx Extension
+	$env:PSModulePath += ";"+ ($PSConfig.modules.Path)
+	Import-Module Pscx
+    
+    #--------------------------------------------------#
     # Main
     #--------------------------------------------------#
     
@@ -46,15 +53,7 @@ if($Host.Version.Major -lt 2){
 	Set-Location $WorkingPath
 
     $Configs = Get-ConfigurationFilesContent -Path $PSConfig.configs.Path -SearchExpression "*.profile.config.*"
-
-	# Import Pscx Extension
-	$env:PSModulePath += ";"+ ($PSConfig.modules.Path)
-	Import-Module Pscx
-	
-	# Enable Open Powershell here
-	Enable-OpenPowerShellHere
-	Write-Warning "`nAdded 'Open PowerShell Here' to context menu"
-	
+		
     foreach($Config in $Configs){
         
         $Configuration = $Config.Content.Configuration
@@ -116,6 +115,11 @@ if($Host.Version.Major -lt 2){
 					    restart-Service WinRM
 					    Write-Warning "`nPowershell Remoting enabled"
 				    }
+                    
+                    "Enable Open Powershell here"{
+                    	Enable-OpenPowerShellHere
+                    	Write-Warning "`nAdded 'Open PowerShell Here' to context menu"
+                    }
 			    }
 		    }
 	    }
