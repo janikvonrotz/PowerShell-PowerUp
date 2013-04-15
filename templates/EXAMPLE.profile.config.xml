@@ -11,7 +11,7 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-04-11</CreateDate>
-		<LastEditDate>2013-04-11</LastEditDate>
+		<LastEditDate>2013-04-15</LastEditDate>
 		<Version>1.0.0</Version>
 	</Metadata>
 
@@ -57,6 +57,11 @@
 
 			<Feature>
 				<Name>Powershell Remoting</Name>
+				<Install>Enable</Install>
+			</Feature>	
+			
+			<Feature>
+				<Name>Enable Open Powershell here</Name>
 				<Install>Enable</Install>
 			</Feature>	
 			

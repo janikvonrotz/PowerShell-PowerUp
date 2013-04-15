@@ -52,7 +52,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
         if($Names -ne $null){
 
             foreach($Server in $Config){
-                if(($Names).contains($Server.Name)){
+                if($Names -contains $Server.Name){
                     $Server
                 }
             }
