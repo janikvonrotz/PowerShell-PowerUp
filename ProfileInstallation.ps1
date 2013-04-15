@@ -41,7 +41,7 @@ if($Host.Version.Major -lt 2){
     #--------------------------------------------------#
     # Main
     #--------------------------------------------------#
-    
+  
     #Include functions
     $IncludeFolders = @()
     $IncludeFolders += $PSConfig.functions.Path
@@ -51,9 +51,13 @@ if($Host.Version.Major -lt 2){
 	    get-childitem $IncludeFolder | where{ ! $_.PSIsContainer} | foreach {. .\$_}
     }
 	Set-Location $WorkingPath
-
+    
+    # Add module path to the system variables
+    Add-PathVariable -Value $PSconfig.modules.Path -Name PSModulePath -Target Machine
+    
+    #Load configurations
     $Configs = Get-ConfigurationFilesContent -Path $PSConfig.configs.Path -SearchExpression "*.profile.config.*"
-		
+	
     foreach($Config in $Configs){
         
         $Configuration = $Config.Content.Configuration
