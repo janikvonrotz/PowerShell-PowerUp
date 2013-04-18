@@ -1,4 +1,4 @@
-﻿function Start-RDPSession{
+﻿function Connect-RDPSession{
     <#
 	    .SYNOPSIS
 		    Starts a remote desktop session
@@ -10,8 +10,8 @@
 		    Server names from the remote config file
 
 	    .EXAMPLE
-		    Start-RDPSession -Names sharepoint
-            Start-RDPSession -Names sharepoint,dns
+		    Connect-RDPSession -Names sharepoint
+            Connect-RDPSession -Names sharepoint,dns
 
     #>
 
@@ -24,7 +24,7 @@
 	)
 
 	$Metadata = @{
-		Title = "Start a Remote Desktop Session"
+		Title = "Connect Remote Desktop Session"
 		Filename = "Start-RDPSession.ps1"
 		Description = ""
 		Tags = "powershell, remote, session, rdp"
@@ -32,8 +32,8 @@
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-04-03"
-		LastEditDate = "2013-04-08"
-		Version = "1.0.0"
+		LastEditDate = "2013-04-18"
+		Version = "2.0.0"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -54,7 +54,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
         #--------------------------------------------------#
 
         # Load Configurations
-		$Config = Get-RemoteConfigurations -Names $Names
+		$Config = Get-RemoteConnections -Names $Names
 
         foreach($Server in $Config){
 		        

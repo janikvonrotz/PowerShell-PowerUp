@@ -1,4 +1,4 @@
-﻿function Get-RemoteConfigurations{
+﻿function Get-RemoteConnections{
 
 	#--------------------------------------------------#
 	# Parameter
@@ -13,16 +13,16 @@
 	)
 
 	$Metadata = @{
-		Title = "Get Powershell Remote Configurations"
-		Filename = "Get-RemoteConfigurations.ps1"
+		Title = "Get Remote Connections"
+		Filename = "Get-RemoteConnections.ps1"
 		Description = ""
 		Tags = "powershell, function, remote"
 		Project = ""
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-04-08"
-		LastEditDate = "2013-04-11"
-		Version = "2.0.0"
+		LastEditDate = "2013-04-18"
+		Version = "3.0.0"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or

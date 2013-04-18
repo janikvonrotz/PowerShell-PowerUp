@@ -1,4 +1,4 @@
-function Create-PSSession{
+function Connect-PSSession{
 	#--------------------------------------------------#
 	# Parameter
 	#--------------------------------------------------#
@@ -8,7 +8,7 @@ function Create-PSSession{
 	)
 	
 	$Metadata = @{
-		Title = "Create Powershell Remote Session"
+		Title = "Connect Powershell Remote Session"
 		Filename = "Create-PSSession.ps1"
 		Description = ""
 		Tags = "powershell, remote, session"
@@ -16,8 +16,8 @@ function Create-PSSession{
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-03-12"
-		LastEditDate = "2013-04-08"
-		Version = "2.1.0"
+		LastEditDate = "2013-04-18"
+		Version = "3.0.0"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -30,7 +30,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
     $Sessions = @()
     # Load Configurations
-	$config = Get-RemoteConfigurations -Names $Names
+	$config = Get-RemoteConnections -Names $Names
 	
 	foreach($Server in $Config){
 		

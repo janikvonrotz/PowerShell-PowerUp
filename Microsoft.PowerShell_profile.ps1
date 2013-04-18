@@ -56,8 +56,8 @@ foreach ($IncludeFolder in $IncludeFolders){
 #--------------------------------------------------#
 # Alias
 #--------------------------------------------------#	
-nal -Name rdp -Value "Start-RDPSession"
-nal -Name rps -Value "Create-PSSession"
+nal -Name rdp -Value "Connect-RDPSession"
+nal -Name rps -Value "Connect-PSSession"
 
 # Logging
 Start-Transcript -path ($PSConfig.logs.Path + "\Powershell Commands " + $(Get-LogStamp) + ".txt")
