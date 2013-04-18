@@ -1,6 +1,7 @@
-New-Release.ps1
+configs/Private
+configs/vbl
+configs/Default.rdp
 dev/
 logs/Powershell*
-configs/vbl
-configs/private
-scripts/GitHubGist/
+scripts/GitHubGist
+New-Release.ps1
