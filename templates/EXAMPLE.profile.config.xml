@@ -11,17 +11,56 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-04-11</CreateDate>
-		<LastEditDate>2013-04-15</LastEditDate>
-		<Version>1.0.0</Version>
+		<LastEditDate>2013-04-18</LastEditDate>
+		<Version>1.1.0</Version>
 	</Metadata>
 
 	<Configuration>
+			
+		<Features>
+		
+			<Feature>
+				<Name>Git Update Task</Name>
+			</Feature>		
+
+			<Feature>
+				<Name>Powershell Remoting</Name>
+			</Feature>	
+			
+			<Feature>
+				<Name>Enable Open Powershell here</Name>
+			</Feature>
+						
+			<Feature>
+				<Name>Custom PowerShell CLI</Name>
+			</Feature>	
+			
+			<Feature>
+				<Name>Autoinclude Functions</Name>
+			</Feature>
+			
+			<Feature>
+				<Name>Custom Aliases</Name>
+			</Feature>	
+			
+			<Feature>
+				<Name>Add ISE Profile Script</Name>
+			</Feature>	
+			
+			<Feature>
+				<Name>Transcript Logging</Name>
+			</Feature>
+			
+			<Feature>
+				<Name>Multi Remote Management</Name>
+			</Feature>	
+
+		</Features>
 	
 		<!--
 		# List of SystemVariables
-		-->	
+		-->		
 		
-		<!--
 		<SystemVariables>
 			
 			<SystemVariable>
@@ -39,39 +78,11 @@
 			</SystemVariable>
 						
 		</SystemVariables>
-		-->
-		
-		<!--
-		# Feature Install Settings
-		 
-		# To enable a feature change <Install> content to "Enable"
-		-->
-		
-		<!--
-		<Features>
-		
-			<Feature>
-				<Name>Git Update Task</Name>
-				<Install>Enable</Install>
-			</Feature>		
-
-			<Feature>
-				<Name>Powershell Remoting</Name>
-				<Install>Enable</Install>
-			</Feature>	
-			
-			<Feature>
-				<Name>Enable Open Powershell here</Name>
-				<Install>Enable</Install>
-			</Feature>	
-			
-		</Features>
-		-->
-		
+				
 		<!--
 		 # Explorer Settings
 		-->
-		<!--
+		
 		<RegistryEntries>	
 		
 			<RegistryEntry>
@@ -87,7 +98,7 @@
 			</RegistryEntry>
 			
 		</RegistryEntries>
-		-->
+		
 		
 	</Configuration>
 
