@@ -56,10 +56,6 @@
 			</Feature>	
 
 		</Features>
-	
-		<!--
-		# List of SystemVariables
-		-->		
 		
 		<SystemVariables>
 			
@@ -79,10 +75,6 @@
 						
 		</SystemVariables>
 				
-		<!--
-		 # Explorer Settings
-		-->
-		
 		<RegistryEntries>	
 		
 			<RegistryEntry>
@@ -98,7 +90,6 @@
 			</RegistryEntry>
 			
 		</RegistryEntries>
-		
 		
 	</Configuration>
 

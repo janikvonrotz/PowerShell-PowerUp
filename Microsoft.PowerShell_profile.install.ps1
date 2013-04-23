@@ -12,8 +12,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-03-18"
-	LastEditDate = "2013-04-22"
-	Version = "4.1.0"
+	LastEditDate = "2013-04-23"
+	Version = "4.1.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -111,8 +111,8 @@ if($Host.Version.Major -lt 2){
 	# Git Update Task
 	if($Features -contains "Git Update Task"){
 		# Settings						
-		$PathToTask = Get-ChildItem -Path $PSConfigs.tasks.Path -Filter GitUpdateTask.xml -Recurse
-		$PathToScript = Get-ChildItem -Path $PSConfigs.tasks.Path -Filter Git-Update.ps1 -Recurse
+		$PathToTask = Get-ChildItem -Path $PSConfigs.tasks.Path -Filter "GitUpdateTask.xml" -Recurse
+		$PathToScript = Get-ChildItem -Path $PSConfigs.tasks.Path -Filter "Git-Update.ps1" -Recurse
 		
 		# Update task definitions
 		[xml]$TaskDefinition = (get-content $PathToTask.Fullname)
@@ -121,9 +121,8 @@ if($Host.Version.Major -lt 2){
 		$TaskDefinition.Save($PathToTask.Fullname)
 
 		# Create task
-		[string]$Name =  $Feature.Name
-		SchTasks /Create /TN "$Name" /XML $PathToTask.Fullname
-		Write-Warning "`nAdded system task: $Name"
+		SchTasks /Create /TN "Git Update Task" /XML $PathToTask.Fullname
+		Write-Warning "`nAdded system task: Git Update Task"
 	}
 
 	# Powershell Remoting
@@ -137,7 +136,7 @@ if($Host.Version.Major -lt 2){
 	
 	# Enable Open Powershell here
 	if($Features -contains "Enable Open Powershell here"){
-		Enable-OpenPowerShellHere
+		$Null = Enable-OpenPowerShellHere
 		Write-Warning "`nAdded 'Open PowerShell Here' to context menu"
 	}
     
@@ -214,7 +213,9 @@ $PromptSettings.MaxPhysicalWindowSize.Width = 120
 $PromptSettings.MaxPhysicalWindowSize.Height = 50
 # $PromptSettings.WindowTitle = "PowerShell"
 
-'@}
+'@
+	Write-Warning "`nAdded Custom PowerShell CLI to the profile script"
+}
 
 	# Autoinclude Functions
 	if($Features -contains "Autoinclude Functions"){
@@ -231,7 +232,9 @@ foreach ($IncludeFolder in $IncludeFolders){
 	get-childitem $IncludeFolder | where{ ! $_.PSIsContainer} | foreach {. .\$_}
 }
 
-'@}
+'@
+	Write-Warning "`nAdded Autoinclude Functions to the profile script"
+}
 	$ContentISEArray += $ContentISE
     
 	# Custom Aliases
@@ -244,7 +247,9 @@ foreach ($IncludeFolder in $IncludeFolders){
 nal -Name rdp -Value "Connect-RDPSession"
 nal -Name rps -Value "Connect-PSSession"
 
-'@}
+'@
+	Write-Warning "`nAdded Custom Aliases to the profile script"
+}
     $ContentISEArray += $ContentISE
 
 	# Transcript Logging
@@ -256,7 +261,9 @@ nal -Name rps -Value "Connect-PSSession"
 #--------------------------------------------------#	
 Start-Transcript -path ($PSConfig.logs.Path + "\Powershell Commands " + $(Get-LogStamp) + ".txt")
 
-'@}
+'@
+	Write-Warning "`nAdded Transcript Logging to the profile script"
+}
 
 	# Main End
 	$Content += $ContentISE = @'
@@ -312,10 +319,11 @@ Set-Location $WorkingPath
 		
 </Content>
 
-'@
+'@	
         # Write content to config file
         Set-Content -Value $ContentRemoteConfigXml -Path ($PSConfig.configs.Path + "\EXAMPLE.remote.config.xml")
-        
+        Write-Warning "`nAdded Remote config file to the config folder"
+			
         # RDP Default file
         $ContentDefaultRDP = @'
 
@@ -365,6 +373,7 @@ drivestoredirect:s:
 '@
         # Write content to config file
         Set-Content -Value $ContentDefaultRDP -Path ($PSConfig.configs.Path + "\Default.rdp")
+		Write-Warning "`nAdded Default RDP file to the config folder"
     }
 
 	# Write content to script file
@@ -372,6 +381,7 @@ drivestoredirect:s:
         
     if($Features -contains "Add ISE Profile Script"){
         Set-Content -Value $ContentISEArray -Path $PSProfileISEScriptName
+		Write-Warning "`nAdded ISE Profile Script"
     }
     
     
