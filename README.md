@@ -6,17 +6,17 @@ Checkout the wiki page for more information.
 
 ##How to install##
 
-Download Portable Git for Windows from
+Download Portable Git for Windows from:
 
 	https://code.google.com/p/msysgit/downloads/list
 	
 Unzip in a directory of your choice.
 
-Execute the 
+Execute the:
 
 	git-cmd.bat 
 	
-and clone the Powershell Profile Project in a directory of your choice
+and clone the Powershell Profile Project in a directory of your choice:
 
 	git clone git://github.com/janikvonrotz/Powershell-Profile.git
 
@@ -47,11 +47,11 @@ Open your Powershell commandline and enter:
 
 	PS C:\Powershell-Profile> Set-ExecutionPolicy unrestricted
 	
-	Or depending on your windows security restrictions
+Or depending on your windows security restrictions:
 	
 	PS C:\Powershell-Profile> Set-ExecutionPolicy bypass
 
-At last execture the install script from commad line
+At last execture the install script from commad line:
 
 	PS C:\Powershell-Profile> .\ProfileInstallation.ps1
 
