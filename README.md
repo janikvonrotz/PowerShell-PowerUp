@@ -30,17 +30,18 @@ Checkout this [link](http://support.code-red-tech.com/CodeRedWiki/VirtualAllocPo
 
 When the download finished successfully...
 
-	Copy \Powershell-Profile\templates\EXAMPLE.profile.config.xml
-	To \Powershell-Profile\config\... 
+	COPY    \Powershell-Profile\templates\EXAMPLE.profile.config.xml
 	
-	And 
+	TO    \Powershell-Profile\config\... 
 	
-	Rename EXAMPLE.profile.config.xml to >SOMETHING<.profile.config.xml
+And 
+	
+	RENAME    EXAMPLE.profile.config.xml    TO    >SOMETHING<.profile.config.xml
 
 Now take your time to edit your new PowerShell Profile config file.
 Checkout the wiki page for more information.
 
-	Edit [SOMETHING].profile.config.xml
+	EDIT    [SOMETHING].profile.config.xml
 	
 Open your Powershell commandline and enter:
 
