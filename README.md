@@ -1,65 +1,60 @@
 Powershell-Profile
 ==================
 
-One of the most advanced Powershell profile configurations for Administrators.
+It's more than just a PowerShell profile script, follow the install guide and you'll get a PowerShell scripting IDE with the most advanced configurations for your client and server environment.
+Checkout the wiki page for more information.
 
-##What you'll get##
-
-* Powershell profile installation with some advanced features:
-    * Install the profile in the folder of your choice
-    * Add default registry keys
-    * Create System Path Variables
-    * Add the context menu feature "Open Powershell here"
-    * Register your profile for further updates through the GitHub repo
-    * Enable Powershell Remoting
-* Powershell profile configurations:
-    * Auto logger for every powershell session
-    * Default Settings for the console
-    * Auto loader for custom functions (function folder)
-    * Easy integration of new Powershell modules (Just add them to the modules folder or download them with PsGet)
-* Powershell IDE:
-    * Manage your remote configurations (Enter Get-RemoteConfigurations -ListAvailable to start)
-    * Get some powerfull and sophisticated Powershell scripts (scripts folder)
-
-##How to install:##
+##How to install##
 
 Download Portable Git for Windows from
 
 	https://code.google.com/p/msysgit/downloads/list
 	
-Unzip it wherever you want
+Unzip in a directory of your choice.
 
-Execute the git-cmd.bat and clone the Powershell Profile Project
+Execute the 
+
+	git-cmd.bat 
+	
+and clone the Powershell Profile Project in a directory of your choice
 
 	git clone git://github.com/janikvonrotz/Powershell-Profile.git
-	
-Now copy the Git Portable Content into the following folder
 
-	.\Powershell-Profile\Apps\Git\
-	
-It should look now like this
+In case of an error like this:
 
-	\Powershell-Profile\Apps\Git\
-	|
-	|-bin\
-	|-cmd\
-	\-...\
+	0 [main] us 0 init_cheap: VirtualAlloc pointer is null, Win32 error 487
+	AllocationBase 0x0, BaseAddress 0x71110000, RegionSize 0x350000, State 0x10000
+	\msys\bin\make.exe: *** Couldn't reserve space for cygwin's heap, Win32 error 0
 
-Edit the config.xml file and head for the feature section. Now decide wether you would like to enable the auto update feature and save the config.xml file.
+Checkout this [link](http://support.code-red-tech.com/CodeRedWiki/VirtualAllocPointerNull)
+
+When the download finished successfully...
+
+	Copy \Powershell-Profile\templates\EXAMPLE.profile.config.xml
+	To \Powershell-Profile\config\... 
 	
-	Edit config.xml
+	And 
+	
+	Rename EXAMPLE.profile.config.xml to >SOMETHING<.profile.config.xml
+
+Now take your time to edit your new PowerShell Profile config file.
+Checkout the wiki page for more information.
+
+	Edit [SOMETHING].profile.config.xml
 	
 Open your Powershell commandline and enter:
 
+	PS C:\Powershell-Profile> Set-ExecutionPolicy unrestricted
+	
+	Or depending on your windows security restrictions
+	
 	PS C:\Powershell-Profile> Set-ExecutionPolicy bypass
 
-Confirm every prompt
-
-Excute the install script
+At last execture the install script from commad line
 
 	PS C:\Powershell-Profile> .\ProfileInstallation.ps1
 
-##[Roadmap](http://roadma.ps/2NR "Roadmap")###
+And the magic is done <3
 
 
 	
