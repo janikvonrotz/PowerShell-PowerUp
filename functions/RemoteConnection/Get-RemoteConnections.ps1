@@ -35,7 +35,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
 
 	$Config = @()
-    $Content = Get-ConfigurationFilesContent -SearchExpression "*.remote.config.*" -Path $PSConfig.configs.Path
+    $Content = Get-ConfigurationFilesContent -SearchExpression "*.remote.config.*" -Path $PSconfigs.Path
     
     foreach($Item in $Content){
         $Config  += $Item.Content.Servers

@@ -7,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-11"
-	LastEditDate = "2013-04-11"
-	Version = "0.0.1"
+	LastEditDate = "2013-04-24"
+	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -16,29 +16,32 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 '@
 }
 
-[string]$ProfilePath = Split-Path $MyInvocation.MyCommand.Definition -Parent
-
-$PSConfig = @{
+$global:PSProfilePath = Split-Path $MyInvocation.MyCommand.Definition -Parent
 	
-	functions = @{
-		Path = Convert-Path($ProfilePath + "\functions")
-	}
-	
-	logs = @{
-		Path = Convert-Path($ProfilePath + "\logs")
-	}
-	
-	modules = @{
-		Path = Convert-Path($ProfilePath + "\modules")
-	}
-
-	configs = @{
-		Path = Convert-Path($ProfilePath + "\configs")
-	}	
-	
-	scripts = @{
-		Path = Convert-Path($ProfilePath + "\scripts")
-	}
+$global:PSfunctions = @{
+	Path = Convert-Path($PSProfilePath + "\functions")
 }
 
-return $PSConfig
+$global:PSlogs = @{
+	Path = Convert-Path($PSProfilePath + "\logs")
+}
+
+$global:PSmodules = @{
+	Path = Convert-Path($PSProfilePath + "\modules")
+}
+
+$global:PSconfigs = @{
+	Path = Convert-Path($PSProfilePath + "\configs")
+}	
+
+$global:PSscripts = @{
+	Path = Convert-Path($PSProfilePath + "\scripts")
+}
+
+$global:PSProfileScript = @{
+	Name = "Microsoft.PowerShell_profile.ps1"
+}
+
+$global:PSProfileISEScript = @{
+	Name = "Microsoft.PowerShellISE_profile.ps1"
+}

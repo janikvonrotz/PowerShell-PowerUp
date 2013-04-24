@@ -1,8 +1,3 @@
-if($Host.Version.Major -gt 2){
-	powershell -Version 2 $MyInvocation.MyCommand.Definition
-	exit
-}
-
 $Metadata = @{
 	Title = "Profile Installation"
 	Filename = "Microsoft.PowerShell_profile.install.ps1"
@@ -12,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-03-18"
-	LastEditDate = "2013-04-23"
-	Version = "4.1.1"
+	LastEditDate = "2013-04-24"
+	Version = "4.2.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -31,14 +26,12 @@ if($Host.Version.Major -lt 2){
     #--------------------------------------------------#
     #  Settings
     #--------------------------------------------------#
-    $PSConfig = .\Microsoft.PowerShell_profile.config.ps1
-	$PSProfileScriptName = "Microsoft.PowerShell_profile.ps1"
-	$PSProfileISEScriptName = "Microsoft.PowerShellISE_profile.ps1"
+    .\Microsoft.PowerShell_profile.config.ps1
 
     #--------------------------------------------------#
     #  Include Modules
     #--------------------------------------------------#
-	$env:PSModulePath += ";"+ ($PSConfig.modules.Path)
+	$env:PSModulePath += ";"+ ($PSmodules.Path)
 	Import-Module Pscx
     	
 	#--------------------------------------------------#
@@ -46,8 +39,8 @@ if($Host.Version.Major -lt 2){
 	#--------------------------------------------------#
     #Include functions
     $IncludeFolders = @()
-    $IncludeFolders += $PSConfig.functions.Path
-    $IncludeFolders += get-childitem ($PSConfig.functions.Path) -Recurse | where{$_.PSIsContainer} | foreach {$_.Fullname}
+    $IncludeFolders += $PSfunctions.Path
+    $IncludeFolders += get-childitem ($PSfunctions.Path) -Recurse | where{$_.PSIsContainer} | foreach {$_.Fullname}
     foreach ($IncludeFolder in $IncludeFolders){
 	    Set-Location $IncludeFolder
 	    get-childitem $IncludeFolder | where{ ! $_.PSIsContainer} | foreach {. .\$_}
@@ -58,10 +51,10 @@ if($Host.Version.Major -lt 2){
     # System Settings
     #--------------------------------------------------#
     # Add module path to the system variables
-    Add-PathVariable -Value $PSconfig.modules.Path -Name PSModulePath -Target Machine
+    Add-PathVariable -Value $PSmodules.Path -Name PSModulePath -Target Machine
     
     #Load configurations
-    $ConfigFiles = Get-ConfigurationFilesContent -Path $PSConfig.configs.Path -SearchExpression "*.profile.config.*"
+    $ConfigFiles = Get-ConfigurationFilesContent -Path $PSconfigs.Path -SearchExpression "*.profile.config.*"
 	
 	
     foreach($ConfigFile in $ConfigFiles){
@@ -111,8 +104,8 @@ if($Host.Version.Major -lt 2){
 	# Git Update Task
 	if($Features -contains "Git Update Task"){
 		# Settings						
-		$PathToTask = Get-ChildItem -Path $PSConfigs.tasks.Path -Filter "GitUpdateTask.xml" -Recurse
-		$PathToScript = Get-ChildItem -Path $PSConfigs.tasks.Path -Filter "Git-Update.ps1" -Recurse
+		$PathToTask = Get-ChildItem -Path $PSconfigs.Path -Filter "GitUpdateTask.xml" -Recurse
+		$PathToScript = Get-ChildItem -Path $PSconfigs.Path -Filter "Git-Update.ps1" -Recurse
 		
 		# Update task definitions
 		[xml]$TaskDefinition = (get-content $PathToTask.Fullname)
@@ -186,9 +179,8 @@ $Metadata = @{
 # Main
 #--------------------------------------------------#
 [string]$WorkingPath = Get-Location
-$PSConfig = "\Microsoft.PowerShell_profile.config.ps1"
-$PathToScript = Split-Path $MyInvocation.MyCommand.Definition -Parent
-$PSConfig = Invoke-Expression ($PathToScript + $PSConfig)
+$ProfilePath = Split-Path $MyInvocation.MyCommand.Definition -parent
+Invoke-Expression ($ProfilePath + "\Microsoft.PowerShell_profile.config.ps1")
 
 '@
     $ContentISEArray += $ContentISE
@@ -225,8 +217,8 @@ $PromptSettings.MaxPhysicalWindowSize.Height = 50
 # Autoinclude Functions
 #--------------------------------------------------#
 $IncludeFolders = @()
-$IncludeFolders += $PSConfig.functions.Path
-$IncludeFolders += get-childitem ($PSConfig.functions.Path) -Recurse | where{$_.PSIsContainer} | foreach {$_.Fullname}
+$IncludeFolders += $PSfunctions.Path
+$IncludeFolders += get-childitem ($PSfunctions.Path) -Recurse | where{$_.PSIsContainer} | foreach {$_.Fullname}
 foreach ($IncludeFolder in $IncludeFolders){
 	Set-Location $IncludeFolder
 	get-childitem $IncludeFolder | where{ ! $_.PSIsContainer} | foreach {. .\$_}
@@ -259,7 +251,7 @@ nal -Name rps -Value "Connect-PSSession"
 #--------------------------------------------------#
 # Transcript Logging
 #--------------------------------------------------#	
-Start-Transcript -path ($PSConfig.logs.Path + "\PowerShell Session " + $(Get-LogStamp) + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt")
+Start-Transcript -path ($PSlogs.Path + "\PowerShell Session " + $(Get-LogStamp) + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt")
 
 '@
 	Write-Warning "`nAdded Transcript Logging to the profile script"
@@ -321,7 +313,7 @@ Set-Location $WorkingPath
 
 '@	
         # Write content to config file
-        Set-Content -Value $ContentRemoteConfigXml -Path ($PSConfig.configs.Path + "\EXAMPLE.remote.config.xml")
+        Set-Content -Value $ContentRemoteConfigXml -Path ($PSconfigs.Path + "\EXAMPLE.remote.config.xml")
         Write-Warning "`nAdded Remote config file to the config folder"
 			
         # RDP Default file
@@ -372,15 +364,15 @@ drivestoredirect:s:
 
 '@
         # Write content to config file
-        Set-Content -Value $ContentDefaultRDP -Path ($PSConfig.configs.Path + "\Default.rdp")
+        Set-Content -Value $ContentDefaultRDP -Path ($PSconfigs.Path + "\Default.rdp")
 		Write-Warning "`nAdded Default RDP file to the config folder"
     }
 
 	# Write content to script file
-    Set-Content -Value $Content -Path $PSProfileScriptName
+    Set-Content -Value $Content -Path $PSProfileScript.Name
         
     if($Features -contains "Add ISE Profile Script"){
-        Set-Content -Value $ContentISEArray -Path $PSProfileISEScriptName
+        Set-Content -Value $ContentISEArray -Path $PSProfileISEScript.Name
 		Write-Warning "`nAdded ISE Profile Script"
     }
     
@@ -399,6 +391,7 @@ drivestoredirect:s:
 
 		  # Create a profile
 		New-Item -path $Profile -type file -force
+		Write-Warning "`nNew profile script"
 	}
 
 	# Link Powershell Profile
@@ -412,10 +405,10 @@ drivestoredirect:s:
  
 		# Create a shortcut to the existing powershell profile
 		New-Symlink $SourcePath $WorkingPath
+		Write-Warning "`nRedirect for PowerShell profile path added"
 	}
 	
 	Write-Host "`nFinished" -BackgroundColor Black -ForegroundColor Green
 	Read-Host "`nPress Enter to exit"
 
 }
-
