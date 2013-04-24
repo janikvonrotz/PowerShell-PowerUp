@@ -1,6 +1,7 @@
 configs/Private
 configs/vbl
 configs/Default.rdp
+confgs/EXAMPLE.remote.config.xml
 dev/
 logs/Powershell*
 scripts/GitHubGist
