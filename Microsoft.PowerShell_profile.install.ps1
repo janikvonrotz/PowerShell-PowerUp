@@ -259,7 +259,7 @@ nal -Name rps -Value "Connect-PSSession"
 #--------------------------------------------------#
 # Transcript Logging
 #--------------------------------------------------#	
-Start-Transcript -path ($PSConfig.logs.Path + "\Powershell Commands " + $(Get-LogStamp) + ".txt")
+Start-Transcript -path ($PSConfig.logs.Path + "\PowerShell Session " + $(Get-LogStamp) + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt")
 
 '@
 	Write-Warning "`nAdded Transcript Logging to the profile script"
