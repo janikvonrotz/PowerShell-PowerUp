@@ -273,7 +273,6 @@ Set-Location $WorkingPath
     
         # Remote config file
         $ContentRemoteConfigXml = @'
-
 <?xml version="1.0" encoding="UTF-8" ?>
 <Content>
 	<Metadata>
@@ -310,7 +309,6 @@ Set-Location $WorkingPath
 	</Servers>
 		
 </Content>
-
 '@	
         # Write content to config file
         Set-Content -Value $ContentRemoteConfigXml -Path ($PSconfigs.Path + "\EXAMPLE.remote.config.xml")
@@ -318,7 +316,6 @@ Set-Location $WorkingPath
 			
         # RDP Default file
         $ContentDefaultRDP = @'
-
 screen mode id:i:1
 use multimon:i:0
 desktopwidth:i:1600
@@ -361,7 +358,6 @@ gatewayprofileusagemethod:i:0
 promptcredentialonce:i:1
 use redirection server name:i:0
 drivestoredirect:s:
-
 '@
         # Write content to config file
         Set-Content -Value $ContentDefaultRDP -Path ($PSconfigs.Path + "\Default.rdp")
