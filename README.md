@@ -2,7 +2,7 @@ Powershell-Profile
 ==================
 
 It's more than just a PowerShell profile script, follow the install guide and you'll get a PowerShell scripting IDE with the most advanced configurations for your client and server environment.
-Checkout the wiki page for more information.
+Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki) for more information.
 
 ##How to install##
 
@@ -39,7 +39,7 @@ And
 	RENAME    EXAMPLE.profile.config.xml    TO    >SOMETHING<.profile.config.xml
 
 Now take your time to edit your new PowerShell Profile config file.
-Checkout the wiki page for more information.
+Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki) for more information.
 
 	EDIT    [SOMETHING].profile.config.xml
 	
