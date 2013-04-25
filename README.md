@@ -8,7 +8,7 @@ Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki
 
 Download Portable Git for Windows from:
 
-	[https://code.google.com/p/msysgit/downloads/list](https://code.google.com/p/msysgit/downloads/list)
+[https://code.google.com/p/msysgit/downloads/list](https://code.google.com/p/msysgit/downloads/list)
 	
 Unzip in a directory of your choice.
 
