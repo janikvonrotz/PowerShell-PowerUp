@@ -53,7 +53,7 @@ Or depending on your windows security restrictions:
 
 At last execture the install script from commad line:
 
-	PS C:\Powershell-Profile> .\ProfileInstallation.ps1
+	PS C:\Powershell-Profile> .\Microsoft.PowerShell_profile.install.ps1
 
 And the magic is done <3
 
