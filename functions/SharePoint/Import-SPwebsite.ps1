@@ -65,5 +65,12 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#Import SharePoint Website
 	Write-Warning ("Importing " + $Path + " to " + $HostSiteUrl)
     Import-SPWeb HostSiteUrl -Path $Path -UpdateVersions Overwrite -IncludeUserSecurity -Force -NoLogFile
+	
+	# Error Workaround: Second import
+	<#
+	Import-SPWeb : <nativehr>0x80070003</nativehr><nativestack></nativestack>
+	#>
+	Import-SPWeb HostSiteUrl -Path $Path -UpdateVersions Overwrite -IncludeUserSecurity -Force -NoLogFile
+	
 	Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green	
 }
