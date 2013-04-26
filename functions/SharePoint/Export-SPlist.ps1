@@ -53,7 +53,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
 	# Settings
 	#--------------------------------------------------#
-	$SPFileExtension = $(Get-LogStamp) + ".cmp"
+	$SPFileExtension = " " +$(Get-LogStamp) + ".cmp"
 	$SPListPath ="/Lists/"
 	
 	#--------------------------------------------------#
