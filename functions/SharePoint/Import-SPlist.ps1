@@ -69,5 +69,10 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 
 	Write-Warning ("Importing " + $Path + " to " + $HostSiteUrl)
 	Import-SPWeb $HostSiteUrl -path $Path -IncludeUserSecurity -nologfile -Force
+		# Error Workaround: Second import
+	<#
+	Import-SPWeb : <nativehr>0x80070003</nativehr><nativestack></nativestack>
+	#>
+	Import-SPWeb $HostSiteUrl -path $Path -IncludeUserSecurity -nologfile -Force	
 	Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
 }
