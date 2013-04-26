@@ -1,38 +1,16 @@
-function Merge-Object{
-
-    param(
-        [parameter(Mandatory=$true)]
-        $Base,
-        [parameter(Mandatory=$true)]
-        $Additional
-    )
-
-    foreach ($Property in $($Additional | Get-Member -Type Property, NoteProperty)){
-
-        $Base | Add-Member -MemberType NoteProperty -Name $Property.Name -Value $Additional.$($Property.Name) -ErrorAction SilentlyContinue
-
-    }
-
-    Return $Base
-
-}
-
-
-Write-Host "`nExtract Data ..."
-
 $s1 = rps sp1
 $s2 = rps data1
-$Report = @()
 
-$ReportSession1 = Invoke-Command -Session $s1 -ScriptBlock {D:\Powershell-Profile\scripts\SPSecurableObjectPermissions\Report-SPSecurableObjectPermissions.ps1}
-$ReportSession2 = Invoke-Command -Session $s2 -ScriptBlock {(C:\Powershell-Profile\scripts\FileSystemPermissions\Report-FileSystemPermissions#NoDependencies.ps1 -Path "F:\Dat" -Levels 3)}
-$ReportGroupPermission = $ReportSession1 + $ReportSession2
+$Report1 = Invoke-Command -Session $s1 -ScriptBlock {D:\Powershell-Profile\scripts\Report\Report-SPSecurableObjectPermissions.ps1}
+$Report2 = Invoke-Command -Session $s2 -ScriptBlock {(C:\Powershell-Profile\scripts\Report\Report-FileSystemPermissions#NoDependencies.ps1 -Path "F:\Dat" -Levels 3)}
 
+$GroupPermissionReports = $Report1 + $Report2
 
 While(1){
 
 	$Usernames = @()
-
+    $Report = @()
+    
 	While(1){
 		$Username = Read-Host "`nEnter a username (or . to finish)"
 		if($Username -eq "."){
@@ -41,21 +19,27 @@ While(1){
 		$Usernames += $Username	
 		}
 	}
-
-	$ReportUserandGroups = Invoke-Command -Session $s1 -ScriptBlock {param([array]$Usernames) D:\Powershell-Profile\scripts\ADUserGroups\Report-ActiveDirectoryUserGroups.ps1 -Usernames $Usernames} -ArgumentList (,$Usernames)
     
-
-    foreach ($UserGroup in $ReportUserandGroups){
-
-	    $ReportElements = ($ReportGroupPermission | Where-Object {$_.Member -like $UserGroup.GroupName})
+    foreach($username in $Usernames){
+    
+    	$UserGroups = .\Report-ActiveDirectoryUserGroups.ps1 -Usernames $Username
         
-        foreach($ReportElement in $ReportElements){
-
-            $Report += Merge-Object -Base $ReportElement -Additional $UserGroup
+        foreach ($UserGroup in $UserGroups){
+        
+            $GroupPermissions = $Null
+    	    $GroupPermissions = ($GroupPermissionReports | Where-Object {$_.Member -like $UserGroup.GroupName})
             
+            if($GroupPermissions -ne $Null){
+                foreach($GroupPermission in $GroupPermissions){
+
+                    Add-Member -InputObject GroupPermission -MemberType NoteProperty -Name "Username" -Value $Username
+                    
+                    $Report += GroupPermission
+                    
+                }
+            }
         }
     }
-
 	$Report | Out-GridView
 
 	$Choice = Read-Host "`nNew Report? (y/n)"
