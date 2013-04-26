@@ -63,7 +63,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	$SiteUrl = Get-SPUrl $SiteUrl -SiteUrl
 	
 	foreach($Library in $Librarys){
-		Write-Warning "Deleting " + $Library + " on " + $HostSiteUrl
+		Write-Warning ("Deleting " + $Library + " on " + $HostSiteUrl)
 		$SPWeb = Get-SPWeb -Identity $HostSiteUrl
 		$SPlib = $SPWeb.lists[$Library]
 		$SPlib.AllowDeletion = $true

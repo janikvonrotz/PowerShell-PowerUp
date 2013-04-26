@@ -80,7 +80,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	# file path
 	$Path = $Path + "\Website " + $SPSiteTitle + $SPFileExtension
 	
-	Write-Warning "Exporting " + $HostSiteUrl + " to " + $Path
+	Write-Warning ("Exporting " + $HostSiteUrl + " to " + $Path)
 	Export-SPWeb $HostSiteUrl -Path $Path -IncludeUserSecurity -IncludeVersions All  -Force -NoLogFile
 	Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
 
