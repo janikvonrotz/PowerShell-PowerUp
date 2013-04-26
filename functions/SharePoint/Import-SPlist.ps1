@@ -64,9 +64,9 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	# Main
 	#--------------------------------------------------#
 	$HostUrl = Get-SPUrl $SiteUrl -HostUrl
-	$SiteUrl = Get-SPUrl $SiteUrl -SiteUrl
 	$HostSiteUrl = Get-SPUrl $SiteUrl -HostSiteUrl 
-	
+	$SiteUrl = Get-SPUrl $SiteUrl -SiteUrl
+
 	Write-Warning Importing $Path to $HostSiteUrl
 	Import-SPWeb $HostSiteUrl -path $Path -IncludeUserSecurity -nologfile -Force
 }

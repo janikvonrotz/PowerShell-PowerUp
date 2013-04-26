@@ -65,13 +65,12 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 		$HostUrlValue = ([System.Uri]$SPUrl).Scheme + "://" + ([System.Uri]$SPUrl).Host
 		Write-Output $HostUrlValue
 	}
-	if($HostSiteUrl){
-		$HostSiteUrlValue = (([System.Uri]$SPUrl).Scheme + "://" + ([System.Uri]$SPUrl).Host + ([System.Uri]$SPUrl).LocalPath) -replace "/SitePages/Homepage.aspx", "" 
-		Write-Output $HostSiteUrlValue
-	}
 	if($SiteUrl){
 		$SiteUrlValue = (([System.Uri]$SPUrl).LocalPath) -replace "/SitePages/Homepage.aspx", "" 
 		Write-Output $SiteUrlValue
 	}
-
+	if($HostSiteUrl){
+		$HostSiteUrlValue = (([System.Uri]$SPUrl).Scheme + "://" + ([System.Uri]$SPUrl).Host + ([System.Uri]$SPUrl).LocalPath) -replace "/SitePages/Homepage.aspx", "" 
+		Write-Output $HostSiteUrlValue
+	}
 }

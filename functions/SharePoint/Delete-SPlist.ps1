@@ -64,8 +64,8 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	# Main
 	#--------------------------------------------------#
 	$HostUrl = Get-SPUrl $SiteUrl -HostUrl
+	$HostSiteUrl = Get-SPUrl $SiteUrl -HostSiteUrl 
 	$SiteUrl = Get-SPUrl $SiteUrl -SiteUrl
-	$HostSiteUrl = Get-SPUrl $SiteUrl -HostSiteUrl
 	
 	foreach($List in $Lists){
 		Write-Warning Deleting $List on $HostSiteUrl

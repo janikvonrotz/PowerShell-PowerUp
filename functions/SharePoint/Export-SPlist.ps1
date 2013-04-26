@@ -72,8 +72,8 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	if (!(Test-Path -path $Path)){New-Item $Path -Type Directory}
 	
 	$HostUrl = Get-SPUrl $SiteUrl -HostUrl
-	$SiteUrl = Get-SPUrl $SiteUrl -SiteUrl
 	$HostSiteUrl = Get-SPUrl $SiteUrl -HostSiteUrl 
+	$SiteUrl = Get-SPUrl $SiteUrl -SiteUrl
 	
 	foreach($List in $Lists){
 		Write-Warning ("Exporting " + $HostSiteUrl + $SPListPath + $List + " to " + $Path)
