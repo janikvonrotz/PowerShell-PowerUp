@@ -2,7 +2,7 @@ function Export-SPlib{
 
 <#
 .DESCRIPTION
-	Exports SharePoint lib
+	Exports SharePoint library
 
 .PARAMETER  SiteUrl
 	Url to the SharePoint website
@@ -33,7 +33,7 @@ function Export-SPlib{
 	)
 
 $Metadata = @{
-	Title = "Export SharePoint lib"
+	Title = "Export SharePoint library"
 	Filename = "Export-SPlist.ps1"
 	Description = ""
 	Tags = "powershell, function, sharepoint"
