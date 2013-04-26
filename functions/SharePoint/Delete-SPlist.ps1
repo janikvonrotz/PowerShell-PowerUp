@@ -63,12 +63,13 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	$SiteUrl = Get-SPUrl $SiteUrl -SiteUrl
 	
 	foreach($List in $Lists){
-		Write-Warning Deleting $List on $HostSiteUrl
+		Write-Warning "Deleting " + $List + " on " + $HostSiteUrl
 		$SPWeb = Get-SPWeb -Identity $HostSiteUrl
 		$SPlist = $SPWeb.lists[$List]
 		$SPlist.AllowDeletion = $true
 		$SPlist.Update()
 		$SPlist.Delete()
+		Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
 	}
 	
 }

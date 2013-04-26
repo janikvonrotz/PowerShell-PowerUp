@@ -55,6 +55,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	$HostSiteUrl = Get-SPUrl $SiteUrl -HostSiteUrl 
 	$SiteUrl = Get-SPUrl $SiteUrl -SiteUrl
 	
-	Write-Warning Deleting $HostSiteUrl
+	Write-Warning "Deleting " + $HostSiteUrl
 	Remove-SPweb -Identity $HostSiteUrl
+	Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
 }

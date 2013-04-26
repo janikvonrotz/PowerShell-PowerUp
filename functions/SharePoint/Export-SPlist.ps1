@@ -76,7 +76,8 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	$SiteUrl = Get-SPUrl $SiteUrl -SiteUrl
 	
 	foreach($List in $Lists){
-		Write-Warning ("Exporting " + $HostSiteUrl + $SPListPath + $List + " to " + $Path)
+		Write-Warning "Exporting " + $HostSiteUrl + $SPListPath + $List + " to " + $Path
 		Export-SPWeb $HostSiteUrl -ItemUrl ($SiteUrl + $SPListPath +  $List) -path ($Path + "\List " + $List + $SPFileExtension) -IncludeUserSecurity -IncludeVersions All -nologfile -Force
+		Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
 	}
 }

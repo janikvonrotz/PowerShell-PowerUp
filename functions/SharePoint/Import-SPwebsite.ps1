@@ -63,7 +63,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	$SiteUrl = Get-SPUrl $SiteUrl -SiteUrl
 	
 	#Import SharePoint Website
-	Write-Warning Importing $Path to $HostSiteUrl
+	Write-Warning "Importing " + $Path + " to " + $HostSiteUrl
     Import-SPWeb HostSiteUrl -Path $Path -UpdateVersions Overwrite -IncludeUserSecurity -Force -NoLogFile
-	
+	Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green	
 }
