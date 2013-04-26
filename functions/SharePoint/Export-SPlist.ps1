@@ -71,7 +71,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	# Check if path exists
 	if (!(Test-Path -path $Path)){New-Item $Path -Type Directory}
 	
-	$Host = Get-SPUrl $SiteUrl -Host
+	$HostUrl = Get-SPUrl $SiteUrl -HostUrl
 	$SiteUrl = Get-SPUrl $SiteUrl -SiteUrl
 	$HostSiteUrl = Get-SPUrl $SiteUrl -HostSiteUrl 
 	
