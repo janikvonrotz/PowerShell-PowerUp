@@ -69,7 +69,6 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#>
 	try{
 		Import-SPWeb $HostSiteUrl -path $Path -IncludeUserSecurity -nologfile -Force
-	}catch{
 		Import-SPWeb $HostSiteUrl -path $Path -IncludeUserSecurity -nologfile -Force	
 	}
 	Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
