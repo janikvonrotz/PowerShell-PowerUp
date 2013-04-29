@@ -78,15 +78,12 @@ if($Host.Version.Major -lt 2){
         {
 	        if($SystemVariable.RelativePath -eq "true")
 	        {
-                # Gets the static path from a relative path
-		        $Path = Convert-Path -Path (Join-Path -Path $(Get-Location).Path -Childpath $SystemVariable.Value)
+                #Gets the static path from a relative path
+		        $StaticPath = Convert-Path -Path (Join-Path -Path $(Get-Location).Path -Childpath $SystemVariable.Value)
                 
-		        Add-PathVariable -Value $Path -Name $SystemVariable.Name -Target $SystemVariable.Target
+		        Add-PathVariable -Value $StaticPath -Name $SystemVariable.Name -Target $SystemVariable.Target
 	        }else{
-				# convert variables in values
-				[string]$Path = '"' + $SystemVariable.Value + '"'
-				$Path = Invoke-Expression $Path
-		        Add-PathVariable -Value $Path -Name $SystemVariable.Name -Target $SystemVariable.Target
+		        Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
 	        }            [string]$Name =  $SystemVariable.Value
 		    Write-Warning "`nAdded path variable: $Name"
         }
