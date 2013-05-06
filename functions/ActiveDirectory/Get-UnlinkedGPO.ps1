@@ -46,10 +46,18 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
     
     $Report = @() 
+    $GPOs = Get-GPO -All
+    foreach($GPO in $GPOs) { 
+
+        Write-Host ([int]([array]::IndexOf($GPOs, $GPO)/$GPOs.Count*100))%
+
+        
+        $GPOReport = $GPO | Get-GPOReport -ReportType xml 
+        
+        If(IsNotLinked([xml]$GPOReport)){$Report += $GPO}
+    }
      
-    Get-GPO -All | ForEach { $GPO = $_ ; $_ | Get-GPOReport -ReportType xml | ForEach { If(IsNotLinked([xml]$_)){$Report += $GPO} }} 
-     
-    If ($unlinkedGPOs.Count -eq 0) { 
+    If ($Report.Count -eq 0) { 
         Wirte-Warning "No unlinked GPO's found" 
     }else{ 
         return $Report
