@@ -239,7 +239,6 @@ foreach ($IncludeFolder in $IncludeFolders){
 nal -Name rdp -Value "Connect-RDPSession"
 nal -Name rps -Value "Connect-PSSession"
 nal -Name http -Value "Connect-HttpSession"
-nal -Name https -Value "Connect-HttpSession"
 
 '@
 	Write-Warning "`nAdded Custom Aliases to the profile script"
@@ -294,7 +293,7 @@ Set-Location $WorkingPath
 		<Name>linux1</Name>
 		<Server>ServerLinux1</Server>
 		<User>Root</User>
-		<Description></Description>
+		<Description>Linux Proxy</Description>
 		<Protocols>	
 			<Name>ssh</Name>
 			<Port></Port>	
@@ -311,7 +310,7 @@ Set-Location $WorkingPath
 		<Name>ServerSharePoint1</Name>
 		<Server>ServerSharePoint1</Server>
 		<User>Domain\Administrator</User>
-		<Description></Description>
+		<Description>SharePoint 2010 Server</Description>
 		<Protocols>	
 			<Name>rdp</Name>
 			<Port></Port>	
@@ -323,7 +322,24 @@ Set-Location $WorkingPath
 		<SnapIns>Microsoft.SharePoint.PowerShell</SnapIns>
 		<PrivatKey></PrivatKey>
 	</Servers>
-		
+
+	<Servers>
+		<Name>fw1</Name>
+		<Server>FireWall1</Server>
+		<User>Admin</User>
+		<Description>Firwall Router</Description>
+		<Protocols>	
+			<Name>ssh</Name>
+			<Port></Port>	
+		</Protocols>	
+		<Protocols>	
+			<Name>https</Name>
+			<Port></Port>			
+		</Protocols>
+		<SnapIns></SnapIns>
+		<PrivatKey></PrivatKey>
+	</Servers>
+	
 </Content>
 '@	
         # Write content to config file
