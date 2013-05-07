@@ -51,7 +51,7 @@ Or depending on your windows security restrictions:
 	
 	PS C:\Powershell-Profile> Set-ExecutionPolicy bypass
 
-At last execture the install script from commad line:
+At last execute the install script from commad line:
 
 	PS C:\Powershell-Profile> .\Microsoft.PowerShell_profile.install.ps1
 
