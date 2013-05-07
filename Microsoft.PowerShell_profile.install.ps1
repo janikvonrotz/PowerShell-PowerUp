@@ -238,6 +238,8 @@ foreach ($IncludeFolder in $IncludeFolders){
 #--------------------------------------------------#	
 nal -Name rdp -Value "Connect-RDPSession"
 nal -Name rps -Value "Connect-PSSession"
+nal -Name http -Value "Connect-HttpSession"
+nal -Name https -Value "Connect-HttpSession"
 
 '@
 	Write-Warning "`nAdded Custom Aliases to the profile script"
@@ -293,7 +295,14 @@ Set-Location $WorkingPath
 		<Server>ServerLinux1</Server>
 		<User>Root</User>
 		<Description></Description>
-		<Protocol>ssh,scp</Protocol>
+		<Protocols>	
+			<Name>ssh</Name>
+			<Port></Port>	
+		</Protocols>	
+		<Protocols>	
+			<Name>scp</Name>
+			<Port></Port>			
+		</Protocols>
 		<SnapIns></SnapIns>
 		<PrivatKey></PrivatKey>
 	</Servers>
@@ -303,7 +312,14 @@ Set-Location $WorkingPath
 		<Server>ServerSharePoint1</Server>
 		<User>Domain\Administrator</User>
 		<Description></Description>
-		<Protocol>rdp,rps</Protocol>
+		<Protocols>	
+			<Name>rdp</Name>
+			<Port></Port>	
+		</Protocols>	
+		<Protocols>	
+			<Name>rps</Name>
+			<Port></Port>			
+		</Protocols>
 		<SnapIns>Microsoft.SharePoint.PowerShell</SnapIns>
 		<PrivatKey></PrivatKey>
 	</Servers>
