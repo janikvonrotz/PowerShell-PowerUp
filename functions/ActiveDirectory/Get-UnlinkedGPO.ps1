@@ -1,4 +1,5 @@
 function Get-UnlinkedGPO {
+
 <#
 .SYNOPSIS
 	Get all unlinkend GPOs
@@ -16,8 +17,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-05-06"
-	LastEditDate = "2013-05-06"
-	Version = "1.0.0"
+	LastEditDate = "2013-05-08"
+	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -49,8 +50,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
     $GPOs = Get-GPO -All
     foreach($GPO in $GPOs) { 
 
-        Write-Host ([int]([array]::IndexOf($GPOs, $GPO)/$GPOs.Count*100))%
-
+		Write-Progress -Activity "Change GPO Settings" -status ("Change GPO: "+$GPO.DisplayName) -percentComplete ([int]([array]::IndexOf($GPOs, $GPO)/$GPOs.Count*100))
         
         $GPOReport = $GPO | Get-GPOReport -ReportType xml 
         
