@@ -6,6 +6,7 @@ dev/
 logs/Powershell*
 scripts/GitHubGist
 scripts/Columbus
+ssh/
 New-Release.ps1
 Microsoft.PowerShell_profile.ps1
 Microsoft.PowerShellISE_profile.ps1
