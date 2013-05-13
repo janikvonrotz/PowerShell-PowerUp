@@ -1,16 +1,16 @@
-﻿function Connect-SSHSession{
+﻿function Connect-SCPSession{
     <#
 	    .SYNOPSIS
-		    Remote management for ssh sessions
+		    Remote management for scp sessions
 
 	    .DESCRIPTION
-		    Starts a ssh session with the parameters from the remote config file.
+		    Starts a scp session with the parameters from the remote config file.
 
 	    .PARAMETER  Names
 		    Server names from the remote config file
 
 	    .EXAMPLE
-		   Connect-SSHSession -Names firewall
+		   Connect-SCPSession -Names firewall
 
     #>
 
@@ -23,10 +23,10 @@
 	)
 
 	$Metadata = @{
-		Title = "Connect SSH Session"
-		Filename = "Connect-SSHSession.ps1"
+		Title = "Connect SCP Session"
+		Filename = "Connect-SCPSession.ps1"
 		Description = ""
-		Tags = "powershell, remote, session, ssh"
+		Tags = "powershell, remote, session, scp"
 		Project = ""
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
@@ -44,27 +44,27 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
     #--------------------------------------------------#
     # main
     #--------------------------------------------------#
-    if (Get-Command "putty.exe"){ 
-    
+   if (Get-Command "winscp.exe"){ 
+
         # Load Configurations
     	$Config = Get-RemoteConnections -Names $Names
 
         $Config | %{
     		
             # default settings
-            $SSHPort = 22
+            $SCPPort = 22
             $Servername = $_.Server
             $Username = $_.User
             $PrivatKey = Invoke-Expression ($Command = '"' + $_.PrivatKey + '"')
             
     		#Get port
-    		$_.Protocols | %{if ($_.Name -eq "ssh" -and $_.Port -ne ""){$SSHPort = $_.Port}}
+    		$_.Protocols | %{if ($_.Name -eq "scp" -and $_.Port -ne ""){$SCPPort = $_.Port}}
             
     		#Set Protocol
             if($PrivatKey -eq ""){
-                Invoke-Expression "putty $Username@$Servername -P $SSHPort -ssh" 
+                Invoke-Expression ("WinSCP.exe scp://$Username@$Servername" + ":$SCPPort")
             }else{
-                Invoke-Expression "putty $Username@$Servername -P $SSHPort -ssh -i '$PrivatKey'" 
+                Invoke-Expression ("WinSCP.exe scp://$Username@$Servername :$SCPPort" + ":$SCPPort /privatekey='$PrivatKey'" )
             }
         }
     }

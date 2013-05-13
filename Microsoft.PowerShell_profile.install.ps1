@@ -83,7 +83,8 @@ if($Host.Version.Major -lt 2){
                 
 		        Add-PathVariable -Value $StaticPath -Name $SystemVariable.Name -Target $SystemVariable.Target
 	        }else{
-		        Add-PathVariable -Value $SystemVariable.Value -Name $SystemVariable.Name -Target $SystemVariable.Target
+				$StaticPath = Invoke-Expression ($Command = '"' + $SystemVariable.Value + '"')
+		        Add-PathVariable -Value $StaticPath -Name $SystemVariable.Name -Target $SystemVariable.Target
 	        }            [string]$Name =  $SystemVariable.Value
 		    Write-Warning "`nAdded path variable: $Name"
         }
@@ -239,6 +240,8 @@ foreach ($IncludeFolder in $IncludeFolders){
 nal -Name rdp -Value "Connect-RDPSession"
 nal -Name rps -Value "Connect-PSSession"
 nal -Name http -Value "Connect-HttpSession"
+nal -Name ssh -Value "Connect-SSHSession"
+nal -Name scp -Value "Connect-SCPSession"
 
 '@
 	Write-Warning "`nAdded Custom Aliases to the profile script"
@@ -303,7 +306,7 @@ Set-Location $WorkingPath
 			<Port></Port>			
 		</Protocols>
 		<SnapIns></SnapIns>
-		<PrivatKey></PrivatKey>
+		<PrivatKey>$PSProfilePath\ssh\Private.key</PrivatKey>
 	</Servers>
 	
 	<Servers>
@@ -336,8 +339,12 @@ Set-Location $WorkingPath
 			<Name>https</Name>
 			<Port></Port>			
 		</Protocols>
+		<Protocols>	
+			<Name>ssh</Name>
+			<Port>50</Port>			
+		</Protocols>
 		<SnapIns></SnapIns>
-		<PrivatKey></PrivatKey>
+		<PrivatKey>C:\Private.key</PrivatKey>
 	</Servers>
 	
 </Content>
