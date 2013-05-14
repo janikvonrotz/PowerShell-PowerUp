@@ -103,20 +103,9 @@ if($Host.Version.Major -lt 2){
     $ContentISEArray = ""
     
 	# Git Update Task
-	if($Features -contains "Git Update Task"){
-		# Settings						
-		$PathToTask = Get-ChildItem -Path $PSconfigs.Path -Filter "GitUpdateTask.xml" -Recurse
+	if($Features -contains "Git Update Task"){				
 		$PathToScript = Get-ChildItem -Path $PSconfigs.Path -Filter "Git-Update.ps1" -Recurse
-		
-		# Update task definitions
-		[xml]$TaskDefinition = (get-content $PathToTask.Fullname)
-		$TaskDefinition.Task.Actions.Exec.Arguments = $PathToScript.Fullname
-		$TaskDefinition.Task.Actions.Exec.WorkingDirectory = $WorkingPath
-		$TaskDefinition.Save($PathToTask.Fullname)
-
-		# Create task
-		SchTasks /Create /TN "Git Update Task" /XML $PathToTask.Fullname
-		Write-Warning "`nAdded system task: Git Update Task"
+		Add-SheduledTask -Title "Git Update Task" -Command "powershell.exe" -Arguments $PathToScript.Fullname -WorkingDirectory $WorkingPath -XMLFilename "GitUpdateTask.xml"
 	}
 
 	# Powershell Remoting
@@ -146,7 +135,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-22"
-	LastEditDate = "2013-05-14"
+	LastEditDate = "2013-04-22"
 	Version = "3.1.0"
 	License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
@@ -165,7 +154,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-22"
-	LastEditDate = "2013-05-14"
+	LastEditDate = "2013-04-22"
 	Version = "3.1.0"
 	License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
@@ -240,8 +229,8 @@ foreach ($IncludeFolder in $IncludeFolders){
 nal -Name rdp -Value "Connect-RDPSession"
 nal -Name rps -Value "Connect-PSSession"
 nal -Name http -Value "Connect-HttpSession"
-nal -Name psssh -Value "Connect-SSHSession"
-nal -Name psscp -Value "Connect-SCPSession"
+nal -Name ssh -Value "Connect-SSHSession"
+nal -Name scp -Value "Connect-SCPSession"
 
 '@
 	Write-Warning "`nAdded Custom Aliases to the profile script"
