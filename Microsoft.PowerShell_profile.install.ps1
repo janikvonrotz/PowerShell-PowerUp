@@ -229,8 +229,8 @@ foreach ($IncludeFolder in $IncludeFolders){
 nal -Name rdp -Value "Connect-RDPSession"
 nal -Name rps -Value "Connect-PSSession"
 nal -Name http -Value "Connect-HttpSession"
-nal -Name ssh -Value "Connect-SSHSession"
-nal -Name scp -Value "Connect-SCPSession"
+nal -Name psssh -Value "Connect-SSHSession"
+nal -Name psscp -Value "Connect-SCPSession"
 
 '@
 	Write-Warning "`nAdded Custom Aliases to the profile script"
