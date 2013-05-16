@@ -68,7 +68,7 @@ if($Host.Version.Major -lt 2){
         {
 	        Set-ItemProperty -Path $RegistryEntry.Path -Name $RegistryEntry.Name -Value $RegistryEntry.Value
             [string]$Name =  $RegistryEntry.Name
-		    Write-Warning "`nAdded registry entry: $Name"
+		    Write-Warning "Added registry entry: $Name "
         }
 
 		#--------------------------------------------------#
@@ -86,7 +86,7 @@ if($Host.Version.Major -lt 2){
 				$StaticPath = Invoke-Expression ($Command = '"' + $SystemVariable.Value + '"')
 		        Add-PathVariable -Value $StaticPath -Name $SystemVariable.Name -Target $SystemVariable.Target
 	        }            [string]$Name =  $SystemVariable.Value
-		    Write-Warning "`nAdded path variable: $Name"
+		    Write-Warning "Added path variable: $Name "
         }
         
         # Collect features
@@ -114,13 +114,13 @@ if($Host.Version.Major -lt 2){
 		Set-Item WSMan:\localhost\Client\TrustedHosts "RemoteComputer" -Force
 		Set-Item WSMan:\localhost\Shell\MaxMemoryPerShellMB 1024
 		restart-Service WinRM
-		Write-Warning "`nPowershell Remoting enabled"
+		Write-Warning "Powershell Remoting enabled"
 	}
 	
 	# Enable Open Powershell here
 	if($Features -contains "Enable Open Powershell here"){
 		$Null = Enable-OpenPowerShellHere
-		Write-Warning "`nAdded 'Open PowerShell Here' to context menu"
+		Write-Warning "Added 'Open PowerShell Here' to context menu "
 	}
     
 	# Metadata
@@ -196,7 +196,7 @@ $PromptSettings.MaxPhysicalWindowSize.Height = 50
 # $PromptSettings.WindowTitle = "PowerShell"
 
 '@
-	Write-Warning "`nAdded Custom PowerShell CLI to the profile script"
+	Write-Warning "Added Custom PowerShell CLI to the profile script"
 }
 
 	# Autoinclude Functions
@@ -215,7 +215,7 @@ foreach ($IncludeFolder in $IncludeFolders){
 }
 
 '@
-	Write-Warning "`nAdded Autoinclude Functions to the profile script"
+	Write-Warning "Added Autoinclude Functions to the profile script"
 }
 	$ContentISEArray += $ContentISE
     
@@ -233,10 +233,10 @@ nal -Name psssh -Value "Connect-SSHSession"
 nal -Name psscp -Value "Connect-SCPSession"
 
 '@
-	Write-Warning "`nAdded Custom Aliases to the profile script"
+	Write-Warning "Added Custom Aliases to the profile script"
 }
     $ContentISEArray += $ContentISE
-
+	
 	# Transcript Logging
 	if($Features -contains "Transcript Logging"){
 	$Content += @'
@@ -245,11 +245,27 @@ nal -Name psscp -Value "Connect-SCPSession"
 # Transcript Logging
 #--------------------------------------------------#	
 Start-Transcript -path ($PSlogs.Path + "\PowerShell Session " + $(Get-LogStamp) + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt")
+Write-Host ""
 
 '@
-	Write-Warning "`nAdded Transcript Logging to the profile script"
+	Write-Warning "Added Transcript Logging to the profile script"
 }
 
+	# Custom Aliases
+	if($Features -contains "Get Quote Of The Day"){
+	$Content += $ContentISE = @'
+
+#--------------------------------------------------#
+# Get Quote Of The Day
+#--------------------------------------------------#	
+Get-QuoteOfTheDay
+Write-Host "`n"
+
+'@
+	Write-Warning "Added Get Quote Of The Day to the profile script"
+}
+    $ContentISEArray += $ContentISE
+	
 	# Main End
 	$Content += $ContentISE = @'
 
@@ -340,7 +356,7 @@ Set-Location $WorkingPath
 '@	
         # Write content to config file
         Set-Content -Value $ContentRemoteConfigXml -Path ($PSconfigs.Path + "\EXAMPLE.remote.config.xml")
-        Write-Warning "`nAdded Remote config file to the config folder"
+        Write-Warning "Added Remote config file to the config folder"
 			
         # RDP Default file
         $ContentDefaultRDP = @'
@@ -389,7 +405,7 @@ drivestoredirect:s:
 '@
         # Write content to config file
         Set-Content -Value $ContentDefaultRDP -Path ($PSconfigs.Path + "\Default.rdp")
-		Write-Warning "`nAdded Default RDP file to the config folder"
+		Write-Warning "Added Default RDP file to the config folder"
     }
 
 	# Write content to script file
@@ -397,7 +413,7 @@ drivestoredirect:s:
         
     if($Features -contains "Add ISE Profile Script"){
         Set-Content -Value $ContentISEArray -Path $PSProfileISEScript.Name
-		Write-Warning "`nAdded ISE Profile Script"
+		Write-Warning "Added ISE Profile Script"
     }
     
     
@@ -415,7 +431,7 @@ drivestoredirect:s:
 
 		  # Create a profile
 		New-Item -path $Profile -type file -force
-		Write-Warning "`nNew profile script"
+		Write-Warning "New profile script"
 	}
 
 	# Link Powershell Profile
@@ -429,10 +445,10 @@ drivestoredirect:s:
  
 		# Create a shortcut to the existing powershell profile
 		New-Symlink $SourcePath $WorkingPath
-		Write-Warning "`nRedirect for PowerShell profile path added"
+		Write-Warning "Redirect for PowerShell profile path added"
 	}
 	
-	Write-Host "`nFinished" -BackgroundColor Black -ForegroundColor Green
-	Read-Host "`nPress Enter to exit"
+	Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
+	Read-Host "Press Enter to exit"
 
 }

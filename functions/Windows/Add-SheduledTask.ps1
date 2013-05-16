@@ -124,13 +124,13 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 '@	
     	# Write content to config file
     	Set-Content -Value $ContentTaskConfigXml -Path ($PSconfigs.Path + "\" + $XMLFilename)
-    	Write-Warning ("`nAdded " + $XMLFilename + " to " + $Psconfigs.Path)
+    	Write-Warning ("Added " + $XMLFilename + " to " + $Psconfigs.Path)
     }
 
 	# get path to the xml template
 	$PathToXML = Get-ChildItem -Path $PSconfigs.Path -Filter $XMLFilename -Recurse
 	if($PathToXML -eq $Null){
-		throw ("`nCouldn't find the xml template file!`nPlease create (Get-Help Add-SheduledTask) or add a xml template file to this directory: " + $PSconfigs.Path )
+		throw ("Couldn't find the xml template file!`nPlease create (Get-Help Add-SheduledTask) or add a xml template file to this directory: " + $PSconfigs.Path )
 	}
 
 		
@@ -144,6 +144,6 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	$TaskDefinition.Save($PathToXML.Fullname)
 
 	# Create task
-	Write-Warning ("`nAdding Windows sheduled task: " + $Title)
+	Write-Warning ("Adding Windows sheduled task: " + $Title)
 	SchTasks /Create /TN $Title /XML $PathToXML.Fullname
 }
