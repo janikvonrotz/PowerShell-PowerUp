@@ -9,7 +9,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-03-27"
-	LastEditDate = "2013-03-28"
+	LastEditDate = "2013-05-16"
 	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -19,14 +19,11 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 
 <#
-#--------------------------------------------------#
-# Example
-#--------------------------------------------------#
- 
-.\Report-ActiveDirectoryUserGroups.ps1 -OutPutToGridView -Usernames "User1", "User2"
-
-$Report = .\Report-ActiveDirectoryUserGroups.ps1 -Usernames "User1", "User2"
-
+.Example
+    .\Report-ActiveDirectoryUserGroups.ps1 -OutPutToGridView -Usernames "User1", "User2"
+    
+.Example
+    $Report = .\Report-ActiveDirectoryUserGroups.ps1 -Usernames "User1", "User2"
 #>
 
 if($Host.Version.Major -gt 2){
@@ -34,12 +31,12 @@ if($Host.Version.Major -gt 2){
 }else{
 
 	#--------------------------------------------------#
-	# Includes
+	# includes
 	#--------------------------------------------------#
 	Import-Module Quest.ActiveRoles.ArsPowerShellSnapIn
 
 	#--------------------------------------------------#
-	# Main
+	# main
 	#--------------------------------------------------#
 	$ADUserGroupReport = @()
 	
@@ -59,31 +56,46 @@ if($Host.Version.Major -gt 2){
 	}
 	
 	foreach($Username in $Usernames){
-	
-		$ADusers = Get-QADUser $Username -Properties Name,DN,SamAccountName,MemberOf | Select-Object Name,DN,SamAccountName,MemberOf
-		foreach($ADUser in $ADusers){
-			foreach($ADUserGroups in $ADUser.Memberof){ 
+	   
+        # get user AD objects
+        $ADusers = Get-QADUser $Username -Properties Name,DN,SamAccountName,MemberOf | Select-Object Name,DN,SamAccountName,MemberOf
+		
+        # cycle throught AD user collection
+        foreach($ADUser in $ADusers){
+            
+            # cycle through every parent group
+			foreach($ADUserGroup in $ADUser.Memberof){ 
 			
-				$GroupName = $(Get-QADGroup $ADUserGroups).Name
-				Write-Host $GroupName  -BackgroundColor Yellow -ForegroundColor Black
+                # get the groupename
+				$GroupName = $(Get-QADGroup $ADUserGroup).Name
+				
+                Write-Progress -Activity "collecting data" -status $GroupName -percentComplete ([int]([array]::IndexOf($ADUser.Memberof, $ADUserGroup)/$ADUser.Memberof.Count*100))
 
 				$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $GroupName
-					   
-				foreach($ADGroup in (Get-QADGroup -ContainsIndirectMember $ADUserGroups | Select-Object Name)){
-				
-					Write-Host ($ADGroup.Name)  -BackgroundColor Yellow -ForegroundColor Black
-					$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADGroup.Name
-				}  
+                
+                # cycle throught indirect parent of the parent group
+                $ADIndirectUserGroups = Get-QADGroup -ContainsIndirectMember $ADUserGroup | Select-Object Name
+                if($ADIndirectUserGroups -ne $Null){
+    				foreach($ADIndirectUserGroup in $ADIndirectUserGroups){
+    				
+    					$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADIndirectUserGroup.Name
+                        
+    				}  
+                }
 			} 
 		}
 	}
 
 	if($OutPutToGridView -eq $true){
+    
 		$ADUserGroupReport | Out-GridView
-		Write-Host "`nFinished" -BackgroundColor Green -ForegroundColor Black
-		Read-Host "`nPress Enter to exit"
+        
+        Write-Host "`nFinished" -BackgroundColor Black -ForegroundColor Green
+        Read-Host "`nPress Enter to exit"
+
 	}else{
+    
 		return $ADUserGroupReport
-	}
-	
+        
+	}	
 }
