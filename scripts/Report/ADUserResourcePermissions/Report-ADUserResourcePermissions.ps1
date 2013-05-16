@@ -1,8 +1,10 @@
 # load xml data
 $GroupPermissionReports = Import-Clixml "GroupPermissionReports.xml"
 
+# resets
 $Usernames = @()
 
+# get usernames
 While(1){
 	$Username = Read-Host "`nEnter a username (or . to finish)"
 	if($Username -eq "."){

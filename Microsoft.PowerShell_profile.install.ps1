@@ -259,7 +259,7 @@ Write-Host ""
 # Get Quote Of The Day
 #--------------------------------------------------#	
 Get-QuoteOfTheDay
-Write-Host "`n"
+Write-Host ""
 
 '@
 	Write-Warning "Added Get Quote Of The Day to the profile script"

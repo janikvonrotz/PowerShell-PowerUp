@@ -59,29 +59,20 @@ if($Host.Version.Major -gt 2){
 	   
         # get user AD objects
         $ADusers = Get-QADUser $Username -Properties Name,DN,SamAccountName,MemberOf | Select-Object Name,DN,SamAccountName,MemberOf
-		
+
         # cycle throught AD user collection
         foreach($ADUser in $ADusers){
             
+			# add special user groups
+			$ADUserGroups = Get-QADMemberOf $ADUser.SamAccountName -Indirect
+            			
             # cycle through every parent group
-			foreach($ADUserGroup in $ADUser.Memberof){ 
-			
-                # get the groupename
-				$GroupName = $(Get-QADGroup $ADUserGroup).Name
+			foreach($ADUserGroup in $ADUserGroups){ 
 				
-                Write-Progress -Activity "collecting data" -status $GroupName -percentComplete ([int]([array]::IndexOf($ADUser.Memberof, $ADUserGroup)/$ADUser.Memberof.Count*100))
+                Write-Progress -Activity "collecting data" -status $ADUserGroup.Name -percentComplete ([int]([array]::IndexOf($ADUserGroups, $ADUserGroup)/$ADUserGroups.Count*100))
 
-				$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $GroupName
-                
-                # cycle throught indirect parent of the parent group
-                $ADIndirectUserGroups = Get-QADGroup -ContainsIndirectMember $ADUserGroup | Select-Object Name
-                if($ADIndirectUserGroups -ne $Null){
-    				foreach($ADIndirectUserGroup in $ADIndirectUserGroups){
-    				
-    					$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADIndirectUserGroup.Name
-                        
-    				}  
-                }
+				$ADUserGroupReport += New-ADReportItem -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADUserGroup.Name
+              
 			} 
 		}
 	}

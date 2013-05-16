@@ -4,4 +4,11 @@ if($NoExit -eq $false){
 	exit
 }
 
-.\Report-ADUserResourcePermissions.ps1 | Out-Gridview
+While(1){
+
+	.\Report-ADUserResourcePermissions.ps1 | Out-Gridview
+
+	$Choice = Read-Host "`nNew Report? (y/n)"
+	if($Choice -ne "y"){break}
+	
+}
