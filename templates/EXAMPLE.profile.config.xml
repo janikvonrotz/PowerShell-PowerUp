@@ -11,8 +11,8 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-04-11</CreateDate>
-		<LastEditDate>2013-04-18</LastEditDate>
-		<Version>1.1.0</Version>
+		<LastEditDate>2013-05-16</LastEditDate>
+		<Version>1.2.0</Version>
 	</Metadata>
 
 	<Configuration>
@@ -54,6 +54,10 @@
 			<Feature>
 				<Name>Multi Remote Management</Name>
 			</Feature>	
+			
+			<Feature>
+				<Name>Get Quote Of The Day</Name>
+			</Feature>
 
 		</Features>
 		
