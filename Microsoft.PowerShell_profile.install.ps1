@@ -233,6 +233,7 @@ nal -Name rps -Value "Connect-PSSession"
 nal -Name http -Value "Connect-HttpSession"
 nal -Name psssh -Value "Connect-SSHSession"
 nal -Name psscp -Value "Connect-SCPSession"
+nal -Name pssftp -Value "Connect-FTPSession"
 
 '@
 	Write-Warning "Added Custom Aliases to the profile script"
