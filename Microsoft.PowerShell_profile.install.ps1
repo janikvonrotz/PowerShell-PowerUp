@@ -280,83 +280,13 @@ Set-Location $WorkingPath
     # Multi Remote Management
     if($Features -contains "Multi Remote Management"){
     
-        # Remote config file
-        $ContentRemoteConfigXml = @'
-<?xml version="1.0" encoding="UTF-8" ?>
-<Content>
-	<Metadata>
-		<Title>Remote Server Configurations</Title>
-		<Filename>EXAMPLE.remote.config.xml</Filename>
-		<Description></Description>
-		<Tags>powershell, configuration, remote, session</Tags>
-		<Project></Project>
-		<Author>Janik von Rotz</Author>
-		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
-		<CreateDate>2013-03-28</CreateDate>
-		<LastEditDate>2013-04-11</LastEditDate>
-		<Version>2.0.0</Version>
-	</Metadata>
-	
-	<Servers>
-		<Name>linux1</Name>
-		<Server>ServerLinux1</Server>
-		<User>Root</User>
-		<Description>Linux Proxy</Description>
-		<Protocols>	
-			<Name>ssh</Name>
-			<Port></Port>	
-		</Protocols>	
-		<Protocols>	
-			<Name>scp</Name>
-			<Port></Port>			
-		</Protocols>
-		<SnapIns></SnapIns>
-		<PrivatKey>$PSProfilePath\ssh\Private.key</PrivatKey>
-	</Servers>
-	
-	<Servers>
-		<Name>ServerSharePoint1</Name>
-		<Server>ServerSharePoint1</Server>
-		<User>Domain\Administrator</User>
-		<Description>SharePoint 2010 Server</Description>
-		<Protocols>	
-			<Name>rdp</Name>
-			<Port></Port>	
-		</Protocols>	
-		<Protocols>	
-			<Name>rps</Name>
-			<Port></Port>			
-		</Protocols>
-		<SnapIns>Microsoft.SharePoint.PowerShell</SnapIns>
-		<PrivatKey></PrivatKey>
-	</Servers>
+        # # Remote config file
+        # $ContentRemoteConfigXml = @'
 
-	<Servers>
-		<Name>fw1</Name>
-		<Server>FireWall1</Server>
-		<User>Admin</User>
-		<Description>Firwall Router</Description>
-		<Protocols>	
-			<Name>ssh</Name>
-			<Port></Port>	
-		</Protocols>	
-		<Protocols>	
-			<Name>https</Name>
-			<Port></Port>			
-		</Protocols>
-		<Protocols>	
-			<Name>ssh</Name>
-			<Port>50</Port>			
-		</Protocols>
-		<SnapIns></SnapIns>
-		<PrivatKey>C:\Private.key</PrivatKey>
-	</Servers>
-	
-</Content>
-'@	
-        # Write content to config file
-        Set-Content -Value $ContentRemoteConfigXml -Path ($PSconfigs.Path + "\EXAMPLE.remote.config.xml")
-        Write-Warning "Added Remote config file to the config folder"
+# '@	
+        # # Write content to config file
+        # Set-Content -Value $ContentRemoteConfigXml -Path ($PSconfigs.Path + "\EXAMPLE.remote.config.xml")
+        # Write-Warning "Added Remote config file to the config folder"
 			
         # RDP Default file
         $ContentDefaultRDP = @'
@@ -403,9 +333,12 @@ promptcredentialonce:i:1
 use redirection server name:i:0
 drivestoredirect:s:
 '@
-        # Write content to config file
-        Set-Content -Value $ContentDefaultRDP -Path ($PSconfigs.Path + "\Default.rdp")
-		Write-Warning "Added Default RDP file to the config folder"
+        # Write content to config file only if note exist
+		$DefaultRDPFile  = $PSconfigs.Path + "\Default.rdp"
+        if(!(test-path $DefaultRDPFile)){
+			Set-Content -Value $ContentDefaultRDP -Path ()
+			Write-Warning "Added Default RDP file to the config folder"
+		}
     }
 
 	# Write content to script file
