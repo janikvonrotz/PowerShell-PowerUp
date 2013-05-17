@@ -7,7 +7,7 @@ dev/
 logs/Powershell*
 scripts/GitHubGist
 scripts/Columbus
-GroupPermissionReports.xml
+GroupPermissionReports.csv
 ssh/
 New-Release.ps1
 Microsoft.PowerShell_profile.ps1

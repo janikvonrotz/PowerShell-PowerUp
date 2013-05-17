@@ -1,5 +1,5 @@
 # load xml data
-$GroupPermissionReports = Import-Clixml "GroupPermissionReports.xml"
+$GroupPermissionReports = Import-Csv "GroupPermissionReports.csv" -Delimiter ";"
 
 # resets
 $Usernames = @()
