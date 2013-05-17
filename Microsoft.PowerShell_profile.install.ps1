@@ -336,7 +336,7 @@ drivestoredirect:s:
         # Write content to config file only if note exist
 		$DefaultRDPFile  = $PSconfigs.Path + "\Default.rdp"
         if(!(test-path $DefaultRDPFile)){
-			Set-Content -Value $ContentDefaultRDP -Path ()
+			Set-Content -Value $ContentDefaultRDP -Path ($DefaultRDPFile)
 			Write-Warning "Added Default RDP file to the config folder"
 		}
     }
