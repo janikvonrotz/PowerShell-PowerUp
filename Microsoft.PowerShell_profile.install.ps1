@@ -52,6 +52,8 @@ if($Host.Version.Major -lt 2){
     #--------------------------------------------------#
     # Add module path to the system variables
     Add-PathVariable -Value $PSmodules.Path -Name PSModulePath -Target Machine
+	[string]$PSmodulePath = $PSmodules.Path
+	Write-Warning "Added PSModulePath: $PSmodulePath"
     
     #Load configurations
     $ConfigFiles = Get-ConfigurationFilesContent -Path $PSconfigs.Path -SearchExpression "*.profile.config.*"
