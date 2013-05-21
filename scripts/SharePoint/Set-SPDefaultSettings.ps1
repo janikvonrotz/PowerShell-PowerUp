@@ -41,7 +41,13 @@ $Assignment = @{
 	GroupToAssign = "VBL\SP_Technik#Superuser"
 	RoleToAssignID = "1073741828"
 }
+$Assignments += $Assignment
 
+$Assignment = @{
+	SPWebUrl = "http://sharepoint.vbl.ch"
+	GroupToAssign = "VBL\SP_Home#Admin"
+	RoleToAssignID = " 1073741829"
+}
 $Assignments += $Assignment
 
 $Assignments | %{
