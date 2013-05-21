@@ -59,8 +59,8 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
 	# modules
 	#--------------------------------------------------#
-	if ((Get-PSSnapin “Microsoft.SharePoint.PowerShell” -ErrorAction SilentlyContinue) -eq $null) {
-		Add-PSSnapin “Microsoft.SharePoint.PowerShell”
+	if ((Get-PSSnapin 'Microsoft.SharePoint.PowerShell' -ErrorAction SilentlyContinue) -eq $null) {
+		Add-PSSnapin 'Microsoft.SharePoint.PowerShell'
 	}
 
 
