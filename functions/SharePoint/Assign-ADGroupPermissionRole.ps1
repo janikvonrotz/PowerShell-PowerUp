@@ -68,22 +68,26 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	# main
 	#--------------------------------------------------#
 
+    # get host url
 	$SPSiteUrl = Get-SPUrl $SPWebUrl -HostUrl
+    # create sp site object
 	$SPSite = Get-SPSite $SPSiteUrl
+    # get root web object
 	$SPRootWeb = $SPSite.RootWeb
 
 	# get spweb object
 	$SPweb = Get-SPweb $SPWebUrl
 
-	# get group sharepoint object
-	$GroupToAssign = $SPRootWeb.EnsureUser($GroupToAssign)
-
 	# get role definition by id
 	$RoleToAssign = $SPWeb.RoleDefinitions.GetById($RoleToAssignID)
 
 	# create a new role assignment object
-	$GroupToAssign = new-object Microsoft.SharePoint.SPRoleAssignment($GroupToAssign)
-	$GroupToAssign.RoleDefinitionBindings.Add($RoleToAssign)
+    $SPGroupToAssign = $SPRootWeb.EnsureUser($GroupToAssign)
+    
+    if($SPGroupToAssign -eq $Null){throw "Group not found!"}
+    
+	$SPGroupToAssign = new-object Microsoft.SharePoint.SPRoleAssignment($SPGroupToAssign)
+	$SPGroupToAssign.RoleDefinitionBindings.Add($RoleToAssign)
 
 	# set role for subwebs
 	foreach($SPSubweb in $SPweb.webs){
@@ -91,8 +95,8 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 		# only if not inherited
 		if($SPSubweb.HasUniqueRoleAssignments){
 		
-			# assing role
-			$SPSubweb.RoleAssignments.Add($GroupToAssign)
+			# assign role
+			$SPSubweb.RoleAssignments.Add($SPGroupToAssign)
 		}
 		
 		# sub web lists
@@ -102,7 +106,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 			if($SPSubweblist.HasUniqueRoleAssignments){
 			
 				# assing role
-				$SPSubweblist.RoleAssignments.Add($GroupToAssign)
+				$SPSubweblist.RoleAssignments.Add($SPGroupToAssign)
 			}
 		}
 	}

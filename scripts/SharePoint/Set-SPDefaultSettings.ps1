@@ -24,27 +24,6 @@ if ((Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinu
 }
 
 #--------------------------------------------------#
-# lists default settings
-#--------------------------------------------------#
-
-# Get all Webapplictons
-$SPWebApp = Get-SPWebApplication
-# Get all sites
-$SPSite = $SPWebApp | Get-SPsite -Limit all
-# Get all websites
-$SPWeb = $SPSite | Get-SPWeb -Limit all
-# Get all lists
-$SPLists = $SPweb | foreach{$_.Lists}
-foreach ($SPList in $SPLists){
-    # show progress
-    Write-Progress -Activity "Change List Settings" -status "Change List: $SPList" -percentComplete ([int]([array]::IndexOf($SPLists, $SPList)/$SPLists.Count*100))
-    $SPList.EnableVersioning = $True
-    $SPList.MajorVersionLimit = 10
-    $SPList.Update()
-}
-
-
-#--------------------------------------------------#
 # default permission roles
 #--------------------------------------------------#
 
@@ -67,4 +46,24 @@ $Assignments += $Assignment
 
 $Assignments | %{
     Assign-ADGroupPermissionRole -SPWebUrl $_.SPWebUrl -GroupToAssign $_.GroupToAssign -RoleToAssignID $_.RoleToAssignID
+}
+
+#--------------------------------------------------#
+# lists default settings
+#--------------------------------------------------#
+
+# Get all Webapplictons
+$SPWebApp = Get-SPWebApplication
+# Get all sites
+$SPSite = $SPWebApp | Get-SPsite -Limit all
+# Get all websites
+$SPWeb = $SPSite | Get-SPWeb -Limit all
+# Get all lists
+$SPLists = $SPweb | foreach{$_.Lists}
+foreach ($SPList in $SPLists){
+    # show progress
+    Write-Progress -Activity "Change List Settings" -status "Change List: $SPList" -percentComplete ([int]([array]::IndexOf($SPLists, $SPList)/$SPLists.Count*100))
+    $SPList.EnableVersioning = $True
+    $SPList.MajorVersionLimit = 10
+    $SPList.Update()
 }
