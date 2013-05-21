@@ -16,24 +16,55 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 '@
 }
 
-Add-PSSnapin Microsoft.SharePoint.Powershell
+#--------------------------------------------------#
+# modules
+#--------------------------------------------------#
+if ((Get-PSSnapin “Microsoft.SharePoint.PowerShell” -ErrorAction SilentlyContinue) -eq $null) {
+    Add-PSSnapin “Microsoft.SharePoint.PowerShell”
+}
+
+#--------------------------------------------------#
+# lists default settings
+#--------------------------------------------------#
 
 # Get all Webapplictons
 $SPWebApp = Get-SPWebApplication
-
 # Get all sites
-$SPSite = $SPWebApp | Get-SPsite -Limit all 
-
+$SPSite = $SPWebApp | Get-SPsite -Limit all
 # Get all websites
 $SPWeb = $SPSite | Get-SPWeb -Limit all
-
 # Get all lists
 $SPLists = $SPweb | foreach{$_.Lists}
-
 foreach ($SPList in $SPLists){
     # show progress
     Write-Progress -Activity "Change List Settings" -status "Change List: $SPList" -percentComplete ([int]([array]::IndexOf($SPLists, $SPList)/$SPLists.Count*100))
     $SPList.EnableVersioning = $True
     $SPList.MajorVersionLimit = 10
     $SPList.Update()
+}
+
+
+#--------------------------------------------------#
+# default permission roles
+#--------------------------------------------------#
+
+$Assignments = @()
+
+$Assignment = @{
+	SPWebUrl = "http://sharepoint.vbl.ch/Projekte"
+	GroupToAssign = "VBL\SP_Projekte#Superuser"
+	RoleToAssignID = "1073741828"
+}
+$Assignments += $Assignment
+
+$Assignment = @{
+	SPWebUrl = "http://sharepoint.vbl.ch/Technik"
+	GroupToAssign = "VBL\SP_Technik#Superuser"
+	RoleToAssignID = "1073741828"
+}
+
+$Assignments += $Assignment
+
+$Assignments | %{
+    Assign-ADGroupPermissionRole -SPWebUrl $_.SPWebUrl -GroupToAssign $_.GroupToAssign -RoleToAssignID $_.RoleToAssignID
 }
