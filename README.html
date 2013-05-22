@@ -1,0 +1,32 @@
+<h1>Powershell-Profile</h1>
+<p>It&#39;s more than just a PowerShell profile script, follow the install guide and you&#39;ll get a PowerShell scripting IDE with the most advanced configurations for your client and server environment.
+Checkout the <a href="https://github.com/janikvonrotz/Powershell-Profile/wiki">wiki page</a> for more information.</p>
+<h2>How to install</h2>
+<p>Download Portable Git for Windows from:</p>
+<p><a href="https://code.google.com/p/msysgit/downloads/list"><a href="https://code.google.com/p/msysgit/downloads/list">https://code.google.com/p/msysgit/downloads/list</a></a></p>
+<p>Unzip in a directory of your choice.</p>
+<p>Execute the:</p>
+<pre><code>git-cmd.bat </code></pre>
+<p>and clone the Powershell Profile Project in a directory of your choice:</p>
+<pre><code>git clone git://github.com/janikvonrotz/Powershell-Profile.git</code></pre>
+<p>In case of an error like this:</p>
+<pre><code>0 [main] us 0 init_cheap: VirtualAlloc pointer is null, Win32 error 487
+AllocationBase 0x0, BaseAddress 0x71110000, RegionSize 0x350000, State 0x10000
+\msys\bin\make.exe: *** Couldn&#39;t reserve space for cygwin&#39;s heap, Win32 error 0</code></pre>
+<p>Checkout this <a href="http://support.code-red-tech.com/CodeRedWiki/VirtualAllocPointerNull">link</a></p>
+<p>When the download finished successfully...</p>
+<pre><code>COPY    \Powershell-Profile\templates\EXAMPLE.profile.config.xml
+
+TO    \Powershell-Profile\config\... </code></pre>
+<p>And </p>
+<pre><code>RENAME    EXAMPLE.profile.config.xml    TO    &gt;SOMETHING&lt;.profile.config.xml</code></pre>
+<p>Now take your time to edit your new PowerShell Profile config file.
+Checkout the <a href="https://github.com/janikvonrotz/Powershell-Profile/wiki">wiki page</a> for more information.</p>
+<pre><code>EDIT    [SOMETHING].profile.config.xml</code></pre>
+<p>Open your Powershell commandline and enter:</p>
+<pre><code>PS C:\Powershell-Profile&gt; Set-ExecutionPolicy unrestricted</code></pre>
+<p>Or depending on your windows security restrictions:</p>
+<pre><code>PS C:\Powershell-Profile&gt; Set-ExecutionPolicy bypass</code></pre>
+<p>At last execute the install script from commad line:</p>
+<pre><code>PS C:\Powershell-Profile&gt; .\Microsoft.PowerShell_profile.install.ps1</code></pre>
+<p>And the magic is done &lt;3</p>
