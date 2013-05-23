@@ -24,6 +24,15 @@ if ((Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinu
 }
 
 #--------------------------------------------------#
+# main
+#--------------------------------------------------#
+
+# get all Webapplictons
+$SPWebApp = Get-SPWebApplication
+# get all sites
+$SPSite = $SPWebApp | Get-SPsite -Limit all
+
+#--------------------------------------------------#
 # default permission roles
 #--------------------------------------------------#
 
@@ -55,16 +64,42 @@ $Assignments | %{
 }
 
 #--------------------------------------------------#
+# spweb default settings
+#--------------------------------------------------#
+
+# settings
+$SPWebHomeUrl = "http://sharepoint.vbl.ch"
+$SPUrlFilter = @("http://sharepoint.vbl.ch/Projekte")
+
+# get all websites
+$SPWeb = $SPSite | Get-SPWeb -Limit all
+
+
+$SPweb | %{
+	# set the Publishing web
+	if(
+    
+    # only site containing home url
+	((Get-SPUrl $_.Url -HostUrl) -eq $SPWebHomeUrl) -and 
+    
+    # not home site
+	($_.Url -ne $SPWebHomeUrl) -and
+    
+    # filter list
+    (!($SPUrlFilter -contains $_.Url))
+	){
+		$SPPubWeb = [Microsoft.SharePoint.Publishing.PublishingWeb]::GetPublishingWeb($_)
+		$SPPubWeb.Navigation.InheritGlobal = $true
+		$SPPubWeb.Navigation.GlobalIncludeSubSites = $true
+		$SPPubWeb.Update()
+    }
+}
+
+#--------------------------------------------------#
 # lists default settings
 #--------------------------------------------------#
 
-# Get all Webapplictons
-$SPWebApp = Get-SPWebApplication
-# Get all sites
-$SPSite = $SPWebApp | Get-SPsite -Limit all
-# Get all websites
-$SPWeb = $SPSite | Get-SPWeb -Limit all
-# Get all lists
+# get all lists
 $SPLists = $SPweb | foreach{$_.Lists}
 foreach ($SPList in $SPLists){
     # show progress
@@ -77,15 +112,15 @@ foreach ($SPList in $SPLists){
     $SPList.MajorVersionLimit = 10
     
     # change browser file handling from strict to permissive
-    # if(
-    # ($list.BaseType -ieq "DocumentLibrary") -and  
-    # ($list.BrowserFileHandling -ieq "Strict") -and 
-    # ($list.Hidden -eq $False) -and 
-    # ($list.BaseTemplate -ieq "DocumentLibrary") -and 
-    # ($list.IsSiteAssetsLibrary -ieq $False)
-    # ){  
-        # $list.BrowserFileHandling="Permissive"
-    # }
+		# if(
+		# ($list.BaseType -ieq "DocumentLibrary") -and  
+		# ($list.BrowserFileHandling -ieq "Strict") -and 
+		# ($list.Hidden -eq $False) -and 
+		# ($list.BaseTemplate -ieq "DocumentLibrary") -and 
+		# ($list.IsSiteAssetsLibrary -ieq $False)
+		# ){  
+			# $list.BrowserFileHandling="Permissive"
+		# }
     
     # update the settings
     $SPList.Update()
