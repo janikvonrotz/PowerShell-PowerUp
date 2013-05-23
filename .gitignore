@@ -7,6 +7,7 @@ dev/
 logs/Powershell*
 scripts/GitHubGist
 scripts/Columbus
+scripts/SharePoint2013Install
 GroupPermissionReports.csv
 ssh/
 New-Release.ps1

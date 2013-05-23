@@ -7,8 +7,8 @@
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-05-07"
-	LastEditDate = "2013-05-07"
-	Version = "1.0.0"
+	LastEditDate = "2013-05-23"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -69,7 +69,24 @@ $SPLists = $SPweb | foreach{$_.Lists}
 foreach ($SPList in $SPLists){
     # show progress
     Write-Progress -Activity "Change List Settings" -status "Change List: $SPList" -percentComplete ([int]([array]::IndexOf($SPLists, $SPList)/$SPLists.Count*100))
+    
+    # enable versioning
     $SPList.EnableVersioning = $True
+    
+    # set max document versions 
     $SPList.MajorVersionLimit = 10
+    
+    # change browser file handling from strict to permissive
+    # if(
+    # ($list.BaseType -ieq "DocumentLibrary") -and  
+    # ($list.BrowserFileHandling -ieq "Strict") -and 
+    # ($list.Hidden -eq $False) -and 
+    # ($list.BaseTemplate -ieq "DocumentLibrary") -and 
+    # ($list.IsSiteAssetsLibrary -ieq $False)
+    # ){  
+        # $list.BrowserFileHandling="Permissive"
+    # }
+    
+    # update the settings
     $SPList.Update()
 }
