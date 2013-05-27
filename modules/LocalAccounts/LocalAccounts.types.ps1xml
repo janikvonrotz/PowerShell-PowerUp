@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Types xmlns="http://schemas.microsoft.com/PowerShell/TypeData/2007/04">
+  <Type>
+    <Name>System.DirectoryServices.AccountManagement.UserPrincipal</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>Source</Name>
+        <GetScriptBlock>
+          $this.Context.ConnectedServer
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>ProfilePath</Name>
+        <GetScriptBlock>
+          ([System.DirectoryServices.DirectoryEntry]$this.GetUnderlyingObject()).Properties["Profile"].Value
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+
+  <Type>
+    <Name>System.DirectoryServices.AccountManagement.GroupPrincipal</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>Source</Name>
+        <GetScriptBlock>
+          $this.Context.ConnectedServer
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>MemberCount</Name>
+        <GetScriptBlock>
+          $this.Members.Count
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+
+</Types>
