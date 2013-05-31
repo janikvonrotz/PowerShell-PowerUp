@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Content>
+
+	<Metadata>
+		<Title>SharePoint 2013 Install Config File</Title>
+		<Filename>SharePoint2013.install.config.xml</Filename>
+		<Description></Description>
+		<Tags></Tags>
+		<Project>SharePoint 2013 Install</Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2013-05-22</CreateDate>
+		<LastEditDate>2013-05-22</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<Global>
+		<Project Prefix="sp2"></Project>
+	</Global>
+	
+	<ADDefaultUser>
+		
+		<ADService server="vblw8r2ad01" ConnectionAccount="vbl\Administrator"></ADService>
+		
+		<ParentContainer>OU=SharePointExtranet,OU=Services,OU=vblusers2,DC=vbl,DC=ch</ParentContainer>
+		
+		<Account name="SPFarm" samAccountName="farm" UserPassword="vbl4sp01"></Account>
+		<Account name="SPAppPoolIntranet" samAccountName="admin" UserPassword="vbl4sp01"></Account>
+		<Account name="SPASServices" samAccountName="services" UserPassword="vbl4sp01"></Account>
+		<Account name="SPASSearchAppPool" samAccountName="search" UserPassword="vbl4sp01"></Account>
+		<Account name="SPASSearchAdmin" samAccountName="searchadmin" UserPassword="vbl4sp01"></Account>
+
+	</ADDefaultUser>
+	
+	
+<!--   
+<Farm ConfigDB="SP_ConfigDB" AdminContentDB="SP_Content_Admin" DatabaseServer="VBL_SHAREPOINT" Passphrase="KqYrcgOpdfgBY@6NbmR7cz#20BX">
+    <Account Ref="SPFarm" />
+    <Email MailServer="mail.vbl.ch" FromAddress="sharepoint@vbl.ch" Reply="sharepoint@vbl.ch" />
+  </Farm>
+
+  <Servers>
+    <Server ID="App1" Name="vblw2k8sp01" />
+  </Servers>
+
+  <CentralAdmin Port="7777" AuthProvider="NTLM">
+    <Servers>
+      <Server Ref="App1" />
+    </Servers>
+  </CentralAdmin>
+
+  <Accounts>
+    <Account ID="SPFarm" Name="vbl\sa-spfarm" DisplayName="vbl\sa-spfarm" Password="vbl4sp01"></Account>
+    <Account ID="SPAppPoolIntranet" Name="vbl\sa-spintranet" DisplayName="vbl\sa-spintranet" Password="vbl4sp01"></Account>
+    <Account ID="SPASServices" Name="vbl\sa-spservices" DisplayName="vbl\sa-spservices" Password="vbl4sp01"></Account>
+    <Account ID="SPASSearchAppPool" Name="vbl\sa-spsearch" DisplayName="vbl\sa-spsearch" Password="vbl4sp01"></Account>
+    <Account ID="SPASSearchAdmin" Name="vbl\sa-spsearchadmin" DisplayName="vbl\sa-spsearchadmin" Password="vbl4sp01"></Account>
+  </Accounts>
+
+  <ServiceAppPool Name="SP_ApplicationServices">
+    <Account Ref="SPASServices" />
+  </ServiceAppPool>
+
+  <Services>
+    <BCS Name="Business Data Catalog Service" DBName="SP_AS_BCS" />
+    <UsageApplicationService collectioDB="SP_AS_UsageApplication" LogPfad="d:\Microsoft Office Servers\Logs" />
+    <StateService DBName="SP_AS_State" />
+    <EnterpriseSearch AppPoolName="SP_AS_Search">
+      <Account Ref="SPASSearchAppPool" />
+      <Account Ref="SPASSearchAdmin" />
+    </EnterpriseSearch>
+    <ManagedMetadata Name="Managed Metadata Service" DBName="SP_AS_ManagedMetadata" AppPoolName="SP_ApplicationServices" />
+    <UserProfileService Name="User Profile Service" AppPoolName="SP_ApplicationServices">
+      <DB>
+        <Profile>SP_AS_UPS_Profile</Profile>
+        <Sync>SP_AS_UPS_Sync</Sync>
+        <Social>SP_AS_UPS_Social</Social>
+      </DB>
+    </UserProfileService>
+  </Services>
+
+  <WebApplications>
+    <WebApplication Name="SP_Intranet" Port="80" WebAppDBName="SP_Content_Intranet" url="http://sharepoint.vbl.ch" RootSiteName="Intranet" WebSitePath="D:\wea\webs\" email="sharepoint@vbl.ch">
+      <Account Ref="SPAppPoolIntranet" />
+    </WebApplication>
+  </WebApplications> 
+  -->
+  
+</Content>

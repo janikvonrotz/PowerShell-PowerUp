@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configurations>
+  <Farm ConfigDB="SP_ConfigDB" AdminContentDB="SP_Content_Admin" DatabaseServer="TSTSRV-PT06\SQLExpress" Passphrase="KqYrcgOpgBY@6NbmR7cz#20BU">
+    <Account Ref="SPFarm" />
+    <Directory Domain="iozdc" OU="Users,OU=ClientManaged,OU=HeimeHochdorf,OU=Customers" />
+    <Email MailServer="mail.iozdc.ch" FromAddress="support@iozdc.ch" Reply="support@ioz.ch" />
+  </Farm>
+  <ServiceAppPool Name="SP_ApplicationServices">
+	<Account Ref="SPServices" />
+  </ServiceAppPool>
+  <UsageApplicationService collectioDB="SP_AS_UsageApplication"/>
+  <BCS Name="Business Data Catalog Service" DBName="SP_AS_BCS" />
+  <Services>
+     <FoundationSearchService Enable="true" AddStartAddressForNonNTZone="false" MaxBackupDuration="2880" PerformanceLevel="PartlyReduced" DatabaseServer="TSTSRV-PT06\SQLExpress" DatabaseName="SP_AS_Search" FailoverDatabaseServer=""> 
+	<Account Ref="SPSVC" />
+	<Account Ref="SPCrawl" />
+        <Servers>  
+           <Server Name="TSTSRV-PT06" ProxyType="Default" />
+        </Servers> 
+     </FoundationSearchService>
+  </Services>
+  <Servers>
+    <Server ID="App1" Name="TSTSRV-PT06" />
+  </Servers>
+  <CentralAdmin Port="7777" AuthProvider="NTLM">
+    <Servers>
+      <Server Ref="App1" />
+    </Servers>
+  </CentralAdmin>
+  <Accounts>
+    <Account ID="SPFarm" Name="iozdctest\sa-spfarmadmin" DisplayName="iozdctest\Prototype06Admin" Password="sgs2aIOZ"></Account>
+    <Account ID="SPAppPool" Name="iozdctest\sa-spintranet" DisplayName="iozdctest\test1" Password="sgs2aIOZ"></Account>
+    <Account ID="SPServices" Name="iozdctest\sa-spservices" DisplayName="iozdctest\test2" Password="sgs2aIOZ"></Account>
+    <Account ID="SPSVC" Name="iozdctest\sa-spsearchadmin" DisplayName="iozdctest\test3" Password="sgs2aIOZ"></Account>
+    <Account ID="SPCrawl" Name="iozdctest\sa-spsearchcrawler" DisplayName="iozdctest\test4" Password="sgs2aIOZ"></Account>
+  </Accounts>
+  <WebApplications>
+    <WebApplication Name="SP_Intranet" Port="443" WebAppDBName="SP_Content_Intranet" url="https://tstsrv-pt06" RootSiteName="Intranet" WebSitePath="E:\wea\webs\" email="support@iozdc.ch">
+	<Account Ref="SPAppPool" />
+    </WebApplication>
+  </WebApplications>
+</Configurations>
