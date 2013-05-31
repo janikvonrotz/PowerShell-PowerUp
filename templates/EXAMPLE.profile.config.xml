@@ -3,7 +3,7 @@
 <Content>
 
 	<Metadata>
-		<Title>Profile installation configuration file</Title>
+		<Title>Example profile configurations</Title>
 		<Filename>EXAMPLE.profile.config.xml</Filename>
 		<Description></Description>
 		<Tags>powershell, configuration, installation, profile</Tags>
@@ -11,8 +11,8 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-04-11</CreateDate>
-		<LastEditDate>2013-05-16</LastEditDate>
-		<Version>1.2.0</Version>
+		<LastEditDate>2013-05-31</LastEditDate>
+		<Version>2.0.0</Version>
 	</Metadata>
 
 	<Configuration>
@@ -64,14 +64,14 @@
 		<SystemVariables>
 			
 			<SystemVariable>
-				<Value>\apps\Git\cmd</Value>
+				<Value>apps\Git\cmd</Value>
 				<Name>Path</Name>
 				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>
 			</SystemVariable>
 			
 			<SystemVariable>
-				<Value>\apps\Git\bin</Value>
+				<Value>apps\Git\bin</Value>
 				<Name>Path</Name>
 				<RelativePath>true</RelativePath>
 				<Target>Machine</Target>

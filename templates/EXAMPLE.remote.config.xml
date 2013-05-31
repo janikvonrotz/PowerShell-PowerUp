@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Content>
 	<Metadata>
-		<Title>Remote Server Configurations</Title>
+		<Title>Example remote configurations</Title>
 		<Filename>EXAMPLE.remote.config.xml</Filename>
 		<Description></Description>
 		<Tags>powershell, configuration, remote, session</Tags>
@@ -9,7 +9,7 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-03-28</CreateDate>
-		<LastEditDate>2013-04-11</LastEditDate>
+		<LastEditDate>2013-05-31</LastEditDate>
 		<Version>2.0.0</Version>
 	</Metadata>
 		
