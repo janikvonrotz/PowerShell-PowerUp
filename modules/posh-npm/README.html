@@ -1,0 +1,23 @@
+<h1>posh-npm</h1>
+<p>A set of PowerShell scripts which provide npm/PowerShell integration</p>
+<h3>Tab completion</h3>
+<p>   Provides tab completion for commands when using npm.<br>   E.g. <code>npm ins&lt;tab&gt;</code> --&gt; <code>npm install</code></p>
+<h2>Usage</h2>
+<p>See <code>profile.example.ps1</code> as to how you can integrate the tab completion into your own profile.</p>
+<p>If you have <a href="https://github.com/psget/">psget</a> installed, you can install posh-npm like using the following command:</p>
+<p><code>install-module posh-npm</code></p>
+<h2>Installing</h2>
+<ol>
+<li><p>Verify you have PowerShell 2.0 or better with $PSVersionTable.PSVersion</p>
+</li>
+<li><p>Verify execution of scripts is allowed with <code>Get-ExecutionPolicy</code> (should be <code>RemoteSigned</code> or <code>Unrestricted</code>). If scripts are not enabled, run PowerShell as Administrator and call <code>Set-ExecutionPolicy RemoteSigned -Confirm</code>.</p>
+</li>
+<li><p>Verify that <code>npm</code> can be run from PowerShell. If the command is not found, you will need to install nodejs.</p>
+</li>
+<li><p>Clone the posh-npm repository to your local machine.</p>
+</li>
+<li><p>From the posh-npm repository directory, run <code>powershell ./install.ps1</code>. If you are in powershell, run <code>./install.ps1</code> and then <code>. $PROFILE</code>.</p>
+</li>
+</ol>
+<h2>Acknowledgements</h2>
+<p>The powershell integration and installation is based on posh-git. <a href="https://github.com/dahlbyk/posh-git">https://github.com/dahlbyk/posh-git</a></p>
