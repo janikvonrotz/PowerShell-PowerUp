@@ -1,4 +1,5 @@
-apps/
+apps/*
+!apps/Placeholder
 configs/Private
 configs/vbl
 configs/Default.rdp
