@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Content>
+
+	<Metadata>
+		<Title>SharePoint 2013 Foundation Install Config File</Title>
+		<Filename>SharePoint2013Foundation.install.config.xml</Filename>
+		<Description></Description>
+		<Tags>sharepoint, 2013, installation, configuration</Tags>
+		<Project>SharePoint 2013 Install</Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2013-05-22</CreateDate>
+		<LastEditDate>2013-05-22</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<Global>
+		<Project Prefix="sp3"></Project>
+	</Global>
+	
+	<ADDefaultUser>
+		
+		<ADService server="vblw8r2ad01" ConnectionAccount="vbl\Administrator"></ADService>
+		
+		<ParentContainer>OU=SharePointExtranetVR,OU=Services,OU=vblusers2,DC=vbl,DC=ch</ParentContainer>
+		
+		<Account name="SPFarm" scope="Local" samAccountName="farm" UserPassword="vbl4sp01"></Account>
+		<Account name="SPSQL" scope="Domain" samAccountName="admin" UserPassword="vbl4sp01"></Account>
+		<Account name="SPSetup" scope="Domain" samAccountName="services" UserPassword="vbl4sp01"></Account>
+
+	</ADDefaultUser>
+
+  
+</Content>

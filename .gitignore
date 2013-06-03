@@ -8,6 +8,7 @@ logs/Powershell*
 modules/*
 scripts/GitHubGist
 scripts/Columbus
+scripts/SharePoint2013/Scripts_IOZ
 GroupPermissionReports.csv
 New-Release.ps1
 templates/vbl/
