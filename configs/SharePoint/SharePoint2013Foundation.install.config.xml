@@ -10,12 +10,13 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-05-22</CreateDate>
-		<LastEditDate>2013-05-22</LastEditDate>
+		<LastEditDate>2013-06-03</LastEditDate>
 		<Version>1.0.0</Version>
 	</Metadata>
 	
 	<Global>
 		<Project Prefix="sp3"></Project>
+		<SPServer Name="vblw2k12extvr1.vbl.ch" Username="vbl\Administrator"></SPServer>
 	</Global>
 	
 	<ADDefaultUser>
@@ -24,11 +25,10 @@
 		
 		<ParentContainer>OU=SharePointExtranetVR,OU=Services,OU=vblusers2,DC=vbl,DC=ch</ParentContainer>
 		
-		<Account name="SPFarm" scope="Local" samAccountName="farm" UserPassword="vbl4sp01"></Account>
-		<Account name="SPSQL" scope="Domain" samAccountName="admin" UserPassword="vbl4sp01"></Account>
-		<Account name="SPSetup" scope="Domain" samAccountName="services" UserPassword="vbl4sp01"></Account>
+		<Account DisplayName="SPFarm" scope="Domain" samAccountName="farm" Password="Vbl4sp01."></Account>
+		<Account DisplayName="SPSQL" scope="Local" samAccountName="sql" Password="Vbl4sp01."></Account>
+		<Account DisplayName="SPSetup" scope="Domain" samAccountName="setup" Password="Vbl4sp01."></Account>
 
 	</ADDefaultUser>
 
-  
 </Content>
