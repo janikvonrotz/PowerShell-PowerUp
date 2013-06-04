@@ -68,5 +68,3 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	
 	$LocalGroup.Add($DomainUser.Path)
 }
-
-Add-DomainUserToLocalGroup -Domain vbl.ch -User sp3-setup -Group Administrators -Computer vblw2k12extvr1
