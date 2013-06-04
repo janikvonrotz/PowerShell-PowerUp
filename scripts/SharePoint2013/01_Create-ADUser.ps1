@@ -37,7 +37,6 @@ $PathToXmlFile = Get-ChildItem -Path $PSconfigs.Path -Filter '*.install.config.x
 # modules
 #--------------------------------------------------#
 Import-Module ActiveDirectory
-Import-Module LocalAccounts
 
 #--------------------------------------------------#
 # main
@@ -45,9 +44,9 @@ Import-Module LocalAccounts
 $ADDefaultUser = $Config.Content.ADDefaultUser
 $Global = $Config.Content.Global
 
-$SPUsername = $Global.SPServer.Username
-$SPPassword = Read-Host -Prompt "`nEnter password for $SPUsername" -AsSecureString
-$SPCredentials = New-Object System.Management.Automation.PSCredential -ArgumentList $SPUsername, $SPPassword
+#$SPUsername = $Global.SPServer.Username
+#$SPPassword = Read-Host -Prompt "`nEnter password for $SPUsername" -AsSecureString
+#$SPCredentials = New-Object System.Management.Automation.PSCredential -ArgumentList $SPUsername, $SPPassword
         
 foreach($Account in $ADDefaultUser.Account){
 
