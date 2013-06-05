@@ -21,7 +21,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-05-22"
-	LastEditDate = "2013-006-05"
+	LastEditDate = "2013-06-05"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -47,22 +47,22 @@ Import-Module ActiveDirectory
 $ADDefaultUser = $Config.Content.ADDefaultUser
 $Global = $Config.Content.Global
 
-# $Username = $Global.ADServer.ConnectionAccount
-# $Password = Read-Host -Prompt "`nEnter password for $Username" -AsSecureString
-# $Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList $Username, $Password
-Add-DomainUserToLocalGroup -Domain vbl.ch -User sp3-setup -Group Administrators -Computer vblw2k12extvr1 -Credentials $Credentials
-
 foreach($Account in $ADDefaultUser.Account){
 
     $samAccountName = $Global.Project.Prefix + "-" + $Account.samAccountName
         
-    if($Account.scope -eq "Domain"){
+    if($Account.Scope -eq "Domain"){
 
         Write-Host "Adding new domain user: $samAccountName"
         
         New-ADUser  $samAccountName -DisplayName $Account.DisplayName -Enabled $true -path $ADDefaultUser.ParentContainer -AccountPassword (ConvertTo-SecureString -AsPlainText $Account.Password -Force) -ChangePasswordAtLogon $false
-    
-    }elseif($Account.scope -eq "Local"){
+        
+        if($Account.Role.contains("LocalAdmin")){
+        
+            Add-DomainUserToLocalGroup -Domain $Global.ADServer.Domain -User $samAccountName -Group $Global.SPServer.LocalAdminGroupName -Computer $Global.SPServer.Name
+        }
+        
+    }elseif($Account.Scope -eq "Local"){
     
         Write-Host "Adding new local user: $samAccountName"
         

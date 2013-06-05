@@ -35,7 +35,7 @@ function Add-DomainUserToLocalGroup{
 		
 		[Parameter(Mandatory=$true)]
 		[String]
-		$Computer,
+		$Computer
         
 		#[Parameter(Mandatory=$false)]
 		#$Credentials    
@@ -82,5 +82,5 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
     	Write-Host "Adding domain user: $User from: $Domain to local group: $Group on computer: $Computer"    	
     	$LocalGroup.Add($DomainUser.Path)
     
-    }
+    # }
 }
