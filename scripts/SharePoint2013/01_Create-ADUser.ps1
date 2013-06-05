@@ -7,6 +7,9 @@
 
 .LINK
 	Technet article: http://technet.microsoft.com/en-us/library/ee662513.aspx
+    
+.NOTE
+	Run this script with admin privilegs on the remote server
 #>
 
 $Metadata = @{
@@ -18,7 +21,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-05-22"
-	LastEditDate = "2013-05-22"
+	LastEditDate = "2013-006-05"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -44,10 +47,11 @@ Import-Module ActiveDirectory
 $ADDefaultUser = $Config.Content.ADDefaultUser
 $Global = $Config.Content.Global
 
-#$SPUsername = $Global.SPServer.Username
-#$SPPassword = Read-Host -Prompt "`nEnter password for $SPUsername" -AsSecureString
-#$SPCredentials = New-Object System.Management.Automation.PSCredential -ArgumentList $SPUsername, $SPPassword
-        
+# $Username = $Global.ADServer.ConnectionAccount
+# $Password = Read-Host -Prompt "`nEnter password for $Username" -AsSecureString
+# $Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList $Username, $Password
+Add-DomainUserToLocalGroup -Domain vbl.ch -User sp3-setup -Group Administrators -Computer vblw2k12extvr1 -Credentials $Credentials
+
 foreach($Account in $ADDefaultUser.Account){
 
     $samAccountName = $Global.Project.Prefix + "-" + $Account.samAccountName
@@ -62,7 +66,7 @@ foreach($Account in $ADDefaultUser.Account){
     
         Write-Host "Adding new local user: $samAccountName"
         
-        New-LocalUser -Name $samAccountName -Fullname $Account.DisplayName -Password $Account.Password #-Source $Global.SPServer.Name -Credential $SPCredentials
+        #New-LocalUser -Name $samAccountName -Fullname $Account.DisplayName -Password $Account.Password #-Source $Global.SPServer.Name -Credential $SPCredentials
     
     }
 }

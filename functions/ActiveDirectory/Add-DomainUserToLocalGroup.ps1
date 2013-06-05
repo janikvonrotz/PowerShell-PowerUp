@@ -15,7 +15,7 @@ function Add-DomainUserToLocalGroup{
 	
 .PARAMETER  Computer
 	Computer name to process this command
-	
+    
 .EXAMPLE
 	Add-DomainUserToLocalGroup -Domain contoso.com -User User1 -Group Administrators -Computer Server1.contoso.com
 #>
@@ -26,16 +26,20 @@ function Add-DomainUserToLocalGroup{
 		$Domain,
 		
 		[Parameter(Mandatory=$true)]
-		[String[]]
+		[String]
 		$User,
 		
 		[Parameter(Mandatory=$true)]
-		[String[]]
+		[String]
 		$Group,
 		
 		[Parameter(Mandatory=$true)]
-		[String[]]
-		$Computer
+		[String]
+		$Computer,
+        
+		#[Parameter(Mandatory=$false)]
+		#$Credentials    
+        
 	)
 
 	$Metadata = @{
@@ -59,12 +63,24 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
 	# Main
 	#--------------------------------------------------#
-	
-	$LocalGroup = [ADSI]"WinNT://$Computer/$Group,group"
-	
-	$DomainUser = [ADSI]"WinNT://$Domain/$User,user"
-	
-	Write-Host "Adding domain user: $User from: $Domain to local group: $Group on computer: $Computer"
-	
-	$LocalGroup.Add($DomainUser.Path)
+	    
+  # if($Credentials){
+    
+        # Invoke-Command -Credential $Credentials -ScriptBlock{
+        
+            # $LocalGroup = [ADSI]"WinNT://$Computer/$Group,group"    	
+        	# $DomainUser = [ADSI]"WinNT://$Domain/$User,user"        	
+        	# Write-Host "Adding domain user: $User from: $Domain to local group: $Group on computer: $Computer"        	
+        	# $LocalGroup.Add($DomainUser.Path)
+        
+        # }
+    
+    # }else{
+    
+    	$LocalGroup = [ADSI]"WinNT://$Computer/$Group,group"    	
+    	$DomainUser = [ADSI]"WinNT://$Domain/$User,user"    	
+    	Write-Host "Adding domain user: $User from: $Domain to local group: $Group on computer: $Computer"    	
+    	$LocalGroup.Add($DomainUser.Path)
+    
+    }
 }
