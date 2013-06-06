@@ -16,6 +16,9 @@ function Add-DomainUserToLocalGroup{
 .PARAMETER  Computer
 	Computer name to process this command
     
+.PARAMETER  Credentials
+	Computer name to process this command
+    
 .EXAMPLE
 	Add-DomainUserToLocalGroup -Domain contoso.com -User User1 -Group Administrators -Computer Server1.contoso.com
 #>
@@ -35,10 +38,10 @@ function Add-DomainUserToLocalGroup{
 		
 		[Parameter(Mandatory=$true)]
 		[String]
-		$Computer
-        
-		#[Parameter(Mandatory=$false)]
-		#$Credentials    
+		$Computer,
+       
+		[Parameter(Mandatory=$false)]
+		$Credentials    
         
 	)
 
@@ -63,24 +66,24 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
 	# Main
 	#--------------------------------------------------#
-	    
-  # if($Credentials){
+	
+    $ScriptBlock = {
+        $LocalGroup = [ADSI]"WinNT://$Computer/$Group,group"    	
+    	$DomainUser = [ADSI]"WinNT://$Domain/$User,user"        	
+    	Write-Host "Adding domain user: $User from: $Domain to local group: $Group on computer: $Computer"        	
+    	$LocalGroup.Add($DomainUser.Path)    
+    }
     
-        # Invoke-Command -Credential $Credentials -ScriptBlock{
-        
-            # $LocalGroup = [ADSI]"WinNT://$Computer/$Group,group"    	
-        	# $DomainUser = [ADSI]"WinNT://$Domain/$User,user"        	
-        	# Write-Host "Adding domain user: $User from: $Domain to local group: $Group on computer: $Computer"        	
-        	# $LocalGroup.Add($DomainUser.Path)
-        
-        # }
+    if($Credentials){
     
-    # }else{
+        Invoke-Command -Computer $Computer -Credential $Credentials -ScriptBlock $Scriptblock
+
     
-    	$LocalGroup = [ADSI]"WinNT://$Computer/$Group,group"    	
-    	$DomainUser = [ADSI]"WinNT://$Domain/$User,user"    	
-    	Write-Host "Adding domain user: $User from: $Domain to local group: $Group on computer: $Computer"    	
-    	$LocalGroup.Add($DomainUser.Path)
+    }else{
     
-    # }
+        Invoke-Command -$Computer -ScriptBlock $Scriptblock -Credential (Get-Credential)
+    
+     }
 }
+
+Add-DomainUserToLocalGroup -Domain vbl.ch -User sp3-admin -Group Administratoren -Computer vblw2k12extvr1 -Credentials (Get-Credential "vbl\Administrator")

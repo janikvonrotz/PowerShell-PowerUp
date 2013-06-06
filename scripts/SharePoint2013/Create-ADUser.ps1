@@ -59,7 +59,7 @@ foreach($Account in $ADDefaultUser.Account){
         
         if($Account.Role.contains("LocalAdmin")){
         
-            Add-DomainUserToLocalGroup -Domain $Global.ADServer.Domain -User $samAccountName -Group $Global.SPServer.LocalAdminGroupName -Computer $Global.SPServer.Name
+            # Add-DomainUserToLocalGroup -Domain $Global.ADServer.Domain -User $samAccountName -Group $Global.SPServer.LocalAdminGroupName -Computer $Global.SPServer.Name
         }
         
     }elseif($Account.Scope -eq "Local"){
