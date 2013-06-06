@@ -86,4 +86,4 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
      }
 }
 
-Add-DomainUserToLocalGroup -Domain vbl.ch -User sp3-admin -Group Administratoren -Computer vblw2k12extvr1 -Credentials (Get-Credential "vbl\Administrator")
+# Add-DomainUserToLocalGroup -Domain vbl.ch -User sp3-admin -Group Administratoren -Computer vblw2k12extvr1 -Credentials (Get-Credential "vbl\Administrator")
