@@ -1,1 +1,0 @@
-﻿.\Open-TrueCrypt.ps1 -OpenKeePass
