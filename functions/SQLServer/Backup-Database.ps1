@@ -20,14 +20,14 @@ function Backup-Databases{
 	Source: http://social.technet.microsoft.com/wiki/contents/articles/900.how-to-sql-server-databases-backup-with-powershell.aspx
 
 #>
-	[CmdletBinding()]
+
 	param(
 		[Parameter(Mandatory=$false)]
-		[SString]
-		$Server = "(local)",
+		[String]
+		$Server = "localhost",
 		
 		[Parameter(Mandatory=$false)]
-		[SString]
+		[String]
 		$Path
 	)
 
@@ -44,7 +44,8 @@ function Backup-Databases{
 	# main
 	#--------------------------------------------------#
 	           
-	$SQLServer = New-Object Microsoft.SqlServer.Management.Smo.Server $Server;            
+	$SQLServer = New-Object Microsoft.SqlServer.Management.Smo.Server $Server; 
+           
 	# If missing set default backup directory.            
 	If ($Path -eq ""){ 
 		$Path = $SQLServer.Settings.BackupDirectory + "\" 
@@ -53,31 +54,34 @@ function Backup-Databases{
 	# Full-backup for every database            
 	foreach ($Database in $SQLServer.Databases)            
 	{            
-		If($Database.Name -ne "tempdb"){            
-			$timestamp = Get-Date -format yyyy-MM-dd-HH-mm-ss;            
-			$backup = New-Object ("Microsoft.SqlServer.Management.Smo.Backup");            
-			$backup.Action = "Database";            
-			$backup.Database = $db.Name;            
-			$backup.Devices.AddDevice($Dest + $db.Name + "_full_" + $timestamp + ".bak", "File");            
-			$backup.BackupSetDescription = "Full backup of " + $db.Name + " " + $timestamp;            
-			$backup.Incremental = 0;            
-			# Starting full backup process.            
-			$backup.SqlBackup($srv);     
-			# For db with recovery mode <> simple: Log backup.            
-			If ($db.RecoveryModel -ne 3){            
-				$timestamp = Get-Date -format yyyy-MM-dd-HH-mm-ss;            
-				$backup = New-Object ("Microsoft.SqlServer.Management.Smo.Backup");            
-				$backup.Action = "Log";            
-				$backup.Database = $db.Name;            
-				$backup.Devices.AddDevice($Dest + $db.Name + "_log_" + $timestamp + ".trn", "File");            
-				$backup.BackupSetDescription = "Log backup of " + $db.Name + " " + $timestamp;            
-				#Specify that the log must be truncated after the backup is complete.            
-				$backup.LogTruncation = "Truncate";
-				# Starting log backup process            
-				$backup.SqlBackup($srv);            
-			}           
-		}           
+       
+		$TimeStamp = Get-LogStamp          
+		$BackupJob = New-Object ("Microsoft.SqlServer.Management.Smo.Backup");            
+		$BackupJob.Action = "Database";            
+		$BackupJob.Database = $Database.Name;            
+		$BackupJob.Devices.AddDevice($Path + "\" + $Database.Name + " Full " + $TimeStamp + ".bak", "File");            
+		$BackupJob.BackupSetDescription = "Full backup of " + $Database.Name;            
+		$BackupJob.Incremental = 0;  
+          
+		# Starting full backup process          
+		$BackupJob.SqlBackup($SQLServer); 
+    
+		# For db with recovery mode <> simple: Log backup.           
+		If ($Database.RecoveryModel -ne 3){     
+       
+			$TimeStamp = Get-LogStamp      
+			$BackupJob = New-Object ("Microsoft.SqlServer.Management.Smo.Backup");            
+			$BackupJob.Action = "Log";            
+			$BackupJob.Database = $Database.Name;            
+			$BackupJob.Devices.AddDevice($Path + $Database.Name + " Log " + $TimeStamp + ".trn", "File");            
+			$BackupJob.BackupSetDescription = "Log backup of " + $db.Name; 
+      
+			#Specify that the log must be truncated after the backup is complete           
+			$BackupJob.LogTruncation = "Truncate";
+
+			# Starting log backup process            
+			$BackupJob.SqlBackup($SQLServer);
+            
+		}               
 	}         
-
-
 }
