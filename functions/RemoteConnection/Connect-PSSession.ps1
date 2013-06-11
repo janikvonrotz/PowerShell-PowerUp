@@ -16,7 +16,7 @@ function Connect-PSSession{
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-03-12"
-		LastEditDate = "2013-04-18"
+		LastEditDate = "2013-06-11"
 		Version = "3.0.0"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -28,21 +28,27 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
 	# Main
 	#--------------------------------------------------#
+    # Resets
     $Sessions = @()
+    
     # Load Configurations
-	$config = Get-RemoteConnections -Names $Names
+	$Config = Get-RemoteConnections -Names $Names
 	
 	foreach($Server in $Config){
 		
 		# Delete Session if already opened
-		Remove-PSSession -ComputerName $Server.Server -ErrorAction SilentlyContinue
-			
-		$Username = $Server.User
-		$Password = Read-Host -Prompt "`nEnter password for $Username" -AsSecureString
-		$Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList $Username, $Password
+		Remove-PSSession -ComputerName $Server.Name -ErrorAction SilentlyContinue
+		
+		# Get connect account credentials
+        if(!$Server.User.Contains("")){
+            $Username = $Server.User
+        }else{
+            $Username = $Server.User
+        }
+		$Credentials = Get-Credential $Username
 
 		# Open Session
-		$s = New-PSSession -Name $Server.Name  -ComputerName $Server.Server -Credential $Credentials
+		$s = New-PSSession -Name $Server.Name  -ComputerName $Server.Name -Credential $Credentials
 
 		# Load SnapIns
 		if ($Server.SnapIns -ne ""){
@@ -53,7 +59,5 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 
         $Sessions += $s
 	}
-
-    $Sessions
-	
+    $Sessions	
 }

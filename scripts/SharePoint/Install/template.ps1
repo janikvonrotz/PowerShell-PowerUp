@@ -48,3 +48,7 @@ foreach($Account in $ADDefaultUser.Accounts)
 Filename:
 
 [Index]_[Verb]-[System][Noun].ps1
+
+Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
+Read-Host "Press Enter to exit"
+

@@ -70,3 +70,7 @@ foreach($Account in $ADDefaultUser.Account){
     
     }
 }
+
+Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
+Read-Host "Press Enter to exit"
+

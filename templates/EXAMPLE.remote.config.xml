@@ -9,63 +9,23 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-03-28</CreateDate>
-		<LastEditDate>2013-05-31</LastEditDate>
-		<Version>2.0.0</Version>
+		<LastEditDate>2013-06-11</LastEditDate>
+		<Version>3.0.0</Version>
 	</Metadata>
-		
-	<Servers>
-		<Name>linux1</Name>
-		<Server>ServerLinux1</Server>
-		<User>Root</User>
-		<Description>Linux Proxy</Description>
-		<Protocols>	
-			<Name>ssh</Name>
-			<Port></Port>	
-		</Protocols>	
-		<Protocols>	
-			<Name>scp</Name>
-			<Port></Port>			
-		</Protocols>
-		<SnapIns></SnapIns>
-		<PrivatKey>$PSProfilePath\ssh\Private.key</PrivatKey>
-	</Servers>
 	
-	<Servers>
-		<Name>ServerSharePoint1</Name>
-		<Server>ServerSharePoint1</Server>
-		<User>Domain\Administrator</User>
-		<Description>SharePoint 2010 Server</Description>
-		<Protocols>	
-			<Name>rdp</Name>
-			<Port></Port>	
-		</Protocols>	
-		<Protocols>	
-			<Name>rps</Name>
-			<Port></Port>			
-		</Protocols>
-		<SnapIns>Microsoft.SharePoint.PowerShell</SnapIns>
-		<PrivatKey></PrivatKey>
-	</Servers>
+	<Server Key="linux1" Name="ServerLinux1" User="Root" Description="Linux Proxy" PrivatKey="$PSProfilePath\ssh\Private.Key">
+		<Protocol Name="ssh" Port=""></Protocol>
+		<Protocol Name="scp" Port=""></Protocol>	
+	</Server>
 
-	<Servers>
-		<Name>fw1</Name>
-		<Server>FireWall1</Server>
-		<User>Admin</User>
-		<Description>Firwall Router</Description>
-		<Protocols>	
-			<Name>ssh</Name>
-			<Port></Port>	
-		</Protocols>	
-		<Protocols>	
-			<Name>https</Name>
-			<Port></Port>			
-		</Protocols>
-		<Protocols>	
-			<Name>ssh</Name>
-			<Port>50</Port>			
-		</Protocols>
-		<SnapIns></SnapIns>
-		<PrivatKey>C:\Private.key</PrivatKey>
-	</Servers>
+	<Server Key="ServerSharePoint1" Name="ServerSharePoint1" User="Domain\Administrator" Description="SharePoint 2010 Server" SnapIns="Microsoft.SharePoint.PowerShell">
+		<Protocol Name="rdp" Port=""></Protocol>
+		<Protocol Name="rps" Port=""></Protocol>	
+	</Server>
+	
+	<Server Key="fw1" Name="FireWall1" User="Admin" Description="Firwall Router" PrivatKey="C:\Private.Key">
+		<Protocol Name="ssh" Port="50"></Protocol>
+		<Protocol Name="https" Port=""></Protocol>	
+	</Server>
 	
 </Content>

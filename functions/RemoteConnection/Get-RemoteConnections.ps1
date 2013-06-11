@@ -21,7 +21,7 @@
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-04-08"
-		LastEditDate = "2013-04-18"
+		LastEditDate = "2013-05-11"
 		Version = "3.0.0"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -33,29 +33,51 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
 	# Main
 	#--------------------------------------------------#
-
-	$Config = @()
-    $Content = Get-ConfigurationFilesContent -SearchExpression "*.remote.config.*" -Path $PSconfigs.Path
     
-    foreach($Item in $Content){
-        $Config  += $Item.Content.Servers
+    # Server configuration collection
+	$ServerConfigs = @()
+    
+    # server data collection
+    $Servers = @()
+    
+    # load configuration files
+    $ConfigurationFiles = Get-ChildItem -Path $PSconfigs.Path -Filter "*.remote.config.*" -Recurse
+    
+    # merge information
+    foreach($ConfigurationFile in $ConfigurationFiles){
+        [xml]$Content  = Get-Content $ConfigurationFile.FullName
+        $ServerConfig = $Content.Content.Server
+        $ServerConfigs += $ServerConfig
     }
     
+    # check ListAvailable-parameter
     if($ListAvailable -and $Names -eq $null){
 		try{
-			$Config | Out-Gridview
+			$ServerConfigs | Out-Gridview
 		}catch{
 			$error[0]
-			$Config | format-table
+			$ServerConfigs | format-table
 		}
     }else{
         if($Names -ne $null){
 
-            foreach($Server in $Config){
-                if($Names -contains $Server.Name){
-                    $Server
+            # search server by key and name
+            foreach($Server in $ServerConfigs){
+			
+                if($Names -contains $Server.Key -or $Names -contains $Server.Name){
+                    $Servers += $Server
                 }
             }
+            
+            # check result
+            if($Servers.count -eq 0){
+                foreach($Name in $Names){
+                    $Servers += New-ObjectRemoteConnection -Name $Name
+                }
+            }
+            
+            $Servers
+            
         }else{
             throw "Enter values for the following parameters: Names[]"  
         }

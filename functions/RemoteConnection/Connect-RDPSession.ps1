@@ -46,7 +46,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 		#--------------------------------------------------#
 		# Settings
 		#--------------------------------------------------#
-		$RDPDefaultFile = Get-ChildItem -Path $PSConfig.configs.Path -Filter Default.rdp -Recurse
+		$RDPDefaultFile = Get-ChildItem -Path $PSconfigs.Path -Filter Default.rdp -Recurse
         [string]$RDPDefaultFile = $RDPDefaultFile.Fullname
 
         #--------------------------------------------------#
@@ -58,7 +58,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 
         foreach($Server in $Config){
 		        
-            $Servername = $Server.Server
+            $Servername = $Server.Name
             $Username = $Server.User
 
             # Delete existing user credentials
