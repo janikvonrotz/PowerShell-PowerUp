@@ -6,9 +6,12 @@
 	    .DESCRIPTION
 		    Starts a http session with the parameters from the Remote config file.
 
-	    .PARAMETER  Names
-		    Server names from the remote config file
-
+	    .PARAMETER  Name
+		    Servername (Key or Name from the remote config file for preconfiguration)
+            
+	    .PARAMETER  Secure
+		    Use https instead of http
+            
 	    .EXAMPLE
 		    Connect-HTTPSession -Names firewall
 
@@ -19,7 +22,9 @@
 	#--------------------------------------------------#
 	param (
         [parameter(Mandatory=$true)][string[]]
-		$Names
+		$Name,
+        [switch]
+		$Secure
 	)
 
 	$Metadata = @{
@@ -31,8 +36,8 @@
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-05-07"
-		LastEditDate = "2013-05-07"
-		Version = "1.0.0"
+		LastEditDate = "2013-06-12"
+		Version = "2.0.0"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -45,34 +50,41 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
     # main
     #--------------------------------------------------#
 
-    # Load Configurations
-	$Config = Get-RemoteConnections -Names $Names
+    # Load Configurations 
+	$Server = Get-RemoteConnections -Names $Name -FirstEntry
 
-    foreach($Server in $Config){
+	# default settings
+	$HttpPort = 80
+	$HttpsPort = 443
+			
+	#Set Protocol if there is no configuration
+	if($Server.Protocol -eq $null){
 		
-        # default settings
-        $HttpPort = 80
-        $HttpsPort = 443
-                
-        #Set Protocol
-        $Server.Protocols | foreach{
-            if($_.Name -eq "https"){
-                $Protocol = "https"
-                if($_.Port -ne ""){
-                    $HttpsPort = $_.Port
-                }
-            }elseif($_.Name -eq "http"){
-                    $Protocol = "http"
-                    if($_.Port -ne ""){
-                        $HttpPort = $_.Port
-                    }
-                }
-           }
-        
-        
-        switch($Protocol){
-            "http" {Start-Process -FilePath ($Protocol + "://" + $Server.Server + ":" + $HttpPort)}
-            "https" {Start-Process -FilePath ($Protocol + "://" + $Server.Server + ":" + $HttpsPort)}
-        }
-    }
+		# use https if the parameter is given
+		if($Secure){
+			$Protocol = "https"
+		}else{
+			$Protocol = "http"
+		}
+	}  
+	$Server.Protocol | foreach{
+		if($_.Name -eq "https"){
+			$Protocol = "https"
+			if($_.Port -ne ""){
+				$HttpsPort = $_.Port
+			}
+		}elseif($_.Name -eq "http"){
+				$Protocol = "http"
+				if($_.Port -ne ""){
+					$HttpPort = $_.Port
+				}
+			}
+	   }
+	
+	
+	switch($Protocol){
+		"http" {Start-Process -FilePath ($Protocol + "://" + $Server.Name + ":" + $HttpPort)}
+		"https" {Start-Process -FilePath ($Protocol + "://" + $Server.Name + ":" + $HttpsPort)}
+	}
+    
 }

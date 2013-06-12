@@ -7,7 +7,8 @@
         [parameter(Mandatory=$false)]
         [string[]] 
         $Names,
-        [parameter(Mandatory=$false)]
+        [switch] 
+        $FirstEntry,
         [Switch]
         $ListAvailable
 	)
@@ -76,7 +77,12 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
                 }
             }
             
-            $Servers
+            # if first entry parameter is given only output the first entry in the array
+            if($Servers.Count -gt 1){
+        	   $Servers[0]
+            }else{
+                $Servers
+            }
             
         }else{
             throw "Enter values for the following parameters: Names[]"  
