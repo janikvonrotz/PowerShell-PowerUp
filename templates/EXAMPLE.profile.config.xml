@@ -15,86 +15,21 @@
 		<Version>2.0.0</Version>
 	</Metadata>
 
-	<Configuration>
-			
-		<Features>
+	<Feature Name="Git Update Task"></Feature>
+	<Feature Name="Powershell Remoting"></Feature>	
+	<Feature Name="Enable Open Powershell here"></Feature>				
+	<Feature Name="Custom PowerShell CLI"></Feature>	
+	<Feature Name="Autoinclude Functions"></Feature>	
+	<Feature Name="Custom Aliases"></Feature>	
+	<Feature Name="Add ISE Profile Script"></Feature>		
+	<Feature Name="Transcript Logging"></Feature>	
+	<Feature Name="Multi Remote Management"></Feature>	
+	<Feature Name="Get Quote Of The Day"></Feature>
 		
-			<Feature>
-				<Name>Git Update Task</Name>
-			</Feature>		
-
-			<Feature>
-				<Name>Powershell Remoting</Name>
-			</Feature>	
-			
-			<Feature>
-				<Name>Enable Open Powershell here</Name>
-			</Feature>
-						
-			<Feature>
-				<Name>Custom PowerShell CLI</Name>
-			</Feature>	
-			
-			<Feature>
-				<Name>Autoinclude Functions</Name>
-			</Feature>
-			
-			<Feature>
-				<Name>Custom Aliases</Name>
-			</Feature>	
-			
-			<Feature>
-				<Name>Add ISE Profile Script</Name>
-			</Feature>	
-			
-			<Feature>
-				<Name>Transcript Logging</Name>
-			</Feature>
-			
-			<Feature>
-				<Name>Multi Remote Management</Name>
-			</Feature>	
-			
-			<Feature>
-				<Name>Get Quote Of The Day</Name>
-			</Feature>
-
-		</Features>
-		
-		<SystemVariables>
-			
-			<SystemVariable>
-				<Value>apps\Git\cmd</Value>
-				<Name>Path</Name>
-				<RelativePath>true</RelativePath>
-				<Target>Machine</Target>
-			</SystemVariable>
-			
-			<SystemVariable>
-				<Value>apps\Git\bin</Value>
-				<Name>Path</Name>
-				<RelativePath>true</RelativePath>
-				<Target>Machine</Target>
-			</SystemVariable>
-						
-		</SystemVariables>
+	<SystemVariable Value="apps\Git\cmd" Name="Path" RelativePath="true" Target="Machine"></SystemVariable>			
+	<SystemVariable Value="apps\Git\bin" Name="Path" RelativePath="true" Target="Machine"></SystemVariable>	
 				
-		<RegistryEntries>	
-		
-			<RegistryEntry>
-				<Path>HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced</Path>
-				<Name>HideFileExt</Name>
-				<Value>0</Value>
-			</RegistryEntry>
-			
-			<RegistryEntry>
-				<Path>HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Search\PrimaryProperties\UnindexedLocations</Path>
-				<Name>SearchOnly</Name>
-				<Value>00000000</Value>
-			</RegistryEntry>
-			
-		</RegistryEntries>
-		
-	</Configuration>
+	<RegistryEntry Path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" Name="HideFileExt" Value="0"></RegistryEntry>
+	<RegistryEntry Path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Search\PrimaryProperties\UnindexedLocations" Name="SearchOnly" Value="00000000"></RegistryEntry>
 
 </Content>
