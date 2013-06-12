@@ -59,7 +59,7 @@ if($Host.Version.Major -lt 2){
     #--------------------------------------------------#
     
     # Add module path to the system variables
-    Write-Host "Adding PSModulePath: $PSmodulePath"
+    Write-Host ("Adding PSModulePath: " + $PSmodules.Path)
     Add-PathVariable -Value $PSmodules.Path -Name PSModulePath -Target Machine
     
 	# load configuration files
@@ -85,7 +85,7 @@ if($Host.Version.Major -lt 2){
     }
 
     #--------------------------------------------------#
-    # add SystemVariables
+    # add system variables
     #--------------------------------------------------#
     
     foreach ($SystemVariable in $SystemVariables){
@@ -110,7 +110,7 @@ if($Host.Version.Major -lt 2){
 	
 	
 	#--------------------------------------------------#
-	# features
+	# Features
 	#--------------------------------------------------#
     
     #resets
@@ -118,14 +118,18 @@ if($Host.Version.Major -lt 2){
     $PSContentISE = ""
     $PSContentISEArray = ""
      
+	#--------------------------------------------------#
 	# Git Update Task
+	#--------------------------------------------------#
 	if($Features | Where-Object {$_.Name -eq 'Git Update Task'}){	
     			
 		$PathToScript = Get-ChildItem -Path $PSconfigs.Path -Filter "Git-Update.ps1" -Recurse
 		Add-SheduledTask -Title "Git Update Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments $PathToScript.Fullname -WorkingDirectory $WorkingPath -XMLFilename "GitUpdateTask.xml"
 	}
-
+    
+	#--------------------------------------------------#
 	# Powershell Remoting
+	#--------------------------------------------------# 
 	if($Features | Where-Object {$_.Name -eq "Powershell Remoting"}){
     
         Write-Host "Enabling Powershell Remoting"
@@ -134,13 +138,28 @@ if($Host.Version.Major -lt 2){
 		Set-Item WSMan:\localhost\Shell\MaxMemoryPerShellMB 1024
 		restart-Service WinRM		
 	}
-	
+
+	#--------------------------------------------------#
 	# Enable Open Powershell here
+	#--------------------------------------------------#  
 	if($Features | Where-Object {$_.Name -eq "Enable Open Powershell here"}){
     
         Write-Host "Adding 'Open PowerShell Here' to context menu "
 		$Null = Enable-OpenPowerShellHere
 		
+	}
+ 
+ 	#--------------------------------------------------#
+	# Path System Variable For App Subfolders
+	#--------------------------------------------------#     
+	if($Features | Where-Object {$_.Name -eq "Path System Variable For App Subfolders"}){
+    
+        $SystemFolders = @(Get-ChildItem $PSapps.Path -Force | Where {$_.PSIsContainer})
+		$SystemFolders | %{
+        
+            Write-Host ("Adding path variable: " + $_.Name)
+            Add-PathVariable -Value $_.Fullname -Name "Path" -Target "Machine"
+        }
 	}
     
 	# Metadata
@@ -186,7 +205,7 @@ $Metadata = @{
 	$PSContent += $PSContentISE = @'
 
 #--------------------------------------------------#
-# Main
+# main
 #--------------------------------------------------#
 [string]$WorkingPath = Get-Location
 $ProfilePath = Split-Path $MyInvocation.MyCommand.Definition -parent
@@ -195,7 +214,9 @@ Invoke-Expression ($ProfilePath + "\Microsoft.PowerShell_profile.config.ps1")
 '@
     $PSContentISEArray += $PSContentISE
 	
+    #--------------------------------------------------#
 	# Custom PowerShell CLI
+	#--------------------------------------------------#  
 	if($Features | Where-Object {$_.Name -eq "Custom PowerShell CLI"}){
     Write-Host "Add Custom PowerShell CLI to the profile script"
 	$PSContent += @'
@@ -219,7 +240,9 @@ $PromptSettings.MaxPhysicalWindowSize.Height = 50
 '@
 }
 
+    #--------------------------------------------------#
 	# Autoinclude Functions
+	#--------------------------------------------------#  
 	if($Features | Where-Object {$_.Name -eq "Autoinclude Functions"}){
     Write-Host "Add Autoinclude Functions to the profile script"
 	$PSContent += $PSContentISE = @'
@@ -239,7 +262,9 @@ foreach ($IncludeFolder in $IncludeFolders){
 }
 	$PSContentISEArray += $PSContentISE
     
+    #--------------------------------------------------#
 	# Custom Aliases
+	#--------------------------------------------------# 
 	if($Features | Where-Object {$_.Name -eq "Custom Aliases"}){
     Write-Host "Add Custom Aliases to the profile script"
 	$PSContent += $PSContentISE = @'
@@ -258,7 +283,9 @@ nal -Name pssftp -Value "Connect-FTPSession"
 }
     $PSContentISEArray += $PSContentISE
 	
+    #--------------------------------------------------#
 	# Transcript Logging
+	#--------------------------------------------------# 
 	if($Features | Where-Object {$_.Name -eq "Transcript Logging"}){
     Write-Host "Add Transcript Logging to the profile script"
 	$PSContent += @'
@@ -272,7 +299,9 @@ Write-Host ""
 '@
 }
 
-	# Custom Aliases
+    #--------------------------------------------------#
+	# Get Quote Of The Day
+	#--------------------------------------------------# 
 	if($Features | Where-Object {$_.Name -eq "Get Quote Of The Day"}){
     Write-Host "Add Get Quote Of The Day to the profile script"
 	$PSContent += $PSContentISE = @'
@@ -291,14 +320,16 @@ Write-Host ""
 	$PSContent += $PSContentISE = @'
 
 #--------------------------------------------------#
-# Main End
+# main end
 #--------------------------------------------------#
 Set-Location $WorkingPath
 
 '@
     $PSContentISEArray += $PSContentISE
     
-    # Multi Remote Management
+    #--------------------------------------------------#
+	# Multi Remote Management
+	#--------------------------------------------------#  
     if($Features | Where-Object {$_.Name -eq "Multi Remote Management"}){
     			
         # RDP Default file
@@ -357,7 +388,10 @@ drivestoredirect:s:
 	# Write content to script file
     Write-Host "Creating PowerShell Profile Script"
     Set-Content -Value $PSContent -Path $PSProfileScript.Name
-        
+    
+    #--------------------------------------------------#
+	# Add ISE Profile Script
+	#--------------------------------------------------#
     if($Features | Where-Object {$_.Name -eq "Add ISE Profile Script"}){
         Write-Host "Creating PowerShell ISE Profile Script"
         Set-Content -Value $PSContentISEArray -Path $PSProfileISEScript.Name
@@ -366,7 +400,6 @@ drivestoredirect:s:
 	#--------------------------------------------------#
 	# Powershell Profile Link
 	#--------------------------------------------------#
-
 	# Create Powershell Profile
 	if (!(Test-Path $Profile)){
 

@@ -11,7 +11,7 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-04-11</CreateDate>
-		<LastEditDate>2013-05-31</LastEditDate>
+		<LastEditDate>2013-06-11</LastEditDate>
 		<Version>2.0.0</Version>
 	</Metadata>
 
@@ -25,6 +25,7 @@
 	<Feature Name="Transcript Logging"></Feature>	
 	<Feature Name="Multi Remote Management"></Feature>	
 	<Feature Name="Get Quote Of The Day"></Feature>
+	<Feature Name="Path System Variable For App Subfolders"></Feature>
 		
 	<SystemVariable Value="apps\Git\cmd" Name="Path" RelativePath="true" Target="Machine"></SystemVariable>			
 	<SystemVariable Value="apps\Git\bin" Name="Path" RelativePath="true" Target="Machine"></SystemVariable>	
