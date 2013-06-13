@@ -1,25 +1,35 @@
 ﻿function Connect-FTPSession{
-    <#
-	    .SYNOPSIS
-		    Remote management for ftp sessions
+<#
+	.SYNOPSIS
+		Remote management for ftp sessions
 
-	    .DESCRIPTION
-		    Starts a ftp session with the parameters from the remote config file.
+	.DESCRIPTION
+		Starts a ftp session with the parameters from the remote config file.
 
-	    .PARAMETER  Names
-		    Server names from the remote config file
+	.PARAMETER Name
+		Servername (Key or Name from the remote config file for preconfiguration)
+		
+	.PARAMETER User
+		Username (overwrites remote config file parameter)
+		
+	.PARAMETER Port
+		Port (overwrites remote config file parameter)
 
-	    .EXAMPLE
-		   Connect-FTPSession -Names firewall
+	.EXAMPLE
+	   Connect-FTPSession -Names firewall
 
-    #>
+#>
 
 	#--------------------------------------------------#
 	# Parameter
 	#--------------------------------------------------#
 	param (
-        [parameter(Mandatory=$true)][string[]]
-		$Names
+        [parameter(Mandatory=$true)][string]
+		$Name,
+        [parameter(Mandatory=$false)][string]
+		$User,
+        [parameter(Mandatory=$false)][int]
+		$Port
 	)
 
 	$Metadata = @{
@@ -31,7 +41,7 @@
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-05-17"
-		LastEditDate = "2013-05-17"
+		LastEditDate = "2013-06-13"
 		Version = "1.0.0"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -41,25 +51,34 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 
 
-    #--------------------------------------------------#
-    # main
-    #--------------------------------------------------#
-   if (Get-Command "winscp.exe"){ 
+	#--------------------------------------------------#
+	# main
+	#--------------------------------------------------#
+	if (Get-Command "winscp.exe"){ 
 
-        # Load Configurations
-    	$Config = Get-RemoteConnections -Names $Names
+		# Load Configurations
+		$Server = Get-RemoteConnections -Names $Name -FirstEntry
 
-        $Config | %{
-    		
-            # default settings
-            $FTPPort = 21
-            $Servername = $_.Server
-            $Username = $_.User
-            
-    		#Get port
-    		$_.Protocols | %{if ($_.Name -eq "ftp" -and $_.Port -ne ""){$FTPPort = $_.Port}}
-            
-            Invoke-Expression ("WinSCP.exe ftp://$Username@$Servername" + ":$FTPPort")
-        }
+		# set port
+		# get port from Protocol
+		if(!$Port){
+			$Server.Protocol | %{
+				if ($_.Name -eq "scp" -and $_.Port -ne ""){
+					$Port = $_.Port
+				}
+			}
+		}
+		if(!$Port -or $Port -eq 0){
+			$Port = 21
+		}
+
+		# set servername
+		$Servername = $Server.Name
+
+		# set username
+		if(!$User){$User = $Server.User}
+
+        Invoke-Expression ("WinSCP.exe ftp://$User@$Servername" + ":$Port")
+        
     }
 }

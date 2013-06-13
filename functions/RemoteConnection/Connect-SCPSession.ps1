@@ -1,27 +1,27 @@
 ﻿function Connect-SCPSession{
-    <#
-	    .SYNOPSIS
-		    Remote management for scp sessions
+<#
+	.SYNOPSIS
+		Remote management for scp sessions
 
-	    .DESCRIPTION
-		    Starts a scp session with the parameters from the remote config file.
+	.DESCRIPTION
+		Starts a scp session with the parameters from the remote config file.
 
-	    .PARAMETER  Name
-		    Servername (Key or Name from the remote config file for preconfiguration)
-            
-	    .PARAMETER  User
-		    Username (overwrites remote config file parameter)
-            
-	    .PARAMETER  Port
-		    Port (overwrites remote config file parameter)
-                                  
-	    .PARAMETER  PrivatKey
-		    PrivatKey (overwrites remote config file parameter)
-            
-	    .EXAMPLE
-		   Connect-SCPSession -Names firewall
+	.PARAMETER  Name
+		Servername (Key or Name from the remote config file for preconfiguration)
+		
+	.PARAMETER  User
+		Username (overwrites remote config file parameter)
+		
+	.PARAMETER  Port
+		Port (overwrites remote config file parameter)
+							  
+	.PARAMETER  PrivatKey
+		PrivatKey (overwrites remote config file parameter)
+		
+	.EXAMPLE
+	   Connect-SCPSession -Names firewall
 
-    #>
+#>
 
 	#--------------------------------------------------#
 	# Parameter
@@ -63,7 +63,6 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 
         # Load Configurations
     	$Server = Get-RemoteConnections -Names $Name -FirstEntry
-
     		
         # set port
         

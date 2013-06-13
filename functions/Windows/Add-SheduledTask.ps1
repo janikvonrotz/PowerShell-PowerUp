@@ -23,7 +23,7 @@ function Add-SheduledTask{
 	Add an xml template file
 	
 .EXAMPLE
-	PS C:\> Add-Task -Title "Windows Task 1" -Command "powershell.exe" -Arguments "C:\PowerShell-Profile\Git-Update.ps1" -WorkingDirectory "C:\PowerShell-Profile" -XMLFilename "Default.task.config.xml" [-NewXMLFile]
+	PS C:\> Add-Task -Title "Windows Task 1" -Command "powershell.exe" -Arguments "C:\PowerShell-Profile\Git-Update.ps1" -WorkingDirectory "C:\PowerShell-Profile" -XMLFilename "Default.task.config" [-NewXMLFile]
 
 .NOTES
 	This function depends on the Windows tool "SchTasks.exe".
