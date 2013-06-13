@@ -64,7 +64,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-05-14"
-	LastEditDate = "2013-05-14"
+	LastEditDate = "2013-06-13"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -123,6 +123,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 </Task>
 '@	
     	# Write content to config file
+		$XmlFilename = $XMLFilename + ".xml"
     	Set-Content -Value $ContentTaskConfigXml -Path ($PSconfigs.Path + "\" + $XMLFilename)
     	Write-Warning ("Added " + $XMLFilename + " to " + $Psconfigs.Path)
     }
