@@ -33,7 +33,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 #--------------------------------------------------#
 # settings
 #--------------------------------------------------#
-$PathToXmlFile = Get-ChildItem -Path $PSconfigs.Path -Filter '*.install.config.xml' -Recurse
+$PathToXmlFile = Get-ChildItem -Path $PSconfigs.Path -Filter 'SharePoint2013Foundation.install.config.xml' -Recurse
 [xml]$Config = get-content $PathToXmlFile.FullName
 
 #--------------------------------------------------#
