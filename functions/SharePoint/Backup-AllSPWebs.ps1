@@ -1,13 +1,13 @@
 <#
 $Metadata = @{
-  Title = "Backup All SharePont Lists"
-	Filename = "Backup-AllSPLists.ps1"
+  Title = "Backup All SharePont Websites"
+	Filename = "Backup-AllSPWebs.ps1"
 	Description = ""
 	Tags = "powershell, sharepoint, function, backup"
 	Project = ""
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
-	CreateDate = "2013-06-14"
+	CreateDate = "2013-06-17"
 	LastEditDate = "2013-06-17"
 	Version = "1.0.0"
 	License = @'
@@ -18,20 +18,20 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 #>
 
-function Backup-AllSPLists{
+function Backup-AllSPWebs{
 
 <#
 .SYNOPSIS
-	Export all sharepoint lists.
+	Export all sharepoint websites.
 
 .DESCRIPTION
-	Export all lists for every sharepoint webapplication in to backup folder.
+	Export all website for every sharepoint webapplication in to backup folder.
 
 .PARAMETER  Path
 	Path to the backp folder.
 
 .EXAMPLE
-	PS C:\> Backup-AllSPlists -Path "C:\Backup"
+	PS C:\> Backup-AllSPwebs -Path "C:\Backup"
 
 .INPUTS
 	System.String
