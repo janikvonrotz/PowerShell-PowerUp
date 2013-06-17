@@ -14,7 +14,7 @@ function Add-SheduledTask{
 	Aditional arguments for the command
 
 .PARAMETER  WorkingDirectory
-	Execution directory for the command
+	Execution directory for the command, default is home path
 
 .PARAMETER  XMLFilename
 	Name of the the xml template file
@@ -43,9 +43,9 @@ function Add-SheduledTask{
 		[String]
 		$Arguments,
 		
-		[Parameter(Mandatory=$true)]
+		[Parameter(Mandatory=$false)]
 		[String]
-		$WorkingDirectory,
+		$WorkingDirectory = $Home,
 		
 		[Parameter(Mandatory=$true)]
 		[String]
@@ -76,7 +76,8 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-    
+    $XmlFilename = $XMLFilename + ".xml"	
+	
 	if($NewXMLFile){
 		$ContentTaskConfigXml = @'
 <?xml version="1.0" encoding="UTF-16"?>
@@ -122,8 +123,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
   </Actions>
 </Task>
 '@	
-    	# Write content to config file
-		$XmlFilename = $XMLFilename + ".xml"
+    	# Write content to config file		
     	Set-Content -Value $ContentTaskConfigXml -Path ($PSconfigs.Path + "\" + $XMLFilename)
     	Write-Warning ("Added " + $XMLFilename + " to " + $Psconfigs.Path)
     }
@@ -139,7 +139,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	[xml]$TaskDefinition = (get-content $PathToXML.Fullname)
 	
 	$TaskDefinition.Task.Actions.Exec.Command = $Command
-	$TaskDefinition.Task.Actions.Exec.Arguments = $Arguments
+	$TaskDefinition.Task.Actions.Exec.Arguments = $Arguments	
 	$TaskDefinition.Task.Actions.Exec.WorkingDirectory = $WorkingDirectory
 	
 	$TaskDefinition.Save($PathToXML.Fullname)
