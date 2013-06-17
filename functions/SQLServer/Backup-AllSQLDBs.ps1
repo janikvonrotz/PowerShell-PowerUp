@@ -60,8 +60,13 @@ function Backup-AllSQLDBs{
 	# modules
 	#--------------------------------------------------#
     # load Snapins
-    Add-PSSnapin SqlServerCmdletSnapin100
-    Add-PSSnapin SqlServerProviderSnapin100
+    if((Get-PSSnapin SqlServerCmdletSnapin100) -eq $Null){
+		Add-PSSnapin SqlServerCmdletSnapin100
+	}
+	
+    if((Get-PSSnapin SqlServerProviderSnapin100) -eq $Null){
+		Add-PSSnapin SqlServerProviderSnapin100
+	}
 
 	#--------------------------------------------------#
 	# main
