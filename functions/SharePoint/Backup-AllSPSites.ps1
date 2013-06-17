@@ -1,13 +1,13 @@
 <#
 $Metadata = @{
-  Title = "Backup All SharePont Lists"
-	Filename = "Backup-AllSPLists.ps1"
+  Title = "Backup All SharePont Sites"
+	Filename = "Backup-AllSPSites.ps1"
 	Description = ""
 	Tags = "powershell, sharepoint, function, backup"
 	Project = ""
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
-	CreateDate = "2013-06-14"
+	CreateDate = "2013-06-17"
 	LastEditDate = "2013-06-17"
 	Version = "1.0.0"
 	License = @'
@@ -18,23 +18,26 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 #>
 
-function Backup-AllSPLists{
+function Backup-AllSPSites{
 
 <#
 .SYNOPSIS
-	Export all sharepoint lists.
+	Export all sharepoint sites.
 
 .DESCRIPTION
-	Export all lists for every sharepoint webapplication in to backup folder.
+	Export all sites for every sharepoint webapplication in to backup folder.
 
 .PARAMETER  Path
 	Path to the backp folder.
 
 .EXAMPLE
-	PS C:\> Backup-AllSPlists -Path "C:\Backup"
+	PS C:\> Backup-AllSPWebs -Path "C:\Backup"
 
 .INPUTS
 	System.String
+	
+.LINK
+	http://technet.microsoft.com/de-de/library/ff607901.aspx
 #>
 
 	[CmdletBinding()]
@@ -58,28 +61,29 @@ function Backup-AllSPLists{
     $SPSites = $SPWebApp | Get-SPsite -Limit all 
 
     foreach($SPSite in $SPSites){
+			
+		Write-Progress -Activity "Backup SharePoint sites" -status $SPSite.title -percentComplete ([int]([array]::IndexOf($SPSites, $SPSite)/$SPSites.Count*100))
 
+		$FileName = $SPSite.title + "#" + $(Get-LogStamp) + ".bak"
+		$FilePath = Join-Path $Path 
+		
+		if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
+		
         [Uri]$SPSiteUrl = $SPSite.Url
 
         $SPWebs = $SPSite | Get-SPWeb -Limit all
         
         foreach ($SPWeb in $SPWebs){
 
-            $SPLists = $SPWeb | foreach{$_.Lists}
+            Write-Progress -Activity "Backup SharePoint Lists" -status $SPWeb.title -percentComplete ([int]([array]::IndexOf($SPWebs, $SPWeb)/$SPWebs.Count*100))
+                
+                $BackupPath = $Path + "\" + $SPSiteUrl.Authority + $SPWeb.RootFolder.ServerRelativeUrl.Replace("/","\").TrimEnd("\")
 
-            foreach($SPList in $SPLists){
                 
-                Write-Progress -Activity "Backup SharePoint lists" -status $SPList.title -percentComplete ([int]([array]::IndexOf($SPLists, $SPList)/$SPLists.Count*100))
-                
-                $BackupPath = $Path + "\" + $SPSiteUrl.Authority + $SPList.RootFolder.ServerRelativeUrl.Replace("/","\")
 
-                if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
-
-                $FilePath = $BackupPath + "\" + $SPList.Title + "#" + $(Get-LogStamp) + ".bak"
                 
-                Export-SPWeb -Identity $SPList.ParentWeb.Url -ItemUrl $SPList.RootFolder.ServerRelativeUrl -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
+                Export-SPWeb -Identity $SPWeb.Url -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
                 
-            }
         }
     }
 }

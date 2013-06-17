@@ -31,7 +31,7 @@ function Backup-AllSPWebs{
 	Path to the backp folder.
 
 .EXAMPLE
-	PS C:\> Backup-AllSPwebs -Path "C:\Backup"
+	PS C:\> Backup-AllSPWebs -Path "C:\Backup"
 
 .INPUTS
 	System.String
@@ -65,21 +65,16 @@ function Backup-AllSPWebs{
         
         foreach ($SPWeb in $SPWebs){
 
-            $SPLists = $SPWeb | foreach{$_.Lists}
-
-            foreach($SPList in $SPLists){
+            Write-Progress -Activity "Backup SharePoint websites" -status $SPWeb.title -percentComplete ([int]([array]::IndexOf($SPWebs, $SPWeb)/$SPWebs.Count*100))
                 
-                Write-Progress -Activity "Backup SharePoint Lists" -status $SPList.title -percentComplete ([int]([array]::IndexOf($SPLists, $SPList)/$SPLists.Count*100))
-                
-                $BackupPath = $Path + "\" + $SPSiteUrl.Authority + $SPList.RootFolder.ServerRelativeUrl.Replace("/","\")
+                $BackupPath = $Path + "\" + $SPSiteUrl.Authority + $SPWeb.RootFolder.ServerRelativeUrl.Replace("/","\").TrimEnd("\")
 
                 if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
 
-                $FilePath = $BackupPath + "\" + $SPList.Title + "#" + $(Get-LogStamp) + ".bak"
+                $FilePath = $BackupPath + "\" + $SPWeb.Title + "#" + $(Get-LogStamp) + ".bak"
                 
-                Export-SPWeb -Identity $SPList.ParentWeb.Url -ItemUrl $SPList.RootFolder.ServerRelativeUrl -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
+                Export-SPWeb -Identity $SPWeb.Url -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
                 
-            }
         }
     }
 }
