@@ -59,21 +59,21 @@ function Backup-AllSPWebs{
 
     foreach($SPSite in $SPSites){
 
-        [Uri]$SPSiteUrl = $SPSite.Url
-
         $SPWebs = $SPSite | Get-SPWeb -Limit all
         
         foreach ($SPWeb in $SPWebs){
 
             Write-Progress -Activity "Backup SharePoint websites" -status $SPWeb.title -percentComplete ([int]([array]::IndexOf($SPWebs, $SPWeb)/$SPWebs.Count*100))
                 
-                $BackupPath = $Path + "\" + $SPSiteUrl.Authority + $SPWeb.RootFolder.ServerRelativeUrl.Replace("/","\").TrimEnd("\")
+            $RelativePath =  $SPSite.HostName + $SPWeb.RootFolder.ServerRelativeUrl.Replace("/","\").TrimEnd("\")
+            $BackupPath = Join-Path -Path $Path -ChildPath $RelativePath
 
-                if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
+            if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
 
-                $FilePath = $BackupPath + "\" + $SPWeb.Title + "#" + $(Get-LogStamp) + ".bak"
+            $FileName = $SPWeb.Title + "#" + $(Get-LogStamp) + ".bak"
+            $FilePath = Join-Path $BackupPath -ChildPath $FileName
                 
-                Export-SPWeb -Identity $SPWeb.Url -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
+            Export-SPWeb -Identity $SPWeb.Url -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
                 
         }
     }

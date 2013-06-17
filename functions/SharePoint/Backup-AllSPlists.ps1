@@ -59,8 +59,6 @@ function Backup-AllSPLists{
 
     foreach($SPSite in $SPSites){
 
-        [Uri]$SPSiteUrl = $SPSite.Url
-
         $SPWebs = $SPSite | Get-SPWeb -Limit all
         
         foreach ($SPWeb in $SPWebs){
@@ -71,11 +69,13 @@ function Backup-AllSPLists{
                 
                 Write-Progress -Activity "Backup SharePoint lists" -status $SPList.title -percentComplete ([int]([array]::IndexOf($SPLists, $SPList)/$SPLists.Count*100))
                 
-                $BackupPath = $Path + "\" + $SPSiteUrl.Authority + $SPList.RootFolder.ServerRelativeUrl.Replace("/","\")
+                $RelativePath = $SPSite.HostName + $SPList.RootFolder.ServerRelativeUrl.Replace("/","\")
+                $BackupPath = Join-Path -Path $Path -ChildPath $RelativePath
 
                 if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
 
-                $FilePath = $BackupPath + "\" + $SPList.Title + "#" + $(Get-LogStamp) + ".bak"
+                $FileName = $SPList.Title + "#" + $(Get-LogStamp) + ".bak"
+                $FilePath = Join-Path -Path $BackupPath -ChildPath $FileName
                 
                 Export-SPWeb -Identity $SPList.ParentWeb.Url -ItemUrl $SPList.RootFolder.ServerRelativeUrl -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
                 

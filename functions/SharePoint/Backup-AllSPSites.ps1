@@ -60,30 +60,15 @@ function Backup-AllSPSites{
 	#--------------------------------------------------#	
     $SPSites = $SPWebApp | Get-SPsite -Limit all 
 
+    if(!(Test-Path -path $Path)){New-Item $Path -Type Directory}
+
     foreach($SPSite in $SPSites){
 			
-		Write-Progress -Activity "Backup SharePoint sites" -status $SPSite.title -percentComplete ([int]([array]::IndexOf($SPSites, $SPSite)/$SPSites.Count*100))
+		Write-Progress -Activity "Backup SharePoint sites" -status $SPSite.HostName -percentComplete ([int]([array]::IndexOf($SPSites, $SPSite)/$SPSites.Count*100))
 
-		$FileName = $SPSite.title + "#" + $(Get-LogStamp) + ".bak"
-		$FilePath = Join-Path $Path 
+		$FileName = $SPSite.HostName + "#" + $(Get-LogStamp) + ".bak"
+		$FilePath = Join-Path -Path $Path -ChildPath $FileName
 		
-		if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
-		
-        [Uri]$SPSiteUrl = $SPSite.Url
-
-        $SPWebs = $SPSite | Get-SPWeb -Limit all
-        
-        foreach ($SPWeb in $SPWebs){
-
-            Write-Progress -Activity "Backup SharePoint Lists" -status $SPWeb.title -percentComplete ([int]([array]::IndexOf($SPWebs, $SPWeb)/$SPWebs.Count*100))
-                
-                $BackupPath = $Path + "\" + $SPSiteUrl.Authority + $SPWeb.RootFolder.ServerRelativeUrl.Replace("/","\").TrimEnd("\")
-
-                
-
-                
-                Export-SPWeb -Identity $SPWeb.Url -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
-                
-        }
+		Backup-SPSite -Identity $SPSite.Url -Path $FilePath -Force		
     }
 }
