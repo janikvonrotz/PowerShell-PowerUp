@@ -56,44 +56,42 @@ function Export-SPLists{
 	# main
 	#--------------------------------------------------#
 	
-	    $SPSites = $SPWebApp | Get-SPsite -Limit all 
-
-    foreach($SPSite in $SPSites){
-
-        $SPWebs = $SPSite | Get-SPWeb -Limit all
+		
+	
+	foreach($UrlItem in $Urls){
+    
+        # cast as uri
+        [Uri]$Url = $UrlItem
+      	
+        # check if its a list or an library
+		if($Url -match "(/Forms/).*?\.(aspx$)"){
         
-        foreach ($SPWeb in $SPWebs){
-
-            $SPLists = $SPWeb | foreach{$_.Lists}
-
-            foreach($SPList in $SPLists){
-                
-                Write-Progress -Activity "Backup SharePoint lists" -status $SPList.title -percentComplete ([int]([array]::IndexOf($SPLists, $SPList)/$SPLists.Count*100))
-                
-                $RelativePath = $SPSite.HostName + $SPList.RootFolder.ServerRelativeUrl.Replace("/","\")
-                $BackupPath = Join-Path -Path $Path -ChildPath $RelativePath
-
-                if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
-
-                $FileName = $SPList.Title + "#" + $(Get-LogStamp) + ".bak"
-                $FilePath = Join-Path -Path $BackupPath -ChildPath $FileName
-                
-                Export-SPWeb -Identity $SPList.ParentWeb.Url -ItemUrl $SPList.RootFolder.ServerRelativeUrl -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
-                
-            }
+            # its a library
+            [Uri]$ListUrl =  $Url.AbsoluteUri -replace "(/Forms/).*?\.(aspx)",""            
+            [Uri]$WebUrl = $Url.AbsoluteUri -replace "/([^/]*)(/Forms/).*?\.(aspx)",""
+            
+        }elseif($Url -match "(/Lists/).*?\.(aspx$)"){
+        
+            # its a list
+            [Uri]$ListUrl =  $Url.AbsoluteUri -replace "/([^/]*)\.(aspx)",""
+            [Uri]$WebUrl = $Url.AbsoluteUri -replace "(/Lists/).*?\.(aspx)",""
+        }else{
+            throw "Invalid Url: $UrlItem"
         }
-    }
-	
-	
-	foreach($Url in $Urls){
-	
+        
+        $SPWeb = Get-SPWeb -Identity $WebUrl.AbsoluteUri   	
 		
-	
-		Write-Progress -Activity "Export SharePoint list" -status $SPList.title -percentComplete ([int]([array]::IndexOf($SPLists, $SPList)/$SPLists.Count*100))
-		
-		# check export path
-		if(!(Test-Path -path $Path)){New-Item $Path -Type Directory}
-		
+		# check export path		
+        if(!(Test-Path -path $Path)){New-Item $Path -Type Directory}
+        
+        $FileName = ($ListUrl.LocalPath -replace ".*/","")
+        
+        Write-Progress -Activity "Export SharePoint list" -status $FileName -percentComplete ([int]([array]::IndexOf($Urls, $UrlItem)/$Urls.Count*100))
+		        
+        # create export file
+        $FilePath = Join-Path -Path $Path -ChildPath ( $FileName + "#" + $(Get-Logstamp))
+        
+		Export-SPWeb -Identity $SPWeb.Url -ItemUrl $ListUrl.LocalPath -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
 
 	}
 }
