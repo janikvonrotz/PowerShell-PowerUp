@@ -66,5 +66,3 @@ function Import-SPList{
 	Import-SPWeb -Identity $Identity -path $Path -IncludeUserSecurity -nologfile -Force
 
 }
-
-Import-SPList -Url http://sharepoint.vbl.ch/finanzen/it/Testum%20gebung/SitePages/Homepage.aspx -Path 'Z:\Support#2013-06-19 13-57-16.cmp'
