@@ -1,3 +1,4 @@
+<#
 $Metadata = @{
 	Title = "Import SharePoint list"
 	Filename = "Import-SPList.ps1"
@@ -15,6 +16,7 @@ To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 '@
 }
+#>
 
 function Import-SPList{
 
@@ -58,7 +60,11 @@ function Import-SPList{
 	}else{
 		throw "Invalid url: $Url"
 	}
-	
-	Import-SPWeb $Url -path $Path -IncludeUserSecurity -nologfile -Force
+    
+    $Identity = $Url.Scheme + "://" + $Url.Host + $url.LocalPath
+    	
+	Import-SPWeb -Identity $Identity -path $Path -IncludeUserSecurity -nologfile -Force
 
 }
+
+Import-SPList -Url http://sharepoint.vbl.ch/finanzen/it/Testum%20gebung/SitePages/Homepage.aspx -Path 'Z:\Support#2013-06-19 13-57-16.cmp'
