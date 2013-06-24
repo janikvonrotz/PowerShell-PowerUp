@@ -1,3 +1,23 @@
+<#	
+$Metadata = @{
+    Title = "Assign Active Directory Group Permission Role"
+    Filename = "Assign-ADGroupPermissionRole.ps1"
+	Description = "Assigns a active directory group with a specific role to the subsites and lists of certain website"
+	Tags = "powershell, activedirectory, sharepoint, role, assignment"
+	Project = ""
+	Author = "Janik von Rotz"
+	AuthorContact = "http://janikvonrotz.ch"
+	CreateDate = "2013-05-17"
+	LastEditDate = "2013-06-24"
+	Version = "2.0.1"
+	License = @'
+This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
+send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+'@
+}
+#>
+
 function Assign-ADGroupPermissionRole{
 <#
 .SYNOPSIS
@@ -24,9 +44,6 @@ function Assign-ADGroupPermissionRole{
 
 #>
 
-	#--------------------------------------------------#
-	# parameter
-	#--------------------------------------------------#
 	param(
 		[Parameter(Mandatory=$true)]
 		[string]$SPWebUrl,
@@ -37,24 +54,6 @@ function Assign-ADGroupPermissionRole{
 		[Parameter(Mandatory=$true)]
 		[string]$RoleToAssignID
 	)
-	
-	$Metadata = @{
-		Title = "Assign Active Directory Group Permission Role"
-		Filename = "Assign-ADGroupPermissionRole.ps1"
-		Description = "Assigns a active directory group with a specific role to the subsites and lists of certain website"
-		Tags = "powershell, activedirectory, sharepoint, role, assignment"
-		Project = ""
-		Author = "Janik von Rotz"
-		AuthorContact = "http://janikvonrotz.ch"
-		CreateDate = "2013-05-17"
-		LastEditDate = "2013-05-21"
-		Version = "2.0.0"
-	License = @'
-This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
-To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
-send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
-'@
-}
 
 	#--------------------------------------------------#
 	# modules
@@ -69,9 +68,9 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 	#--------------------------------------------------#
 
     # get host url
-	$SPSiteUrl = Get-SPUrl $SPWebUrl -HostUrl
+	[Uri]$SPSiteUrl = $SPWebUrl
     # create sp site object
-	$SPSite = Get-SPSite $SPSiteUrl
+	$SPSite = Get-SPSite ($SPSiteUrl.Scheme + "://" + $SPSiteUrl.Host)
     # get root web object
 	$SPRootWeb = $SPSite.RootWeb
 
