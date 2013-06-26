@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-06-17"
-	LastEditDate = "2013-06-17"
-	Version = "1.0.0"
+	LastEditDate = "2013-06-26"
+	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -65,7 +65,7 @@ function Backup-AllSPWebs{
 
             Write-Progress -Activity "Backup SharePoint websites" -status $SPWeb.title -percentComplete ([int]([array]::IndexOf($SPWebs, $SPWeb)/$SPWebs.Count*100))
                 
-            $RelativePath =  $SPSite.HostName + $SPWeb.RootFolder.ServerRelativeUrl.Replace("/","\").TrimEnd("\")
+            $RelativePath =  $SPSite.HostName + "\" + $SPWeb.Title + $SPWeb.RootFolder.ServerRelativeUrl.Replace("/","\").TrimEnd("\")
             $BackupPath = Join-Path -Path $Path -ChildPath $RelativePath
 
             if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
@@ -78,3 +78,5 @@ function Backup-AllSPWebs{
         }
     }
 }
+
+Backup-AllSpwebs -Path "E:\SharePoint\Backup"
