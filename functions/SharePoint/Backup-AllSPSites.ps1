@@ -25,10 +25,10 @@ function Backup-AllSPSites{
 	Export all sharepoint sites.
 
 .DESCRIPTION
-	Export all sites for every sharepoint webapplication in to backup folder.
+	Export all sites for every sharepoint webapplication into a subfolder.
 
 .PARAMETER  Path
-	Path to the backp folder.
+	Path to the backip folders.
 
 .EXAMPLE
 	PS C:\> Backup-AllSPWebs -Path "C:\Backup"

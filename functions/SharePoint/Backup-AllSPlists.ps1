@@ -25,10 +25,10 @@ function Backup-AllSPLists{
 	Export all sharepoint lists.
 
 .DESCRIPTION
-	Export all lists for every sharepoint webapplication in to backup folder.
+	Export all lists for every sharepoint webapplication into subfolders.
 
 .PARAMETER  Path
-	Path to the backp folder.
+	Path to the backup folders.
 
 .EXAMPLE
 	PS C:\> Backup-AllSPlists -Path "C:\Backup"
@@ -69,7 +69,7 @@ function Backup-AllSPLists{
                 
                 Write-Progress -Activity "Backup SharePoint lists" -status $SPList.title -percentComplete ([int]([array]::IndexOf($SPLists, $SPList)/$SPLists.Count*100))
                 
-                $RelativePath = $SPSite.HostName + "\" + $SPWeb.Title + $SPList.RootFolder.ServerRelativeUrl.Replace("/","\")
+                $RelativePath = $SPSite.HostName + "\" + $SPList.RootFolder.ServerRelativeUrl.Replace("/","\")
                 $BackupPath = Join-Path -Path $Path -ChildPath $RelativePath
 
                 if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}

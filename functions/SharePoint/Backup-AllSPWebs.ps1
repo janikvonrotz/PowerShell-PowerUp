@@ -25,10 +25,10 @@ function Backup-AllSPWebs{
 	Export all sharepoint websites.
 
 .DESCRIPTION
-	Export all website for every sharepoint webapplication in to backup folder.
+	Export all website for every sharepoint webapplication into subfolders.
 
 .PARAMETER  Path
-	Path to the backp folder.
+	Path to the backup folders.
 
 .EXAMPLE
 	PS C:\> Backup-AllSPWebs -Path "C:\Backup"
@@ -65,7 +65,7 @@ function Backup-AllSPWebs{
 
             Write-Progress -Activity "Backup SharePoint websites" -status $SPWeb.title -percentComplete ([int]([array]::IndexOf($SPWebs, $SPWeb)/$SPWebs.Count*100))
                 
-            $RelativePath =  $SPSite.HostName + "\" + $SPWeb.Title + $SPWeb.RootFolder.ServerRelativeUrl.Replace("/","\").TrimEnd("\")
+            $RelativePath =  $SPSite.HostName + "\" + $SPWeb.RootFolder.ServerRelativeUrl.Replace("/","\").TrimEnd("\")
             $BackupPath = Join-Path -Path $Path -ChildPath $RelativePath
 
             if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
@@ -78,5 +78,3 @@ function Backup-AllSPWebs{
         }
     }
 }
-
-Backup-AllSpwebs -Path "E:\SharePoint\Backup"
