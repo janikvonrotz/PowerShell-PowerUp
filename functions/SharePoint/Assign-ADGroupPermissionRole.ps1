@@ -58,7 +58,7 @@ function Assign-ADGroupPermissionRole{
 		[Parameter(Mandatory=$true)]
 		[string]$RoleToAssignID,
         
-        [swich]$IncludeChildItems
+        [switch]$IncludeChildItems
 	)
 
 	#--------------------------------------------------#
