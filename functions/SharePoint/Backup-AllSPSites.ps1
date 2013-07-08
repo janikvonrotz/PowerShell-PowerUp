@@ -30,6 +30,9 @@ function Backup-AllSPSites{
 .PARAMETER  Path
 	Path to the backip folders.
 
+.PARAMETER  AddTimeStamp
+	Add a time stamp to the export filename.
+	
 .EXAMPLE
 	PS C:\> Backup-AllSPWebs -Path "C:\Backup"
 
@@ -44,7 +47,10 @@ function Backup-AllSPSites{
 	param(
 		[Parameter(Position=0, Mandatory=$true)]
 		[String]
-		$Path
+		$Path,
+		
+		[Switch]
+		$AddTimeStamp   
 	)
 	
 	#--------------------------------------------------#
@@ -67,14 +73,13 @@ function Backup-AllSPSites{
 		Write-Progress -Activity "Backup SharePoint sites" -status $SPSite.HostName -percentComplete ([int]([array]::IndexOf($SPSites, $SPSite)/$SPSites.Count*100))
         
         # set backup path
-        $RelativePath = $SPSite.HostName
-        $BackupPath = Join-Path -Path $Path -ChildPath $RelativePath
+        $BackupPath = Join-Path -Path $Path -ChildPath $SPSite.HostName
 
         # create path if doesn't exist
         if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
 
         # set full path to backup file
-		$FileName = $SPSite.HostName + "#" + $(Get-LogStamp) + ".bak"
+		$FileName = $SPSite.HostName + $(if($AddTimeStamp){"#" + $(Get-LogStamp)}) + ".bak"
 		$FilePath = Join-Path -Path $BackupPath -ChildPath $FileName
 		
 		Backup-SPSite -Identity $SPSite.Url -Path $FilePath -Force		
