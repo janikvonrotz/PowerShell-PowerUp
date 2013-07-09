@@ -79,5 +79,3 @@ function Mount-NetworkDirectories{
 
     }        
 }
-
-Mount-NetworkDirectories -Urls "http://sharepoint.vbl.ch/Vertragsmanagement/Freigegebene Dokumente/S-Pos","http://sharepoint.vbl.ch/Kommunikation/Allgemein"
