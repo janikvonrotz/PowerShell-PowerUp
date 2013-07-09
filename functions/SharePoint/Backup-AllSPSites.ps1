@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-06-17"
-	LastEditDate = "2013-06-26"
-	Version = "1.0.1"
+	LastEditDate = "2013-07-09"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -72,6 +72,9 @@ function Backup-AllSPSites{
 			
 		Write-Progress -Activity "Backup SharePoint sites" -status $SPSite.HostName -percentComplete ([int]([array]::IndexOf($SPSites, $SPSite)/$SPSites.Count*100))
         
+        # get url
+        [uri]$SPSiteUrl = $SPSite.Url
+        
         # set backup path
         $BackupPath = Join-Path -Path $Path -ChildPath $SPSite.HostName
 
@@ -79,9 +82,9 @@ function Backup-AllSPSites{
         if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
 
         # set full path to backup file
-		$FileName = $SPSite.HostName + $(if($AddTimeStamp){"#" + $(Get-LogStamp)}) + ".bak"
+		$FileName = $SPSiteUrl.Host + $(if($SPSiteUrl.LocalPath -ne "/"){$SPSiteUrl.LocalPath -replace "/","."}) + $(if($AddTimeStamp){"#" + $(Get-LogStamp)}) + ".bak"
 		$FilePath = Join-Path -Path $BackupPath -ChildPath $FileName
-		
-		Backup-SPSite -Identity $SPSite.Url -Path $FilePath -Force		
+
+		Backup-SPSite -Identity $SPSite.Url -Path $FilePath -Force -ErrorAction SilentlyContinue		
     }
 }
