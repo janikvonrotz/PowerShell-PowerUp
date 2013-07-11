@@ -88,6 +88,7 @@ function Backup-AllSPSites{
 		$FileName = $Name + $(if($AddTimeStamp){"#" + $(Get-LogStamp)}) + ".bak"
 		$FilePath = Join-Path -Path $BackupPath -ChildPath $FileName
 
+		 Write-host "Backup SharePoint Site: "$Name
 		Backup-SPSite -Identity $SPSite.Url -Path $FilePath -Force -ErrorAction SilentlyContinue		
     }
 }
