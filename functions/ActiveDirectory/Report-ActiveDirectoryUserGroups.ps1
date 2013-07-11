@@ -67,7 +67,7 @@ function Report-ActiveDirectoryUserGroups{
 				
                 Write-Progress -Activity "Collecting data" -status $ADUserGroup.Name -percentComplete ([int]([array]::IndexOf($ADUserGroups, $ADUserGroup)/$ADUserGroups.Count*100))
 
-				$ADUserGroupReport += New-ADUseGroup -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADUserGroup.Name
+				$ADUserGroupReport += New-ObjectADUserGroup -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADUserGroup.Name
               
 			} 
 		}
