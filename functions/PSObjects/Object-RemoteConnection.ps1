@@ -18,7 +18,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 #>
 
-function New-ObjectRemoteConnection {
+function New-ObjectRemoteConnection{
     param(
         [string]$Name,
         [string]$Server,

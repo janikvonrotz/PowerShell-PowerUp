@@ -18,7 +18,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 #>
 
-function New-ObjectSPReportItem {
+function New-ObjectSPReportItem{
     param(
         $Name,
         $Url,
