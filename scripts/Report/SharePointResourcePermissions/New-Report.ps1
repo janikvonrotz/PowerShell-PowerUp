@@ -3,7 +3,7 @@ Import-Module ActiveDirectory
 $SharePointDataFile = "SPReportData.csv"
 $SPResourcePermissions = @()
 
-Get-SPObjectPermissions -Identity http://sharepoint.vbl.ch/Technik/SitePages/Homepage.aspx -Recursive | Export-Csv $SharePointDataFile -Delimiter ";" -Encoding "UTF8"
+#Get-SPObjectPermissions -Identity http://sharepoint.domain.com/SitePages/Homepage.aspx -Recursive | Export-Csv $SharePointDataFile -Delimiter ";" -Encoding "UTF8"
 
 if(Test-Path $SharePointDataFile){
     $SPPermissions = Import-Csv $SharePointDataFile -Delimiter ";"
