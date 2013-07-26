@@ -1,37 +1,40 @@
-# load xml data
-$GroupPermissionReports = Import-Csv "GroupPermissionReports.csv" -Delimiter ";"
+Import-Module ActiveDirectory
 
-# resets
-$Usernames = @()
+$SharePointDataFile = "SPReportData.csv"
+$SPResourcePermissions = @()
 
-# get usernames
-While(1){
-	$Username = Read-Host "`nEnter a username (or . to finish)"
-	if($Username -eq "."){
-		break
-	}else{
-		$Usernames += $Username	
-	}
+Get-SPObjectPermissions -Identity http://sharepoint.vbl.ch/Technik/SitePages/Homepage.aspx -Recursive | Export-Csv $SharePointDataFile -Delimiter ";" -Encoding "UTF8"
+
+if(Test-Path $SharePointDataFile){
+    $SPPermissions = Import-Csv $SharePointDataFile -Delimiter ";"
+}else{
+    throw "Couldn't find: " + $SharePointDataFile + ". Please create an csv-export with Get-SPOjbectPermissions"
 }
 
-foreach($username in $Usernames){
-
-	$UserGroups = .\..\..\ActiveDirectory\Report-ActiveDirectoryUserGroups.ps1 -Usernames $Username
+foreach($SPPermission in $SPPermissions){
     
-    foreach ($UserGroup in $UserGroups){
+    Write-Progress -Activity "Build Report" -status $SPPermission.Member -percentComplete ([int]([array]::IndexOf($SPPermissions, $SPPermission)/$SPPermissions.Count*100))
     
-        $GroupPermissions = $Null
-	    $GroupPermissions = ($GroupPermissionReports | Where-Object {$_.Member -like $UserGroup.GroupName})
+    if($SPPermission.MemberType -eq "ADGroup"){
+        $ADUsers = Get-ADGroupMember -Identity $SPPermission.Member -Recursive
+    }elseif($SPPermission.MemberType -eq "ADUser"){
+        $ADUsers = Get-ADUser -Identity $SPPermission.Member
+    }else{
+        $ADUsers = $Null
+    }
+    
+    if($ADUsers){
+    foreach($ADUser in $ADUsers){
         
-        Write-Progress -Activity "build report" -status $UserGroup.GroupName -percentComplete ([int]([array]::IndexOf($UserGroups, $UserGroup)/$UserGroups.Count*100))
+        # reset item         
+        $SPPermissionItem = $SPPermission.PsObject.Copy()
+    
+        $SPPermissionItem | Add-Member -MemberType NoteProperty -Name "UserName" -Value $ADUser.Name -Force
+        $SPPermissionItem | Add-Member -MemberType NoteProperty -Name "UserDN" -Value $ADUser.DistinguishedName -Force
+        $SPPermissionItem | Add-Member -MemberType NoteProperty -Name "UserSamAccountName" -Value $ADUser.SamAccountName -Force
         
-        if($GroupPermissions -ne $Null){
-            foreach($GroupPermission in $GroupPermissions){
-
-                Add-Member -InputObject $GroupPermission -MemberType NoteProperty -Name "Username" -Value $Username -Force
-                $GroupPermission
-                
-            }
-        }
-    }        
+        $SPResourcePermissions += $SPPermissionItem
+    }}
 }
+
+$SPResourcePermissions | Export-Csv $SharePointDataFile -Delimiter ";" -Encoding "UTF8"

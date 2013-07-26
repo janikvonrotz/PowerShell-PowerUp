@@ -48,7 +48,7 @@ function Get-ActiveDirectoryUserGroups{
 
 	#--------------------------------------------------#
 	# main
-	#--------------------------------------------------#		
+	#--------------------------------------------------#    
 	foreach($User in $Users){
 	   
         # get user AD objects
@@ -65,9 +65,9 @@ function Get-ActiveDirectoryUserGroups{
 				
                 Write-Progress -Activity "Collecting data" -status $ADUserGroup.Name -percentComplete ([int]([array]::IndexOf($ADUserGroups, $ADUserGroup)/$ADUserGroups.Count*100))
 
-				New-ObjectADUserGroup -UserName $ADUser.Name -UserDN $ADUser.DN -UserSamAccountName $ADUser.SamAccountName -GroupName $ADUserGroup.Name -GroupDN $ADUserGroup.DN -GroupSamAccountName $ADUserGroup.SamAccountName
+                New-ObjectADUserGroup -UserName $ADUser.Name -UserDN $ADUser.DN -UserSamAccountName $ADUser.SamAccountName -GroupName $ADUserGroup.Name -GroupDN $ADUserGroup.DN -GroupSamAccountName $ADUserGroup.SamAccountName
               
 			} 
 		}
-	} 	
+	}    
 }
