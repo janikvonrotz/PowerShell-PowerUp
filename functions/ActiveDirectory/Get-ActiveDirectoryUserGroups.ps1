@@ -1,15 +1,15 @@
 <#
 $Metadata = @{
-    Title = "Report ActiveDirectory User Groups"
-	Filename = "Report-ActiveDirectoryUserGroups.ps1"
+    Title = "Get ActiveDirectory User Groups"
+	Filename = "Get-ActiveDirectoryUserGroups.ps1"
 	Description = ""
-	Tags = ""powershell, activedirectory, report"
+	Tags = ""powershell, activedirectory, function"
 	Project = ""
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-07-11"
-	LastEditDate = "2013-07-11"
-	Version = "1.0.0"
+	LastEditDate = "2013-07-25"
+	Version = "2.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -18,7 +18,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 #>
 
-function Report-ActiveDirectoryUserGroups{
+function Get-ActiveDirectoryUserGroups{
 
 <#
 
@@ -32,7 +32,7 @@ function Report-ActiveDirectoryUserGroups{
 	Array of usernames to report
 
 .EXAMPLE
-	PS C:\> Report-ActiveDirectoryUserGroups - Users "user1","user2"
+	PS C:\> Get-ActiveDirectoryUserGroups - Users "user1","user2"
 
 #>
 
@@ -48,9 +48,7 @@ function Report-ActiveDirectoryUserGroups{
 
 	#--------------------------------------------------#
 	# main
-	#--------------------------------------------------#
-	$ADUserGroupReport = @()
-		
+	#--------------------------------------------------#		
 	foreach($User in $Users){
 	   
         # get user AD objects
@@ -67,12 +65,9 @@ function Report-ActiveDirectoryUserGroups{
 				
                 Write-Progress -Activity "Collecting data" -status $ADUserGroup.Name -percentComplete ([int]([array]::IndexOf($ADUserGroups, $ADUserGroup)/$ADUserGroups.Count*100))
 
-				$ADUserGroupReport += New-ObjectADUserGroup -Name $ADUser.Name -DN $ADUser.DN -SamAccountName $ADUser.SamAccountName -GroupName $ADUserGroup.Name
+				New-ObjectADUserGroup -UserName $ADUser.Name -UserDN $ADUser.DN -UserSamAccountName $ADUser.SamAccountName -GroupName $ADUserGroup.Name -GroupDN $ADUserGroup.DN -GroupSamAccountName $ADUserGroup.SamAccountName
               
 			} 
 		}
-	}
-    
-    return $ADUserGroupReport
-        	
+	} 	
 }

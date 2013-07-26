@@ -20,15 +20,19 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 
 function New-ObjectADUserGroup{
 	param(
-		$Name,
-		$DN,
-		$SamAccountName,
-		$GroupName
+		$UserName,
+		$UserDN,
+		$UserSamAccountName,
+		$GroupName,
+        $GroupDN,
+        $GroupSamAccountName
 	)
 	New-Object PSObject -Property @{
-		Name = $Name
-		DN = $DN
-		SamAccountName = $SamAccountName
-		GroupName =$GroupName
+		UserName = $UserName
+		UserDN = $UserDN
+		UserSamAccountName = $UserSamAccountName
+		GroupName = $GroupName
+        GroupDN = $GroupDN
+        GroupSamAccountName  = $GroupSamAccountName
 	}
 }

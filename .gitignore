@@ -14,7 +14,7 @@ modules/*
 !modules/Pscx
 !modules/PsGet
 
-GroupPermissionReports.csv
+ReportData.csv
 New-Release.ps1
 Microsoft.PowerShell_profile.ps1
 Microsoft.PowerShellISE_profile.ps1
