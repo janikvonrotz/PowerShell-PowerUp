@@ -26,7 +26,8 @@ function New-SPListItemSize{
 		$ListUrl,
         $Item,
         $ItemUrl,
-        $Size
+        $FileExtension,
+        $FileSize
 	)
 	New-Object PSObject -Property @{
 		Website = $Website
@@ -35,6 +36,7 @@ function New-SPListItemSize{
 		ListUrl = $ListUrl
         Item = $Item
         ItemUrl = $ItemUrl
-        Size  = $Size
+        FileExtension = $FileExtension
+        FileSize  = $FileSize
 	}
 }
