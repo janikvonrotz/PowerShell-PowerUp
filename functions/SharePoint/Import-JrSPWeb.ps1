@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-07-04"
-	LastEditDate = "2013-07-04"
+	LastEditDate = "2013-08-05"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -25,10 +25,10 @@ function Import-JrSPWeb{
 	Import a SharePoint website.
 
 .DESCRIPTION
-	Imort a SharePoint website. If to destination doesn't exist it creates a new SharePoint website.
+	Imort a SharePoint website. Destination must exist, also it will be overwritten.
 
 .PARAMETER Identity
-	Url of the SharePoint website.
+	Url of the SharePoint website to overwrite.
 	
 .PARAMETER  Path
 	Path to the backup file.
@@ -49,12 +49,15 @@ function Import-JrSPWeb{
 		
 		[Parameter(Mandatory=$true)]
 		[String]
-		$Path,    
+		$Path
         
-   		
+   		<#
+        
 		[Parameter(Mandatory=$true)]
 		[String]
-		$Template = "STS#0"      
+		$Template = "STS#0"
+        
+        #>      
 	)
 	
 	#--------------------------------------------------#
@@ -85,13 +88,14 @@ function Import-JrSPWeb{
     if(!$Error[0].FullyQualifiedErrorId -eq "Microsoft.SharePoint.PowerShell.SPCmdletGetWeb"){
     
         # import spweb
-        Import-SPWeb $SPWeb.Url -Path $Path  -UpdateVersions Overwrite -Force -IncludeUserSecurity -NoFileCompression -NoLogFile
+        Import-SPWeb $SPWeb.Url -Path $Path  -UpdateVersions Overwrite -Force -IncludeUserSecurity -NoFileCompression -NoLogFile -Confirm
         
     }else{
     
         throw "Identity or url does not exist."
         
         <#
+        
         # create a new site
         New-SPWeb ($SPWebUrl.OriginalString) -Template $Template
                 
@@ -107,6 +111,7 @@ function Import-JrSPWeb{
                 
         # import content
         Import-SPWeb $SPWeb.Url -Path $Path -UpdateVersions Overwrite -Force -IncludeUserSecurity -NoFileCompression -NoLogFile
+        
         #>         
         
     }
