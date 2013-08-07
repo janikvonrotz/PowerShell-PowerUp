@@ -27,7 +27,7 @@ function Export-JrSPWeb{
 .DESCRIPTION
 	Export a SharePoint website.
 
-.PARAMETER Identity
+.PARAMETER Url
 	Url of the SharePoint website.
 	
 .PARAMETER  Path
@@ -45,7 +45,7 @@ function Export-JrSPWeb{
 	param(
 		[Parameter(Mandatory=$true)]
 		[String]
-		$Identity,
+		$Url,
 		
 		[Parameter(Mandatory=$true)]
 		[String]
@@ -68,7 +68,7 @@ function Export-JrSPWeb{
 	#--------------------------------------------------#
     
     # get url
-    [Uri]$SPWebUrl = $Identity
+    [Uri]$SPWebUrl = $Url
     
     # extract spweb url
     $SPWebUrl = $SPWebUrl.ToString().TrimEnd("/SitePages/Homepage.aspx")

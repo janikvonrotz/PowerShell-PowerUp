@@ -1,15 +1,15 @@
 <#	
 $Metadata = @{
-    Title = "Assign Active Directory Group Permission Role"
-    Filename = "Assign-ADGroupPermissionRole.ps1"
+    Title = "Set SharePoint ActiveDirectory Group Permission"
+    Filename = "Set-SPADGroupPermission.ps1"
 	Description = "Assigns a active directory group with a specific role to the subsites and lists of certain website"
 	Tags = "powershell, activedirectory, sharepoint, role, assignment"
 	Project = ""
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-05-17"
-	LastEditDate = "2013-06-28"
-	Version = "2.1.0"
+	LastEditDate = "2013-08-07"
+	Version = "3.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -18,7 +18,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 #>
 
-function Assign-ADGroupPermissionRole{
+function Set-SPADGroupPermission{
 
 <#
 .SYNOPSIS
@@ -29,20 +29,20 @@ function Assign-ADGroupPermissionRole{
     The roles are only assigned as long the sharepoint object doesn't inherit the rights.
 	How to get the role ID: https://gist.github.com/janikvonrotz/5617921
 
-.PARAMETER  SPWebUrl
+.PARAMETER  Url
 	SharePoint website url
 
-.PARAMETER  GroupToAssign
+.PARAMETER  ADGroup
 	ActiveDirectory group
 	
 .PARAMETER  RoleToAssignID
 	Role ID
     
-.PARAMETER IncludeChildItems
-    Include SharePoint website child items
+.PARAMETER Recursive
+    Include SharePoint website sub items
 	
 .EXAMPLE
-	Assign-ADGroupPermissionRole -Url "http://sharepoint.domain.ch/Projekte" -GroupToAssign "VBL\SP_Technik#Superuser" -RoleToAssignID "1073741828" -IncludeChildItems
+	Assign-ADGroupPermissionRole -Url "http://sharepoint.domain.ch/Projekte/SitePages/Homepage.aspx" -ADGroup "VBL\SP_Projekte#Superuser" -RoleToAssignID "1073741828" -Recursive
 
 .Link
     https://gist.github.com/janikvonrotz/5617921
@@ -50,10 +50,10 @@ function Assign-ADGroupPermissionRole{
 
 	param(
 		[Parameter(Mandatory=$true)]
-		[string]$Url,
+		[string]$Identity,
 		
 		[Parameter(Mandatory=$true)]
-		[string]$GroupToAssign,
+		[string]$ADGroup,
 
 		[Parameter(Mandatory=$true)]
 		[string]$RoleToAssignID,
@@ -73,19 +73,25 @@ function Assign-ADGroupPermissionRole{
 	# main
 	#--------------------------------------------------#
 
-    # get host url
-	[Uri]$SPSiteUrl = $Url
-    # create sp site object
-	$SPSite = Get-SPSite ($SPSiteUrl.Scheme + "://" + $SPSiteUrl.Host)
+    # get url
+    [Uri]$SPWebUrl = $Url
+    
+    # extract spweb url
+    $SPWebUrl = $SPWebUrl.ToString() -replace "/SitePages/Homepage.aspx", "" -replace "/default.aspx",""
+    
+    # get spsite object
+    $SPSite =  Get-SPSite ($SPWebUrl.Scheme + "://" + $SPWebUrl.Host)
+    
     # get root web object
 	$SPRootWeb = $SPSite.RootWeb
 
 	# get spweb object
-	$SPweb = Get-SPweb $Url
+	$SPweb = Get-SPweb $SPWebUrl
+    
 	# get role definition by id
 	$RoleToAssign = $SPWeb.RoleDefinitions.GetById($RoleToAssignID)
 	# create a new role assignment object
-    $SPGroupToAssign = $SPRootWeb.EnsureUser($GroupToAssign)
+    $SPGroupToAssign = $SPRootWeb.EnsureUser($ADGroup)
     
     if($SPGroupToAssign -eq $Null){throw "Group not found!"}
     
@@ -98,7 +104,8 @@ function Assign-ADGroupPermissionRole{
     }
             
 	# set role for subwebs
-	if($IncludeChildItems){
+	if($Recursive){
+    
         foreach($SPSubweb in $SPweb.webs){
     		
     		# only if not inherited
