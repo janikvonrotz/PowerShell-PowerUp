@@ -124,7 +124,7 @@ if($Host.Version.Major -lt 2){
 	if($Features | Where-Object {$_.Name -eq 'Git Update Task'}){	
     			
 		$PathToScript = Get-ChildItem -Path $PSconfigs.Path -Filter "Git-Update.ps1" -Recurse
-		Add-SheduledTask -Title "Git Update Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments $PathToScript.Fullname -WorkingDirectory $WorkingPath -XMLFilename "GitUpdateTask.xml"
+		Add-SheduledTask -Title "Git Update Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments $PathToScript.Fullname -WorkingDirectory $WorkingPath -XMLFilename "GitUpdateTask"
 	}
     
 	#--------------------------------------------------#

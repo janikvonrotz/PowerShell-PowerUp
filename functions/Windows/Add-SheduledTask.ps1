@@ -1,3 +1,23 @@
+<#
+$Metadata = @{
+	Title = "Add sheduled task"
+	Filename = " Add-SheduledTask.ps1"
+	Description = ""
+	Tags = "powershell, function, task"
+	Project = ""
+	Author = "Janik von Rotz"
+	AuthorContact = "www.janikvonrotz.ch"
+	CreateDate = "2013-05-14"
+	LastEditDate = "2013-08-08"
+	Version = "1.1.0"
+	License = @'
+This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
+send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+'@
+}
+#>
+
 function Add-SheduledTask{
 
 <#
@@ -54,24 +74,6 @@ function Add-SheduledTask{
 		[switch]
 		$NewXMLFile
 	)
-
-$Metadata = @{
-	Title = "Add sheduled task"
-	Filename = " Add-SheduledTask.ps1"
-	Description = ""
-	Tags = "powershell, function, task"
-	Project = ""
-	Author = "Janik von Rotz"
-	AuthorContact = "www.janikvonrotz.ch"
-	CreateDate = "2013-05-14"
-	LastEditDate = "2013-06-13"
-	Version = "1.0.0"
-	License = @'
-This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
-To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
-send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
-'@
-}
 	
 	#--------------------------------------------------#
 	# main
