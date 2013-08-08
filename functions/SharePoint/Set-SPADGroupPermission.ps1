@@ -35,11 +35,14 @@ function Set-SPADGroupPermission{
 .PARAMETER  ADGroup
 	ActiveDirectory group
 	
-.PARAMETER  RoleToAssignID
+.PARAMETER  RoleID
 	Role ID
     
 .PARAMETER Recursive
-    Include SharePoint website sub items
+    Include SharePoint sube websites
+    
+.PARAMETER IncludeLists
+    Also set the permission for the list of the website
 	
 .EXAMPLE
 	Assign-ADGroupPermissionRole -Url "http://sharepoint.domain.ch/Projekte/SitePages/Homepage.aspx" -ADGroup "VBL\SP_Projekte#Superuser" -RoleToAssignID "1073741828" -Recursive
@@ -50,15 +53,17 @@ function Set-SPADGroupPermission{
 
 	param(
 		[Parameter(Mandatory=$true)]
-		[string]$Identity,
+		[string]$Url,
 		
 		[Parameter(Mandatory=$true)]
 		[string]$ADGroup,
 
 		[Parameter(Mandatory=$true)]
-		[string]$RoleToAssignID,
+		[string]$RoleID,
         
-        [switch]$IncludeChildItems
+        [switch]$Recursive,
+        
+        [switch]$IncludeLists
 	)
 
 	#--------------------------------------------------#
@@ -86,45 +91,66 @@ function Set-SPADGroupPermission{
 	$SPRootWeb = $SPSite.RootWeb
 
 	# get spweb object
-	$SPweb = Get-SPweb $SPWebUrl
+	$SPweb = Get-SPweb $SPWebUrl.OriginalString
     
 	# get role definition by id
-	$RoleToAssign = $SPWeb.RoleDefinitions.GetById($RoleToAssignID)
+	$SPRole = $SPWeb.RoleDefinitions.GetById($RoleID)
+    
 	# create a new role assignment object
-    $SPGroupToAssign = $SPRootWeb.EnsureUser($ADGroup)
+    $SPGroup = $SPRootWeb.EnsureUser($ADGroup)
     
-    if($SPGroupToAssign -eq $Null){throw "Group not found!"}
+    # abort if group doesn't exist
+    if($SPGroup -eq $Null){throw "Group not found!"}
     
-	$SPGroupToAssign = new-object Microsoft.SharePoint.SPRoleAssignment($SPGroupToAssign)
-	$SPGroupToAssign.RoleDefinitionBindings.Add($RoleToAssign)
-    
-    # set role to spweb
-    if($SPweb.HasUniqueRoleAssignments){
-        $SPweb.RoleAssignments.Add($SPGroupToAssign)
-    }
+	$SPRoleAssignment = new-object Microsoft.SharePoint.SPRoleAssignment($SPGroup)
+	$SPRoleAssignment.RoleDefinitionBindings.Add($SPRole)
+
             
 	# set role for subwebs
-	if($Recursive){
+	if($Recursive){# recursive
     
-        foreach($SPSubweb in $SPweb.webs){
-    		
-    		# only if not inherited
-    		if($SPSubweb.HasUniqueRoleAssignments){
-    		
-    			# assign role
-    			$SPSubweb.RoleAssignments.Add($SPGroupToAssign)
+        $SPWebs = Get-SPWebs -Url $SPweb.Url
+        
+        # set spwebs permission
+        foreach($SPWeb in $SPWebs){
+        
+            if($SPWeb.HasUniqueRoleAssignments){
+    			$SPWeb.RoleAssignments.Add($SPRoleAssignment)
     		}
-    		
-    		# sub web lists
-    		foreach($SPSubweblist in $SPSubweb.lists){
-    		
-    			 # only if not inherited
-    			if($SPSubweblist.HasUniqueRoleAssignments){
-    			
-    				# assing role
-    				$SPSubweblist.RoleAssignments.Add($SPGroupToAssign)
-    			}
-    		}
+            
+            # set splist permissions
+            if($IncludeLists){
+                
+                # get lists of the websites
+                $SPLists = Get-SPLists -Url $SPWeb.Url
+                
+                foreach($SPList in $SPLists){
+                
+                    if($SPList.HasUniqueRoleAssignments){    			
+        				$SPList.RoleAssignments.Add($SPRoleAssignment)
+        			}                
+                }            
+            }        
+        }       
+    }else{# not recursive
+     
+        # set spweb permission
+        if($SPweb.HasUniqueRoleAssignments){
+            $SPweb.RoleAssignments.Add($SPRoleAssignment)
         }
-	}
+
+        # set splist permissions
+        if($IncludeLists){
+            
+            # get lists of the websites
+            $SPLists = Get-SPLists -Url $SPWeb.Url
+            
+            foreach($SPList in $SPLists){
+            
+                if($SPList.HasUniqueRoleAssignments){    			
+                    $SPList.RoleAssignments.Add($SPRoleAssignment)
+                }                
+            }            
+        }  
+    }
 }
