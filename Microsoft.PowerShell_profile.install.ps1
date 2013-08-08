@@ -293,7 +293,7 @@ nal -Name pssftp -Value "Connect-FTPSession"
 #--------------------------------------------------#
 # Transcript Logging
 #--------------------------------------------------#	
-Start-Transcript -path ($PSlogs.Path + "\PowerShell Session " + $(Get-LogStamp) + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt")
+Start-Transcript -path ($PSlogs.Path + "\PowerShell Session " + $((get-date -format o) -replace ":","-") + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt")
 Write-Host ""
 
 '@

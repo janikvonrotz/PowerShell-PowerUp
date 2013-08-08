@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-06-09"
-	LastEditDate = "2013-06-09"
-	Version = "1.0.0"
+	LastEditDate = "2013-08-08"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -89,7 +89,7 @@ function Export-SPLists{
         Write-Progress -Activity "Export SharePoint list" -status $FileName -percentComplete ([int]([array]::IndexOf($Urls, $UrlItem)/$Urls.Count*100))
 		        
         # create export file
-        $FilePath = Join-Path -Path $Path -ChildPath ( $FileName + "#" + $(Get-Logstamp))
+        $FilePath = Join-Path -Path $Path -ChildPath ( $FileName + "#" + $((get-date -format o) -replace ":","-") + ".bak")
         
 		Export-SPWeb -Identity $SPWeb.Url -ItemUrl $ListUrl.LocalPath -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
 

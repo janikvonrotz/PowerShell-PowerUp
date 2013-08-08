@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-06-14"
-	LastEditDate = "2013-06-26"
-	Version = "1.0.1"
+	LastEditDate = "2013-08-08"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -74,7 +74,7 @@ function Backup-AllSPLists{
 
                 if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
 
-                $FileName = $SPList.Title + "#" + $(Get-LogStamp) + ".bak"
+                $FileName = $SPList.Title + "#" + $((get-date -format o) -replace ":","-") + ".bak"
                 $FilePath = Join-Path -Path $BackupPath -ChildPath $FileName
                 
                 Export-SPWeb -Identity $SPList.ParentWeb.Url -ItemUrl $SPList.RootFolder.ServerRelativeUrl -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000

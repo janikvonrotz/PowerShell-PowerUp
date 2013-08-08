@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-06-17"
-	LastEditDate = "2013-07-09"
-	Version = "1.1.0"
+	LastEditDate = "2013-08-08"
+	Version = "1.2.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -85,7 +85,7 @@ function Backup-AllSPSites{
         if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
 
         # set full path to backup file
-		$FileName = $Name + $(if($AddTimeStamp){"#" + $(Get-LogStamp)}) + ".bak"
+		$FileName = $Name + $(if($AddTimeStamp){"#" +$((get-date -format o) -replace ":","-")}) + ".bak"
 		$FilePath = Join-Path -Path $BackupPath -ChildPath $FileName
 
 		 Write-host "Backup SharePoint Site: "$Name
