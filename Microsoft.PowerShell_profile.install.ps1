@@ -272,12 +272,12 @@ foreach ($IncludeFolder in $IncludeFolders){
 #--------------------------------------------------#
 # Custom Aliases
 #--------------------------------------------------#	
-nal -Name rdp -Value "Connect-RDPSession"
-nal -Name rps -Value "Connect-PSSession"
-nal -Name http -Value "Connect-HttpSession"
-nal -Name psssh -Value "Connect-SSHSession"
-nal -Name psscp -Value "Connect-SCPSession"
-nal -Name pssftp -Value "Connect-FTPSession"
+nal -Name crdp -Value "Connect-RDPSession"
+nal -Name crps -Value "Connect-PSSession"
+nal -Name chttp -Value "Connect-HttpSession"
+nal -Name cssh -Value "Connect-SSHSession"
+nal -Name cscp -Value "Connect-SCPSession"
+nal -Name cftp -Value "Connect-FTPSession"
 
 '@
 }
