@@ -272,12 +272,12 @@ foreach ($IncludeFolder in $IncludeFolders){
 #--------------------------------------------------#
 # Custom Aliases
 #--------------------------------------------------#	
-nal -Name crdp -Value "Connect-RDPSession -ErrorAction SilentlyContinue"
-nal -Name crps -Value "Connect-PSSession -ErrorAction SilentlyContinue"
-nal -Name chttp -Value "Connect-HttpSession -ErrorAction SilentlyContinue"
-nal -Name cssh -Value "Connect-SSHSession -ErrorAction SilentlyContinue"
-nal -Name cscp -Value "Connect-SCPSession -ErrorAction SilentlyContinue"
-nal -Name cftp -Value "Connect-FTPSession -ErrorAction SilentlyContinue"
+nal -Name crdp -Value "Connect-RDPSession" -ErrorAction SilentlyContinue
+nal -Name crps -Value "Connect-PSSession" -ErrorAction SilentlyContinue
+nal -Name chttp -Value "Connect-HttpSession" -ErrorAction SilentlyContinue
+nal -Name cssh -Value "Connect-SSHSession" -ErrorAction SilentlyContinue
+nal -Name cscp -Value "Connect-SCPSession" -ErrorAction SilentlyContinue
+nal -Name cftp -Value "Connect-FTPSession" -ErrorAction SilentlyContinue
 
 '@
 }
