@@ -7,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-03-18"
-	LastEditDate = "2013-06-12"
-	Version = "5.0.0"
+	LastEditDate = "2013-08-13"
+	Version = "5.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -174,8 +174,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-22"
-	LastEditDate = "2013-06-12"
-	Version = "4.0.0"
+	LastEditDate = "2013-08-13"
+	Version = "4.1.0"
 	License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
 
@@ -193,8 +193,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-22"
-	LastEditDate = "2013-06-12"
-	Version = "4.0.0"
+	LastEditDate = "2013-08-13"
+	Version = "4.1.0"
 	License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
 
@@ -272,12 +272,12 @@ foreach ($IncludeFolder in $IncludeFolders){
 #--------------------------------------------------#
 # Custom Aliases
 #--------------------------------------------------#	
-nal -Name crdp -Value "Connect-RDPSession"
-nal -Name crps -Value "Connect-PSSession"
-nal -Name chttp -Value "Connect-HttpSession"
-nal -Name cssh -Value "Connect-SSHSession"
-nal -Name cscp -Value "Connect-SCPSession"
-nal -Name cftp -Value "Connect-FTPSession"
+nal -Name crdp -Value "Connect-RDPSession -ErrorAction SilentlyContinue"
+nal -Name crps -Value "Connect-PSSession -ErrorAction SilentlyContinue"
+nal -Name chttp -Value "Connect-HttpSession -ErrorAction SilentlyContinue"
+nal -Name cssh -Value "Connect-SSHSession -ErrorAction SilentlyContinue"
+nal -Name cscp -Value "Connect-SCPSession -ErrorAction SilentlyContinue"
+nal -Name cftp -Value "Connect-FTPSession -ErrorAction SilentlyContinue"
 
 '@
 }

@@ -66,21 +66,20 @@ function Export-JrSPWeb{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-    
-    # get url
-    [Uri]$SPWebUrl = $Url
-    
+        
     # extract spweb url
-    $SPWebUrl = $SPWebUrl.ToString().TrimEnd("/SitePages/Homepage.aspx")
+    $SPWebUrl = $(Get-CleanSPUrl -Url $Url).WebUrl
     
     # get spweb object
     $SPWeb = Get-SPWeb -Identity $SPWebUrl.OriginalString
+    
+    $Template = $SPWeb.WebTemplate + "#" + $SPWeb.WebTemplateID
     
     # check the backup folder    
     if(!(Test-Path -path $Path)){New-Item $Path -Type Directory}
     
     # create the backup filename
-    $FileName = $SPWeb.Title + $(if($AddTimeStamp){"#" + $(Get-LogStamp)}) + ".bak"
+    $FileName = $SPWeb.Title + $(if($AddTimeStamp){"#" + $((get-date -format o) -replace ":","-")}) + ".bak"
     
     # create the backup filepath
     $FilePath = Join-Path $Path -ChildPath $FileName
@@ -88,6 +87,7 @@ function Export-JrSPWeb{
     # export spweb
     Export-SPWeb -Identity $SPWeb.Url -Path $FilePath -Force -IncludeUserSecurity -IncludeVersions all -NoFileCompression -NoLogFile
 
-    # finisher
-    Write-Host "Finished" -ForegroundColor Green
+    # write output
+    @{BackupFile = $FilePath;Template = $Template}
+    
 }

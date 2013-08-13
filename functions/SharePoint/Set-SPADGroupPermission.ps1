@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-05-17"
-	LastEditDate = "2013-08-07"
-	Version = "3.0.0"
+	LastEditDate = "2013-08-13"
+	Version = "3.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -22,7 +22,7 @@ function Set-SPADGroupPermission{
 
 <#
 .SYNOPSIS
-	Assign active directory group permission to a sharepoint website
+	Assign active directory group permission to a sharepoint website.
 
 .DESCRIPTION
 	Assigns a active directory group with a specific role to a certain sharepoint website and if wished also to their child items.
@@ -30,20 +30,23 @@ function Set-SPADGroupPermission{
 	How to get the role ID: https://gist.github.com/janikvonrotz/5617921
 
 .PARAMETER  Url
-	SharePoint website url
+	SharePoint website url.
 
 .PARAMETER  ADGroup
-	ActiveDirectory group
+	ActiveDirectory group.
 	
 .PARAMETER  RoleID
-	Role ID
+	Role ID.
     
 .PARAMETER Recursive
-    Include SharePoint sube websites
+    Include SharePoint sube websites.
     
 .PARAMETER IncludeLists
-    Also set the permission for the list of the website
-	
+    Also set the permission for the list of the website.
+    
+.PARAMETER Overwrite
+    Overwrite existing permissions by this group.
+    	
 .EXAMPLE
 	Assign-ADGroupPermissionRole -Url "http://sharepoint.domain.ch/Projekte/SitePages/Homepage.aspx" -ADGroup "VBL\SP_Projekte#Superuser" -RoleToAssignID "1073741828" -Recursive
 
@@ -63,7 +66,9 @@ function Set-SPADGroupPermission{
         
         [switch]$Recursive,
         
-        [switch]$IncludeLists
+        [switch]$IncludeLists,
+        
+        [switch]$Overwrite
 	)
 
 	#--------------------------------------------------#
@@ -77,12 +82,9 @@ function Set-SPADGroupPermission{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-
-    # get url
-    [Uri]$SPWebUrl = $Url
     
     # extract spweb url
-    $SPWebUrl = $SPWebUrl.ToString() -replace "/SitePages/Homepage.aspx", "" -replace "/default.aspx",""
+    $SPWebUrl = $(Get-CleanSPUrl -Url $Url).WebUrl
     
     # get spsite object
     $SPSite =  Get-SPSite ($SPWebUrl.Scheme + "://" + $SPWebUrl.Host)
@@ -114,7 +116,12 @@ function Set-SPADGroupPermission{
         # set spwebs permission
         foreach($SPWeb in $SPWebs){
         
+            Write-Progress -Activity "Update role assignment for $ADGroup" -status $SPWeb.title -percentComplete ([int]([array]::IndexOf(([array]$SPWebs), $SPWeb)/([array]$SPWebs).count*100))
+        
             if($SPWeb.HasUniqueRoleAssignments){
+                if($OverWrite){
+                    $SPweb.RoleAssignments.Remove($SPGroup)
+                }
     			$SPWeb.RoleAssignments.Add($SPRoleAssignment)
     		}
             
@@ -125,20 +132,25 @@ function Set-SPADGroupPermission{
                 $SPLists = Get-SPLists -Url $SPWeb.Url
                 
                 foreach($SPList in $SPLists){
-                
-                    if($SPList.HasUniqueRoleAssignments){    			
+                    if($SPList.HasUniqueRoleAssignments){ 
+                        if($OverWrite){
+                            $SPList.RoleAssignments.Remove($SPGroup)
+                        }   			
         				$SPList.RoleAssignments.Add($SPRoleAssignment)
-        			}                
+        			}                                     
                 }            
             }        
         }       
     }else{# not recursive
      
         # set spweb permission
-        if($SPweb.HasUniqueRoleAssignments){
-            $SPweb.RoleAssignments.Add($SPRoleAssignment)
-        }
-
+        if($SPWeb.HasUniqueRoleAssignments){
+            if($OverWrite){
+                $SPweb.RoleAssignments.Remove($SPGroup)
+            }
+			$SPWeb.RoleAssignments.Add($SPRoleAssignment)
+		}
+            
         # set splist permissions
         if($IncludeLists){
             
@@ -146,11 +158,13 @@ function Set-SPADGroupPermission{
             $SPLists = Get-SPLists -Url $SPWeb.Url
             
             foreach($SPList in $SPLists){
-            
-                if($SPList.HasUniqueRoleAssignments){    			
-                    $SPList.RoleAssignments.Add($SPRoleAssignment)
-                }                
+                if($SPList.HasUniqueRoleAssignments){ 
+                    if($OverWrite){
+                        $SPList.RoleAssignments.Remove($SPGroup)
+                    }   			
+    				$SPList.RoleAssignments.Add($SPRoleAssignment)
+    			}                                     
             }            
-        }  
+        }
     }
 }

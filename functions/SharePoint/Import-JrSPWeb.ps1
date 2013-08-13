@@ -25,10 +25,10 @@ function Import-JrSPWeb{
 	Import a SharePoint website.
 
 .DESCRIPTION
-	Imort a SharePoint website. Destination must exist, also it will be overwritten.
+	Imort a SharePoint website into an existing website or a new one (requires Template parameter).
 
-.PARAMETER Identity
-	Url of the SharePoint website to overwrite.
+.PARAMETER Url
+	Url of the SharePoint website to overwrite or create.
 	
 .PARAMETER  Path
 	Path to the backup file.
@@ -37,7 +37,7 @@ function Import-JrSPWeb{
 	SharePoint website template, default is "STS#0".
     
 .EXAMPLE
-	PS C:\> Import-JrSPWeb -Identity http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx -Path C:\Backup\SharePoint Superuser#2013-07-04 11-09-47.bak -Template "STS#1"
+	PS C:\> Import-JrSPWeb -Url http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx -Path C:\Backup\SharePoint Superuser#2013-07-04 11-09-47.bak -Template "STS#1"
 
 #>
 
@@ -45,19 +45,16 @@ function Import-JrSPWeb{
 	param(
 		[Parameter(Mandatory=$true)]
 		[String]
-		$Identity,
+		$Url,
 		
 		[Parameter(Mandatory=$true)]
 		[String]
-		$Path
-        
-   		<#
-        
-		[Parameter(Mandatory=$true)]
+		$Path,
+                
+		[Parameter(Mandatory=$false)]
 		[String]
 		$Template = "STS#0"
-        
-        #>      
+             
 	)
 	
 	#--------------------------------------------------#
@@ -71,31 +68,22 @@ function Import-JrSPWeb{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-    
-    # get url
-    [Uri]$SPWebUrl = $Identity
-    
+        
     # extract spweb url
-    $SPWebUrl = $SPWebUrl.ToString() -replace "/SitePages/Homepage.aspx", "" -replace "/default.aspx",""
+    $SPWebUrl = $(Get-CleanSPUrl -Url $Url).WebUrl
     
-    # clean up error var
-    $error.Clear()
-
     # get spweb object
     $SPWeb = Get-SPWeb -Identity $SPWebUrl.OriginalString -ErrorAction SilentlyContinue
     
-    # if destination not exists
+    # if destination exists
     if(!$Error[0].FullyQualifiedErrorId -eq "Microsoft.SharePoint.PowerShell.SPCmdletGetWeb"){
     
         # import spweb
         Import-SPWeb $SPWeb.Url -Path $Path  -UpdateVersions Overwrite -Force -IncludeUserSecurity -NoFileCompression -NoLogFile -Confirm
-        
-    }else{
     
-        throw "Identity or url does not exist."
-        
-        <#
-        
+    # if destination not exists
+    }else{
+                    
         # create a new site
         New-SPWeb ($SPWebUrl.OriginalString) -Template $Template
                 
@@ -106,6 +94,7 @@ function Import-JrSPWeb{
         # delete list items on new site
         foreach ($SPList in $SPWeb.lists){
             $SPList.AllowDeletion = $true
+            $SPList.delete()
             $SPList.Update() 
         }
                 
