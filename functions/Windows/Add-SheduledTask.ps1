@@ -86,7 +86,7 @@ function Add-SheduledTask{
 <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
     <Date>2013-03-20T14:18:21.6393172</Date>
-    <Author>Janik von Rotz (www.janikvonrotz.ch)</Author>
+    <Author>Janik von Rotz (http://janikvonrotz.ch)</Author>
   </RegistrationInfo>
   <Triggers>
     <CalendarTrigger>
