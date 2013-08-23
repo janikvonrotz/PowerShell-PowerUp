@@ -54,7 +54,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
     # check ListAvailable-parameter
     if($ListAvailable -and $Names -eq $null){
 		try{
-			$ServerConfigs | Out-Gridview
+			$ServerConfigs
 		}catch{
 			$error[0]
 			$ServerConfigs | format-table

@@ -1,7 +1,7 @@
 <#
 $Metadata = @{
 	Title = "Send PowerShell Profile Error Report"
-	Filename = "Send-PPErrorReport"
+	Filename = "Send-PPErrorReport.ps1"
 	Description = "Sends a default error Report based on the PowerShell Profile configurations."
 	Tags = "powershell, profile, error, report"
 	Project = ""
