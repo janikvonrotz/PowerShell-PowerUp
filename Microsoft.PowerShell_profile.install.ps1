@@ -1,15 +1,15 @@
 $Metadata = @{
-	Title = "Profile Installation"
-	Filename = "Microsoft.PowerShell_profile.install.ps1"
-	Description = ""
-	Tags = "powershell, profile, installation"
-	Project = ""
-	Author = "Janik von Rotz"
-	AuthorContact = "www.janikvonrotz.ch"
-	CreateDate = "2013-03-18"
-	LastEditDate = "2013-08-13"
-	Version = "5.1.0"
-	License = @'
+Title = "Profile Installation"
+Filename = "Microsoft.PowerShell_profile.install.ps1"
+Description = ""
+Tags = "powershell, profile, installation"
+Project = ""
+Author = "Janik von Rotz"
+AuthorContact = "www.janikvonrotz.ch"
+CreateDate = "2013-03-18"
+LastEditDate = "2013-08-29"
+Version = "5.2.0"
+License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
@@ -20,189 +20,177 @@ if($Host.Version.Major -lt 2){
     throw "Only compatible with Powershell version 2 and higher"
 }else{
 
-    #--------------------------------------------------#
-    #  Settings
-    #--------------------------------------------------#
+#--------------------------------------------------#
+#  Settings
+#--------------------------------------------------#
     
-    [string]$WorkingPath = Get-Location
+[string]$WorkingPath = Get-Location
     
-    # resets
-    $Features = @()
-    $Systemvariables = @()
-    $RegistryEntrys =@()
+# resets
+$Features = @()
+$Systemvariables = @()
+$RegistryEntrys =@()
     
-    # load global configurations
-    .\Microsoft.PowerShell_profile.config.ps1
+# load global configurations
+.\Microsoft.PowerShell_profile.config.ps1
 
-    #--------------------------------------------------#
-    #  include modules
-    #--------------------------------------------------#
+#--------------------------------------------------#
+#  include modules
+#--------------------------------------------------#
     
-	$env:PSModulePath += ";"+ ($PSmodules.Path)
-	Import-Module Pscx
+$env:PSModulePath += ";"+ ($PSmodules.Path)
+Import-Module Pscx
     	
-	#--------------------------------------------------#
-	# autoinclude functions
-	#--------------------------------------------------#
+#--------------------------------------------------#
+# autoinclude functions
+#--------------------------------------------------#
     
-    $IncludeFolders = @()
-    $IncludeFolders += $PSfunctions.Path
-    $IncludeFolders += get-childitem ($PSfunctions.Path) -Recurse | where{$_.PSIsContainer} | foreach {$_.Fullname}
-    foreach ($IncludeFolder in $IncludeFolders){
-	    Set-Location $IncludeFolder
-	    get-childitem $IncludeFolder | where{ ! $_.PSIsContainer} | foreach {. .\$_}
-    }
-	Set-Location $WorkingPath
+$IncludeFolders = @()
+$IncludeFolders += $PSfunctions.Path
+$IncludeFolders += get-childitem ($PSfunctions.Path) -Recurse | where{$_.PSIsContainer} | foreach {$_.Fullname}
+foreach ($IncludeFolder in $IncludeFolders){
+	Set-Location $IncludeFolder
+	get-childitem $IncludeFolder | where{ ! $_.PSIsContainer} | foreach {. .\$_}
+}
+Set-Location $WorkingPath
     
-	#--------------------------------------------------#
-    # system settings
-    #--------------------------------------------------#
+#--------------------------------------------------#
+# system settings
+#--------------------------------------------------#
     
-    # Add module path to the system variables
-    Write-Host ("Adding PSModulePath: " + $PSmodules.Path)
-    Add-PathVariable -Value $PSmodules.Path -Name PSModulePath -Target Machine
+# Add module path to the system variables
+Write-Host ("Adding PSModulePath: " + $PSmodules.Path)
+Add-PathVariable -Value $PSmodules.Path -Name PSModulePath -Target Machine
     
-	# load configuration files
-    $ConfigFiles = Get-ChildItem -Path $PSconfigs.Path -Filter "*.profile.config.*" -Recurse
+# load configuration files
+$ConfigFiles = Get-ChildItem -Path $PSconfigs.Path -Filter "*.profile.config.*" -Recurse
     
-    # merge configurations files content
-    foreach($ConfigFile in $ConfigFiles){
-        Write-Host ("Loading configurations from " + $ConfigFile.Name)
-        [xml]$Content  = Get-Content $ConfigFile.Fullname
-        $Features += $Content.Content.Feature
-        $Systemvariables += $Content.Content.Systemvariable
-        $RegistryEntrys += $Content.Content.RegistryEntry
-    }
-      
-    #--------------------------------------------------#
-    # add registry keys
-    #--------------------------------------------------#
-    
-    foreach ($RegistryEntry in $RegistryEntrys)
-    {
-		Write-Host ("Adding registry entry: " + $RegistryEntry.Name)
-	    Set-ItemProperty -Path $RegistryEntry.Path -Name $RegistryEntry.Name -Value $RegistryEntry.Value
-    }
+# merge configurations files content
+foreach($ConfigFile in $ConfigFiles){
+    Write-Host ("Loading configurations from " + $ConfigFile.Name)
+    [xml]$Content  = Get-Content $ConfigFile.Fullname
+    $Features += $Content.Content.Feature
+    $Systemvariables += $Content.Content.Systemvariable
+    $RegistryEntrys += $Content.Content.RegistryEntry
+}
 
-    #--------------------------------------------------#
-    # add system variables
-    #--------------------------------------------------#
+#--------------------------------------------------#
+# add system variables
+#--------------------------------------------------#
     
-    foreach ($SystemVariable in $SystemVariables){
+foreach ($SystemVariable in $SystemVariables){
         
-        Write-Host ("Adding path variable: " + $SystemVariable.Value)
+    Write-Host ("Adding path variable: " + $SystemVariable.Value)
         
-        if($SystemVariable.RelativePath -eq "true"){
+    if($SystemVariable.RelativePath -eq "true"){
         
-            #Gets the static path from a relative path
-            $StaticPath = Convert-Path -Path (Join-Path -Path $(Get-Location).Path -Childpath $SystemVariable.Value)
+        #Gets the static path from a relative path
+        $StaticPath = Convert-Path -Path (Join-Path -Path $(Get-Location).Path -Childpath $SystemVariable.Value)
 
-            Add-PathVariable -Value $StaticPath -Name $SystemVariable.Name -Target $SystemVariable.Target
+        Add-PathVariable -Value $StaticPath -Name $SystemVariable.Name -Target $SystemVariable.Target
             
-        }else{            
-            $StaticPath = Invoke-Expression ($Command = '"' + $SystemVariable.Value + '"')
+    }else{            
+        $StaticPath = Invoke-Expression ($Command = '"' + $SystemVariable.Value + '"')
             
-            Add-PathVariable -Value $StaticPath -Name $SystemVariable.Name -Target $SystemVariable.Target
-        }
-
+        Add-PathVariable -Value $StaticPath -Name $SystemVariable.Name -Target $SystemVariable.Target
     }
 
-	
-	
-	#--------------------------------------------------#
-	# Features
-	#--------------------------------------------------#
+}
+    	
+#--------------------------------------------------#
+# Features
+#--------------------------------------------------#
     
-    #resets
-	$PSContent = ""
-    $PSContentISE = ""
-    $PSContentISEArray = ""
-     
-	#--------------------------------------------------#
-	# Git Update Task
-	#--------------------------------------------------#
-	if($Features | Where-Object {$_.Name -eq 'Git Update Task'}){	
-    			
-		$PathToScript = Get-ChildItem -Path $PSconfigs.Path -Filter "Git-Update.ps1" -Recurse
-		Add-SheduledTask -Title "Git Update Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments $PathToScript.Fullname -WorkingDirectory $WorkingPath -XMLFilename "GitUpdateTask"
-	}
-    
-	#--------------------------------------------------#
-	# Powershell Remoting
-	#--------------------------------------------------# 
-	if($Features | Where-Object {$_.Name -eq "Powershell Remoting"}){
-    
-        Write-Host "Enabling Powershell Remoting"
-		Enable-PSRemoting
-		Set-Item WSMan:\localhost\Client\TrustedHosts "RemoteComputer" -Force
-		Set-Item WSMan:\localhost\Shell\MaxMemoryPerShellMB 1024
-		restart-Service WinRM		
-	}
-
-	#--------------------------------------------------#
-	# Enable Open Powershell here
-	#--------------------------------------------------#  
-	if($Features | Where-Object {$_.Name -eq "Enable Open Powershell here"}){
-    
-        Write-Host "Adding 'Open PowerShell Here' to context menu "
-		$Null = Enable-OpenPowerShellHere
-		
-	}
+#resets
+$PSContent = ""
+$PSContentISE = ""
+$PSContentISEArray = ""
  
- 	#--------------------------------------------------#
-	# Path System Variable For App Subfolders
-	#--------------------------------------------------#     
-	if($Features | Where-Object {$_.Name -eq "Path System Variable For App Subfolders"}){
+# Metadata
+$PSContent += @'
     
-        $SystemFolders = @(Get-ChildItem $PSapps.Path -Force | Where {$_.PSIsContainer})
-		$SystemFolders | %{
+$Metadata = @{
+Title = "Powershell Profile"
+Filename = "Microsoft.PowerShell_profile.ps1"
+Description = ""
+Tags = "powershell, profile"
+Project = ""
+Author = "Janik von Rotz"
+AuthorContact = "www.janikvonrotz.ch"
+CreateDate = "2013-04-22"
+LastEditDate = "2013-08-27"
+Version = "4.1.0"
+License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
+}
+
+'@
+    
+# Metadata ISE    
+$PSContentISE += @'
+    
+$Metadata = @{
+Title = "Powershell ISE Profile"
+Filename = "Microsoft.PowerShellISE_profile.ps1"
+Description = ""
+Tags = "powershell, ise, profile"
+Project = ""
+Author = "Janik von Rotz"
+AuthorContact = "www.janikvonrotz.ch"
+CreateDate = "2013-04-22"
+LastEditDate = "2013-08-27"
+Version = "4.1.0"
+License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
+}
+
+'@
+$PSContentISEArray += $PSContentISE
+     
+#--------------------------------------------------#
+# Git Update Task
+#--------------------------------------------------#
+if($Features | Where-Object {$_.Name -eq 'Git Update Task'}){	
+    			
+	$PathToScript = Get-ChildItem -Path $PSconfigs.Path -Filter "Git-Update.ps1" -Recurse
+	Add-SheduledTask -Title "Git Update Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments $PathToScript.Fullname -WorkingDirectory $WorkingPath -XMLFilename "Git-Update.task.config"
+}
+ 
+#--------------------------------------------------#
+# Powershell Remoting
+#--------------------------------------------------# 
+if($Features | Where-Object {$_.Name -eq "Powershell Remoting"}){
+    
+    Write-Host "Enabling Powershell Remoting"
+	Enable-PSRemoting
+	Set-Item WSMan:\localhost\Client\TrustedHosts "RemoteComputer" -Force
+	Set-Item WSMan:\localhost\Shell\MaxMemoryPerShellMB 1024
+	restart-Service WinRM		
+}
+
+#--------------------------------------------------#
+# Enable Open Powershell here
+#--------------------------------------------------#  
+if($Features | Where-Object {$_.Name -eq "Enable Open Powershell here"}){
+    
+    Write-Host "Adding 'Open PowerShell Here' to context menu "
+	$Null = Enable-OpenPowerShellHere
+		
+}
+ 
+#--------------------------------------------------#
+# Path System Variable For App Subfolders
+#--------------------------------------------------#     
+if($Features | Where-Object {$_.Name -eq "Path System Variable For App Subfolders"}){
+    
+    $SystemFolders = @(Get-ChildItem $PSapps.Path -Force | Where {$_.PSIsContainer})
+	$SystemFolders | %{
         
-            Write-Host ("Adding path variable: " + $_.Name)
-            Add-PathVariable -Value $_.Fullname -Name "Path" -Target "Machine"
-        }
-	}
-    
-	# Metadata
-	$PSContent += @'
-    
-$Metadata = @{
-	Title = "Powershell Profile"
-	Filename = "Microsoft.PowerShell_profile.ps1"
-	Description = ""
-	Tags = "powershell, profile"
-	Project = ""
-	Author = "Janik von Rotz"
-	AuthorContact = "www.janikvonrotz.ch"
-	CreateDate = "2013-04-22"
-	LastEditDate = "2013-08-13"
-	Version = "4.1.0"
-	License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
+        Write-Host ("Adding path variable: " + $_.Name)
+        Add-PathVariable -Value $_.Fullname -Name "Path" -Target "Machine"
+    }
 }
 
-'@
-    
-    # Metadata ISE    
-    $PSContentISE += @'
-    
-$Metadata = @{
-	Title = "Powershell ISE Profile"
-	Filename = "Microsoft.PowerShellISE_profile.ps1"
-	Description = ""
-	Tags = "powershell, ise, profile"
-	Project = ""
-	Author = "Janik von Rotz"
-	AuthorContact = "www.janikvonrotz.ch"
-	CreateDate = "2013-04-22"
-	LastEditDate = "2013-08-13"
-	Version = "4.1.0"
-	License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
-}
-
-'@
-    $PSContentISEArray += $PSContentISE
-
-	# Main
-	$PSContent += $PSContentISE = @'
+# Main
+$PSContent += $PSContentISE = @'
 
 #--------------------------------------------------#
 # main
@@ -212,12 +200,12 @@ $ProfilePath = Split-Path $MyInvocation.MyCommand.Definition -parent
 Invoke-Expression ($ProfilePath + "\Microsoft.PowerShell_profile.config.ps1")
 
 '@
-    $PSContentISEArray += $PSContentISE
+$PSContentISEArray += $PSContentISE
 	
-    #--------------------------------------------------#
-	# Custom PowerShell CLI
-	#--------------------------------------------------#  
-	if($Features | Where-Object {$_.Name -eq "Custom PowerShell CLI"}){
+#--------------------------------------------------#
+# Custom PowerShell CLI
+#--------------------------------------------------#  
+if($Features | Where-Object {$_.Name -eq "Custom PowerShell CLI"}){
     Write-Host "Add Custom PowerShell CLI to the profile script"
 	$PSContent += @'
 
@@ -240,10 +228,10 @@ $PromptSettings.MaxPhysicalWindowSize.Height = 50
 '@
 }
 
-    #--------------------------------------------------#
-	# Autoinclude Functions
-	#--------------------------------------------------#  
-	if($Features | Where-Object {$_.Name -eq "Autoinclude Functions"}){
+#--------------------------------------------------#
+# Autoinclude Functions
+#--------------------------------------------------#  
+if($Features | Where-Object {$_.Name -eq "Autoinclude Functions"}){
     Write-Host "Add Autoinclude Functions to the profile script"
 	$PSContent += $PSContentISE = @'
 
@@ -254,18 +242,18 @@ $IncludeFolders = @()
 $IncludeFolders += $PSfunctions.Path
 $IncludeFolders += get-childitem ($PSfunctions.Path) -Recurse | where{$_.PSIsContainer} | foreach {$_.Fullname}
 foreach ($IncludeFolder in $IncludeFolders){
-	Set-Location $IncludeFolder
-	get-childitem $IncludeFolder | where{ ! $_.PSIsContainer} | foreach {. .\$_}
+Set-Location $IncludeFolder
+get-childitem $IncludeFolder | where{ ! $_.PSIsContainer} | foreach {. .\$_}
 }
 
 '@	
 }
-	$PSContentISEArray += $PSContentISE
+$PSContentISEArray += $PSContentISE
     
-    #--------------------------------------------------#
-	# Custom Aliases
-	#--------------------------------------------------# 
-	if($Features | Where-Object {$_.Name -eq "Custom Aliases"}){
+#--------------------------------------------------#
+# Custom Aliases
+#--------------------------------------------------# 
+if($Features | Where-Object {$_.Name -eq "Custom Aliases"}){
     Write-Host "Add Custom Aliases to the profile script"
 	$PSContent += $PSContentISE = @'
 
@@ -281,12 +269,12 @@ nal -Name cftp -Value "Connect-FTPSession" -ErrorAction SilentlyContinue
 
 '@
 }
-    $PSContentISEArray += $PSContentISE
+$PSContentISEArray += $PSContentISE
 	
-    #--------------------------------------------------#
-	# Transcript Logging
-	#--------------------------------------------------# 
-	if($Features | Where-Object {$_.Name -eq "Transcript Logging"}){
+#--------------------------------------------------#
+# Transcript Logging
+#--------------------------------------------------# 
+if($Features | Where-Object {$_.Name -eq "Transcript Logging"}){
     Write-Host "Add Transcript Logging to the profile script"
 	$PSContent += @'
 
@@ -299,10 +287,37 @@ Write-Host ""
 '@
 }
 
-    #--------------------------------------------------#
-	# Get Quote Of The Day
-	#--------------------------------------------------# 
-	if($Features | Where-Object {$_.Name -eq "Get Quote Of The Day"}){
+#--------------------------------------------------#
+# Log File Retention
+#--------------------------------------------------#
+$Features | Where-Object {$_.Name -eq 'Log File Retention'}| %{	
+    	
+    if($_.Run -match "asDailyJob"){
+
+        # add task
+		Add-SheduledTask -Title "Log File Retention Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments $(Get-ChildItem -Path $PSconfigs.Path -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse).FullName -WorkingDirectory $WorkingPath -XMLFilename "Delete-ObsoleteLogFiles.task.config"
+        
+    }
+    if($_.Run -match "withProfileScript"){
+                    
+        Write-Host "Add Log File Retention to the profile script"
+	    $PSContent += @'
+
+#--------------------------------------------------#
+# Log File Retention
+#--------------------------------------------------#	
+& $(Get-ChildItem -Path $PSconfigs.Path -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse).Fullname
+
+'@
+        $PSContentISEArray += $PSContentISE
+    }
+}
+
+
+#--------------------------------------------------#
+# Get Quote Of The Day
+#--------------------------------------------------# 
+if($Features | Where-Object {$_.Name -eq "Get Quote Of The Day"}){
     Write-Host "Add Get Quote Of The Day to the profile script"
 	$PSContent += $PSContentISE = @'
 
@@ -314,10 +329,10 @@ Write-Host ""
 
 '@
 }
-    $PSContentISEArray += $PSContentISE
+$PSContentISEArray += $PSContentISE
 	
-	# Main End
-	$PSContent += $PSContentISE = @'
+# Main End
+$PSContent += $PSContentISE = @'
 
 #--------------------------------------------------#
 # main end
@@ -325,15 +340,15 @@ Write-Host ""
 Set-Location $WorkingPath
 
 '@
-    $PSContentISEArray += $PSContentISE
+$PSContentISEArray += $PSContentISE
     
-    #--------------------------------------------------#
-	# Multi Remote Management
-	#--------------------------------------------------#  
-    if($Features | Where-Object {$_.Name -eq "Multi Remote Management"}){
+#--------------------------------------------------#
+# Multi Remote Management
+#--------------------------------------------------#  
+if($Features | Where-Object {$_.Name -eq "Multi Remote Management"}){
     			
-        # RDP Default file
-        $ContentDefaultRDP = @'
+    # RDP Default file
+    $ContentDefaultRDP = @'
 screen mode id:i:1
 use multimon:i:0
 desktopwidth:i:1600
@@ -377,54 +392,54 @@ promptcredentialonce:i:1
 use redirection server name:i:0
 drivestoredirect:s:
 '@
-        # Write content to config file only if note exist
-		$DefaultRDPFile  = $PSconfigs.Path + "\Default.rdp"
-        if(!(test-path $DefaultRDPFile)){
-            Write-Host "Adding Default RDP file to the config folder"
-			Set-Content -Value $ContentDefaultRDP -Path ($DefaultRDPFile)			
-		}
-    }
+    # Write content to config file only if note exist
+	$DefaultRDPFile  = $PSconfigs.Path + "\Default.rdp"
+    if(!(test-path $DefaultRDPFile)){
+        Write-Host "Adding Default RDP file to the config folder"
+		Set-Content -Value $ContentDefaultRDP -Path ($DefaultRDPFile)			
+	}
+}
 
-	# Write content to script file
-    Write-Host "Creating PowerShell Profile Script"
-    Set-Content -Value $PSContent -Path $PSProfileScript.Name
+# Write content to script file
+Write-Host "Creating PowerShell Profile Script"
+Set-Content -Value $PSContent -Path $PSProfileScript.Name
     
-    #--------------------------------------------------#
-	# Add ISE Profile Script
-	#--------------------------------------------------#
-    if($Features | Where-Object {$_.Name -eq "Add ISE Profile Script"}){
-        Write-Host "Creating PowerShell ISE Profile Script"
-        Set-Content -Value $PSContentISEArray -Path $PSProfileISEScript.Name
-    }
+#--------------------------------------------------#
+# Add ISE Profile Script
+#--------------------------------------------------#
+if($Features | Where-Object {$_.Name -eq "Add ISE Profile Script"}){
+    Write-Host "Creating PowerShell ISE Profile Script"
+    Set-Content -Value $PSContentISEArray -Path $PSProfileISEScript.Name
+}
 	
-	#--------------------------------------------------#
-	# Powershell Profile Link
-	#--------------------------------------------------#
-	# Create Powershell Profile
-	if (!(Test-Path $Profile)){
+#--------------------------------------------------#
+# Powershell Profile Link
+#--------------------------------------------------#
+# Create Powershell Profile
+if (!(Test-Path $Profile)){
 
-        # Create a profile
-        Write-Host "Add a default profile script"
-		New-Item -path $Profile -type file -force
+    # Create a profile
+    Write-Host "Add a default profile script"
+	New-Item -path $Profile -type file -force
 
-	}
+}
 
-	# Link Powershell Profile
-	$SourcePath = Split-Path $profile -parent
-	$ScriptName = $MyInvocation.MyCommand.Name
+# Link Powershell Profile
+$SourcePath = Split-Path $profile -parent
+$ScriptName = $MyInvocation.MyCommand.Name
 
-	if (!(Test-Path ($SourcePath + "\" + $ScriptName) -PathType Leaf))
-	{
-        Write-Host "Redirect Default PowerShell Profile script to custom PowerShell Profile script"
+if (!(Test-Path ($SourcePath + "\" + $ScriptName) -PathType Leaf))
+{
+    Write-Host "Redirect Default PowerShell Profile script to custom PowerShell Profile script"
         
-		# Rename default source
-		Rename-Item $SourcePath ($SourcePath + "-Obsolete")
+	# Rename default source
+	Rename-Item $SourcePath ($SourcePath + "-Obsolete")
  
-		# Create a shortcut to the existing powershell profile
-		New-Symlink $SourcePath $WorkingPath
-	}
+	# Create a shortcut to the existing powershell profile
+	New-Symlink $SourcePath $WorkingPath
+}
 	
-	Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
-	Read-Host "Press Enter to exit"
+Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
+Read-Host "Press Enter to exit"
 
 }
