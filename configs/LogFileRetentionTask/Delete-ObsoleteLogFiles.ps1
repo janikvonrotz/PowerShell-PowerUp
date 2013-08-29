@@ -38,7 +38,7 @@ Get-ChildItem -Path $PSconfigs.Path -Filter "*.profile.config.*" -Recurse |
 
 # get max values
 $Features | %{$Days += $_.Days};$Days = ($Days | Measure-Object -Maximum).Maximum
-$Features | %{$MaxFilesToKeep += $_.Days};$MaxFilesToKeep = ($MaxFilesToKeep | Measure-Object -Maximum).Maximum
+$Features | %{$MaxFilesToKeep += $_.MaxFilesToKeep};$MaxFilesToKeep = ($MaxFilesToKeep | Measure-Object -Maximum).Maximum
 
 if($Days){        
     gci $PSlogs.Path | where{-not $_.PsIsContainer} | sort CreationTime -Descending | where{$_.LastWriteTime -le $(Get-Date).AddDays(-$Days)} | Remove-Item -Force
