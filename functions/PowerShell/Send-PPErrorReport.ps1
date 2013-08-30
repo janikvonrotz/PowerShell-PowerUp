@@ -32,7 +32,7 @@ function Send-PPErrorReport{
 	The name of the PowerShell Profile config file.
 
 .EXAMPLE
-	PS C:\> Send-PPErrorReport -FileName "Office365.mail.config.xml"
+	PS C:\> Send-PPErrorReport -FileName "Office365.mail.config.xml" -ScriptName $MyInvocation.InvocationName
 	
 .NOTE
 	The name of the configuration in the config file has to be "ErrorReport"
@@ -41,7 +41,11 @@ function Send-PPErrorReport{
 	param(
 		[Parameter(Mandatory=$true)]
 		[String]
-		$FileName
+		$FileName,
+
+        [Parameter(Mandatory=$true)]
+		[String]
+		$ScriptName
 	)
 
 	
@@ -66,7 +70,7 @@ function Send-PPErrorReport{
     # prepare for send-mailmessage function
     $From = $MailConfig.FromAddress
     $To = $MailConfig.ReplyToAddress
-    $Subject = $env:COMPUTERNAME + " " + $MyInvocation.InvocationName + " #" + $(get-date -format o)
+    $Subject = $env:COMPUTERNAME + " " + $ScriptName + " #" + $(get-date -format o)
     $SmtpServer = $MailConfig.OutSmtpServer
 
     # send mail
