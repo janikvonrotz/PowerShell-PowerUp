@@ -45,11 +45,11 @@ Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki
 	
 Open your Powershell commandline and enter:
 
-	PS C:\Powershell-Profile> Set-ExecutionPolicy unrestricted
+	PS C:\Powershell-Profile> Set-ExecutionPolicy remotesigned
 	
 Or depending on your windows security restrictions:
 	
-	PS C:\Powershell-Profile> Set-ExecutionPolicy bypass
+	PS C:\Powershell-Profile> Set-ExecutionPolicy unrestricted
 
 At last execute the install script from commad line:
 
