@@ -23,7 +23,7 @@ function Send-PPErrorReport{
 
 <#
 .SYNOPSIS
-    Sends a default error Report based on the PowerShell Profile configurations.
+  Sends a default error Report based on the PowerShell Profile configurations.
 
 .DESCRIPTION
 	Sends a default error Report based on the PowerShell Profile configurations.
@@ -31,10 +31,13 @@ function Send-PPErrorReport{
 .PARAMETER  FileName
 	The name of the PowerShell Profile config file.
 
+.PARAMETER  ScriptName
+	The name of the PowerShell Profile script that throws the error.
+
 .EXAMPLE
 	PS C:\> Send-PPErrorReport -FileName "Office365.mail.config.xml" -ScriptName $MyInvocation.InvocationName
-	
-.NOTE
+
+.NOTES
 	The name of the configuration in the config file has to be "ErrorReport"
 #>
 
