@@ -28,7 +28,7 @@ function Export-SPLists{
 	A set of SharePoint list urls to export. Returns the filepath for each export.
 	
 .PARAMETER  Path
-	Path of the export folder.
+	Provide a path for the temporary backup folder. Optional, default is c:\temp.
     
 .OUTPUTS
 	System.String
@@ -42,9 +42,9 @@ function Export-SPLists{
 		[String[]]
 		$Urls,
 				
-		[Parameter(Mandatory=$true)]
+		[Parameter(Mandatory=$false)]
 		[String]
-		$Path
+		$Path = "C:\temp"
 	)
 
 	#--------------------------------------------------#
