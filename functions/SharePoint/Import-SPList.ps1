@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-26"
-	LastEditDate = "2013-006-19"
-	Version = "1.0.0"
+	LastEditDate = "2013-09-02"
+	Version = "2.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -31,7 +31,7 @@ function Import-SPList{
 	Path to the export file
 
 .EXAMPLE
-	Import-SPlist -Url "http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx" -Path "C:\temp\SharePointExport\List Projektverwaltung 2013-04-26 11-15-26.cmp"
+	Import-SPlist -Url "http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx" -Path "C:\temp\SharePointExport\List Projektverwaltung 2013-04-26 11-15-26.bak"
 #>
 	
 	param(
@@ -55,13 +55,10 @@ function Import-SPList{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-	if($Url -match "/SitePages/Homepage.aspx$"){
-		[Uri]$Url = $Url -replace "/SitePages/Homepage.aspx$",""
-	}else{
-		throw "Invalid url: $Url"
-	}
+	
+    $SPUrl = $(Get-CleanSPUrl -Url $Url).WebUrl
     
-    $Identity = $Url.Scheme + "://" + $Url.Host + $url.LocalPath
+    $Identity = $SPUrl.Scheme + "://" + $SPUrl.Host + $SPUrl.LocalPath
     	
 	Import-SPWeb -Identity $Identity -path $Path -IncludeUserSecurity -nologfile -Force
 
