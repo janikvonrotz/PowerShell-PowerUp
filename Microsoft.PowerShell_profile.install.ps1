@@ -94,7 +94,6 @@ foreach ($SystemVariable in $SystemVariables){
             
         Add-PathVariable -Value $StaticPath -Name $SystemVariable.Name -Target $SystemVariable.Target
     }
-
 }
     	
 #--------------------------------------------------#
