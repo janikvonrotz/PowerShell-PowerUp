@@ -8,9 +8,9 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-08-14"
-	LastEditDate = "2013-08-14"
+	LastEditDate = "2013-09-13"
 	Url = ""
-	Version = "1.0.0"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -56,29 +56,22 @@ function Send-PPErrorReport{
 	# main
 	#--------------------------------------------------#
 	
-
-    # Output existing errors
+    # output existing errors
     $Error
-
-    # Create mail message
+    
+    # reset
     $Body = ""
-    foreach($Fail in $Error){
-        $Body += $Fail.ToString() + $Fail.InvocationInfo.PositionMessage + "`n`n"
-    }
+
+    # create body message
+    $Error | foreach{$Body += $_.ToString() + $_.InvocationInfo.PositionMessage + "`n`n"}
 
     # Get mail receiver from config file
-    [xml]$Config = get-content (Get-ChildItem -Path $PSconfigs.Path -Filter $FileName -Recurse).FullName
-    $MailConfig = ($Config.Content.Mail | where {$_.Name -eq "ErrorReport"})
-
-    # prepare for send-mailmessage function
-    $From = $MailConfig.FromAddress
-    $To = $MailConfig.ReplyToAddress
-    $Subject = $env:COMPUTERNAME + " " + $ScriptName + " #" + $(get-date -format o)
-    $SmtpServer = $MailConfig.OutSmtpServer
+    $Mail = Get-ChildItem -Path $PSconfigs.Path -Filter "*.mail.config.xml" -Recurse | %{[xml]$(get-content $_.FullName)} | %{$_.Content.Mail | where{$_.Name -eq "ErrorReport"}} | select -first 1
 
     # send mail
-    Send-MailMessage -To $To -From $From -Subject $Subject -Body $Body -SmtpServer $SmtpServer
+    Send-MailMessage -To $Mail.ReplyToAddress -From $Mail.FromAddress -Subject ($env:COMPUTERNAME + " " + $ScriptName + " #" + $(get-date -format o)) -Body $Body -SmtpServer $Mail.OutSmtpServer
 
+    # clear error variable
     $error.clear()
 }
 

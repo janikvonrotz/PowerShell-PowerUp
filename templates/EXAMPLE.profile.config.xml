@@ -28,7 +28,7 @@
 	<Feature Name="Path System Variable For App Subfolders"></Feature>
 	<Feature Name="Log File Retention" Days="30" MaxFilesToKeep="100" Run="asDailyJob,withProfileScript"></Feature>
 		
-	<SystemVariable Value="apps\Git\cmd" Name="Path" RelativePath="true" Target="Machine"></SystemVariable>			
-	<SystemVariable Value="apps\Git\bin" Name="Path" RelativePath="true" Target="Machine"></SystemVariable>	
+	<SystemVariable Value="apps\Git\bin" Name="Path" RelativePath="true" Target="Machine"></SystemVariable>									
+	<SystemVariable Value="apps\Git\cmd" Name="Path" RelativePath="true" Target="Machine"></SystemVariable>	
 
 </Content>

@@ -7,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-11"
-	LastEditDate = "2013-08-13"
-	Version = "1.1.0"
+	LastEditDate = "2013-09-13"
+	Version = "2.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -26,10 +26,6 @@ $global:PSlogs = @{
 	Path = Convert-Path($PSProfilePath + "\logs")
 }
 
-$global:PSmodules = @{
-	Path = Convert-Path($PSProfilePath + "\modules")
-}
-
 $global:PSconfigs = @{
 	Path = Convert-Path($PSProfilePath + "\configs")
 }	
@@ -40,14 +36,4 @@ $global:PSscripts = @{
 
 $global:PSapps = @{
 	Path = Convert-Path($PSProfilePath + "\apps")
-}
-
-$global:PSProfileScript = @{
-	Name = "Microsoft.PowerShell_profile.ps1"
-	Path = Convert-Path($PSProfilePath + "\Microsoft.PowerShell_profile.ps1") -ErrorAction SilentlyContinue
-}
-
-$global:PSProfileISEScript = @{
-	Name = "Microsoft.PowerShellISE_profile.ps1"
-	Path = Convert-Path($PSProfilePath + "\Microsoft.PowerShell_profile.ps1") -ErrorAction SilentlyContinue
 }
