@@ -32,7 +32,7 @@
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-04-03"
-		LastEditDate = "2013-04-18"
+		LastEditDate = "2013-09-16"
 		Version = "2.0.0"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -41,7 +41,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 '@
 }
     
-    if ((Get-Command "cmdkey.exe") -and (Get-Command "mstsc.exe")) 
+    if ((Get-Command "cmdkey") -and (Get-Command "mstsc")) 
     { 
 		#--------------------------------------------------#
 		# Settings
@@ -69,7 +69,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 
 
             # Open remote session
-            Invoke-Expression "mstsc.exe '$RDPDefaultFile' /v:$Servername"
+            Invoke-Expression "mstsc '$RDPDefaultFile' /v:$Servername"
 	    }
     }
 }

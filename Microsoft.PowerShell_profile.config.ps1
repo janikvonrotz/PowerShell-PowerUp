@@ -37,3 +37,11 @@ $global:PSscripts = @{
 $global:PSapps = @{
 	Path = Convert-Path($PSProfilePath + "\apps")
 }
+
+$global:PSscripts = @{
+	Path = Convert-Path($PSProfilePath + "\scripts")
+}
+
+$global:PStemplates = @{
+       Path = Convert-Path($PSProfilePath + "\templates")
+} 

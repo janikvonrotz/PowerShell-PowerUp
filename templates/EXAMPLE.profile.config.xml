@@ -28,7 +28,4 @@
 	<Feature Name="Powershell Remoting"></Feature>
 	<Feature Name="Transcript Logging"></Feature>	
 
-	<SystemVariable Value="apps\Git\bin" Name="Path" RelativePath="true" Target="Machine"></SystemVariable>									
-	<SystemVariable Value="apps\Git\cmd" Name="Path" RelativePath="true" Target="Machine"></SystemVariable>	
-
 </Content>

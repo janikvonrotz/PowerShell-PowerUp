@@ -22,7 +22,7 @@
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-04-08"
-		LastEditDate = "2013-05-11"
+		LastEditDate = "2013-09-16"
 		Version = "3.0.0"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.

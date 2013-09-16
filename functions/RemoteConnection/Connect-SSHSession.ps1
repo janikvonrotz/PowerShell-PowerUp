@@ -31,7 +31,7 @@
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-05-13"
-		LastEditDate = "2013-07-26"
+		LastEditDate = "2013-09-16"
 		Version = "1.0.1"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -44,7 +44,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
     #--------------------------------------------------#
     # main
     #--------------------------------------------------#
-    if (Get-Command "putty.exe"){ 
+    if (Get-Command "putty"){ 
     
         # Load Configurations
     	$Config = Get-RemoteConnections -Names $Names

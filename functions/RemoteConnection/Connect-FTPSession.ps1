@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-05-17"
-	LastEditDate = "2013-06-20"
+		LastEditDate = "2013-09-16"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -67,7 +67,7 @@ function Connect-FTPSession{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-	if (Get-Command "winscp.exe"){ 
+	if (Get-Command "winscp"){ 
     
     	# Load Configurations
 		$Server = Get-RemoteConnections -Names $Name -FirstEntry
@@ -136,9 +136,9 @@ function Connect-FTPSession{
         if(!$PrivatKey){$PrivatKey = Invoke-Expression ($Command = '"' + $Server.PrivatKey + '"')}
         
         if($PrivatKey){
-            Invoke-Expression ("WinSCP.exe $Protocol"+"://$User@$Servername"+":$Port"+" /privatekey='$PrivatKey'")
+            Invoke-Expression ("WinSCP $Protocol"+"://$User@$Servername"+":$Port"+" /privatekey='$PrivatKey'")
         }else{
-            Invoke-Expression ("WinSCP.exe $Protocol"+"://$User@$Servername"+":$Port")
+            Invoke-Expression ("WinSCP $Protocol"+"://$User@$Servername"+":$Port")
         }
     }
 }

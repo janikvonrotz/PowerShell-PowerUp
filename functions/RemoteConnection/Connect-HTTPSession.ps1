@@ -36,7 +36,7 @@
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-05-07"
-		LastEditDate = "2013-06-12"
+		LastEditDate = "2013-09-16"
 		Version = "2.0.0"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 

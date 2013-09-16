@@ -46,7 +46,7 @@
 		Author = "Janik von Rotz"
 		AuthorContact = "www.janikvonrotz.ch"
 		CreateDate = "2013-05-13"
-		LastEditDate = "2013-06-12"
+		LastEditDate = "2013-09-16"
 		Version = "2.0.0"
 		License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -59,7 +59,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
     #--------------------------------------------------#
     # main
     #--------------------------------------------------#
-   if (Get-Command "winscp.exe"){ 
+   if (Get-Command "winscp"){ 
 
         # Load Configurations
     	$Server = Get-RemoteConnections -Names $Name -FirstEntry
@@ -89,9 +89,9 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
                         
 		#Set Protocol
         if($PrivatKey -eq ""){
-            Invoke-Expression ("WinSCP.exe scp://$User@$Servername" + ":$Port")
+            Invoke-Expression ("WinSCP scp://$User@$Servername" + ":$Port")
         }else{
-            Invoke-Expression ("WinSCP.exe scp://$User@$Servername :$SCPPort" + ":$Port /privatekey='$PrivatKey'" )
+            Invoke-Expression ("WinSCP scp://$User@$Servername :$SCPPort" + ":$Port /privatekey='$PrivatKey'" )
         }
     
     }
