@@ -1,4 +1,4 @@
-if(!(Get-Command "git")){
+if(!(Get-Command "git" -ErrorAction SilentlyContinue)){
 
     cinst git -force
 }

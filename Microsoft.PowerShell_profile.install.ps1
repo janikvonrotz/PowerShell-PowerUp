@@ -48,7 +48,7 @@ $PSProfilePath = (Get-Location).Path
 #--------------------------------------------------#
 
 # install chocolatey
-if(!(Get-Command "cinst")){
+if(!(Get-Command "cinst" -ErrorAction SilentlyContinue)){
 	iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
 }
 
@@ -153,7 +153,7 @@ License = "This work is licensed under the Creative Commons Attribution-NonComme
 #--------------------------------------------------#
 if($Features | Where{$_.Name -eq "Git Update Task"}){	
     
-    if(!(Get-Command "git")){
+    if(!(Get-Command "git" -ErrorAction SilentlyContinue)){
 
         cinst git -force
     }
