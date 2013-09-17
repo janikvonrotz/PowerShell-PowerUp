@@ -22,34 +22,32 @@ function Connect-PSSession{
 
 	param (
         [parameter(Mandatory=$true)]
-		$Names
+		$Names,
+        
+        [parameter(Mandatory=$false)]
+        [System.Management.Automation.Credential()]
+        $Credential = [System.Management.Automation.PSCredential]::Empty
 	)
 	
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-    
-    # Resets
-    $Sessions = @()
-    
+        
     # Load Configurations
-	$Config = Get-RemoteConnections -Names $Names
+	$Servers = Get-RemoteConnections -Names $Names
 	
-	foreach($Server in $Config){
+	foreach($Server in $Servers){
 		
 		# Delete Session if already opened
 		Remove-PSSession -ComputerName $Server.Name -ErrorAction SilentlyContinue
 		
 		# Get connect account credentials
-        if(!$Server.User.Contains("")){
-            $Username = $Server.User
-        }else{
-            $Username = $Server.User
-        }
-		$Credentials = Get-Credential $Username
+        if($Credential.UserName -eq $null){
+            $Credential = Get-Credential $Server.User
+        }		
 
 		# Open Session
-		$s = New-PSSession -Name $Server.Name  -ComputerName $Server.Name -Credential $Credentials
+		$s = New-PSSession -Name $Server.Name  -ComputerName $Server.Name -Credential $Credential
 
 		# Load SnapIns
 		if ($Server.SnapIns -ne ""){
@@ -62,3 +60,4 @@ function Connect-PSSession{
 	}
     $Sessions	
 }
+
