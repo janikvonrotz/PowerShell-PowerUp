@@ -7,7 +7,7 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "www.janikvonrotz.ch"
     CreateDate = "2013-03-18"
-    LastEditDate = "2013-09-16"
+    LastEditDate = "2013-09-17"
     Version = "6.0.0"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -222,8 +222,8 @@ $PSPContent += $Content = @'
 # main
 #--------------------------------------------------#
 Push-Location -StackName "WorkingPath"
-. 
-'@ + (Join-Path -Path $PSProfilePath -ChildPath "Microsoft.PowerShell_profile.config.ps1") + "`n`n"
+. '
+'@ + (Join-Path -Path $PSProfilePath -ChildPath "Microsoft.PowerShell_profile.config.ps1") + "'`n`n"
 
 $PSPContentISE += $Content
 
@@ -345,58 +345,25 @@ $PSPContentISE += $Content
 # Multi Remote Management
 #--------------------------------------------------#  
 if($Features | Where{$_.Name -eq "Multi Remote Management"}){
-    			
-    # RDP Default file
-    $DefaultRDP = @'
-screen mode id:i:1
-use multimon:i:0
-desktopwidth:i:1600
-desktopheight:i:1024
-session bpp:i:32
-winposstr:s:0,1,155,144,1628,1032
-compression:i:1
-keyboardhook:i:2
-audiocapturemode:i:0
-videoplaybackmode:i:1
-connection type:i:2
-displayconnectionbar:i:1
-disable wallpaper:i:1
-allow font smoothing:i:0
-allow desktop composition:i:0
-disable full window drag:i:1
-disable menu anims:i:1
-disable themes:i:0
-disable cursor setting:i:0
-bitmapcachepersistenable:i:1
-full address:s:
-audiomode:i:0
-redirectprinters:i:1
-redirectcomports:i:0
-redirectsmartcards:i:1
-redirectclipboard:i:1
-redirectposdevices:i:0
-redirectdirectx:i:1
-autoreconnection enabled:i:1
-authentication level:i:2
-prompt for credentials:i:1
-negotiate security layer:i:1
-remoteapplicationmode:i:0
-alternate shell:s:
-shell working directory:s:
-gatewayhostname:s:
-gatewayusagemethod:i:4
-gatewaycredentialssource:i:4
-gatewayprofileusagemethod:i:0
-promptcredentialonce:i:1
-use redirection server name:i:0
-drivestoredirect:s:
-'@
-    # Write content to config file only if note exist
-	$DefaultRDPFilePath  = Join-Path -Path $PSconfigs.Path -ChildPath "Default.rdp"
-    if(!(test-path $DefaultRDPFilePath)){
-        Write-Host "Adding Default RDP file to the config folder"
-		Set-Content -Value $DefaultRDP -Path $DefaultRDPFilePath
+   
+    $RDPTemplate = $(Get-ChildItem -Path $PStemplates.Path -Filter "Default.rdp" -Recurse).FullName    
+	$RDPConfig  = Join-Path -Path $PSconfigs.Path -ChildPath "Default.rdp"
+    
+    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter "Default.rdp" -Recurse)){
+    
+        Write-Host "Copy default rdp config file to the config folder"        
+		Copy-Item -Path $RDPTemplate -Destination $RDPConfig
+	}   
+
+    $WinSCPTemplate = $(Get-ChildItem -Path $PStemplates.Path -Filter "WinSCP.ini" -Recurse).FullName    
+	$WinSCConfig  = Join-Path -Path $PSconfigs.Path -ChildPath "WinSCP.ini"
+    
+    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter "WinSCP.ini" -Recurse)){
+    
+        Write-Host "Copy default rdp config file to the config folder"        
+		Copy-Item -Path $WinSCPTemplate -Destination $WinSCConfig
 	}
+    
 }
 
 # Write content to script file

@@ -1,18 +1,38 @@
-﻿function Connect-SSHSession{
-    <#
-	    .SYNOPSIS
-		    Remote management for ssh sessions
+﻿<#
+$Metadata = @{
+	Title = "Connect SSH Session"
+	Filename = "Connect-SSHSession"
+	Description = ""
+	Tags = "powershell, remote, session, ssh"
+	Project = ""
+	Author = "Janik von Rotz"
+	AuthorContact = "www.janikvonrotz.ch"
+	CreateDate = "2013-05-17"
+	LastEditDate = "2013-09-17"
+	Version = "2.0.0"
+	License = @'
+This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
+send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+'@
+}
+#>
 
-	    .DESCRIPTION
-		    Starts a ssh session with the parameters from the remote config file.
+function Connect-SSHSession{
 
-	    .PARAMETER  Names
-		    Server names from the remote config file
+<#
+.SYNOPSIS
+    Remote management for ssh sessions
 
-	    .EXAMPLE
-		   Connect-SSHSession -Names firewall
+.DESCRIPTION
+    Starts a ssh session with the parameters from the remote config file.
 
-    #>
+.PARAMETER  Names
+    Server names from the remote config file
+
+.EXAMPLE
+    Connect-SSHSession -Names firewall
+#>
 
 	#--------------------------------------------------#
 	# Parameter
@@ -21,24 +41,6 @@
         [parameter(Mandatory=$true)][string[]]
 		$Names
 	)
-
-	$Metadata = @{
-		Title = "Connect SSH Session"
-		Filename = "Connect-SSHSession.ps1"
-		Description = ""
-		Tags = "powershell, remote, session, ssh"
-		Project = ""
-		Author = "Janik von Rotz"
-		AuthorContact = "www.janikvonrotz.ch"
-		CreateDate = "2013-05-13"
-		LastEditDate = "2013-09-16"
-		Version = "1.0.1"
-		License = @'
-This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
-To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
-send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
-'@
-}
 
 
     #--------------------------------------------------#

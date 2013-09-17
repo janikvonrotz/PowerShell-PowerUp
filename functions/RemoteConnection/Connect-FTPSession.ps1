@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-05-17"
-		LastEditDate = "2013-09-16"
-	Version = "1.0.0"
+		LastEditDate = "2013-09-17"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -67,10 +67,12 @@ function Connect-FTPSession{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
+    
 	if (Get-Command "winscp"){ 
     
     	# Load Configurations
 		$Server = Get-RemoteConnections -Names $Name -FirstEntry
+        $IniFile = $(Get-ChildItem -Path $PSconfigs.Path -Filter "winscp.ini" -Recurse).FullName
         
         # default settings
         $SftpPort = 22
@@ -136,9 +138,9 @@ function Connect-FTPSession{
         if(!$PrivatKey){$PrivatKey = Invoke-Expression ($Command = '"' + $Server.PrivatKey + '"')}
         
         if($PrivatKey){
-            Invoke-Expression ("WinSCP $Protocol"+"://$User@$Servername"+":$Port"+" /privatekey='$PrivatKey'")
+            Invoke-Expression ("WinSCP $Protocol"+"://$User@$Servername"+":$Port"+" /privatekey='$PrivatKey'" + " /ini=$IniFile")
         }else{
-            Invoke-Expression ("WinSCP $Protocol"+"://$User@$Servername"+":$Port")
+            Invoke-Expression ("WinSCP $Protocol"+"://$User@$Servername"+":$Port" + " /ini=$IniFile")
         }
     }
 }

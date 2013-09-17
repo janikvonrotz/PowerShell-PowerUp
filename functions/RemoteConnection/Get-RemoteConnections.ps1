@@ -1,4 +1,24 @@
-﻿function Get-RemoteConnections{
+﻿<#
+$Metadata = @{
+    Title = "Get Remote Connections"
+    Filename = "Get-RemoteConnections.ps1"
+    Description = ""
+    Tags = "powershell, function, remote"
+    Project = ""
+    Author = "Janik von Rotz"
+    AuthorContact = "www.janikvonrotz.ch"
+    CreateDate = "2013-04-08"
+    LastEditDate = "2013-09-17"
+    Version = "3.0.0"
+    License = @'
+This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
+send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+'@
+}
+#>
+
+function Get-RemoteConnections{
 
 	#--------------------------------------------------#
 	# Parameter
@@ -12,27 +32,9 @@
         [Switch]
         $ListAvailable
 	)
-
-	$Metadata = @{
-		Title = "Get Remote Connections"
-		Filename = "Get-RemoteConnections.ps1"
-		Description = ""
-		Tags = "powershell, function, remote"
-		Project = ""
-		Author = "Janik von Rotz"
-		AuthorContact = "www.janikvonrotz.ch"
-		CreateDate = "2013-04-08"
-		LastEditDate = "2013-09-16"
-		Version = "3.0.0"
-		License = @'
-This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
-To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
-send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
-'@
-}
 	
 	#--------------------------------------------------#
-	# Main
+	# main
 	#--------------------------------------------------#
     
     # Server configuration collection
