@@ -43,5 +43,11 @@ $global:PSscripts = @{
 }
 
 $global:PStemplates = @{
-       Path = Convert-Path($PSProfilePath + "\templates")
+    Path = Convert-Path($PSProfilePath + "\templates");
+    Mail = "EXAMPLE.mail.config.xml";
+    Profile = "EXAMPLE.profile.config.xml";
+    Remote = "EXAMPLE.remote.config.xml";
+    Task = "EXAMPLE.task.config.xml";
+    RDP = "Default.rdp";
+    WinSCP = "WinSCP.ini"
 } 

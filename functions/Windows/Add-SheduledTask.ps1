@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-05-14"
-	LastEditDate = "2013-08-08"
-	Version = "1.1.0"
+	LastEditDate = "2013-09-19"
+	Version = "2.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -31,19 +31,16 @@ function Add-SheduledTask{
 	Path or name to an executable.
 
 .PARAMETER  Arguments
-	Aditional arguments for the command
+	Aditional arguments for the command.
 
 .PARAMETER  WorkingDirectory
-	Execution directory for the command, default is home path
+	Execution directory for the command, default is home path.
 
 .PARAMETER  XMLFilename
-	Name of the the xml template file
-	
-.PARAMETER	NewXMLFile
-	Add an xml template file
+	Name of the the xml template file from the PowerShell Profile configs folder. If doesn't exist a default file is created.
 	
 .EXAMPLE
-	PS C:\> Add-Task -Title "Windows Task 1" -Command "powershell.exe" -Arguments "C:\PowerShell-Profile\Git-Update.ps1" -WorkingDirectory "C:\PowerShell-Profile" -XMLFilename "Default.task.config" [-NewXMLFile]
+	PS C:\> Add-Task -Title "Windows Task 1" -Command "powershell.exe" -Arguments "C:\PowerShell-Profile\Git-Update.ps1" -WorkingDirectory "C:\PowerShell-Profile" -XMLFilename "Default.task.config"
 
 .NOTES
 	This function depends on the Windows tool "SchTasks.exe".
@@ -69,84 +66,36 @@ function Add-SheduledTask{
 		
 		[Parameter(Mandatory=$true)]
 		[String]
-		$XMLFilename,
-		
-		[switch]
-		$NewXMLFile
+		$XMLFilename
 	)
 	
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-    $XmlFilename = $XMLFilename + ".xml"	
-	
-	if($NewXMLFile){
-		$ContentTaskConfigXml = @'
-<?xml version="1.0" encoding="UTF-16"?>
-<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
-  <RegistrationInfo>
-    <Date>2013-03-20T14:18:21.6393172</Date>
-    <Author>Janik von Rotz (http://janikvonrotz.ch)</Author>
-  </RegistrationInfo>
-  <Triggers>
-    <CalendarTrigger>
-      <StartBoundary>2013-01-01T03:00:00</StartBoundary>
-      <Enabled>true</Enabled>
-      <ScheduleByDay>
-        <DaysInterval>1</DaysInterval>
-      </ScheduleByDay>
-    </CalendarTrigger>
-  </Triggers>
-  <Settings>
-    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
-    <DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries>
-    <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>
-    <AllowHardTerminate>true</AllowHardTerminate>
-    <StartWhenAvailable>false</StartWhenAvailable>
-    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>
-    <IdleSettings>
-      <StopOnIdleEnd>true</StopOnIdleEnd>
-      <RestartOnIdle>false</RestartOnIdle>
-    </IdleSettings>
-    <AllowStartOnDemand>true</AllowStartOnDemand>
-    <Enabled>true</Enabled>
-    <Hidden>false</Hidden>
-    <RunOnlyIfIdle>false</RunOnlyIfIdle>
-    <WakeToRun>false</WakeToRun>
-    <ExecutionTimeLimit>P3D</ExecutionTimeLimit>
-    <Priority>7</Priority>
-  </Settings>
-  <Actions Context="Author">
-    <Exec>
-      <Command></Command>
-      <Arguments></Arguments>
-      <WorkingDirectory></WorkingDirectory>
-    </Exec>
-  </Actions>
-</Task>
-'@	
-    	# Write content to config file		
-    	Set-Content -Value $ContentTaskConfigXml -Path ($PSconfigs.Path + "\" + $XMLFilename)
-    	Write-Warning ("Added " + $XMLFilename + " to " + $Psconfigs.Path)
+    
+    # check file extension
+    if([System.IO.Path]::GetExtension($XMLFilename) -ne ".xml"){
+        $XmlFilename = $XMLFilename + ".xml"
     }
-
-	# get path to the xml template
-	$PathToXML = Get-ChildItem -Path $PSconfigs.Path -Filter $XMLFilename -Recurse
-	if($PathToXML -eq $Null){
-		throw ("Couldn't find the xml template file!`nPlease create (Get-Help Add-SheduledTask) or add a xml template file to this directory: " + $PSconfigs.Path )
-	}
-
-		
-	# Update task definitions
-	[xml]$TaskDefinition = (get-content $PathToXML.Fullname)
 	
+    # check if configuration file exists        
+    $TaskTemplate = $(Get-ChildItem -Path $PStemplates.Path -Filter $PStemplates.Task -Recurse).FullName    
+	$Taskconfig = Join-Path -Path $PSconfigs.Path -ChildPath $XmlFilename
+    
+    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $XmlFilename -Recurse)){
+    
+        Write-Host "Copy default task config file to the config folder"        
+		Copy-Item -Path $TaskTemplate -Destination $Taskconfig
+	}  
+    		
+	# Update task definitions
+	[xml]$TaskDefinition = (get-content $Taskconfig)	
 	$TaskDefinition.Task.Actions.Exec.Command = $Command
 	$TaskDefinition.Task.Actions.Exec.Arguments = $Arguments	
-	$TaskDefinition.Task.Actions.Exec.WorkingDirectory = $WorkingDirectory
-	
-	$TaskDefinition.Save($PathToXML.Fullname)
+	$TaskDefinition.Task.Actions.Exec.WorkingDirectory = $WorkingDirectory	
+	$TaskDefinition.Save($Taskconfig)
 
 	# Create task
 	Write-Warning ("Adding Windows sheduled task: " + $Title)
-	SchTasks /Create /TN $Title /XML $PathToXML.Fullname
+	SchTasks /Create /TN $Title /XML $Taskconfig
 }

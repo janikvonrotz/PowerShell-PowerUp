@@ -153,32 +153,9 @@ License = "This work is licensed under the Creative Commons Attribution-NonComme
 #--------------------------------------------------#
 if($Features | Where{$_.Name -eq "Git Update Task"}){	
     
-    if(!(Get-Command "git" -ErrorAction SilentlyContinue)){
-
-        cinst git -force
-    }
-
-    if(!(Test-Path -Path (Join-Path -Path $PSProfilePath -ChildPath ".git"))){
+    . (Get-ChildItem -Path $PSscripts.Path -Filter "Git-Update.ps1" -Recurse).Fullname
     
-        cd $PSProfilePath
-
-        # initialise git repository
-        git init
-        git add remote origin "git://github.com/janikvonrotz/Powershell-Profile.git"
-        git fetch origin
-        git reset --hard origin/master
-
-
-        Pop-Location -StackName "WorkingPath"
-
-    }else{
-
-        git fetch origin
-        git reset --hard origin/master
-
-    }
-    			
-	Add-SheduledTask -Title "Git Update Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments (Get-ChildItem -Path $PSconfigs.Path -Filter "Git-Update.ps1" -Recurse).Fullname -WorkingDirectory $PSProfilePath -XMLFilename "Git-Update.task.config"
+	Add-SheduledTask -Title "Git Update Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments (Get-ChildItem -Path $PSscripts.Path -Filter "Git-Update.ps1" -Recurse).Fullname -WorkingDirectory $PSProfilePath -XMLFilename "Git-Update.task.config"
 }
  
 #--------------------------------------------------#
@@ -299,7 +276,7 @@ Write-Host ""
 
 if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -contains "asDailyJob")}){
 
-    Add-SheduledTask -Title "Log File Retention Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments $(Get-ChildItem -Path $PSconfigs.Path -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse).FullName -WorkingDirectory $WorkingPath -XMLFilename "Delete-ObsoleteLogFiles.task.config"
+    Add-SheduledTask -Title "Log File Retention Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments $(Get-ChildItem -Path $PSscripts.Path -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse).FullName -WorkingDirectory $WorkingPath -XMLFilename "Delete-ObsoleteLogFiles.task.config"
         
 }
    
@@ -311,7 +288,7 @@ if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -cont
 #--------------------------------------------------#
 # Log File Retention
 #--------------------------------------------------#	
-& $(Get-ChildItem -Path $PSconfigs.Path -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse).Fullname
+& $(Get-ChildItem -Path $PSscripts.Path -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse).Fullname
 
 '@
     $PSPContentISE += $Content
