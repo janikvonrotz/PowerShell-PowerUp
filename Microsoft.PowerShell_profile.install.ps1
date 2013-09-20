@@ -88,7 +88,7 @@ Get-childitem ($PSfunctions.Path) -Recurse | where{-not $_.PSIsContainer} | fore
 #--------------------------------------------------#
     
 # load configuration files
-Get-ChildItem -Path $PSconfigs.Path -Filter "*.profile.config.xml" -Recurse |
+Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.Profile.Filter -Recurse |
      %{[xml]$(get-content $_.FullName)} |
          %{$Features += $_.Content.Feature;$Systemvariables += $_.Content.Systemvariable}
 
@@ -127,7 +127,7 @@ Project = ""
 Author = "Janik von Rotz"
 AuthorContact = "www.janikvonrotz.ch"
 CreateDate = "2013-04-22"
-LastEditDate = "2013-09-16"
+LastEditDate = "2013-09-20"
 Version = "5.0.0"
 License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
@@ -146,7 +146,7 @@ Project = ""
 Author = "Janik von Rotz"
 AuthorContact = "www.janikvonrotz.ch"
 CreateDate = "2013-04-22"
-LastEditDate = "2013-09-16"
+LastEditDate = "2013-09-20"
 Version = "5.0.0"
 License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
@@ -156,11 +156,12 @@ License = "This work is licensed under the Creative Commons Attribution-NonComme
 #--------------------------------------------------#
 # Git Update Task
 #--------------------------------------------------#
-if($Features | Where{$_.Name -eq "Git Update Task"}){	
+if($Features | Where{$_.Name -eq "Git Update Task"}){
+
+    # initialise or update git repository    
+    . $PSscripts.GitUpdateTask.Fullname
     
-    . (Get-ChildItem -Path $PSscripts.Path -Filter "Git-Update.ps1" -Recurse).Fullname
-    
-	Add-SheduledTask -Title "Git Update Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments (Get-ChildItem -Path $PSscripts.Path -Filter "Git-Update.ps1" -Recurse).Fullname -WorkingDirectory $PSProfilePath -XMLFilename "Git-Update.task.config"
+	Add-SheduledTask -Title "Git Update Task" -Command $PSapps.PowerShell -Arguments $PSscripts.GitUpdateTask.Fullname -WorkingDirectory $PSProfilePath -XMLFilename $PSconfigs.GitUpdateTask.Name
 }
  
 #--------------------------------------------------#
@@ -273,7 +274,7 @@ if($Features | Where{$_.Name -eq "Transcript Logging"}){
 #--------------------------------------------------#
 # Transcript Logging
 #--------------------------------------------------#	
-Start-Transcript -path ($PSlogs.Path + "\PowerShell Session " + $((get-date -format o) -replace ":","-") + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt")
+Start-Transcript -path (Join-Path -Path ($PSlogs.Path) -ChildPath ("PowerShell Session " + $((get-date -format o) -replace ":","-") + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt"))
 Write-Host ""
 
 '@
@@ -281,8 +282,7 @@ Write-Host ""
 
 if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -contains "asDailyJob")}){
 
-    Add-SheduledTask -Title "Log File Retention Task" -Command "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe" -Arguments $(Get-ChildItem -Path $PSscripts.Path -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse).FullName -WorkingDirectory $WorkingPath -XMLFilename "Delete-ObsoleteLogFiles.task.config"
-        
+    Add-SheduledTask -Title "Git Update Task" -Command $PSapps.PowerShell -Arguments $PSscripts.LogFileRetentionTask.Fullname -WorkingDirectory $PSProfilePath -XMLFilename $PSconfigs.LogFileRetentionTask.Name
 }
    
 if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -contains "withProfileScript")}){
@@ -292,8 +292,8 @@ if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -cont
 
 #--------------------------------------------------#
 # Log File Retention
-#--------------------------------------------------#	
-& $(Get-ChildItem -Path $PSscripts.Path -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse).Fullname
+#--------------------------------------------------#
+. $PSscripts.LogFileRetentionTask.Fullname
 
 '@
     $PSPContentISE += $Content

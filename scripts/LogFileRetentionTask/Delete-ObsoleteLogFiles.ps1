@@ -9,7 +9,7 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "http://janikvonrotz.ch"
     CreateDate = "2013-08-27"
-    LastEditDate = "2013-08-29"
+    LastEditDate = "2013-09-20"
     Url = ""
     Version = "1.0.0"
     License = @'
@@ -28,7 +28,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 $Features = @()
 
 # load feature configuration from config files
-Get-ChildItem -Path $PSconfigs.Path -Filter "*.profile.config.*" -Recurse | 
+Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.Profile.Filter -Recurse | 
     %{
         [xml]$(Get-Content $_.fullname) | 
         %{

@@ -9,7 +9,7 @@ if(!(Test-Path -Path (Join-Path -Path $PSProfilePath -ChildPath ".git"))){
 
     # initialise git repository
     git init
-    git add remote origin "git://github.com/janikvonrotz/Powershell-Profile.git"
+    git remote add origin "git://github.com/janikvonrotz/Powershell-Profile.git"
     git fetch origin
     git reset --hard origin/master
 

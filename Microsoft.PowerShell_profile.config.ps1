@@ -27,19 +27,23 @@ $global:PSlogs = @{
 }
 
 $global:PSconfigs = @{
-	Path = Join-Path -Path $PSProfilePath -ChildPath "configs"
+	Path = Join-Path -Path $PSProfilePath -ChildPath "configs";
+    Profile = @{
+        Filter = "*.profile.config.xml"
+    };
+	GitUpdateTask = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "configs") -Filter "Git-Update.task.config.xml" -Recurse;
+	LogFileRetentionTask = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "configs") -Filter "Delete-ObsoleteLogFiles.task.config.xml" -Recurse
 }	
 
 $global:PSscripts = @{
-	Path = Join-Path -Path $PSProfilePath -ChildPath "scripts"
+	Path = Join-Path -Path $PSProfilePath -ChildPath "scripts";
+    GitUpdateTask = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "scripts") -Filter "Git-Update.ps1" -Recurse;
+	LogFileRetentionTask = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "scripts") -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse
 }
 
 $global:PSapps = @{
 	Path = Join-Path -Path $PSProfilePath -ChildPath "apps"
-}
-
-$global:PSscripts = @{
-	Path = Join-Path -Path $PSProfilePath -ChildPath "scripts"
+    PowerShell = "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe"
 }
 
 $global:PStemplates = @{
