@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-05-14"
-	LastEditDate = "2013-09-19"
+	LastEditDate = "2013-09-20"
 	Version = "2.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -79,7 +79,7 @@ function Add-SheduledTask{
     }
 	
     # check if configuration file exists        
-    $TaskTemplate = $(Get-ChildItem -Path $PStemplates.Path -Filter $PStemplates.Task -Recurse).FullName    
+    $TaskTemplate = $PStemplates.Task.FullName    
 	$Taskconfig = Join-Path -Path $PSconfigs.Path -ChildPath $XmlFilename
     
     if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $XmlFilename -Recurse)){

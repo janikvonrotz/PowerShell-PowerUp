@@ -7,7 +7,7 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "www.janikvonrotz.ch"
     CreateDate = "2013-03-18"
-    LastEditDate = "2013-09-17"
+    LastEditDate = "2013-09-20"
     Version = "6.0.0"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -40,7 +40,12 @@ if (!(Test-Path $Profile)){
 #--------------------------------------------------#
     
 # load global configurations
-.\Microsoft.PowerShell_profile.config.ps1
+$PSProfileConfig = "Microsoft.PowerShell_profile.config.ps1"
+if(Test-Path $PSProfileConfig){
+    .\Microsoft.PowerShell_profile.config.ps1
+}else{
+    throw "Couldn't find $PSProfileConfig"
+}
 $PSProfilePath = (Get-Location).Path
 
 #--------------------------------------------------#
@@ -323,23 +328,21 @@ $PSPContentISE += $Content
 #--------------------------------------------------#  
 if($Features | Where{$_.Name -eq "Multi Remote Management"}){
    
-    $RDPTemplate = $(Get-ChildItem -Path $PStemplates.Path -Filter "Default.rdp" -Recurse).FullName    
-	$RDPConfig  = Join-Path -Path $PSconfigs.Path -ChildPath "Default.rdp"
+	$RDPConfig  = Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.RDP.Name
     
-    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter "Default.rdp" -Recurse)){
+    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.RDP.Name -Recurse)){
     
-        Write-Host "Copy default rdp config file to the config folder"        
-		Copy-Item -Path $RDPTemplate -Destination $RDPConfig
+        Write-Host "Copy $($PStemplates.RDP.Name) file to the config folder"        
+		Copy-Item -Path $PStemplates.RDP.FullName -Destination $RDPConfig
 	}   
 
-    $WinSCPTemplate = $(Get-ChildItem -Path $PStemplates.Path -Filter "WinSCP.ini" -Recurse).FullName    
-	$WinSCConfig  = Join-Path -Path $PSconfigs.Path -ChildPath "WinSCP.ini"
+    $WinSCPconfig  = Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.WinSCP.Name
     
-    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter "WinSCP.ini" -Recurse)){
+    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.WinSCP.Name -Recurse)){
     
-        Write-Host "Copy default rdp config file to the config folder"        
-		Copy-Item -Path $WinSCPTemplate -Destination $WinSCConfig
-	}
+        Write-Host "Copy $($PStemplates.WinSCP.Name) file to the config folder"        
+		Copy-Item -Path $PStemplates.WinSCP.FullName -Destination $WinSCPconfig
+	}   
     
 }
 

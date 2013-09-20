@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-03"
-	LastEditDate = "2013-09-17"
+	LastEditDate = "2013-09-20"
 	Version = "2.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -49,7 +49,7 @@ function Connect-RDPSession{
     if ((Get-Command "cmdkey") -and (Get-Command "mstsc")){ 
     
          # Load Configurations
-		$RDPDefaultFile = $(Get-ChildItem -Path $PSconfigs.Path -Filter Default.rdp -Recurse).Fullname       
+		$RDPDefaultFile = $(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.RDP.Name -Recurse).Fullname       
 		$Config = Get-RemoteConnections -Names $Names
 
         foreach($Server in $Config){

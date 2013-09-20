@@ -7,8 +7,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-11"
-	LastEditDate = "2013-09-13"
-	Version = "2.0.0"
+	LastEditDate = "2013-09-20"
+	Version = "3.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -19,35 +19,35 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 $global:PSProfilePath = Split-Path $MyInvocation.MyCommand.Definition -Parent
 	
 $global:PSfunctions = @{
-	Path = Convert-Path($PSProfilePath + "\functions")
+	Path = Join-Path -Path $PSProfilePath -ChildPath "functions"
 }
 
 $global:PSlogs = @{
-	Path = Convert-Path($PSProfilePath + "\logs")
+	Path = Join-Path -Path $PSProfilePath -ChildPath "logs"
 }
 
 $global:PSconfigs = @{
-	Path = Convert-Path($PSProfilePath + "\configs")
+	Path = Join-Path -Path $PSProfilePath -ChildPath "configs"
 }	
 
 $global:PSscripts = @{
-	Path = Convert-Path($PSProfilePath + "\scripts")
+	Path = Join-Path -Path $PSProfilePath -ChildPath "scripts"
 }
 
 $global:PSapps = @{
-	Path = Convert-Path($PSProfilePath + "\apps")
+	Path = Join-Path -Path $PSProfilePath -ChildPath "apps"
 }
 
 $global:PSscripts = @{
-	Path = Convert-Path($PSProfilePath + "\scripts")
+	Path = Join-Path -Path $PSProfilePath -ChildPath "scripts"
 }
 
 $global:PStemplates = @{
-    Path = Convert-Path($PSProfilePath + "\templates");
-    Mail = "EXAMPLE.mail.config.xml";
-    Profile = "EXAMPLE.profile.config.xml";
-    Remote = "EXAMPLE.remote.config.xml";
-    Task = "EXAMPLE.task.config.xml";
-    RDP = "Default.rdp";
-    WinSCP = "WinSCP.ini"
+    Path = Join-Path -Path $PSProfilePath -ChildPath "templates";
+    Mail = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "EXAMPLE.mail.config.xml" -Recurse;
+    Profile = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "EXAMPLE.profile.config.xml" -Recurse;
+    Remote = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "EXAMPLE.remote.config.xml" -Recurse;
+    Task = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "EXAMPLE.task.config.xml" -Recurse;
+    RDP = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "Default.rdp" -Recurse;
+    WinSCP = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "WinSCP.ini" -Recurse
 } 
