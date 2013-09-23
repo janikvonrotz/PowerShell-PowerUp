@@ -170,10 +170,10 @@ if($Features | Where{$_.Name -eq "Git Update Task"}){
 if($Features | Where{$_.Name -eq "Powershell Remoting"}){
     
     Write-Host "Enabling Powershell Remoting"
-	Enable-PSRemoting
+	Enable-PSRemoting -Confirm:$false
 	Set-Item WSMan:\localhost\Client\TrustedHosts "RemoteComputer" -Force
 	Set-Item WSMan:\localhost\Shell\MaxMemoryPerShellMB 1024
-	restart-Service WinRM		
+	restart-Service WinRM -Confirm:$false
 }
 
 #--------------------------------------------------#
@@ -282,7 +282,7 @@ Write-Host ""
 
 if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -contains "asDailyJob")}){
 
-    Add-SheduledTask -Title "Git Update Task" -Command $PSapps.PowerShell -Arguments $PSscripts.LogFileRetentionTask.Fullname -WorkingDirectory $PSProfilePath -XMLFilename $PSconfigs.LogFileRetentionTask.Name
+    Add-SheduledTask -Title "Log File Retention" -Command $PSapps.PowerShell -Arguments $PSscripts.LogFileRetentionTask.Fullname -WorkingDirectory $PSProfilePath -XMLFilename $PSconfigs.LogFileRetentionTask.Name
 }
    
 if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -contains "withProfileScript")}){
