@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-05-14"
-	LastEditDate = "2013-09-20"
-	Version = "2.0.0"
+	LastEditDate = "2013-09-23"
+	Version = "2.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -79,23 +79,25 @@ function Add-SheduledTask{
     }
 	
     # check if configuration file exists        
-    $TaskTemplate = $PStemplates.Task.FullName    
-	$Taskconfig = Join-Path -Path $PSconfigs.Path -ChildPath $XmlFilename
+    $TaskTemplate = $PStemplates.Task.FullName
+    $TaskConfig = Get-ChildItem -Path $PSconfigs.Path -Filter $XmlFilename -Recurse | select -first 1
+	$NewTaskConfig = Join-Path -Path $PSconfigs.Path -ChildPath $XmlFilename
     
-    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $XmlFilename -Recurse)){
+    if(!($TaskConfig)){
     
         Write-Host "Copy default task config file to the config folder"        
-		Copy-Item -Path $TaskTemplate -Destination $Taskconfig
+		Copy-Item -Path $TaskTemplate -Destination $NewTaskConfig
+        $TaskConfig = $NewTaskConfig
 	}  
     		
 	# Update task definitions
-	[xml]$TaskDefinition = (get-content $Taskconfig)	
+	[xml]$TaskDefinition = (get-content $TaskConfig)	
 	$TaskDefinition.Task.Actions.Exec.Command = $Command
 	$TaskDefinition.Task.Actions.Exec.Arguments = $Arguments	
 	$TaskDefinition.Task.Actions.Exec.WorkingDirectory = $WorkingDirectory	
-	$TaskDefinition.Save($Taskconfig)
+	$TaskDefinition.Save($TaskConfig)
 
 	# Create task
 	Write-Warning ("Adding Windows sheduled task: " + $Title)
-	SchTasks /Create /TN $Title /XML $Taskconfig
+	SchTasks /Create /TN $Title /XML $TaskConfig
 }
