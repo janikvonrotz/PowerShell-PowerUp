@@ -80,7 +80,7 @@ function Add-SheduledTask{
 	
     # check if configuration file exists        
     $TaskTemplate = $PStemplates.Task.FullName
-    $TaskConfig = Get-ChildItem -Path $PSconfigs.Path -Filter $XmlFilename -Recurse | select -first 1
+    $TaskConfig = (Get-ChildItem -Path $PSconfigs.Path -Filter $XmlFilename -Recurse | select -first 1).FullName
 	$NewTaskConfig = Join-Path -Path $PSconfigs.Path -ChildPath $XmlFilename
     
     if(!($TaskConfig)){
@@ -98,6 +98,6 @@ function Add-SheduledTask{
 	$TaskDefinition.Save($TaskConfig)
 
 	# Create task
-	Write-Warning ("Adding Windows sheduled task: " + $Title)
+	Write-Host "Adding Windows sheduled task: $Title"
 	SchTasks /Create /TN $Title /XML $TaskConfig
 }
