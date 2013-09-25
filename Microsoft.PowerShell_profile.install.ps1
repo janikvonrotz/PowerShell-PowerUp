@@ -280,12 +280,12 @@ Write-Host ""
 '@
 }
 
-if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -contains "asDailyJob")}){
+if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -match "asDailyJob")}){
 
     Add-SheduledTask -Title "Log File Retention" -Command $PSapps.PowerShell -Arguments $PSscripts.LogFileRetentionTask.Fullname -WorkingDirectory $PSProfilePath -XMLFilename $PSconfigs.LogFileRetentionTask.Name
 }
    
-if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -contains "withProfileScript")}){
+if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -match "withProfileScript")}){
                     
     Write-Host "Add Log File Retention to the profile script"
     $PSPContent += $Content = @'
