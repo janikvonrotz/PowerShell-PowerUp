@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-05-17"
-		LastEditDate = "2013-09-20"
+    LastEditDate = "2013-09-26"
 	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -47,20 +47,19 @@ function Connect-FTPSession{
 #>
 
 	param (
-        [parameter(Mandatory=$true)][string]
-		$Name,
+        [parameter(Mandatory=$true)]
+        [string[]]$Name,
 		
-        [parameter(Mandatory=$false)][string]
-		$User,
+        [parameter(Mandatory=$false)]
+        [string]$User,
 		
-        [parameter(Mandatory=$false)][int]
-		$Port,
+        [parameter(Mandatory=$false)]
+        [int]$Port,
 		
-        [switch]
-		$Secure,
+        [switch]$Secure,
 				
-        [parameter(Mandatory=$false)][string]
-		$PrivatKey
+        [parameter(Mandatory=$false)]
+        [string]$PrivatKey
 	)
 
 
@@ -71,76 +70,77 @@ function Connect-FTPSession{
 	if (Get-Command "winscp"){ 
     
     	# Load Configurations
-		$Server = Get-RemoteConnections -Names $Name -FirstEntry
+		$Server = Get-RemoteConnections -Name $Name -FirstEntry
         $IniFile = $(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.WinSCP.Name -Recurse).FullName
-        
-        # default settings
         $SftpPort = 22
-        $FtpPort = 21		
-		
-        # set port and protocol from config file
-        if(!$Port){
-            
-            # cycle thour protoc configs
-    		$Server.Protocol | %{
-            
-                # settings for ftp
-    			if($_.Name -eq "ftp"){
-                                        
-    				$Protocol = "ftp"
-                    
-    				if($_.Port -ne ""){
-                    
-    					$Port = $_.Port
-    				}else{
-                        $Port = $FtpPort
-                    }
-                    
-                # settings for sftp
-    			}elseif($_.Name -eq "sftp"){
+        $FtpPort = 21
                 
-					$Protocol = "sftp"
+        foreach($Server in $Servers){     
+    		
+            # set port and protocol from config file
+            if(!$Port){
+                
+                # cycle thour protoc configs
+        		$Server.Protocol | %{
+                
+                    # settings for ftp
+        			if($_.Name -eq "ftp"){
+                                            
+        				$Protocol = "ftp"
+                        
+        				if($_.Port -ne ""){
+                        
+        					$Port = $_.Port
+        				}else{
+                            $Port = $FtpPort
+                        }
+                        
+                    # settings for sftp
+        			}elseif($_.Name -eq "sftp"){
                     
-					if($_.Port -ne ""){
-						$Port = $_.Port
-                    }else{
-                        $Port = $SftpPort
-                    }              
-               }
-           }        
-        }
-        
-        # if there is no configuration from config file
-        if(!$Port -or $Port -eq 0){
-            if($Secure){
-                $Port = $SftpPort
-            }else{
-                $Port = $FtpPort
+    					$Protocol = "sftp"
+                        
+    					if($_.Port -ne ""){
+    						$Port = $_.Port
+                        }else{
+                            $Port = $SftpPort
+                        }              
+                   }
+               }        
             }
-        }
-       
-        # settings for secure parameter
-        if(!$Protocol){
-            if($Secure){
-                $Protocol = "sftp"
-            }else{
-                $Protocol = "ftp"
+            
+            # if there is no configuration from config file
+            if(!$Port -or $Port -eq 0){
+                if($Secure){
+                    $Port = $SftpPort
+                }else{
+                    $Port = $FtpPort
+                }
             }
-        }
+           
+            # settings for secure parameter
+            if(!$Protocol){
+                if($Secure){
+                    $Protocol = "sftp"
+                }else{
+                    $Protocol = "ftp"
+                }
+            }
 
-		# set servername
-		$Servername = $Server.Name
-				
-		# set username
-		if(!$User){$User = $Server.User}
-		
-        # set privatkey
-        if(!$PrivatKey){$PrivatKey = Invoke-Expression ($Command = '"' + $Server.PrivatKey + '"')}
-        
-        if($PrivatKey){
-            Invoke-Expression ("WinSCP $Protocol"+"://$User@$Servername"+":$Port"+" /privatekey='$PrivatKey'" + " /ini=$IniFile")
-        }else{
-            Invoke-Expression ("WinSCP $Protocol"+"://$User@$Servername"+":$Port" + " /ini=$IniFile")
+    		# set servername
+    		$Servername = $Server.Name
+    				
+    		# set username
+    		if(!$User){$User = $Server.User}
+    		
+            # set privatkey
+            if(!$PrivatKey){$PrivatKey = Invoke-Expression ($Command = '"' + $Server.PrivatKey + '"')}
+            
+            if($PrivatKey){
+                Invoke-Expression ("WinSCP $Protocol"+"://$User@$Servername"+":$Port"+" /privatekey='$PrivatKey'" + " /ini=$IniFile")
+            }else{
+                Invoke-Expression ("WinSCP $Protocol"+"://$User@$Servername"+":$Port" + " /ini=$IniFile")
+            }
         }
     }
 }

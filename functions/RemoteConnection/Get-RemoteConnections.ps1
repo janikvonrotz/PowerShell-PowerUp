@@ -8,8 +8,8 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "www.janikvonrotz.ch"
     CreateDate = "2013-04-08"
-    LastEditDate = "2013-09-17"
-    Version = "3.0.0"
+    LastEditDate = "2013-09-26"
+    Version = "3.1.0"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -26,9 +26,8 @@ function Get-RemoteConnections{
 	param(
         [parameter(Mandatory=$false)]
         [string[]] 
-        $Names,
-        [switch] 
-        $FirstEntry,
+        $Name,
+        
         [Switch]
         $ListAvailable
 	)
@@ -36,58 +35,35 @@ function Get-RemoteConnections{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
+        
+    # load configurations
+    $ServerConfigs = Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.Remote.Filter -Recurse | %{
+            [xml]$(get-content $_.FullName)} | %{
+                $_.Content.Server}
     
-    # Server configuration collection
-	$ServerConfigs = @()
-    
-    # server data collection
-    $Servers = @()
-    
-    # load configuration files
-    $ConfigurationFiles = Get-ChildItem -Path $PSconfigs.Path -Filter "*.remote.config.*" -Recurse
-    
-    # merge information
-    foreach($ConfigurationFile in $ConfigurationFiles){
-        [xml]$Content  = Get-Content $ConfigurationFile.FullName
-        $ServerConfig = $Content.Content.Server
-        $ServerConfigs += $ServerConfig
-    }
-    
+        
     # check ListAvailable-parameter
     if($ListAvailable -and $Names -eq $null){
-		try{
-			$ServerConfigs
-		}catch{
-			$error[0]
-			$ServerConfigs | format-table
-		}
-    }else{
-        if($Names -ne $null){
+    
+        $ServerConfigs | Sort Key
+        
+    }elseif($Name -ne $null){
 
-            # search server by key and name
-            foreach($Server in $ServerConfigs){
-			
-                if($Names -contains $Server.Key -or $Names -contains $Server.Name){
-                    $Servers += $Server
-                }
-            }
-            
-            # check result
-            if($Servers.count -eq 0){
-                foreach($Name in $Names){
-                    $Servers += New-ObjectRemoteConnection -Name $Name
-                }
-            }
-            
-            # if first entry parameter is given only output the first entry in the array
-            if($Servers.Count -gt 1){
-        	   $Servers[0]
-            }else{
-                $Servers
-            }
+        $Matches = $ServerConfigs | 
+            %{$Server = $_; $Name | 
+                %{if(($Server.Key -contains $_) -or ($Server.Name -contains $_)){$Server}}}
+        
+        if($Matches -eq $Null){
+        
+            $Name | %{New-ObjectRemoteConnection -Name $_}
             
         }else{
-            throw "Enter values for the following parameters: Names[]"  
-        }
+            
+            $Matches
+        } 
+               
+    }else{
+    
+        throw "Enter values for the following parameters: Name[]"  
     }
 }

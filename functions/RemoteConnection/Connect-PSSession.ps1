@@ -8,7 +8,7 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "www.janikvonrotz.ch"
     CreateDate = "2013-03-12"
-    LastEditDate = "2013-09-17"
+    LastEditDate = "2013-09-26"
     Version = "3.0.0"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -22,7 +22,7 @@ function Connect-PSSession{
 
 	param (
         [parameter(Mandatory=$true)]
-		$Names,
+		[string[]]$Name,
         
         [parameter(Mandatory=$false)]
         [System.Management.Automation.Credential()]
@@ -34,7 +34,7 @@ function Connect-PSSession{
 	#--------------------------------------------------#
         
     # Load Configurations
-	$Servers = Get-RemoteConnections -Names $Names
+	$Servers = Get-RemoteConnections -Name $Name
 	
 	foreach($Server in $Servers){
 		

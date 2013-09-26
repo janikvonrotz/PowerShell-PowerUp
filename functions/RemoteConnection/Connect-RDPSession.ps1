@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-03"
-	LastEditDate = "2013-09-20"
-	Version = "2.0.0"
+    LastEditDate = "2013-09-26"
+	Version = "2.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -27,20 +27,17 @@ function Connect-RDPSession{
 .DESCRIPTION
     Starts a remote desktop session with the parameters from the Remote config file and a RDP file.
 
-.PARAMETER  Names
-    Server names from the remote config file
+.PARAMETER  Name
+    Server names from the remote config file.
 
 .EXAMPLE
     Connect-RDPSession -Names sharepoint
-    Connect-RDPSession -Names sharepoint,dns
+    Connect-RDPSession -Names sharepoint, dns
 #>
 
-	#--------------------------------------------------#
-	# Parameter
-	#--------------------------------------------------#
 	param (
-        [parameter(Mandatory=$true)][string[]]
-		$Names
+        [parameter(Mandatory=$true)]
+        [string[]]$Name
 	)
     
     #--------------------------------------------------#
@@ -50,9 +47,9 @@ function Connect-RDPSession{
     
          # Load Configurations
 		$RDPDefaultFile = $(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.RDP.Name -Recurse).Fullname       
-		$Config = Get-RemoteConnections -Names $Names
+		$Servers = Get-RemoteConnections -Name $Name
 
-        foreach($Server in $Config){
+        foreach($Server in $Servers){
 		        
             $Servername = $Server.Name
             $Username = $Server.User

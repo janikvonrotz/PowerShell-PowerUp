@@ -66,7 +66,7 @@ function Send-PPErrorReport{
     $Error | foreach{$Body += $_.ToString() + $_.InvocationInfo.PositionMessage + "`n`n"}
 
     # Get mail receiver from config file
-    $Mail = Get-ChildItem -Path $PSconfigs.Path -Filter "*.mail.config.xml" -Recurse | %{[xml]$(get-content $_.FullName)} | %{$_.Content.Mail | where{$_.Name -eq "ErrorReport"}} | select -first 1
+    $Mail = Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.Mail.Filter -Recurse | %{[xml]$(get-content $_.FullName)} | %{$_.Content.Mail | where{$_.Name -eq $PSconfigs.Mail.ErrorClass}} | select -first 1
 
     # send mail
     Send-MailMessage -To $Mail.ReplyToAddress -From $Mail.FromAddress -Subject ($env:COMPUTERNAME + " " + $ScriptName + " #" + $(get-date -format o)) -Body $Body -SmtpServer $Mail.OutSmtpServer

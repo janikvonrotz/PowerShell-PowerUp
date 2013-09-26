@@ -31,6 +31,13 @@ $global:PSconfigs = @{
     Profile = @{
         Filter = "*.profile.config.xml"
     };
+    Remote = @{
+        Filter = "*.remote.config.*"
+    };
+    Mail = @{
+        Filter = "*.mail.config.xml";
+        ErrorClass = "ErrorReport"
+    };
 	GitUpdateTask = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "configs") -Filter "Git-Update.task.config.xml" -Recurse;
 	LogFileRetentionTask = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "configs") -Filter "Delete-ObsoleteLogFiles.task.config.xml" -Recurse
 }	
