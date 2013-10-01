@@ -68,7 +68,7 @@ function Connect-SCPSession{
     if (Get-Command "winscp"){ 
 
         # Load Configurations
-    	$Servers = Get-RemoteConnections -Name $Name -FirstEntry
+    	$Servers = Get-RemoteConnections -Name $Name
         $IniFile = $(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.WinSCP.Name -Recurse).FullName
     	
         foreach($Server in $Servers){

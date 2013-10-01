@@ -70,7 +70,7 @@ function Connect-FTPSession{
 	if (Get-Command "winscp"){ 
     
     	# Load Configurations
-		$Server = Get-RemoteConnections -Name $Name -FirstEntry
+		$Server = Get-RemoteConnections -Name $Name
         $IniFile = $(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.WinSCP.Name -Recurse).FullName
         $SftpPort = 22
         $FtpPort = 21

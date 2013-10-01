@@ -53,7 +53,7 @@ function Connect-HTTPSession{
     #--------------------------------------------------#
 
     # Load Configurations 
-	$Servers = Get-RemoteConnections -Name $Name -FirstEntry
+	$Servers = Get-RemoteConnections -Name $Name
 
 	# default settings
 	$HttpPort = 80
