@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-07-10"
-	LastEditDate = "2013-07-10"
+	LastEditDate = "2013-09-30"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -52,12 +52,30 @@ function Add-HostFileEntry{
     # main
     #--------------------------------------------------#
     $HostFile = "$env:windir\System32\drivers\etc\hosts"    
-    $LastLine = ($ContentFile | select -Last 1)
+    
+    [string]$LastLine = Get-Content $HostFile | select -Last 1
     
     if($IP -match [regex]"(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9])[.]){3}(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9]))"){    
     
-        Write-Host "Add entry to hosts file: "$(if($IP){$IP + " "}else{})$(if($DNS){$DNS})        
-        if($LastLine -ne "" -and  $LastLine -ne '\s+' -and $LastLine -ne $Null){Add-Content -Path $HostFile -Value "" -Encoding "Ascii"}        
-        Add-Content -Path $HostFile -Value ($IP + "       " + $DNS) -Encoding "Ascii"
+        if(!(Get-HostFileEntries | where{$_.DNS -eq $DNS})){      
+            
+            if($LastLine -ne ""){
+                Add-Content -Path $HostFile -Value "`n"
+            }
+                                             
+            Write-Host "Add entry to hosts file: $IP`t$DNS"            
+            Add-Content -Path $HostFile -Value "$IP    $DNS"
+            
+            # reformat hostfile
+            Set-Content -Path $HostFile -Value (Get-Content -Path $HostFile | %{if($_.StartsWith("#") -or $_ -ne ""){$_}})                  
+
+        }else{
+            
+            Write-Error "$DNS is already in use!"        
+        }
+            
+    }else{
+    
+        Write-Error "IP address is not valid!"
     }
 }

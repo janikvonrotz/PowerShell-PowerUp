@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-05-17"
-	LastEditDate = "2013-08-13"
-	Version = "3.1.0"
+	LastEditDate = "2013-09-27"
+	Version = "3.2.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -33,7 +33,7 @@ function Set-SPADGroupPermission{
 	SharePoint website url.
 
 .PARAMETER  ADGroup
-	ActiveDirectory group.
+	ActiveDirectory group  from the same domain.
 	
 .PARAMETER  RoleID
 	Role ID.
@@ -48,7 +48,7 @@ function Set-SPADGroupPermission{
     Overwrite existing permissions by this group.
     	
 .EXAMPLE
-	Assign-ADGroupPermissionRole -Url "http://sharepoint.domain.ch/Projekte/SitePages/Homepage.aspx" -ADGroup "VBL\SP_Projekte#Superuser" -RoleToAssignID "1073741828" -Recursive
+	Assign-ADGroupPermissionRole -Url "http://sharepoint.domain.ch/Projekte/SitePages/Homepage.aspx" -ADGroup "SP_Projekte#Superuser" -RoleToAssignID "1073741828" -Recursive
 
 .Link
     https://gist.github.com/janikvonrotz/5617921
@@ -77,7 +77,7 @@ function Set-SPADGroupPermission{
 	if ((Get-PSSnapin 'Microsoft.SharePoint.PowerShell' -ErrorAction SilentlyContinue) -eq $null) {
 		Add-PSSnapin 'Microsoft.SharePoint.PowerShell'
 	}
-
+    Import-Module ActiveDirectory
 
 	#--------------------------------------------------#
 	# main
@@ -98,6 +98,9 @@ function Set-SPADGroupPermission{
 	# get role definition by id
 	$SPRole = $SPWeb.RoleDefinitions.GetById($RoleID)
     
+    # get adgroup format domain\name
+    $ADGroup = "$((Get-ADDomain).Name)" + "`\" + $(Get-ADGroup $ADGroup).Name
+    
 	# create a new role assignment object
     $SPGroup = $SPRootWeb.EnsureUser($ADGroup)
     
@@ -106,7 +109,6 @@ function Set-SPADGroupPermission{
     
 	$SPRoleAssignment = new-object Microsoft.SharePoint.SPRoleAssignment($SPGroup)
 	$SPRoleAssignment.RoleDefinitionBindings.Add($SPRole)
-
             
 	# set role for subwebs
 	if($Recursive){# recursive

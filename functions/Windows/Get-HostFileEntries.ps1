@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-07-10"
-	LastEditDate = "2013-07-10"
-	Version = "1.0.0"
+	LastEditDate = "2013-09-30"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -26,38 +26,51 @@ function Get-HostFileEntries{
 
 .DESCRIPTION
 	Extracts host entrys fromt the hosts file and shows them as a PowerShell object array.
+    
+.PARAMETER  IP
+	Filter IP or DNS.
 
 .EXAMPLE
 	PS C:\> Get-HostFileEntries
+    
+.EXAMPLE
+	PS C:\> Get-HostFileEntries -Filter "domain"
 #>
 
-<#
+
     [CmdletBinding()]
 	param(
-		[Parameter(Mandatory=$true)]
+		[Parameter(Mandatory=$false)]
 		[String]
-		$Name
+		$Filter
 	)
-#>
+
 
     #--------------------------------------------------#
     # main
     #--------------------------------------------------#
-    $HostFileContent = get-content "$env:windir\System32\drivers\etc\hosts"
-    $Entries = @()
-    foreach($Line in $HostFilecontent){
-        if(!$Line.StartsWith("#") -and $Line -ne ""){
 
-            $IP = ([regex]"(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9])[.]){3}(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9]))").match($Line).value
-            $DNS = ($Line -replace $IP, "") -replace  '\s+',""
+    $Entries = $(get-content "$env:windir\System32\drivers\etc\hosts") | %{
+    
+        if(!$_.StartsWith("#") -and $_ -ne ""){
+
+            $IP = ([regex]"(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9])[.]){3}(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9]))").match($_).value
+            $DNS = ($_ -replace $IP, "") -replace  '\s+',""
             
-            $Entry = New-ObjectHostFileEntry -IP $IP -DNS $DNS            
-            $Entries += $Entry
-        }    
-    }
-    if($Entries -ne $Null){
-        $Entries
+            if($Filter -and (($IP -match $Filter) -or ($DNS -match $Filter))){
+                
+                New-ObjectHostFileEntry -IP $IP -DNS $DNS
+                
+            }elseif($Filter -eq ""){
+            
+                New-ObjectHostFileEntry -IP $IP -DNS $DNS
+            }
+        }  
+    } 
+    
+    if($Entries -ne $Null){                
+        $Entries      
     }else{
-        throw "No entries found in host file"
+        Write-Error "No entries found in host file"
     }
 }

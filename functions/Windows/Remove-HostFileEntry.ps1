@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-07-10"
-	LastEditDate = "2013-07-10"
-	Version = "1.0.0"
+	LastEditDate = "2013-09-30"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -39,9 +39,11 @@ function Remove-HostFileEntry{
 
     [CmdletBinding()]
 	param(
+		[Parameter(Mandatory=$false)]
 		[String]
 		$IP,
         
+        [Parameter(Mandatory=$false)]
 		[String]
 		$DNS
 	)
@@ -50,33 +52,29 @@ function Remove-HostFileEntry{
     # main
     #--------------------------------------------------#
     $HostFile = "$env:windir\System32\drivers\etc\hosts"
-    $HostFileContent = get-content $HostFile
-    $HostFileContentNew = @()
-    $Modification = $false
     
-    foreach($Line in $HostFilecontent){
-        if($Line.StartsWith("#") -or $Line -eq ""){
+    get-content $HostFile | %{
+        if($_.StartsWith("#") -or $_ -eq ""){
         
-            $HostFileContentNew += $Line			
+            $Content += $_ + "`n"
+            			
         }else{                    
 
-            $HostIP = ([regex]"(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9])[.]){3}(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9]))").match($Line).value
-            $HostDNS = ($Line -replace $HostIP, "") -replace '\s+',""
+            $HostIP = ([regex]"(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9])[.]){3}(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9]))").match($_).value
+            $HostDNS = ($_ -replace $HostIP, "") -replace '\s+',""
             
             if($HostIP -eq $IP -or $HostDNS -eq $DNS){
 			
                 Write-Host "Remove host file entry: "$(if($IP){$IP + " "}else{})$(if($DNS){$DNS})
-                $Modification = $true				
+                				
             }else{
-                $HostFileContentNew += $Line
+            
+                $Content += $_ + "`n"
             }
         }    
-    }
-	
-    if($Modification){
-	
-        Set-Content -Path $HostFile -Value $HostFileContentNew
-    }else{
-        throw "Couldn't find entry to remove in hosts file."
-    }
+    }	
+    
+    Set-Content -Path $HostFile -Value $Content
+    # reformat hostfile
+    Set-Content -Path $HostFile -Value (Get-Content -Path $HostFile | %{if($_.StartsWith("#") -or $_ -ne ""){$_}})   
 }
