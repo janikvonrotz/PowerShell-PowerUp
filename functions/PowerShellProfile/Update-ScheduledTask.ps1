@@ -48,7 +48,6 @@ function Update-ScheduledTask{
             $Folder
         )
         
-        $Folder
         # get tasks
         $Folder.GetTasks(0) | Foreach-Object {
 	        New-Object -TypeName PSCustomObject -Property @{
