@@ -7,7 +7,7 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "www.janikvonrotz.ch"
     CreateDate = "2013-03-18"
-    LastEditDate = "2013-09-20"
+    LastEditDate = "2013-10-07"
     Version = "6.0.0"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -127,7 +127,7 @@ Project = ""
 Author = "Janik von Rotz"
 AuthorContact = "www.janikvonrotz.ch"
 CreateDate = "2013-04-22"
-LastEditDate = "2013-09-20"
+LastEditDate = "2013-10-07"
 Version = "5.0.0"
 License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
@@ -146,7 +146,7 @@ Project = ""
 Author = "Janik von Rotz"
 AuthorContact = "www.janikvonrotz.ch"
 CreateDate = "2013-04-22"
-LastEditDate = "2013-09-20"
+LastEditDate = "2013-10-07"
 Version = "5.0.0"
 License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
@@ -156,12 +156,17 @@ License = "This work is licensed under the Creative Commons Attribution-NonComme
 #--------------------------------------------------#
 # Git Update Task
 #--------------------------------------------------#
-if($Features | Where{$_.Name -eq "Git Update Task"}){
-
-    # initialise or update git repository    
-    . $PSscripts.GitUpdateTask.Fullname
+if($Features | Where{$_.Name -eq "Git Update"}){
+   
+    . $PSscripts.GitUpdate.Fullname
     
-	Add-SheduledTask -Title "Git Update Task" -Command $PSapps.PowerShell -Arguments $PSscripts.GitUpdateTask.Fullname -WorkingDirectory $PSProfilePath -XMLFilename $PSconfigs.GitUpdateTask.Name
+    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.GitUpdate.Name -Recurse)){    
+        Write-Host "Copy $($PStemplates.GitUpdate.Name) file to the config folder"      
+        Copy-Item -Path $PStemplates.GitUpdate.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.GitUpdate.Name)
+	}
+    
+    Update-ScheduledTask
+    
 }
  
 #--------------------------------------------------#
@@ -194,8 +199,7 @@ if($Features | Where{$_.Name -eq "Path System Variable For App Subfolders"}){
 	Get-ChildItem $PSapps.Path -Force | Where {$_.PSIsContainer} | %{
         
         Write-Host ("Adding path variable: " + $_.Name)
-        Add-PathVariable -Value $_.Fullname -Name "Path" -Target "Machine"
-        
+        Add-PathVariable -Value $_.Fullname -Name "Path" -Target "Machine"        
     }
 }
 
@@ -285,7 +289,12 @@ Write-Host ""
 
 if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -match "asDailyJob")}){
 
-    Add-SheduledTask -Title "Log File Retention" -Command $PSapps.PowerShell -Arguments $PSscripts.LogFileRetentionTask.Fullname -WorkingDirectory $PSProfilePath -XMLFilename $PSconfigs.LogFileRetentionTask.Name
+    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.LogFileRetention.Name -Recurse)){    
+        Write-Host "Copy $($PStemplates.LogFileRetention.Name) file to the config folder"      
+        Copy-Item -Path $PStemplates.LogFileRetention.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.LogFileRetention.Name)
+	}
+    
+    Update-ScheduledTask
 }
    
 if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -match "withProfileScript")}){
@@ -296,7 +305,7 @@ if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -matc
 #--------------------------------------------------#
 # Log File Retention
 #--------------------------------------------------#
-. $PSscripts.LogFileRetentionTask.Fullname
+. $PSscripts.LogFileRetention.Fullname
 
 '@
     $PSPContentISE += $Content
@@ -330,21 +339,17 @@ $PSPContentISE += $Content
 # Multi Remote Management
 #--------------------------------------------------#  
 if($Features | Where{$_.Name -eq "Multi Remote Management"}){
-   
-	$RDPConfig  = Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.RDP.Name
-    
+       
     if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.RDP.Name -Recurse)){
     
         Write-Host "Copy $($PStemplates.RDP.Name) file to the config folder"        
-		Copy-Item -Path $PStemplates.RDP.FullName -Destination $RDPConfig
+		Copy-Item -Path $PStemplates.RDP.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.RDP.Name)
 	}   
 
-    $WinSCPconfig  = Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.WinSCP.Name
-    
     if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.WinSCP.Name -Recurse)){
     
         Write-Host "Copy $($PStemplates.WinSCP.Name) file to the config folder"        
-		Copy-Item -Path $PStemplates.WinSCP.FullName -Destination $WinSCPconfig
+		Copy-Item -Path $PStemplates.WinSCP.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.WinSCP.Name)
 	}   
     
 }

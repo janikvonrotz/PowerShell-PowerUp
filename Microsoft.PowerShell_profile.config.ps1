@@ -7,7 +7,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-11"
-	LastEditDate = "2013-09-20"
+	LastEditDate = "2013-10-07"
 	Version = "3.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -28,6 +28,7 @@ $global:PSlogs = @{
 
 $global:PSconfigs = @{
 	Path = Join-Path -Path $PSProfilePath -ChildPath "configs";
+    
     Profile = @{
         Filter = "*.profile.config.xml"
     };
@@ -38,27 +39,32 @@ $global:PSconfigs = @{
         Filter = "*.mail.config.xml";
         ErrorClass = "ErrorReport"
     };
-	GitUpdateTask = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "configs") -Filter "Git-Update.task.config.xml" -Recurse;
-	LogFileRetentionTask = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "configs") -Filter "Delete-ObsoleteLogFiles.task.config.xml" -Recurse
+    Task = @{
+        Filter = "*.task.config.xml";
+    }
 }	
 
 $global:PSscripts = @{
 	Path = Join-Path -Path $PSProfilePath -ChildPath "scripts";
-    GitUpdateTask = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "scripts") -Filter "Git-Update.ps1" -Recurse;
-	LogFileRetentionTask = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "scripts") -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse
+    
+    GitUpdate = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "scripts") -Filter "Git-Update.ps1" -Recurse;
+	LogFileRetention = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "scripts") -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse
 }
 
 $global:PSapps = @{
 	Path = Join-Path -Path $PSProfilePath -ChildPath "apps"
+    
     PowerShell = "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe"
 }
 
 $global:PStemplates = @{
     Path = Join-Path -Path $PSProfilePath -ChildPath "templates";
+    
     Mail = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "EXAMPLE.mail.config.xml" -Recurse;
     Profile = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "EXAMPLE.profile.config.xml" -Recurse;
     Remote = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "EXAMPLE.remote.config.xml" -Recurse;
-    Task = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "EXAMPLE.task.config.xml" -Recurse;
+    GitUpdate = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "Git-Update.task.config.xml" -Recurse;
+    LogFileRetention = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "Delete-ObsoleteLogFiles.task.config.xml" -Recurse
     RDP = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "Default.rdp" -Recurse;
     WinSCP = Get-ChildItem -Path (Join-Path -Path $PSProfilePath -ChildPath "templates") -Filter "WinSCP.ini" -Recurse
 } 

@@ -21,7 +21,7 @@
 	<Feature Name="Custom PowerShell CLI"></Feature>	
 	<Feature Name="Enable Open Powershell here"></Feature>
 	<Feature Name="Get Quote Of The Day"></Feature>	
-	<Feature Name="Git Update Task"></Feature>
+	<Feature Name="Git Update"></Feature>
 	<Feature Name="Log File Retention" Days="30" MaxFilesToKeep="100" Run="asDailyJob,withProfileScript"></Feature>
 	<Feature Name="Multi Remote Management"></Feature>
 	<Feature Name="Path System Variable For App Subfolders"></Feature>
