@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-26"
-	LastEditDate = "2013-09-02"
-	Version = "2.0.0"
+	LastEditDate = "2013-10-08"
+	Version = "2.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -41,25 +41,24 @@ function Import-SPList{
 				
 		[Parameter(Mandatory=$true)]
 		[String]
-		$Path
+		$Path,
+        
+        [Switch]
+        $NoFileCompression
 	)
 	
 	#--------------------------------------------------#
 	# modules
 	#--------------------------------------------------#
-    if ((Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue) -eq $null) 
-    {
+    if ((Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue) -eq $null){
         Add-PSSnapin "Microsoft.SharePoint.PowerShell"
     }
 	
 	#--------------------------------------------------#
 	# main
-	#--------------------------------------------------#
-	
-    $SPUrl = $(Get-CleanSPUrl -Url $Url).WebUrl
-    
+	#--------------------------------------------------#	
+    $SPUrl = $(Get-CleanSPUrl -Url $Url).WebUrl    
     $Identity = $SPUrl.Scheme + "://" + $SPUrl.Host + $SPUrl.LocalPath
-    	
-	Import-SPWeb -Identity $Identity -path $Path -IncludeUserSecurity -nologfile -Force
-
+    Write-Host "Import SharePoint list export $Path to $Identity"
+	Import-SPWeb -Identity $Identity -path $Path -IncludeUserSecurity -nologfile -Force -NoFileCompression:$NoFileCompression
 }

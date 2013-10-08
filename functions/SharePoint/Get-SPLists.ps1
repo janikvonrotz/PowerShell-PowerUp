@@ -46,6 +46,9 @@ function Get-SPLists{
 	param(
 		[Parameter(Mandatory=$false)]
 		[string]$Url,
+        
+        [Parameter(Mandatory=$false)]
+		[string]$FilterListName,
 		
 		[switch]$OnlyDocumentLibraries,
 
@@ -62,8 +65,7 @@ function Get-SPLists{
     #--------------------------------------------------#
     # main
     #--------------------------------------------------#
-    
-    # check if url has been passed
+        
     $(if($Url){
     
         [Uri]$SPWebUrl = (Get-CleanSPUrl $Url).WebUrl
@@ -83,15 +85,26 @@ function Get-SPLists{
     }) | %{
     
         $_.lists | %{
-        
-            $(if($OnlyDocumentLibraries){
             
-                $_ | where {$_.BaseType -eq "DocumentLibrary"}
+            $(if($FilterListName){
+            
+                $_ | where{$_.Title -eq $FilterListName}
                 
             }else{
             
                 $_
-            })
+            
+            }) | %{
+                      
+                $(if($OnlyDocumentLibraries){
+                
+                    $_ | where {$_.BaseType -eq "DocumentLibrary"}
+                    
+                }else{
+                
+                    $_
+                })
+            }
         }
     }
 }
