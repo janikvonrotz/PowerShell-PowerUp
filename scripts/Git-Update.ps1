@@ -3,7 +3,7 @@ if(!(Get-Command "git" -ErrorAction SilentlyContinue)){
     cinst git -force
 }
 
-if(!(Test-Path -Path (Join-Path -Path $PSProfilePath -ChildPath ".git"))){
+if(!(Test-Path -Path (Join-Path -Path $PSProfile.Path -ChildPath ".git"))){
     
     cd $PSProfilePath
 
