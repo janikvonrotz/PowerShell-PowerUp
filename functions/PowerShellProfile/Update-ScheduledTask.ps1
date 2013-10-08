@@ -90,7 +90,7 @@ function Update-ScheduledTask{
         $FilePathTemp = $_.FullName + "temp.xml"        
         if($Task.Task.Actions.Exec.Command.contains("$")){$Task.Task.Actions.Exec.Command = Invoke-Expression $Task.Task.Actions.Exec.Command}
         if($Task.Task.Actions.Exec.Arguments.contains("$")){$Task.Task.Actions.Exec.Arguments = Invoke-Expression $Task.Task.Actions.Exec.Arguments}
-        if($Task.Task.Actions.Exec.WorkingDirectory.contains("$")){$Task.Task.Actions.Exec.WorkingDirectory = Invoke-Expression $Task.Task.Actions.Exec.WorkingDirectory}
+        if($Task.Task.Actions.Exec.WorkingDirectory.contains("$")){$Task.Task.Actions.Exec.WorkingDirectory = [string](Invoke-Expression $Task.Task.Actions.Exec.WorkingDirectory)}
         $Task.Save($FilePathTemp)  
            
         $Title = $Task.task.RegistrationInfo.Description             
