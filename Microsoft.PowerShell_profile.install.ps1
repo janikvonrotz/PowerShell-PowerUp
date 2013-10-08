@@ -46,7 +46,6 @@ if(Test-Path $PSProfileConfig){
 }else{
     throw "Couldn't find $PSProfileConfig"
 }
-$PSProfilePath = (Get-Location).Path
 
 #--------------------------------------------------#
 #  prerequisites
@@ -210,7 +209,7 @@ $PSPContent += $Content = @'
 #--------------------------------------------------#
 Push-Location -StackName "WorkingPath"
 . '
-'@ + (Join-Path -Path $PSProfilePath -ChildPath "Microsoft.PowerShell_profile.config.ps1") + "'`n`n"
+'@ + (Join-Path -Path $PSProfile.Path -ChildPath "Microsoft.PowerShell_profile.config.ps1") + "'`n`n"
 
 $PSPContentISE += $Content
 
