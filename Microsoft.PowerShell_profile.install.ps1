@@ -7,8 +7,8 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "www.janikvonrotz.ch"
     CreateDate = "2013-03-18"
-    LastEditDate = "2013-10-07"
-    Version = "6.0.0"
+    LastEditDate = "2013-10-08"
+    Version = "5.1.0"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -126,8 +126,8 @@ Project = ""
 Author = "Janik von Rotz"
 AuthorContact = "www.janikvonrotz.ch"
 CreateDate = "2013-04-22"
-LastEditDate = "2013-10-07"
-Version = "5.0.0"
+LastEditDate = "2013-10-08"
+Version = "5.1.0"
 License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
 
@@ -145,19 +145,19 @@ Project = ""
 Author = "Janik von Rotz"
 AuthorContact = "www.janikvonrotz.ch"
 CreateDate = "2013-04-22"
-LastEditDate = "2013-10-07"
-Version = "5.0.0"
+LastEditDate = "2013-10-08"
+Version = "5.1.0"
 License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
 
 '@
      
 #--------------------------------------------------#
-# Git Update Task
+# Git Update
 #--------------------------------------------------#
 if($Features | Where{$_.Name -eq "Git Update"}){
    
-    . $PSscripts.GitUpdate.Fullname
+    Update-PowerShellProfile
     
     if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.GitUpdate.Name -Recurse)){    
         Write-Host "Copy $($PStemplates.GitUpdate.Name) file to the config folder"      
@@ -165,9 +165,8 @@ if($Features | Where{$_.Name -eq "Git Update"}){
 	}
     
     Update-ScheduledTask
-    
 }
- 
+
 #--------------------------------------------------#
 # Powershell Remoting
 #--------------------------------------------------# 
@@ -221,8 +220,6 @@ if($Features | Where{$_.Name -eq "Custom PowerShell CLI"}){
 # Custom PowerShell CLI
 #--------------------------------------------------#
 $PromptSettings = (Get-Host).UI.RawUI
-# $PromptSettings.ForegroundColor = "Black"
-# $PromptSettings.BackgroundColor = "White"
 $PromptSettings.BufferSize.Width = 120
 $PromptSettings.BufferSize.Height = 999
 $PromptSettings.WindowSize.Width = 120
@@ -304,7 +301,7 @@ if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -matc
 #--------------------------------------------------#
 # Log File Retention
 #--------------------------------------------------#
-. $PSscripts.LogFileRetention.Fullname
+Delete-ObsoleteLogFiles
 
 '@
     $PSPContentISE += $Content

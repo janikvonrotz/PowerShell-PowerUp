@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-11"
-	LastEditDate = "2013-10-07"
-	Version = "3.0.0"
+	LastEditDate = "2013-10-08"
+	Version = "5.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -50,9 +50,6 @@ $global:PSconfigs = @{
 
 $global:PSscripts = @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "scripts";
-    
-    GitUpdate = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "scripts") -Filter "Git-Update.ps1" -Recurse;
-	LogFileRetention = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "scripts") -Filter "Delete-ObsoleteLogFiles.ps1" -Recurse
 }
 
 $global:PSapps = @{
