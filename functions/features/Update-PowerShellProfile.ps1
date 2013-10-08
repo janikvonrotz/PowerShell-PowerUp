@@ -5,7 +5,7 @@ function Update-PowerShellProfile{
 		cinst git -force
 	}
 
-	cd $PSProfilePath
+	cd $PSProfile.Path
 	
 	if(!(Test-Path -Path (Join-Path -Path $PSProfile.Path -ChildPath ".git"))){
 
