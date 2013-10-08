@@ -21,9 +21,6 @@ if($Host.Version.Major -lt 2){
     throw "Only compatible with Powershell version 2 and higher"
 }
 
-# store this path
-Push-Location -StackName "WorkingPath"
-
 #--------------------------------------------------#
 # PowerShell Profile
 #--------------------------------------------------#
@@ -206,7 +203,6 @@ $PSPContent += $Content = @'
 #--------------------------------------------------#
 # main
 #--------------------------------------------------#
-Push-Location -StackName "WorkingPath"
 . '
 '@ + (Join-Path -Path $PSProfile.Path -ChildPath "Microsoft.PowerShell_profile.config.ps1") + "'`n`n"
 
@@ -326,7 +322,7 @@ $PSPContent += $Content = @'
 #--------------------------------------------------#
 # main end
 #--------------------------------------------------#
-Pop-Location -StackName "WorkingPath"
+Set-Location $WorkingPath
 
 '@
 $PSPContentISE += $Content
@@ -362,7 +358,7 @@ if($Features | Where{$_.Name -eq "Add ISE Profile Script"}){
     Set-Content -Value $PSPContentISE -Path (Join-Path -Path (Split-Path $profile -Parent) -ChildPath "Microsoft.PowerShellISE_profile.ps1")
 }
 
-Pop-Location -StackName "WorkingPath"
+Set-Location $WorkingPath
 
 Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
 Read-Host "Press Enter to exit"

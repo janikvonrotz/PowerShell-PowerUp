@@ -18,6 +18,8 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 #>
 
+$global:WorkingPath = (Get-Location).Path
+
 $global:PSProfile = @{
 	Path = Split-Path $MyInvocation.MyCommand.Definition -Parent
 }

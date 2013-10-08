@@ -22,5 +22,5 @@ function Update-PowerShellProfile{
 
 	}
 	
-	Pop-Location -StackName "WorkingPath"
+	Set-Location $WorkingPath
 }
