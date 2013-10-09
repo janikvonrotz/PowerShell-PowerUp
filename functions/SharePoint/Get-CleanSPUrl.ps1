@@ -2,14 +2,14 @@
 $Metadata = @{
   Title = "Get-CleanSPUrl"
 	Filename = "Get-CleanSPUrl.ps1"
-	Description = ""
+	Description = "function is obsolete use Get-SPUrl instead."
 	Tags = "powershell, function, sharepoint, cleant, website, url"
 	Project = ""
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-08-07"
-	LastEditDate = "2013-08-07"
-	Version = "1.0.0"
+	LastEditDate = "2013-10-09"
+	Version = "0.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -22,7 +22,7 @@ function Get-CleanSPUrl {
 
 <#
 .SYNOPSIS
-    Move a SharePoint Website.
+    function is obsolete use Get-SPUrl instead.
 
 .DESCRIPTION
 	This function recognize the url type and outputs a clean version which is usable with SharePoint functions.
