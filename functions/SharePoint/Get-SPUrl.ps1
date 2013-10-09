@@ -91,7 +91,9 @@ function Get-SPUrl {
         
     }elseif($Object.PsObject.TypeNames -contains "Microsoft.SharePoint.SPWeb"){
     
-        $Object
+        New-Object PSObject -Property @{
+            Url = [Uri]$Object.Url
+        }
         
     }elseif($Object.PsObject.TypeNames -contains "Microsoft.SharePoint.SPListItem"){
     
