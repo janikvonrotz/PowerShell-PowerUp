@@ -58,6 +58,7 @@ function Get-SPUrl {
       	
     	if($Url -match "(/Forms/).*?\.(aspx$)"){
             
+            # Library
             New-Object PSObject -Property @{
                 ListUrl = [Uri]($Url.AbsoluteUri -replace "(/Forms/).*?\.(aspx)","")
                 WebUrl = [Uri]($Url.AbsoluteUri -replace "/([^/]*)(/Forms/).*?\.(aspx)","")
@@ -65,6 +66,7 @@ function Get-SPUrl {
             
         }elseif($Url -match "(/Lists/).*?\.(aspx$)"){
         
+            # List
             New-Object PSObject -Property @{
                 ListUrl = [Uri]($Url.AbsoluteUri -replace "/([^/]*)\.(aspx)","")
                 WebUrl = [Uri]($Url.AbsoluteUri -replace "(/Lists/).*?\.(aspx)","")
@@ -72,12 +74,21 @@ function Get-SPUrl {
             
         }elseif($Url -match "/SitePages/Homepage.aspx$" -or $Url -match "/default.aspx$"){
         
+            # Website
             New-Object PSObject -Property @{
                 WebUrl = [Uri]($Url -replace "/SitePages/Homepage.aspx", "" -replace "/default.aspx","")
             }
             
-    	}else{ 
+    	}elseif($Url -match "_vti_history"){
         
+            # Documentlibrary Listitem File Subversion
+            New-Object PSObject -Property @{
+                ListItemFileUrl = [Uri](($Url -replace "_vti_history/(.*[0-9])/","")  -replace "\\","/")
+            }            
+        
+        }else{ 
+        
+            # no match
             New-Object PSObject -Property @{
                 Url = $Url.OriginalString
             }
@@ -86,7 +97,7 @@ function Get-SPUrl {
     }elseif($Object.PsObject.TypeNames -contains "Microsoft.SharePoint.SPList"){
     
         New-Object PSObject -Property @{
-            Url = [Uri](([Uri]$Object.Parentweb.Url).Scheme + "://" + ([uri]$Object.Parentweb.Url).host + $Object.DefaultViewUrl)
+            Url = [Uri](([Uri]$Object.Parentweb.Url).Scheme + "://" + ([uri]$Object.Parentweb.Url).host + $Object.RootFolder.ServerRelativeUrl)
         }
         
     }elseif($Object.PsObject.TypeNames -contains "Microsoft.SharePoint.SPWeb"){
