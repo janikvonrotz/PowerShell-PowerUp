@@ -45,7 +45,29 @@ function Get-ActiveDirectoryUserGroups{
 	# modules
 	#--------------------------------------------------#
 	Import-Module Quest.ActiveRoles.ArsPowerShellSnapIn
-
+	
+	#--------------------------------------------------#
+	# functions
+	#--------------------------------------------------#
+	function New-ObjectADUserGroup{
+		param(
+			$UserName,
+			$UserDN,
+			$UserSamAccountName,
+			$GroupName,
+			$GroupDN,
+			$GroupSamAccountName
+		)
+		New-Object PSObject -Property @{
+			UserName = $UserName
+			UserDN = $UserDN
+			UserSamAccountName = $UserSamAccountName
+			GroupName = $GroupName
+			GroupDN = $GroupDN
+			GroupSamAccountName  = $GroupSamAccountName
+		}
+	}
+	
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#    

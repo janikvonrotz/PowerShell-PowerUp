@@ -20,9 +20,6 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 
 function Get-RemoteConnection{
 
-	#--------------------------------------------------#
-	# Parameter
-	#--------------------------------------------------#
 	param(
         [parameter(Mandatory=$false)]
         [string[]] 
@@ -31,7 +28,29 @@ function Get-RemoteConnection{
         [Switch]
         $ListAvailable
 	)
-	
+    
+    #--------------------------------------------------#
+	# functions
+	#--------------------------------------------------#
+	function New-ObjectRemoteConnection{
+        param(
+            [string]$Name,
+            [string]$Server,
+            [string]$User,
+            [string]$Description,
+            [string]$SnapIns,
+    		[string]$PrivatKey
+        )
+        New-Object PSObject -Property @{
+            Name = $Name
+            Server = $Server
+            User = $User
+            Description = $Description
+            SnapIns = $SnapIns
+    		PrivatKey = $PrivatKey
+        }
+    }
+    
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#

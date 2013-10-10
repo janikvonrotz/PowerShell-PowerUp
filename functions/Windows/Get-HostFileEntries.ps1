@@ -44,8 +44,21 @@ function Get-HostFileEntries{
 		[String]
 		$Filter
 	)
-
-
+    
+    #--------------------------------------------------#
+    # functions
+    #--------------------------------------------------#
+    function New-ObjectHostFileEntry{
+        param(
+            [string]$IP,
+            [string]$DNS
+        )
+        New-Object PSObject -Property @{
+            IP = $IP
+            DNS = $DNS
+        }
+    }
+    
     #--------------------------------------------------#
     # main
     #--------------------------------------------------#
