@@ -6,9 +6,9 @@ $Metadata = @{
 	Tags = "powershell, function, sharepoint"
 	Project = ""
 	Author = "Janik von Rotz"
-	AuthorContact = "www.janikvonrotz.ch"
+	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-04-26"
-	LastEditDate = "2013-10-08"
+	LastEditDate = "2013-10-10"
 	Version = "2.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -24,20 +24,23 @@ function Import-SPList{
 .DESCRIPTION
 	Imports a SharePoint list
 
-.PARAMETER  Url
+.PARAMETER  WebUrl
 	Url to the SharePoint website
 	
 .PARAMETER  Path
 	Path to the export file
 
+.PARAMETER  NoFileCompression
+	Provide this parameter if the compressed list is oversized.
+
 .EXAMPLE
-	Import-SPlist -Url "http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx" -Path "C:\temp\SharePointExport\List Projektverwaltung 2013-04-26 11-15-26.bak"
+	Import-SPlist -WebUrl "http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx" -Path "C:\temp\SharePointExport\List Projektverwaltung 2013-04-26 11-15-26.bak"
 #>
 	
 	param(
 		[Parameter(Mandatory=$true)]
 		[String]
-		$Url,
+		$WebUrl,
 				
 		[Parameter(Mandatory=$true)]
 		[String]
@@ -57,8 +60,8 @@ function Import-SPList{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#	
-    $SPUrl = $(Get-CleanSPUrl -Url $Url).WebUrl    
-    $Identity = $SPUrl.Scheme + "://" + $SPUrl.Host + $SPUrl.LocalPath
-    Write-Host "Import SharePoint list export $Path to $Identity"
-	Import-SPWeb -Identity $Identity -path $Path -IncludeUserSecurity -nologfile -Force -NoFileCompression:$NoFileCompression
+    $SPUrl = $(Get-SPUrl $WebUrl).WebUrl       
+
+    Write-Host "Import SharePoint list $Path to $SPUrl"    
+	Import-SPWeb -Identity $SPUrl -path $Path -IncludeUserSecurity -nologfile -Force -NoFileCompression:$NoFileCompression
 }

@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-08"
-	LastEditDate = "2013-10-08"
+	LastEditDate = "2013-10-10"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -24,24 +24,30 @@ function Export-SPList{
 .DESCRIPTION
 	Export a SharePoint list.
 
-.PARAMETER  Urls
-	Url of the SharePoint list. Returns the filepath.
-	
+.PARAMETER  Url
+	Url of the SharePoint list.
+
 .PARAMETER  Path
 	Provide a path for the temporary backup folder. Optional, default is c:\temp.
+
+.PARAMETER  NoFileCompression
+	Provide this parameter if the compressed list is oversized.
     
 .OUTPUTS
 	System.String
 
 .EXAMPLE
-	Export-SPLists -Urs "http://sharepoint.domain.ch/it/Support/Forms/AllItems.aspx" -Path "C:\temp\SharePointExport"
+	Export-SPLists -Url "http://sharepoint.domain.ch/it/Support/Forms/AllItems.aspx" -Path "C:\temp\SharePointExport" -NoFileCompression
+    
+.EXAMPLE
+	Export-SPLists -Url "http://sharepoint.domain.ch/it/Support/Forms/AllItems.aspx" -Path "C:\temp\SharePointExport" -NoFileCompression
 #>
 	
 	param(	
 		[Parameter(Mandatory=$true)]
 		[String]
-		$Url,
-				
+		$ListUrl,
+       			
 		[Parameter(Mandatory=$false)]
 		[String]
 		$Path = "C:\temp",
@@ -53,28 +59,23 @@ function Export-SPList{
 	#--------------------------------------------------#
 	# modules
 	#--------------------------------------------------#
-    if ((Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue) -eq $null) 
-    {
+    if ((Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue) -eq $null){
         Add-PSSnapin "Microsoft.SharePoint.PowerShell"
     }
 	
 	#--------------------------------------------------#
 	# main
-	#--------------------------------------------------#		
+	#--------------------------------------------------#    
+    if(!(Test-Path -path $Path)){New-Item $Path -Type Directory}   
 
-    $SPUrl = Get-CleanSPUrl -Url $Url        
-    
-    $SPWeb = Get-SPWeb -Identity ($SPUrl.WebUrl.Scheme + "://" + $SPUrl.WebUrl.Host + $SPUrl.WebUrl.LocalPath)
-	
-    if(!(Test-Path -path $Path)){New-Item $Path -Type Directory}
-    
-    $FileName = ($SPUrl.ListUrl.LocalPath -replace ".*/","")
-    
-    $FilePath = Join-Path -Path $Path -ChildPath ( $FileName + "#" + $((get-date -format o) -replace ":","-") + ".bak")
-    
+    $SPUrl = Get-SPUrl $ListUrl     
+    $SPWeb = Get-SPWeb $ListUrl.WebUrl 
+          
+    $FileName = (([uri]$ListUrl.ListUrl).LocalPath -replace ".*/","")
+    $FilePath = Join-Path -Path $Path -ChildPath ( $FileName + "#" + $((get-date -format o) -replace ":","-") + ".bak") 
+       
     Write-Host "Export SharePoint list $FileName to $FilePath"    
+    Export-SPWeb -Identity $SPWeb.Url -ItemUrl ([uri]$SPUrl.ListUrl).LocalPath -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -NoFileCompression:$NoFileCompression
     
-    Export-SPWeb -Identity $SPWeb.Url -ItemUrl $SPUrl.ListUrl.LocalPath -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -NoFileCompression:$NoFileCompression
-    
-    $FilePath	
+    $FilePath
 }

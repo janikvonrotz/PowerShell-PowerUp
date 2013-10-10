@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-11"
-	LastEditDate = "2013-10-08"
-	Version = "5.1.0"
+	LastEditDate = "2013-10-10"
+	Version = "6.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -20,47 +20,48 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 
 $global:WorkingPath = (Get-Location).Path
 
-$global:PSProfile = @{
+$global:PSProfile = New-Object PSObject -Property @{
 	Path = Split-Path $MyInvocation.MyCommand.Definition -Parent
 }
 	
-$global:PSfunctions = @{
+$global:PSfunctions = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "functions"
 }
 
-$global:PSlogs = @{
+$global:PSlogs = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "logs"
+	SessionFile = (Join-Path -Path (Join-Path -Path $PSProfile.Path -ChildPath "logs") -ChildPath ("PowerShell Session " + $((get-date -format o) -replace ":","-") + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt"))
 }
 
-$global:PSconfigs = @{
+$global:PSconfigs = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "configs";
     
-    Profile = @{
+    Profile = New-Object PSObject -Property @{
         Filter = "*.profile.config.xml"
     };
-    Remote = @{
+    Remote = New-Object PSObject -Property @{
         Filter = "*.remote.config.*"
     };
-    Mail = @{
+    Mail = New-Object PSObject -Property @{
         Filter = "*.mail.config.xml";
         ErrorClass = "ErrorReport"
     };
-    Task = @{
+    Task = New-Object PSObject -Property @{
         Filter = "*.task.config.xml";
     }
 }	
 
-$global:PSscripts = @{
+$global:PSscripts = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "scripts";
 }
 
-$global:PSapps = @{
+$global:PSapps = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "apps"
     
     PowerShell = "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe"
 }
 
-$global:PStemplates = @{
+$global:PStemplates = New-Object PSObject -Property @{
     Path = Join-Path -Path $PSProfile.Path -ChildPath "templates";
     
     Mail = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "EXAMPLE.mail.config.xml" -Recurse;

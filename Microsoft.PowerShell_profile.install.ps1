@@ -273,7 +273,7 @@ if($Features | Where{$_.Name -eq "Transcript Logging"}){
 #--------------------------------------------------#
 # Transcript Logging
 #--------------------------------------------------#	
-Start-Transcript -path (Join-Path -Path ($PSlogs.Path) -ChildPath ("PowerShell Session " + $((get-date -format o) -replace ":","-") + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt"))
+Start-Transcript -path $PSlogs.SessionFile
 Write-Host ""
 
 '@
