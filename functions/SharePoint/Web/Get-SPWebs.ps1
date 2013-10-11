@@ -38,7 +38,7 @@ function Get-SPWebs{
 
 	param(
 		[Parameter(Mandatory=$false)]
-		[string]$SPWeb
+		$SPWeb
 	)
     
     #--------------------------------------------------#

@@ -44,7 +44,7 @@ function Get-SPLists{
 
 	param(
 		[Parameter(Mandatory=$false)]
-		[string]$SPWeb,
+		$SPWeb,
         
         [Parameter(Mandatory=$false)]
 		[string]$FilterListName,
