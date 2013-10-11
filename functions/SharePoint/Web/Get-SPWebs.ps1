@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-07-29"
-	LastEditDate = "2013-09-25"
-	Version = "1.1.0"
+	LastEditDate = "2013-10-11"
+	Version = "2.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -27,9 +27,9 @@ function Get-SPWebs{
 
 .DESCRIPTION
 	Return websites of a SharePoint website recursively.
-    
-.PARAMETER Url
-	Url of the SharePoint website including subsites.
+
+.PARAMETER SPWeb
+	Url or PowerShell object of the SharePoint website.
 
 .EXAMPLE
 	PS C:\> Get-SPWebs -Url "http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx"
@@ -38,7 +38,7 @@ function Get-SPWebs{
 
 	param(
 		[Parameter(Mandatory=$false)]
-		[string]$Url
+		[string]$SPWeb
 	)
     
     #--------------------------------------------------#
@@ -52,14 +52,12 @@ function Get-SPWebs{
     # main
     #--------------------------------------------------#
     
-    if($Url){
-    
-        [Uri]$SPWebUrl = (Get-CleanSPUrl -Url $Url).WebUrl
+    if($SPWeb){
         
-        Get-SPWeb -Identity $SPWebUrl.OriginalString | %{
+        Get-SPWeb (Get-SPUrl $SPWeb).Url | %{
             $_ ; if($_.webs.Count -ne 0){
                 $_.webs | %{
-                    Get-SPWebs -Url $_.Url
+                    Get-SPWebs $_.Url
                 }
             }    
         }

@@ -60,7 +60,7 @@ function Get-SPUrl {
             
             # Library
             New-Object PSObject -Property @{
-                ListUrl = ($Url.AbsoluteUri -replace "(/Forms/).*?\.(aspx)","")
+                Url = ($Url.AbsoluteUri -replace "(/Forms/).*?\.(aspx)","")
                 WebUrl = ($Url.AbsoluteUri -replace "/([^/]*)(/Forms/).*?\.(aspx)","")
             }  
             
@@ -68,7 +68,7 @@ function Get-SPUrl {
         
             # List
             New-Object PSObject -Property @{
-                ListUrl = ($Url.AbsoluteUri -replace "/([^/]*)\.(aspx)","")
+                Url = ($Url.AbsoluteUri -replace "/([^/]*)\.(aspx)","")
                 WebUrl = ($Url.AbsoluteUri -replace "(/Lists/).*?\.(aspx)","")
             } 
             
@@ -76,14 +76,14 @@ function Get-SPUrl {
         
             # Website
             New-Object PSObject -Property @{
-                WebUrl = ($Url.AbsoluteUri -replace "/SitePages/Homepage.aspx", "" -replace "/default.aspx","")
+                Url = ($Url.AbsoluteUri -replace "/SitePages/Homepage.aspx", "" -replace "/default.aspx","")
             }
             
     	}elseif($Url -match "_vti_history"){
         
             # Documentlibrary Listitem File Subversion
             New-Object PSObject -Property @{
-                ListItemFileUrl = (($Url.AbsoluteUri -replace "_vti_history/(.*[0-9])/","")  -replace "\\","/")
+                Url = (($Url.AbsoluteUri -replace "_vti_history/(.*[0-9])/","")  -replace "\\","/")
             }            
         
         }else{ 

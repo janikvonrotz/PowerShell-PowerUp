@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-05-17"
-	LastEditDate = "2013-09-27"
-	Version = "3.2.0"
+	LastEditDate = "2013-10-11"
+	Version = "3.3.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -49,9 +49,6 @@ function Set-SPADGroupPermission{
     	
 .EXAMPLE
 	Assign-ADGroupPermissionRole -Url "http://sharepoint.domain.ch/Projekte/SitePages/Homepage.aspx" -ADGroup "SP_Projekte#Superuser" -RoleToAssignID "1073741828" -Recursive
-
-.Link
-    https://gist.github.com/janikvonrotz/5617921
 #>
 
 	param(
@@ -82,21 +79,18 @@ function Set-SPADGroupPermission{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-    
-    # extract spweb url
-    $SPWebUrl = $(Get-SPUrl $SPWeb).Url
  
 	# get spweb object
-	$SPweb = Get-SPweb $SPWebUrl
-       
+    $SPWebsite = Get-SPweb $(Get-SPUrl $SPWeb).Url
+    
     # get spsite object
-    $SPSite =  Get-SPSite $SPweb.Site
+    $SPSite =  $SPWebsite.Site
     
     # get root web object
 	$SPRootWeb = $SPSite.RootWeb
     
 	# get role definition by id
-	$SPRole = $SPWeb.RoleDefinitions | where{$_.Name -eq $Role -or $_.ID -eq $Role}
+	$SPRole = $SPWebsite.RoleDefinitions | where{$_.Name -eq $Role -or $_.ID -eq $Role}
     
     # get adgroup format domain\name
     $ADGroup = "$((Get-ADDomain).Name)" + "`\" + $(Get-ADGroup $ADGroup).Name
@@ -110,12 +104,12 @@ function Set-SPADGroupPermission{
 	$SPRoleAssignment = new-object Microsoft.SharePoint.SPRoleAssignment($SPGroup)
 	$SPRoleAssignment.RoleDefinitionBindings.Add($SPRole)
     
-    Write-Host "Grant $($SPRole.Name) access for $ADGroup on $($SPWeb.Title) with options:$(if($Recursive){" Recursive"})$(if($IncludeLists){" IncludeLists"})$(if($Overwrite){" Overwrite"})"
+    Write-Host "Grant $($SPRole.Name) access for $ADGroup on $($SPWebsite.Title) with options:$(if($Recursive){" Recursive"})$(if($IncludeLists){" IncludeLists"})$(if($Overwrite){" Overwrite"})"
     
 	# set role for subwebs
-	if($Recursive){# recursive
+	if($Recursive){
     
-        $SPWebs = Get-SPWebs -Url $SPweb.Url
+        $SPWebs = Get-SPWebs $SPWebsite
         
         # set spwebs permission
         foreach($SPWeb in $SPWebs){
@@ -133,7 +127,7 @@ function Set-SPADGroupPermission{
             if($IncludeLists){
                 
                 # get lists of the websites
-                $SPLists = Get-SPLists -Url $SPWeb.Url
+                $SPLists = Get-SPLists $SPWeb
                 
                 foreach($SPList in $SPLists){
                     if($SPList.HasUniqueRoleAssignments){ 
@@ -148,18 +142,18 @@ function Set-SPADGroupPermission{
     }else{# not recursive
      
         # set spweb permission
-        if($SPWeb.HasUniqueRoleAssignments){
+        if($SPWebsite.HasUniqueRoleAssignments){
             if($OverWrite){
                 $SPweb.RoleAssignments.Remove($SPGroup)
             }
-			$SPWeb.RoleAssignments.Add($SPRoleAssignment)
+			$SPWebsite.RoleAssignments.Add($SPRoleAssignment)
 		}
             
         # set splist permissions
         if($IncludeLists){
             
             # get lists of the websites
-            $SPLists = Get-SPLists -Url $SPWeb.Url
+            $SPLists = Get-SPLists $SPWebsite
             
             foreach($SPList in $SPLists){
                 if($SPList.HasUniqueRoleAssignments){ 
