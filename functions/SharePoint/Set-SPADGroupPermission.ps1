@@ -84,13 +84,13 @@ function Set-SPADGroupPermission{
     $SPWeb = Get-SPweb $(Get-SPUrl $SPWeb).Url
     
     # get spsite object
-    $SPSite =  $get.Site
+    $SPSite =  $SPWeb.Site
     
     # get root web object
 	$SPRootWeb = $SPSite.RootWeb
     
 	# get role definition by id
-	$SPRole = $get.RoleDefinitions | where{$_.Name -eq $Role -or $_.ID -eq $Role}
+	$SPRole = $SPWeb.RoleDefinitions | where{$_.Name -eq $Role -or $_.ID -eq $Role}
     
     # get adgroup format domain\name
     $ADGroup = "$((Get-ADDomain).Name)" + "`\" + $(Get-ADGroup $ADGroup).Name
@@ -104,7 +104,7 @@ function Set-SPADGroupPermission{
 	$SPRoleAssignment = new-object Microsoft.SharePoint.SPRoleAssignment($SPGroup)
 	$SPRoleAssignment.RoleDefinitionBindings.Add($SPRole)
     
-    Write-Host "Grant $($SPRole.Name) access for $ADGroup on $($get.Title) with options:$(if($Recursive){" Recursive"})$(if($IncludeLists){" IncludeLists"})$(if($Overwrite){" Overwrite"})"
+    Write-Host "Grant $($SPRole.Name) access for $ADGroup on $($SPWeb.Title) with options:$(if($Recursive){" Recursive"})$(if($IncludeLists){" IncludeLists"})$(if($Overwrite){" Overwrite"})"
     
 	# set role for subwebs
 	if($Recursive){
