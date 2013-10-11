@@ -27,7 +27,7 @@ function Get-SPUrl {
 .DESCRIPTION
 	This function returns a normalized url to the provided SharePoint object or http url.
 
-.PARAMETER  Object
+.PARAMETER  SPobject
 	SharePoint Object.
 
 .INPUTS
@@ -45,16 +45,16 @@ function Get-SPUrl {
 
 	param(
 		[Parameter(Mandatory=$true)]
-		$Object
+		$SPobject
 	)
     	
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
     
-    if($Object.PsObject.TypeNames -contains "System.String"){
+    if($SPobject.PsObject.TypeNames -contains "System.String"){
     
-        [Uri]$Url = $Object
+        [Uri]$Url = $SPobject
       	
     	if($Url -match "(/Forms/).*?\.(aspx$)"){
             
@@ -94,22 +94,22 @@ function Get-SPUrl {
             }
     	}
         
-    }elseif($Object.PsObject.TypeNames -contains "Microsoft.SharePoint.SPList"){
+    }elseif($SPobject.PsObject.TypeNames -contains "Microsoft.SharePoint.SPList"){
     
         New-Object PSObject -Property @{
-            Url = (([Uri]$Object.Parentweb.Url).Scheme + "://" + ([uri]$Object.Parentweb.Url).host + $Object.RootFolder.ServerRelativeUrl)
+            Url = (([Uri]$SPobject.Parentweb.Url).Scheme + "://" + ([uri]$SPobject.Parentweb.Url).host + $SPobject.RootFolder.ServerRelativeUrl)
         }
         
-    }elseif($Object.PsObject.TypeNames -contains "Microsoft.SharePoint.SPWeb"){
+    }elseif($SPobject.PsObject.TypeNames -contains "Microsoft.SharePoint.SPWeb"){
     
         New-Object PSObject -Property @{
-            Url = $Object.Url
+            Url = $SPobject.Url
         }
         
-    }elseif($Object.PsObject.TypeNames -contains "Microsoft.SharePoint.SPListItem"){
+    }elseif($SPobject.PsObject.TypeNames -contains "Microsoft.SharePoint.SPListItem"){
     
         New-Object PSObject -Property @{
-            Url = ($Object.ParentList.ParentWeb.Url + "/" + $Object.Url)
+            Url = ($SPobject.ParentList.ParentWeb.Url + "/" + $SPobject.Url)
         }
     }        
 }

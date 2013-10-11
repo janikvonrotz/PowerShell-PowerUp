@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-07-29"
-	LastEditDate = "2013-09-25"
-	Version = "2.1.0"
+	LastEditDate = "2013-10-11"
+	Version = "3.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -28,8 +28,8 @@ function Get-SPLists{
 .DESCRIPTION
 	Get all SharePoint lists.
     
-.PARAMETER Url
-	Url of the SharePoint website containing the lists.
+.PARAMETER SPWeb
+	Url or PowerShell object of the SharePoint website.
     
 .PARAMETER OnlyDocumentLibraries
 	Only get document libraries
@@ -37,15 +37,14 @@ function Get-SPLists{
 .PARAMETER Recursive
 	Requires Identity, includes the every sub list of the specified website.
 
-
 .EXAMPLE
-	PS C:\> Get-SPLists -Url "http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx" -OnlyDocumentLibraries -Recursive
+	PS C:\> Get-SPLists -Object "http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx" -OnlyDocumentLibraries -Recursive
 
 #>
 
 	param(
 		[Parameter(Mandatory=$false)]
-		[string]$Url,
+		[string]$SPWeb,
         
         [Parameter(Mandatory=$false)]
 		[string]$FilterListName,
@@ -66,17 +65,17 @@ function Get-SPLists{
     # main
     #--------------------------------------------------#
         
-    $(if($Url){
+    $(if($SPWeb){
     
-        [Uri]$SPWebUrl = (Get-CleanSPUrl $Url).WebUrl
+        $SPWebUrl = (Get-SPUrl $SPWeb).Url
                 
         if($Recursive){
                
-            Get-SPWebs -Url $SPWebUrl.OriginalString 
+            Get-SPWebs -Url $SPWebUrl 
                                    
         }else{
                
-            Get-SPWeb -Identity $SPWebUrl.OriginalString
+            Get-SPWeb -Identity $SPWebUrl
         }      
      }else{
      

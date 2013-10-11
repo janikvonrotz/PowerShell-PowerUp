@@ -29,17 +29,17 @@ function Set-SPADGroupPermission{
     The roles are only assigned as long the sharepoint object doesn't inherit the rights.
 	How to get the role ID: https://gist.github.com/janikvonrotz/5617921
 
-.PARAMETER  Url
-	SharePoint website url.
+.PARAMETER SPWeb
+	Url or PowerShell object of the SharePoint website.
 
 .PARAMETER  ADGroup
 	ActiveDirectory group  from the same domain.
 	
-.PARAMETER  RoleID
-	Role ID.
+.PARAMETER  Role
+	Role ID or name.
     
 .PARAMETER Recursive
-    Include SharePoint sube websites.
+    Include SharePoint subwebsites.
     
 .PARAMETER IncludeLists
     Also set the permission for the list of the website.
@@ -56,13 +56,13 @@ function Set-SPADGroupPermission{
 
 	param(
 		[Parameter(Mandatory=$true)]
-		[string]$Url,
+		[string]$SPWeb,
 		
 		[Parameter(Mandatory=$true)]
 		[string]$ADGroup,
 
 		[Parameter(Mandatory=$true)]
-		[string]$RoleID,
+		[string]$Role,
         
         [switch]$Recursive,
         
@@ -84,19 +84,19 @@ function Set-SPADGroupPermission{
 	#--------------------------------------------------#
     
     # extract spweb url
-    $SPWebUrl = $(Get-CleanSPUrl -Url $Url).WebUrl
-    
+    $SPWebUrl = $(Get-SPUrl $SPWeb).Url
+ 
+	# get spweb object
+	$SPweb = Get-SPweb $SPWebUrl
+       
     # get spsite object
-    $SPSite =  Get-SPSite ($SPWebUrl.Scheme + "://" + $SPWebUrl.Host)
+    $SPSite =  Get-SPSite $SPweb.Site
     
     # get root web object
 	$SPRootWeb = $SPSite.RootWeb
-
-	# get spweb object
-	$SPweb = Get-SPweb $SPWebUrl.OriginalString
     
 	# get role definition by id
-	$SPRole = $SPWeb.RoleDefinitions.GetById($RoleID)
+	$SPRole = $SPWeb.RoleDefinitions | where{$_.Name -eq $Role -or $_.ID -eq $Role}
     
     # get adgroup format domain\name
     $ADGroup = "$((Get-ADDomain).Name)" + "`\" + $(Get-ADGroup $ADGroup).Name
@@ -109,7 +109,9 @@ function Set-SPADGroupPermission{
     
 	$SPRoleAssignment = new-object Microsoft.SharePoint.SPRoleAssignment($SPGroup)
 	$SPRoleAssignment.RoleDefinitionBindings.Add($SPRole)
-            
+    
+    Write-Host "Grant $($SPRole.Name) access for $ADGroup on $($SPWeb.Title) with options:$(if($Recursive){" Recursive"})$(if($IncludeLists){" IncludeLists"})$(if($Overwrite){" Overwrite"})"
+    
 	# set role for subwebs
 	if($Recursive){# recursive
     
