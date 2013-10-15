@@ -49,5 +49,5 @@ function Get-PPConfiguration{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-	Get-ChildItem -Path $Path -Filter $Filter -Recurse | %{[xml]$(get-content $_.FullName)} | %{$_.Content} 
+	Get-ChildItem -Path $Path -Filter $Filter -Recurse | %{[xml]$(get-content $_.FullName)}
 }
