@@ -21,7 +21,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 $global:WorkingPath = (Get-Location).Path
 
 $global:PSProfile = New-Object PSObject -Property @{
-	Path = Split-Path $MyInvocation.MyCommand.Definition -Parent
+	Path = Split-Path $MyInvocation.MyCommand.Definition -Parent;
 }
 	
 $global:PSfunctions = New-Object PSObject -Property @{
@@ -53,6 +53,7 @@ $global:PSconfigs = New-Object PSObject -Property @{
 
 $global:PSscripts = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "scripts";
+	Install = Get-ChildItem -Path (Split-Path $MyInvocation.MyCommand.Definition -Parent) -Filter "Microsoft.PowerShell_profile.install.ps1" -Recurse
 }
 
 $global:PSapps = New-Object PSObject -Property @{

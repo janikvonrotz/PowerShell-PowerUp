@@ -37,10 +37,12 @@ if (!(Test-Path $Profile)){
 #--------------------------------------------------#
     
 # load global configurations
-$PSProfileConfig = "Microsoft.PowerShell_profile.config.ps1"
-if(Test-Path $PSProfileConfig){
-    .\Microsoft.PowerShell_profile.config.ps1
-}else{
+$PSProfileConfig = Join-Path -Path (Get-Location).Path -ChildPath "Microsoft.PowerShell_profile.config.ps1"
+if((Test-Path $PSProfileConfig) -and $PSProfile -eq $null){
+    iex $PSProfileConfig
+}elseif($PSProfile -ne $null){
+	Write-Host "Using global configuration of this session"
+}elseif(-not (Test-Path $PSProfileConfig)){
     throw "Couldn't find $PSProfileConfig"
 }
 
@@ -252,7 +254,8 @@ if($Features | Where{$_.Name -eq "Custom Aliases"}){
 #--------------------------------------------------#
 # Custom Aliases
 #--------------------------------------------------#
-nal -Name grc -Value "Get-RemoteConnection" -ErrorAction SilentlyContinue	
+nal -Name grc -Value "Get-RemoteConnection" -ErrorAction SilentlyContinue
+nal -Name gppc -Value "Get-PPConfiguration" -ErrorAction SilentlyContinue	
 nal -Name crdp -Value "Connect-RDP" -ErrorAction SilentlyContinue
 nal -Name crps -Value "Connect-PSS" -ErrorAction SilentlyContinue
 nal -Name chttp -Value "Connect-Http" -ErrorAction SilentlyContinue
@@ -361,4 +364,3 @@ if($Features | Where{$_.Name -eq "Add ISE Profile Script"}){
 Set-Location $WorkingPath
 
 Write-Host "Finished" -BackgroundColor Black -ForegroundColor Green
-Read-Host "Press Enter to exit"
