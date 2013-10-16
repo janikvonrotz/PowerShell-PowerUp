@@ -8,19 +8,17 @@ Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki
 
 Download the latest release:
 
-[https://github.com/janikvonrotz/Powershell-Profile/releases](https://github.com/janikvonrotz/Powershell-Profile/releases)
+![GitHub Download ZIP](https://raw.github.com/janikvonrotz/Powershell-Profile/master/doc/GitHub%20Download%20ZIP.png)
 
-and unzip it in the directory of your choice or use git to clone the whole repository:
+and unzip it in the directory of your choice OR use git to clone the whole repository:
 
 	git clone git://github.com/janikvonrotz/Powershell-Profile.git
 
 Now add a profile configuration file to the config folder:
 
-	COPY    \templates\EXAMPLE.profile.config.xml
+	COPY    \templates\EXAMPLE.profile.config.xml    TO    \config\... 
 	
-	TO    \config\... 
-	
-And 
+And
 	
 	RENAME    EXAMPLE.profile.config.xml    TO    [SOMETHING].profile.config.xml
 
@@ -28,6 +26,8 @@ Now take your time to edit your new PowerShell Profile config file.
 Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki) for more information.
 
 	EDIT    [SOMETHING].profile.config.xml
+
+	SAVE    [SOMETHING].profile.config.xml
 	
 Open your Powershell commandline and enter:
 
