@@ -1,0 +1,27 @@
+{
+  "name": "Powershell-Profile",
+  "version": "0.0.0",
+  "description": "<h1>Powershell-Profile</h1> <p>It&#39;s more than just a PowerShell profile script, follow the install guide and you&#39;ll get a PowerShell scripting IDE with the most advanced configurations for your client and server environment. Checkout the <a href=\"https://github.com/janikvonrotz/Powershell-Profile/wiki\">wiki page</a> for more information.</p> <h2>How to install</h2> <p>Download Portable Git for Windows from:</p> <p><a href=\"https://code.google.com/p/msysgit/downloads/list\"><a href=\"https://code.google.com/p/msysgit/downloads/list\">https://code.google.com/p/msysgit/downloads/list</a></a></p> <p>Unzip in a directory of your choice.</p> <p>Execute the:</p> <pre><code>git-cmd.bat </code></pre> <p>and clone the Powershell Profile Project in a directory of your choice:</p> <pre><code>git clone git://github.com/janikvonrotz/Powershell-Profile.git</code></pre> <p>In case of an error like this:</p> <pre><code>0 [main] us 0 init_cheap: VirtualAlloc pointer is null, Win32 error 487 AllocationBase 0x0, BaseAddress 0x71110000, RegionSize 0x350000, State 0x10000 \\msys\\bin\\make.exe: *** Couldn&#39;t reserve space for cygwin&#39;s heap, Win32 error 0</code></pre> <p>Checkout this <a href=\"http://support.code-red-tech.com/CodeRedWiki/VirtualAllocPointerNull\">link</a></p> <p>When the download finished successfully...</p> <pre><code>COPY    \\Powershell-Profile\\templates\\EXAMPLE.profile.config.xml",
+  "main": "Gruntfile.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "chains-markdown": "~0.1.3",
+    "grunt-contrib-watch": "~0.5.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/janikvonrotz/Powershell-Profile.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/janikvonrotz/Powershell-Profile/issues"
+  }
+}
