@@ -37,11 +37,6 @@ Or depending on your windows security restrictions:
 	
 	PS C:\Powershell-Profile> Set-ExecutionPolicy unrestricted
 
-At last execute the install script from commad line:
+At last execute the install script from the PowerShell commad line:
 
 	PS C:\Powershell-Profile> .\Microsoft.PowerShell_profile.install.ps1
-
-And the magic is done <3
-
-
-	
