@@ -84,7 +84,7 @@ Get-childitem ($PSfunctions.Path) -Recurse | where{-not $_.PSIsContainer} | fore
 #--------------------------------------------------#
 # load profile configs
 #--------------------------------------------------#
-    
+
 # load configuration files
 Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.Profile.Filter -Recurse |
      %{[xml]$(get-content $_.FullName)} |
@@ -93,10 +93,9 @@ Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.Profile.Filter -Recurse |
 #--------------------------------------------------#
 # add system variables
 #--------------------------------------------------#
-    
 if($SystemVariables -ne $Null){$SystemVariables | %{
         
-        Write-Host ("Adding path variable: " + $_.Value)
+        Write-Host ("Adding path variable: $($_.Value)")
         
         if($_.RelativePath -eq "true"){
         
@@ -186,18 +185,6 @@ if($Features | Where{$_.Name -eq "Enable Open Powershell here"}){
     Write-Host "Adding 'Open PowerShell Here' to context menu "
 	$Null = Enable-OpenPowerShellHere
 		
-}
- 
-#--------------------------------------------------#
-# Path System Variable For App Subfolders
-#--------------------------------------------------#     
-if($Features | Where{$_.Name -eq "Path System Variable For App Subfolders"}){
-    
-	Get-ChildItem $PSapps.Path -Force | Where {$_.PSIsContainer} | %{
-        
-        Write-Host ("Adding path variable: " + $_.Name)
-        Add-PathVariable -Value $_.Fullname -Name "Path" -Target "Machine"        
-    }
 }
 
 $PSPContent += $Content = @'

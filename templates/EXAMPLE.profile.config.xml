@@ -24,7 +24,6 @@
 	<Feature Name="Git Update"></Feature>
 	<Feature Name="Log File Retention" Days="30" MaxFilesToKeep="100" Run="asDailyJob,withProfileScript"></Feature>
 	<Feature Name="Multi Remote Management"></Feature>
-	<Feature Name="Path System Variable For App Subfolders"></Feature>
 	<Feature Name="Powershell Remoting"></Feature>
 	<Feature Name="Transcript Logging"></Feature>	
 
