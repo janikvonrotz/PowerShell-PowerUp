@@ -34,7 +34,7 @@ function Connect-PSS{
 	#--------------------------------------------------#
         
     # Load Configurations
-	$Servers = grc -Name $Name
+	$Servers = Get-RemoteConnection -Name $Name
 	
 	foreach($Server in $Servers){
 		

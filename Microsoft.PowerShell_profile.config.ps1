@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-11"
-	LastEditDate = "2013-10-10"
+	LastEditDate = "2013-10-17"
 	Version = "6.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -72,4 +72,6 @@ $global:PStemplates = New-Object PSObject -Property @{
     LogFileRetention = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "Delete-ObsoleteLogFiles.task.config.xml" -Recurse
     RDP = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "Default.rdp" -Recurse
     WinSCP = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "WinSCP.ini" -Recurse
+	CustomPPscript = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "Custom PowerShell Profile.script.config.ps1" -Recurse
+    CustomPPISEscript = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "Custom PowerShell Profile ISE.script.config.ps1" -Recurse
 } 

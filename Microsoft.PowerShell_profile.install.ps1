@@ -7,8 +7,8 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "www.janikvonrotz.ch"
     CreateDate = "2013-03-18"
-    LastEditDate = "2013-10-08"
-    Version = "5.1.0"
+    LastEditDate = "2013-10-17"
+    Version = "6.0.0"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -16,15 +16,16 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 '@
 }
 
+#--------------------------------------------------#
+#  project init
+#--------------------------------------------------#
+
 # check compatiblity
 if($Host.Version.Major -lt 2){
     throw "Only compatible with Powershell version 2 and higher"
 }
 
-#--------------------------------------------------#
-# PowerShell Profile
-#--------------------------------------------------#
-# Create PowerShell Profile
+# create PowerShell Profile
 if (!(Test-Path $Profile)){
 
     # Create a profile
@@ -33,7 +34,7 @@ if (!(Test-Path $Profile)){
 }
 
 #--------------------------------------------------#
-#  settings
+#  global settings
 #--------------------------------------------------#
     
 # load global configurations
@@ -76,23 +77,23 @@ if(!(Get-Module -ListAvailable | where{$_.Name -eq "pscx"})){
 
 Import-Module pscx
 
-#--------------------------------------------------#
 # autoinclude functions
-#--------------------------------------------------#
 Get-childitem ($PSfunctions.Path) -Recurse | where{-not $_.PSIsContainer} | foreach{. ($_.Fullname)}
-    
+
 #--------------------------------------------------#
-# load profile configs
+#  profile settings
 #--------------------------------------------------#
+
+# cast vars
+$Features = @()
+$Systemvariables = @()
 
 # load configuration files
-Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.Profile.Filter -Recurse |
-     %{[xml]$(get-content $_.FullName)} |
-         %{$Features += $_.Content.Feature;$Systemvariables += $_.Content.Systemvariable}
+Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.Profile.Filter -Recurse | %{
+    [xml]$(get-content $_.FullName)} | %{
+        $Features += $_.Content.Feature;$Systemvariables += $_.Content.Systemvariable}
 
-#--------------------------------------------------#
 # add system variables
-#--------------------------------------------------#
 if($SystemVariables -ne $Null){$SystemVariables | %{
         
         Write-Host ("Adding path variable: $($_.Value)")
@@ -106,53 +107,15 @@ if($SystemVariables -ne $Null){$SystemVariables | %{
             Add-PathVariable -Value (Invoke-Expression ($Command = '"' + $_.Value + '"')) -Name $_.Name -Target $_.Target
         }
     }
-}	
-
-#--------------------------------------------------#
-# features
-#--------------------------------------------------#
-
-# Metadata
-$PSPContent += @'
-    
-$Metadata = @{
-Title = "Powershell Profile"
-Filename = "Microsoft.PowerShell_profile.ps1"
-Description = ""
-Tags = "powershell, profile"
-Project = ""
-Author = "Janik von Rotz"
-AuthorContact = "www.janikvonrotz.ch"
-CreateDate = "2013-04-22"
-LastEditDate = "2013-10-08"
-Version = "5.1.0"
-License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
 
-'@
-    
-# Metadata ISE    
-$PSPContentISE += @'
-    
-$Metadata = @{
-Title = "Powershell ISE Profile"
-Filename = "Microsoft.PowerShellISE_profile.ps1"
-Description = ""
-Tags = "powershell, ise, profile"
-Project = ""
-Author = "Janik von Rotz"
-AuthorContact = "www.janikvonrotz.ch"
-CreateDate = "2013-04-22"
-LastEditDate = "2013-10-08"
-Version = "5.1.0"
-License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
-}
-
-'@
-     
 #--------------------------------------------------#
+# feature selection
+#--------------------------------------------------#
+
+
 # Git Update
-#--------------------------------------------------#
+
 if($Features | Where{$_.Name -eq "Git Update"}){
    
     Update-PowerShellProfile
@@ -165,9 +128,9 @@ if($Features | Where{$_.Name -eq "Git Update"}){
     Update-ScheduledTask
 }
 
-#--------------------------------------------------#
+
 # Powershell Remoting
-#--------------------------------------------------# 
+
 if($Features | Where{$_.Name -eq "Powershell Remoting"}){
     
     Write-Host "Enabling Powershell Remoting"
@@ -177,9 +140,9 @@ if($Features | Where{$_.Name -eq "Powershell Remoting"}){
 	restart-Service WinRM -Confirm:$false
 }
 
-#--------------------------------------------------#
+
 # Enable Open Powershell here
-#--------------------------------------------------#  
+
 if($Features | Where{$_.Name -eq "Enable Open Powershell here"}){
     
     Write-Host "Adding 'Open PowerShell Here' to context menu "
@@ -187,87 +150,8 @@ if($Features | Where{$_.Name -eq "Enable Open Powershell here"}){
 		
 }
 
-$PSPContent += $Content = @'
 
-#--------------------------------------------------#
-# main
-#--------------------------------------------------#
-. '
-'@ + (Join-Path -Path $PSProfile.Path -ChildPath "Microsoft.PowerShell_profile.config.ps1") + "'`n`n"
-
-$PSPContentISE += $Content
-
-if($Features | Where{$_.Name -eq "Custom PowerShell CLI"}){
-    Write-Host "Add Custom PowerShell CLI to the profile script"
-	$PSPContent += @'
-
-#--------------------------------------------------#
-# Custom PowerShell CLI
-#--------------------------------------------------#
-$PromptSettings = (Get-Host).UI.RawUI
-$PromptSettings.BufferSize.Width = 120
-$PromptSettings.BufferSize.Height = 999
-$PromptSettings.WindowSize.Width = 120
-$PromptSettings.WindowSize.Height = 50
-$PromptSettings.MaxWindowSize.Width = 120
-$PromptSettings.MaxWindowSize.Height = 50
-$PromptSettings.MaxPhysicalWindowSize.Width = 120
-$PromptSettings.MaxPhysicalWindowSize.Height = 50
-# $PromptSettings.WindowTitle = "PowerShell"
-
-'@
-}
- 
-if($Features | Where{$_.Name -eq "Autoinclude Functions"}){
-    Write-Host "Add Autoinclude Functions to the profile script"
-	$PSPContent += $Content = @'
-
-#--------------------------------------------------#
-# Autoinclude Functions
-#--------------------------------------------------#
-Get-childitem ($PSfunctions.Path) -Recurse | where{-not $_.PSIsContainer} | foreach{. ($_.Fullname)}
-
-'@
-    $PSPContentISE += $Content
-}
-    
-#--------------------------------------------------#
-# Custom Aliases
-#--------------------------------------------------# 
-if($Features | Where{$_.Name -eq "Custom Aliases"}){
-    Write-Host "Add Custom Aliases to the profile script"
-	$PSPContent += $Content = @'
-
-#--------------------------------------------------#
-# Custom Aliases
-#--------------------------------------------------#
-nal -Name grc -Value "Get-RemoteConnection" -ErrorAction SilentlyContinue
-nal -Name gppc -Value "Get-PPConfiguration" -ErrorAction SilentlyContinue	
-nal -Name crdp -Value "Connect-RDP" -ErrorAction SilentlyContinue
-nal -Name crps -Value "Connect-PSS" -ErrorAction SilentlyContinue
-nal -Name chttp -Value "Connect-Http" -ErrorAction SilentlyContinue
-nal -Name cssh -Value "Connect-SSH" -ErrorAction SilentlyContinue
-nal -Name cscp -Value "Connect-SCP" -ErrorAction SilentlyContinue
-nal -Name cftp -Value "Connect-FTP" -ErrorAction SilentlyContinue
-nal -Name cvss -Value "Connect-VSphere" -ErrorAction SilentlyContinue
-nal -Name cvm -Value "Connect-VM" -ErrorAction SilentlyContinue
-
-'@
-    $PSPContentISE += $Content
-}
-
-if($Features | Where{$_.Name -eq "Transcript Logging"}){
-    Write-Host "Add Transcript Logging to the profile script"
-	$PSPContent += @'
-
-#--------------------------------------------------#
-# Transcript Logging
-#--------------------------------------------------#	
-Start-Transcript -path $PSlogs.SessionFile
-Write-Host ""
-
-'@
-}
+# Log File Retention
 
 if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -match "asDailyJob")}){
 
@@ -278,48 +162,10 @@ if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -matc
     
     Update-ScheduledTask
 }
-   
-if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -match "withProfileScript")}){
-                    
-    Write-Host "Add Log File Retention to the profile script"
-    $PSPContent += $Content = @'
 
-#--------------------------------------------------#
-# Log File Retention
-#--------------------------------------------------#
-Delete-ObsoleteLogFiles
 
-'@
-    $PSPContentISE += $Content
-}
-
-if($Features | Where{$_.Name -eq "Get Quote Of The Day"}){
-    Write-Host "Add Get Quote Of The Day to the profile script"
-	$PSPContent += $Content = @'
-
-#--------------------------------------------------#
-# Get Quote Of The Day
-#--------------------------------------------------#	
-Get-QuoteOfTheDay
-Write-Host ""
-
-'@
-    $PSPContentISE += $Content
-}
-
-$PSPContent += $Content = @'
-
-#--------------------------------------------------#
-# main end
-#--------------------------------------------------#
-Set-Location $WorkingPath
-
-'@
-$PSPContentISE += $Content
-    
-#--------------------------------------------------#
 # Multi Remote Management
-#--------------------------------------------------#  
+  
 if($Features | Where{$_.Name -eq "Multi Remote Management"}){
        
     if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.RDP.Name -Recurse)){
@@ -336,16 +182,163 @@ if($Features | Where{$_.Name -eq "Multi Remote Management"}){
     
 }
 
-# Write content to script file
-Write-Host "Creating PowerShell Profile Script"
-Set-Content -Value $PSPContent -Path $Profile
+# cast vars
+$PPContent = @()
+$PPISEContent = @()
+
+# Metadata
+
+$PPContent += @'
     
+$Metadata = @{
+Title = "Powershell Profile"
+Filename = "Microsoft.PowerShell_profile.ps1"
+Description = ""
+Tags = "powershell, profile"
+Project = ""
+Author = "Janik von Rotz"
+AuthorContact = "www.janikvonrotz.ch"
+CreateDate = "2013-04-22"
+LastEditDate = "2013-10-17"
+Version = "6.0.0"
+License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
+}
+
+'@
+
+
+# Metadata ISE   
+ 
+$PPISEContent += @'
+    
+$Metadata = @{
+Title = "Powershell ISE Profile"
+Filename = "Microsoft.PowerShellISE_profile.ps1"
+Description = ""
+Tags = "powershell, ise, profile"
+Project = ""
+Author = "Janik von Rotz"
+AuthorContact = "www.janikvonrotz.ch"
+CreateDate = "2013-04-22"
+LastEditDate = "2013-10-17"
+Version = "6.0.0"
+License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
+}
+
+'@
+
+
+# main
+
+$PPContent += $Content = @'
+# main
+. '
+'@ + (Join-Path -Path $PSProfile.Path -ChildPath "Microsoft.PowerShell_profile.config.ps1") + "'`n"
+
+$PPISEContent += $Content
+
+
+# Autoinclude Functions
+
+if($Features | Where{$_.Name -eq "Autoinclude Functions"}){
+    Write-Host "Add Autoinclude Functions to the profile script"
+	$PPContent += $Content = @'
+# Autoinclude Functions
+Get-childitem ($PSfunctions.Path) -Recurse | where{-not $_.PSIsContainer} | foreach{. ($_.Fullname)}
+
+'@
+    $PPISEContent += $Content
+}
+
+
+# Transcript Logging
+	
+if($Features | Where{$_.Name -eq "Transcript Logging"}){
+    Write-Host "Add Transcript Logging to the profile script"
+	$PPContent += @'
+# Transcript Logging
+Start-Transcript -path $PSlogs.SessionFile
+Write-Host ""
+
+'@
+}
+
+
+# Log File Retention
+
+if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -match "withProfileScript")}){
+                    
+    Write-Host "Add Log File Retention to the profile script"
+    $PPContent += $Content = @'
+# Log File Retention
+Delete-ObsoleteLogFiles
+
+'@
+    $PPISEContent += $Content
+}
+
+
+# Custom PowerShell Profile script
+
+if($Features | Where{$_.Name -contains "Custom PowerShell Profile script"}){
+
+    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.CustomPPscript.Name -Recurse)){    
+        Write-Host "Copy $($PStemplates.CustomPPscript.Name) file to the config folder"      
+        Copy-Item -Path $PStemplates.CustomPPscript.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.CustomPPscript.Name)
+	}
+    
+    Write-Host "Include Custom PowerShell Profile script"
+	$PPContent += $(Get-Content (Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.CustomPPscript.Name -Recurse).Fullname) + "`n"
+}
+
+# Custom PowerShell Profile ISE script
+
+if($Features | Where{$_.Name -contains "Custom PowerShell Profile ISE script"}){
+
+    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.CustomPPISEscript.Name -Recurse)){    
+        Write-Host "Copy $($PStemplates.CustomPPISEscript.Name) file to the config folder"      
+        Copy-Item -Path $PStemplates.CustomPPISEscript.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.CustomPPISEscript.Name)
+	}
+    
+    Write-Host "Include Custom PowerShell Profile script"
+	$PPISEContent += $Content = $(Get-Content (Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.CustomPPISEscript.Name -Recurse).Fullname) + "`n"
+}
+
+# Get Quote Of The Day
+
+if($Features | Where{$_.Name -eq "Get Quote Of The Day"}){
+    Write-Host "Add Get Quote Of The Day to the profile script"
+	$PPContent += $Content = @'
+# Get Quote Of The Day
+Get-QuoteOfTheDay
+Write-Host ""
+
+'@
+    $PPISEContent += $Content
+}
+
+
+# main end
+
+$PPContent += $Content = @'
+# main end
+Set-Location $WorkingPath
+
+'@
+$PPISEContent += $Content
+
 #--------------------------------------------------#
+# feature selection end
+#--------------------------------------------------#
+
+# Write content to PowerShell Profile script file
+Write-Host "Creating PowerShell Profile Script"
+Set-Content -Value $PPContent -Path $Profile
+
 # Add ISE Profile Script
-#--------------------------------------------------#
 if($Features | Where{$_.Name -eq "Add ISE Profile Script"}){
     Write-Host "Creating PowerShell ISE Profile Script"
-    Set-Content -Value $PSPContentISE -Path (Join-Path -Path (Split-Path $profile -Parent) -ChildPath "Microsoft.PowerShellISE_profile.ps1")
+    Set-Content -Value $PPISEContent -Path (Join-Path -Path (Split-Path $profile -Parent) -ChildPath "Microsoft.PowerShellISE_profile.ps1")
 }
 
 Set-Location $WorkingPath

@@ -46,7 +46,7 @@ function Connect-RDP{
     
          # Load Configurations
 		$RDPDefaultFile = $(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.RDP.Name -Recurse).Fullname       
-		$Servers = grc -Name $Name
+		$Servers = Get-RemoteConnection -Name $Name
 
         foreach($Server in $Servers){
 		        

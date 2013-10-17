@@ -17,8 +17,8 @@
 
 	<Feature Name="Add ISE Profile Script"></Feature>	
 	<Feature Name="Autoinclude Functions"></Feature>
-	<Feature Name="Custom Aliases"></Feature>	
-	<Feature Name="Custom PowerShell CLI"></Feature>	
+	<Feature Name="Custom PowerShell Profile script"></Feature>
+	<Feature Name="Custom PowerShell Profile ISE script"></Feature>	
 	<Feature Name="Enable Open Powershell here"></Feature>
 	<Feature Name="Get Quote Of The Day"></Feature>	
 	<Feature Name="Git Update"></Feature>

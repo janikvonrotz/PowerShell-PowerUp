@@ -50,7 +50,7 @@ function Connect-VSphere{
     #--------------------------------------------------#
     
     # Load Configurations
-	$Servers = grc -Name $Name
+	$Servers = Get-RemoteConnection -Name $Name
 
     $Servers | %{
 		

@@ -49,7 +49,7 @@ function Connect-SSH{
     if (Get-Command "putty"){ 
     
         # Load Configurations
-    	$Config = grc -Name $Name
+    	$Config = Get-RemoteConnection -Name $Name
 
         $Config | %{
     		

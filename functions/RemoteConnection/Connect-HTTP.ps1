@@ -53,7 +53,7 @@ function Connect-HTTP{
     #--------------------------------------------------#
 
     # Load Configurations 
-	$Servers = grc -Name $Name
+	$Servers = Get-RemoteConnection -Name $Name
 
 	# default settings
 	$HttpPort = 80
