@@ -33,6 +33,9 @@ function Send-PPErrorReport{
 
 .PARAMETER  ScriptName
 	The name of the PowerShell Profile script that throws the error.
+	
+.PARAMETER  ClearErrorVariable
+	Clear PowerShell error variable.
 
 .EXAMPLE
 	PS C:\> Send-PPErrorReport -FileName "Office365.mail.config.xml" -ScriptName $MyInvocation.InvocationName
@@ -48,7 +51,10 @@ function Send-PPErrorReport{
 
         [Parameter(Mandatory=$true)]
 		[String]
-		$ScriptName
+		$ScriptName,
+		
+		[switch]
+		$ClearErrorVariable  
 	)
 
 	
@@ -73,7 +79,7 @@ function Send-PPErrorReport{
 		Send-MailMessage -To $Mail.ReplyToAddress -From $Mail.FromAddress -Subject ($env:COMPUTERNAME + " " + $ScriptName + " #" + $(get-date -format o)) -Body $Body -SmtpServer $Mail.OutSmtpServer
 
 		# clear error variable
-		$error.clear()
+		if($ClearErrorVariable){$error.clear()}
 	}
 }
 

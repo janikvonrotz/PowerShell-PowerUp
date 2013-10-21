@@ -32,7 +32,9 @@ function Write-PPErrorEventLog{
 
 .PARAMETER  EventLogSource
 	Source parameter for the event log entry.
-
+	
+.PARAMETER  ClearErrorVar
+	Clear PowerShell error variable.
 .EXAMPLE
 	PS C:\> Write-PPErrorEventLog -Source $MyInvocation.InvocationName
 #>
@@ -43,6 +45,9 @@ function Write-PPErrorEventLog{
         
         [Parameter(Mandatory=$false)]
 		$EventLogSource
+		
+		[switch]
+		$ClearErrorVar  
 	)
 	
 	#--------------------------------------------------#
