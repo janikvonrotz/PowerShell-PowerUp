@@ -84,6 +84,7 @@ Get-childitem ($PSfunctions.Path) -Recurse | where{-not $_.PSIsContainer} | fore
 $EventLog = Get-WmiObject win32_nteventlogfile -filter "filename='$($PSlogs.EventLogName)'"
 if(-not ($EventLog)){
     
+	Write-Host "Create event log: $($PSlogs.EventLogName)"
     New-EventLog -LogName $PSlogs.EventLogName -Source $PSlogs.EventLogSources -ErrorAction SilentlyContinue
 }
 # [System.Diagnostics.EventLog]::CreateEventSource(“MySource”, "Application")
