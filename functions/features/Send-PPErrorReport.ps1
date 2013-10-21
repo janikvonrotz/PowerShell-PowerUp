@@ -8,9 +8,9 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-08-14"
-	LastEditDate = "2013-09-13"
+	LastEditDate = "2013-10-21"
 	Url = ""
-	Version = "1.1.0"
+	Version = "1.1.2"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -56,22 +56,24 @@ function Send-PPErrorReport{
 	# main
 	#--------------------------------------------------#
 	
-    # output existing errors
-    $Error
-    
-    # reset
-    $Body = ""
+	if($Error){ 	
+		# output existing errors
+		$Error
+		
+		# reset
+		$Body = ""
 
-    # create body message
-    $Error | foreach{$Body += $_.ToString() + $_.InvocationInfo.PositionMessage + "`n`n"}
+		# create body message
+		$Error | foreach{$Body += $_.ToString() + $_.InvocationInfo.PositionMessage + "`n`n"}
 
-    # Get mail receiver from config file
-    $Mail = Get-PPConfiguration $PSconfigs.Mail.Filter | %{$_.Content.Mail | where{$_.Name -eq $PSconfigs.Mail.ErrorClass}} | select -first 1
+		# Get mail receiver from config file
+		$Mail = Get-PPConfiguration $PSconfigs.Mail.Filter | %{$_.Content.Mail | where{$_.Name -eq $PSconfigs.Mail.ErrorClass}} | select -first 1
 
-    # send mail
-    Send-MailMessage -To $Mail.ReplyToAddress -From $Mail.FromAddress -Subject ($env:COMPUTERNAME + " " + $ScriptName + " #" + $(get-date -format o)) -Body $Body -SmtpServer $Mail.OutSmtpServer
+		# send mail
+		Send-MailMessage -To $Mail.ReplyToAddress -From $Mail.FromAddress -Subject ($env:COMPUTERNAME + " " + $ScriptName + " #" + $(get-date -format o)) -Body $Body -SmtpServer $Mail.OutSmtpServer
 
-    # clear error variable
-    $error.clear()
+		# clear error variable
+		$error.clear()
+	}
 }
 
