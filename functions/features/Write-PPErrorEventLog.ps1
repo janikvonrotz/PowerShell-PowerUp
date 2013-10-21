@@ -45,7 +45,7 @@ function Write-PPErrorEventLog{
 		$Source,
         
         [Parameter(Mandatory=$false)]
-		$EventLogSource
+		$EventLogSource,
 		
 		[switch]
 		$ClearErrorVariable  
