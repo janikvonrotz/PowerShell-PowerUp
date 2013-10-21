@@ -33,8 +33,9 @@ function Write-PPErrorEventLog{
 .PARAMETER  EventLogSource
 	Source parameter for the event log entry.
 	
-.PARAMETER  ClearErrorVar
+.PARAMETER  ClearErrorVariable
 	Clear PowerShell error variable.
+	
 .EXAMPLE
 	PS C:\> Write-PPErrorEventLog -Source $MyInvocation.InvocationName
 #>
@@ -47,7 +48,7 @@ function Write-PPErrorEventLog{
 		$EventLogSource
 		
 		[switch]
-		$ClearErrorVar  
+		$ClearErrorVariable  
 	)
 	
 	#--------------------------------------------------#
@@ -56,7 +57,7 @@ function Write-PPErrorEventLog{
     if($Error){    
         $Message = ""
         $Error | %{$Message += "$($_.ToString()) $($_.InvocationInfo.PositionMessage) `n`n"}
-        $error.clear()
+        if($ClearErrorVariable){$error.clear()}
     }
     
     Write-PPEventLog -Message $Message -Source $Source -EntryType Error -EventLogSource $EventLogSource -AppendSessionLog
