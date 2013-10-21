@@ -30,7 +30,12 @@ $global:PSfunctions = New-Object PSObject -Property @{
 
 $global:PSlogs = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "logs"
-	
+
+    EventLogName = "PowerShell Profile"
+    EventLogSources = @("PowerShell Profile", "Scheduled Task")
+    ErrorEventId = 666
+    InformationEventId = 0
+    WarningEventId = 333
 	SessionFile = (Join-Path -Path (Join-Path -Path $PSProfile.Path -ChildPath "logs") -ChildPath ("PowerShell Session " + $((get-date -format o) -replace ":","-") + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt"))
 }
 

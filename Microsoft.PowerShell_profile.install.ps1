@@ -80,6 +80,14 @@ Import-Module pscx
 # autoinclude functions
 Get-childitem ($PSfunctions.Path) -Recurse | where{-not $_.PSIsContainer} | foreach{. ($_.Fullname)}
 
+# create custom event log
+$EventLog = Get-WmiObject win32_nteventlogfile -filter "filename='$($PSlogs.EventLogName)'"
+if(-not ($EventLog)){
+    
+    New-EventLog -LogName $PSlogs.EventLogName -Source $PSlogs.EventLogSources -ErrorAction SilentlyContinue
+}
+# [System.Diagnostics.EventLog]::CreateEventSource(“MySource”, "Application")
+
 #--------------------------------------------------#
 #  profile settings
 #--------------------------------------------------#
