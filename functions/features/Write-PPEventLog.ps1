@@ -77,7 +77,7 @@ function Write-PPEventLog{
     }elseif($EntryType -eq "Warning"){Write-Warning $Message       
     }else{Write-Host $Message}
     
-    $Message += $Source + "`n`n" + $Message
+    $Message = $Source + "`n`n" + $Message
     
     if(-not $EventId){
     
