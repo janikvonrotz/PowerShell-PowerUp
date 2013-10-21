@@ -53,7 +53,7 @@ function Write-PPEventLog{
         [Parameter(Mandatory=$true)]
 		$Message,
 
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$false)]
 		$Source,
         
         [Parameter(Mandatory=$false)]
@@ -66,6 +66,9 @@ function Write-PPEventLog{
 		[string]
         $EntryType,
         
+		[switch]
+        $WriteMessage,
+		
         [switch]
         $AppendSessionLog
 	)
@@ -73,12 +76,12 @@ function Write-PPEventLog{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-    if($EntryType -eq "Error"){Write-Error $Message    
-    }elseif($EntryType -eq "Warning"){Write-Warning $Message       
-    }else{Write-Host $Message}
-    
-    $Message = $Source + "`n`n" + $Message
-    
+	if($WriteMessage){
+		if($EntryType -eq "Error"){Write-Error $Message    
+		}elseif($EntryType -eq "Warning"){Write-Warning $Message       
+		}else{Write-Host $Message}
+    }
+	    
     if(-not $EventId){
     
         if($EntryType -eq "Error"){$EventId = $PSlogs.ErrorEventId        
@@ -86,10 +89,11 @@ function Write-PPEventLog{
         }else{$EventId = $PSlogs.InformationEventId}
     }
     
+	if($Source){$Message = $Source + "`n`n" + $Message}
     if(-not $EventLogSource){$EventLogSource = "PowerShell Profile"}        
     if($AppendSessionLog){
 		Copy-Item $PSlogs.SessionFile ("$($PSlogs.SessionFile).tmp")
-		$Message += Get-Content $PSlogs.SessionFile | Out-String
+		$Message += "`n`n" + (Get-Content $PSlogs.SessionFile | Out-String)
 		Remove-Item ("$($PSlogs.SessionFile).tmp")
 	}
     
