@@ -87,7 +87,11 @@ function Write-PPEventLog{
     }
     
     if(-not $EventLogSource){$EventLogSource = "PowerShell Profile"}        
-    if($AppendSessionLog){$Message += Get-Content $PSlogs.SessionFile | Out-String}
+    if($AppendSessionLog){
+		Copy-Item $PSlogs.SessionFile ("$($PSlogs.SessionFile).tmp")
+		$Message += Get-Content $PSlogs.SessionFile | Out-String
+		Remove-Item ("$($PSlogs.SessionFile).tmp")
+	}
     
     if(-not $EntryType){ Write-EventLog -EventId $EventId -Message $Message -ComputerName $env:COMPUTERNAME -LogName $PSlogs.EventLogName -Source $EventLogSource
     }else{Write-EventLog -EventId $EventId -Message $Message -EntryType $EntryType -ComputerName $env:COMPUTERNAME -LogName $PSlogs.EventLogName -Source $EventLogSource}
