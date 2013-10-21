@@ -73,43 +73,22 @@ function Write-PPEventLog{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-    if($EntryType -eq "Error"){
-        Write-Error $Message
+    if($EntryType -eq "Error"){Write-Error $Message    
+    }elseif($EntryType -eq "Warning"){Write-Warning $Message       
+    }else{Write-Host $Message}
     
-    }elseif($EntryType -eq "Warning"){
-        Write-Warning $Message
-        
-    }else{
-        Write-Host $Message
-    }
-    
-	$Message = $Source + "`n`n" + $Message
+    $Message += $Source + "`n`n" + $Message
     
     if(-not $EventId){
     
-        if($EntryType -eq "Error"){
-            $EventId = $PSlogs.ErrorEventId
-        
-        }elseif($EntryType -eq "Warning"){
-            $EventId = $PSlogs.WarningEventId
-            
-        }else{
-            $EventId = $PSlogs.InformationEventId
-
-        }
+        if($EntryType -eq "Error"){$EventId = $PSlogs.ErrorEventId        
+        }elseif($EntryType -eq "Warning"){$EventId = $PSlogs.WarningEventId            
+        }else{$EventId = $PSlogs.InformationEventId}
     }
     
-    if(-not $EventLogSource){$EventLogSource = "PowerShell Profile"}
-        
-    if($AppendSessionLog){
+    if(-not $EventLogSource){$EventLogSource = "PowerShell Profile"}        
+    if($AppendSessionLog){$Message += Get-Content $PSlogs.SessionFile | Out-String}
     
-        $Message += "$(Get-Content $PSlogs.SessionFile)"   
-
-    }
-    
-    if(-not $EntryType){
-        Write-EventLog -EventId $EventId -Message $Message -ComputerName $env:COMPUTERNAME -LogName $PSlogs.EventLogName -Source $EventLogSource
-    }else{
-        Write-EventLog -EventId $EventId -Message $Message -EntryType $EntryType -ComputerName $env:COMPUTERNAME -LogName $PSlogs.EventLogName -Source $EventLogSource
-    }
+    if(-not $EntryType){ Write-EventLog -EventId $EventId -Message $Message -ComputerName $env:COMPUTERNAME -LogName $PSlogs.EventLogName -Source $EventLogSource
+    }else{Write-EventLog -EventId $EventId -Message $Message -EntryType $EntryType -ComputerName $env:COMPUTERNAME -LogName $PSlogs.EventLogName -Source $EventLogSource}
 }
