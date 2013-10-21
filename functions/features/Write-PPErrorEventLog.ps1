@@ -57,7 +57,7 @@ function Write-PPErrorEventLog{
     if($Error){    
         $Message = ""
         $Error | %{$Message += "$($_.ToString()) $($_.InvocationInfo.PositionMessage) `n`n"}
-        if($ClearErrorVariable){$error.clear()}
+        if($ClearErrorVariable){$Error.clear()}
         
         Write-PPEventLog -Message $Message -Source $Source -EntryType Error -EventLogSource $EventLogSource -AppendSessionLog
     }

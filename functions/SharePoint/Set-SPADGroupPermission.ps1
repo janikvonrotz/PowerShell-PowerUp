@@ -104,7 +104,7 @@ function Set-SPADGroupPermission{
 	$SPRoleAssignment = new-object Microsoft.SharePoint.SPRoleAssignment($SPGroup)
 	$SPRoleAssignment.RoleDefinitionBindings.Add($SPRole)
     
-    Write-Host "Grant $($SPRole.Name) access for $ADGroup on $($SPWeb.Title) with options:$(if($Recursive){" Recursive"})$(if($IncludeLists){" IncludeLists"})$(if($Overwrite){" Overwrite"})"
+    $("Grant $($SPRole.Name) access for $ADGroup on $($SPWeb.Title) with options:$(if($Recursive){" Recursive"})$(if($IncludeLists){" IncludeLists"})$(if($Overwrite){" Overwrite"})")
     
 	# set role for subwebs
 	if($Recursive){
