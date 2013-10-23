@@ -11,20 +11,18 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-04-11</CreateDate>
-		<LastEditDate>2013-09-16</LastEditDate>
-		<Version>2.0.0</Version>
+		<LastEditDate>2013-10-23</LastEditDate>
+		<Version>3.0.0</Version>
 	</Metadata>
 
-	<Feature Name="Add ISE Profile Script"></Feature>	
-	<Feature Name="Autoinclude Functions"></Feature>
-	<Feature Name="Custom PowerShell Profile script"></Feature>
-	<Feature Name="Custom PowerShell Profile ISE script"></Feature>	
 	<Feature Name="Enable Open Powershell here"></Feature>
-	<Feature Name="Get Quote Of The Day"></Feature>	
-	<Feature Name="Git Update"></Feature>
+	<Feature Name="Get Quote Of The Day"></Feature>		
+	<!-- <Feature Name="Git Update"></Feature> -->
 	<Feature Name="Log File Retention" Days="30" MaxFilesToKeep="100" Run="asDailyJob,withProfileScript"></Feature>
-	<Feature Name="Multi Remote Management"></Feature>
-	<Feature Name="Powershell Remoting"></Feature>
-	<Feature Name="Transcript Logging"></Feature>	
-
+	<!-- <Feature Name="Powershell Remoting"></Feature> -->
+	<Feature Name="Custom PowerShell Profile script"></Feature>
+	<Feature Name="Custom PowerShell Profile script"></Feature>
+	
+	<!-- <SystemVariable Value="C:\Chocolatey\" Name="Path" RelativePath="false" Target="Machine"></SystemVariable>   -->
+	
 </Content>
