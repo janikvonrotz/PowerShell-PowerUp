@@ -23,7 +23,7 @@ And
 	RENAME    EXAMPLE.profile.config.xml    TO    [SOMETHING].profile.config.xml
 
 Now take your time to edit your new PowerShell Profile config file.
-Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki) for more information.
+Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki#custom-features) for more information.
 
 	EDIT    [SOMETHING].profile.config.xml
 
