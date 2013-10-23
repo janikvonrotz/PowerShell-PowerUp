@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
     AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-05-17"
-    LastEditDate = "2013-10-02"
-	Version = "3.0.0"
+    LastEditDate = "2013-10-23"
+	Version = "3.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -49,9 +49,17 @@ function Connect-SSH{
     if (Get-Command "putty"){ 
     
         # Load Configurations
-    	$Config = Get-RemoteConnection -Name $Name
+		$Servers = Get-RemoteConnection -Name $Name        
+        
+        if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.WinSCP.Name -Recurse)){
+        
+            Write-Host "Copy $($PStemplates.WinSCP.Name) file to the config folder"        
+    		Copy-Item -Path $PStemplates.WinSCP.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.WinSCP.Name)
+    	} 
+    
+        $IniFile = $(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.WinSCP.Name -Recurse).FullName
 
-        $Config | %{
+        $Servers | %{
     		
             # default settings
             $SSHPort = 22

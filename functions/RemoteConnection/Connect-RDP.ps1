@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
     AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-04-03"
-    LastEditDate = "2013-10-02"
-	Version = "3.0.0"
+    LastEditDate = "2013-10-23"
+	Version = "3.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -44,9 +44,16 @@ function Connect-RDP{
     #--------------------------------------------------#
     if ((Get-Command "cmdkey") -and (Get-Command "mstsc")){ 
     
-         # Load Configurations
-		$RDPDefaultFile = $(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.RDP.Name -Recurse).Fullname       
-		$Servers = Get-RemoteConnection -Name $Name
+        # Load Configurations
+        
+        $Servers = Get-RemoteConnection -Name $Name
+       
+        if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.RDP.Name -Recurse)){
+        
+            Write-Host "Copy $($PStemplates.RDP.Name) file to the config folder"        
+    		Copy-Item -Path $PStemplates.RDP.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.RDP.Name)
+    	} 
+		$RDPDefaultFile = $(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.RDP.Name -Recurse).Fullname		
 
         foreach($Server in $Servers){
 		        

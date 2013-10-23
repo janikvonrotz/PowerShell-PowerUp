@@ -31,11 +31,6 @@ $global:PSfunctions = New-Object PSObject -Property @{
 $global:PSlogs = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "logs"
 
-    EventLogName = "PowerShell Profile"
-    EventLogSources = @("PowerShell Profile", "Scheduled Task")
-    ErrorEventId = 666
-    InformationEventId = 0
-    WarningEventId = 333
 	SessionFile = (Join-Path -Path (Join-Path -Path $PSProfile.Path -ChildPath "logs") -ChildPath ("PowerShell Session " + $((get-date -format o) -replace ":","-") + " " + $env:COMPUTERNAME  + "-" + $env:USERNAME  + ".txt"))
 }
 
@@ -46,7 +41,7 @@ $global:PSconfigs = New-Object PSObject -Property @{
         Filter = "*.profile.config.xml"
     }
     Remote = New-Object PSObject -Property @{
-        Filter = "*.remote.config.*"
+        Filter = "*.remote.config.xml"
     }
     Mail = New-Object PSObject -Property @{
         Filter = "*.mail.config.xml";
@@ -54,6 +49,9 @@ $global:PSconfigs = New-Object PSObject -Property @{
     }
     Task = New-Object PSObject -Property @{
         Filter = "*.task.config.xml";
+    }
+	EventLog = New-Object PSObject -Property @{
+        Filter = "*.eventlog.config.xml";
     }
 }	
 
@@ -69,10 +67,7 @@ $global:PSapps = New-Object PSObject -Property @{
 
 $global:PStemplates = New-Object PSObject -Property @{
     Path = Join-Path -Path $PSProfile.Path -ChildPath "templates"
-    
-    Mail = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "EXAMPLE.mail.config.xml" -Recurse
-    Profile = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "EXAMPLE.profile.config.xml" -Recurse
-    Remote = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "EXAMPLE.remote.config.xml" -Recurse
+    	
     GitUpdate = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "Git-Update.task.config.xml" -Recurse
     LogFileRetention = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "Delete-ObsoleteLogFiles.task.config.xml" -Recurse
     RDP = Get-ChildItem -Path (Join-Path -Path $PSProfile.Path -ChildPath "templates") -Filter "Default.rdp" -Recurse
