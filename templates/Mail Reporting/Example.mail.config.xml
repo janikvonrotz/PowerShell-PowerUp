@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Content>
+
+	<Metadata>
+		<Title>PowerShell Profile Mail Configuration</Title>
+		<Filename>EXAMPLE.mail.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, profile, mail, configuration</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2013-08-14</CreateDate>
+		<LastEditDate>2013-08-14</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<Mail Name="ErrorReport" OutSmtpServer="[exchangeserver]"	FromAddress="[mailfromaddress]"	ReplyToaddress="[mailfromaddress]"></Mail>
+
+</Content>
