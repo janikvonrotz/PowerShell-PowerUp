@@ -1,7 +1,7 @@
 Powershell-Profile
 ==================
 
-It's more than just a PowerShell profile script, follow the install guide and you'll get a PowerShell scripting IDE with the most advanced configurations for your client and server environment.
+PowerShell Profile is a Server Management Framework.
 Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki) for more information.
 
 ##How to install##
