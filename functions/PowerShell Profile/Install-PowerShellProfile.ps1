@@ -38,6 +38,6 @@ function Install-PowerShellProfile{
 	# main
 	#--------------------------------------------------#
 	sl $PSprofile.Path
-	iex $PSscripts.Install.FullName
+	iex $PSProfile.Install.FullName
 	sl $WorkingPath
 }

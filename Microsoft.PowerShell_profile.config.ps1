@@ -22,6 +22,8 @@ $global:WorkingPath = (Get-Location).Path
 
 $global:PSProfile = New-Object PSObject -Property @{
 	Path = Split-Path $MyInvocation.MyCommand.Definition -Parent
+	
+	Install = Get-ChildItem -Path (Split-Path $MyInvocation.MyCommand.Definition -Parent) -Filter "Microsoft.PowerShell_profile.install.ps1" -Recurse
 }
 	
 $global:PSfunctions = New-Object PSObject -Property @{
@@ -58,7 +60,8 @@ $global:PSconfigs = New-Object PSObject -Property @{
 $global:PSscripts = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "scripts"
 	
-	Install = Get-ChildItem -Path (Split-Path $MyInvocation.MyCommand.Definition -Parent) -Filter "Microsoft.PowerShell_profile.install.ps1" -Recurse
+	CustomFeatures = Join-Path -Path $PSProfile.Path -ChildPath "Custom Features"
+	PackageInstall = Join-Path -Path $PSProfile.Path -ChildPath "Package Install"
 }
 
 $global:PSapps = New-Object PSObject -Property @{    

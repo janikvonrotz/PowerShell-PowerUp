@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-22"
-	LastEditDate = "2013-10-22"
+	LastEditDate = "2013-10-25"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
@@ -19,7 +19,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 #>
 
 
-function Write-PPEventLog{
+function UPdate-PPEventLog{
 
 <#
 .SYNOPSIS
@@ -40,14 +40,27 @@ function Write-PPEventLog{
 	#--------------------------------------------------#
 	Get-PPConfiguration $PSconfigs.EventLog.Filter | %{$_.Content.EventLog} | %{
 	
-		$EventLog = Get-WmiObject win32_nteventlogfile -filter "filename='$($PSlogs.EventLogName)'"
+		$EventLog = Get-WmiObject win32_nteventlogfile -filter "filename='$($_.Name)'"
+        
 		if(-not ($EventLog)){
 			
-			Write-Host "Create event log: $($PSlogs.EventLogName)"
-			New-EventLog -LogName $PSlogs.EventLogName -Source $PSlogs.EventLogSources -ErrorAction SilentlyContinue
+			Write-Host "Create event log: $($_.Name)"
+			New-EventLog -LogName $_.EventLogName -Source $_.EventLogSources -ErrorAction SilentlyContinue
 			
 		}else{
-			#[System.Diagnostics.EventLog]::CreateEventSource(“MySource”, "Application")
+        
+            $SourcesTO = $_.Source | %{"$($_.Name)"}
+            $SourcesIS = $EventLog.Sources
+			
+            # add sources
+            Compare-Object $SourcesTO $SourcesIS -passThru | Where-Object{ $_.SideIndicator -eq '<=' } | %{
+                New-EventLog -Source $_ -LogName $EventLog.LogfileName
+            }
+            
+            # remove sources
+            Compare-Object $SourcesTO $SourcesIS -passThru | Where-Object{ $_.SideIndicator -eq '=>' } | %{
+                Remove-EventLog -Source $_
+            }
 		}
 	}
 }

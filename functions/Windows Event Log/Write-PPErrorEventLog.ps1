@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-21"
-	LastEditDate = "2013-10-21"
+	LastEditDate = "2013-10-25"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
@@ -27,10 +27,10 @@ function Write-PPErrorEventLog{
 .DESCRIPTION
 	If an error occured this function writes an event log.
 
-.PARAMETER  Source
+.PARAMETER  ScriptPath
 	Error event source.
 
-.PARAMETER  EventLogSource
+.PARAMETER  Source
 	Source parameter for the event log entry.
 	
 .PARAMETER  ClearErrorVariable
@@ -42,10 +42,10 @@ function Write-PPErrorEventLog{
 
 	param(        
         [Parameter(Mandatory=$true)]
-		$Source,
+		$ScriptPath,
         
         [Parameter(Mandatory=$false)]
-		$EventLogSource,
+		$Source,
 		
 		[switch]
 		$ClearErrorVariable  
@@ -55,10 +55,13 @@ function Write-PPErrorEventLog{
 	# main
 	#--------------------------------------------------#   
     if($Error){    
-        $Message = ""
+        $Message = $ScriptPath
         $Error | %{$Message += "$($_.ToString()) $($_.InvocationInfo.PositionMessage) `n`n"}
+        
+        $Message = "$ScriptPath `n`n" + $Message
+        
         if($ClearErrorVariable){$Error.clear()}
         
-        Write-PPEventLog -Message $Message -Source $Source -EntryType Error -EventLogSource $EventLogSource -AppendSessionLog
+        Write-PPEventLog -Message $Message -Source $Source -EntryType Error -AppendSessionLog
     }
 }
