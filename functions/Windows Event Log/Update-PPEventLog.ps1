@@ -54,11 +54,13 @@ function UPdate-PPEventLog{
 			
             # add sources
             Compare-Object $SourcesTO $SourcesIS -passThru | Where-Object{ $_.SideIndicator -eq '<=' } | %{
+				Write-Host "Add source: $_ to event log: $($EventLog.LogfileName)"
                 New-EventLog -Source $_ -LogName $EventLog.LogfileName
             }
             
             # remove sources
             Compare-Object $SourcesTO $SourcesIS -passThru | Where-Object{ $_.SideIndicator -eq '=>' } | %{
+				Remove-Host "Remove source: $_ from event log: $($EventLog.LogfileName)"
                 Remove-EventLog -Source $_
             }
 		}
