@@ -1,0 +1,1 @@
+Get-ChildItem -Path $PSfunctions.FormatData.Path -Filter $PSfunctions.FormatData.Filter | %{Update-FormatData $_.FullName}

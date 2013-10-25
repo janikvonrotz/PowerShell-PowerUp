@@ -9,7 +9,7 @@ $Metadata = @{
 	AuthorContact = "www.janikvonrotz.ch"
 	CreateDate = "2013-04-11"
 	LastEditDate = "2013-10-17"
-	Version = "6.0.0"
+	Version = "7.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -28,6 +28,11 @@ $global:PSProfile = New-Object PSObject -Property @{
 	
 $global:PSfunctions = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "functions"
+    
+    FormatData = New-Object PSObject -Property @{
+        Path = Join-Path -Path $PSProfile.Path -ChildPath "functions/FormatData"
+        Filter = "*.format.ps1xml"
+    }
 }
 
 $global:PSlogs = New-Object PSObject -Property @{
@@ -46,22 +51,22 @@ $global:PSconfigs = New-Object PSObject -Property @{
         Filter = "*.remote.config.xml"
     }
     Mail = New-Object PSObject -Property @{
-        Filter = "*.mail.config.xml";
+        Filter = "*.mail.config.xml"
         ErrorClass = "ErrorReport"
     }
+    Install = New-Object PSObject -Property @{
+        Filter = "*.install.config.xml";
+    }
     Task = New-Object PSObject -Property @{
-        Filter = "*.task.config.xml";
+        Filter = "*.task.config.xml"
     }
 	EventLog = New-Object PSObject -Property @{
-        Filter = "*.eventlog.config.xml";
+        Filter = "*.eventlog.config.xml"
     }
 }	
 
 $global:PSscripts = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "scripts"
-	
-	CustomFeatures = Join-Path -Path $PSProfile.Path -ChildPath "Custom Features"
-	PackageInstall = Join-Path -Path $PSProfile.Path -ChildPath "Package Install"
 }
 
 $global:PSapps = New-Object PSObject -Property @{    

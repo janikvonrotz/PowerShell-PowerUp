@@ -81,7 +81,7 @@ if(!(Get-Module -ListAvailable | where{$_.Name -eq "pscx"})){
 Import-Module pscx
 
 # autoinclude functions
-Get-childitem ($PSfunctions.Path) -Recurse | where{-not $_.PSIsContainer} | foreach{. ($_.Fullname)}
+Get-childitem ($PSfunctions.Path) -Recurse | where{($_.Name.EndsWith("ps1")) -and (-not $_.PSIsContainer)} | foreach{. ($_.Fullname)}
 
 
 #--------------------------------------------------#
@@ -164,7 +164,7 @@ $PPISEContent += $Content
 Write-Host "Add Autoinclude Functions to the profile script"
 $PPContent += $Content = @'
 # Autoinclude Functions
-Get-childitem ($PSfunctions.Path) -Recurse | where{-not $_.PSIsContainer} | foreach{. ($_.Fullname)}
+Get-childitem ($PSfunctions.Path) -Recurse | where{($_.Name.EndsWith("ps1")) -and (-not $_.PSIsContainer)} | foreach{. ($_.Fullname)}
 
 '@
 $PPISEContent += $Content
