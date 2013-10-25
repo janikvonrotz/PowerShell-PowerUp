@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-07"
-	LastEditDate = "2013-10-07"
-	Version = "1.0.0"
+	LastEditDate = "2013-10-25"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -96,12 +96,10 @@ function Update-ScheduledTask{
         $Title = $Task.task.RegistrationInfo.Description             
 
         if($WindowsScheduledTasks | where{$_.Description -eq $Title}){
-            
-            <#           
+               
             Write-Host "Update Windows scheduled task: $Title"            
-            SCHTASKS /DELETE /TN $Title
+            SCHTASKS /DELETE /TN $Title /F
             SCHTASKS /Create /TN $Title /XML $FilePathTemp
-            #>
             
         }else{       
                   
