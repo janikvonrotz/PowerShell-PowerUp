@@ -7,7 +7,7 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "www.janikvonrotz.ch"
     CreateDate = "2013-03-18"
-    LastEditDate = "2013-10-23"
+    LastEditDate = "2013-10-28"
     Version = "7.0.0"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -190,16 +190,13 @@ Write-Host ""
 
 if($SystemVariables -ne $Null){$SystemVariables | %{
         
-        Write-Host ("Adding path variable: $($_.Value)")
+        Write-Host "Adding path variable: $($_.Value)"
         
-        if($_.RelativePath -eq "true"){
+        $Path = Get-Path $_.Value
         
-            Add-PathVariable -Value (Convert-Path -Path (Join-Path -Path $(Get-Location).Path -Childpath $_.Value)) -Name $_.Name -Target $_.Target
+        if(Test-Path $Path){Add-PathVariable -Value $Path -Name $_.Name -Target $_.Target
             
-        }else{            
-            
-            Add-PathVariable -Value (Invoke-Expression ($Command = '"' + $_.Value + '"')) -Name $_.Name -Target $_.Target
-        }
+        }else{Write-Error "Path: $Path doesn't exist. Not possible to add value to system variable: $($_.Name)"}
     }
 }
 
