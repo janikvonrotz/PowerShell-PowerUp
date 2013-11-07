@@ -63,6 +63,9 @@ $global:PSconfigs = New-Object PSObject -Property @{
 	EventLog = New-Object PSObject -Property @{
         Filter = "*.eventlog.config.xml"
     }
+	Credential = New-Object PSObject -Property @{
+        Filter = "*.credential.config.xml"
+    }
 }	
 
 $global:PSscripts = New-Object PSObject -Property @{

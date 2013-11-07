@@ -8,9 +8,9 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-08-23"
-	LastEditDate = "2013-08-23"
+	LastEditDate = "2013-11-07"
 	Url = ""
-	Version = "1.0.0"
+	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -28,7 +28,7 @@ function Import-PSCredential{
 .DESCRIPTION
 	Export PowerShell credentials to a xml file.
 
-.PARAMETER  FilePath
+.PARAMETER  Path
 	Path to the import file. not required. default is "temp.credentials.config.xml"
 
 .EXAMPLE
@@ -38,7 +38,7 @@ function Import-PSCredential{
 	param(
         [Parameter(Mandatory=$false)]
 		[String]
-		$FilePath = "temp.credentials.config.xml"
+		$Path = "temp.credentials.config.xml"
 	)
 
 	#--------------------------------------------------#
@@ -46,7 +46,7 @@ function Import-PSCredential{
 	#--------------------------------------------------#
     
 	# Import credential file
-	$Import = Import-Clixml $FilePath 
+	$Import = Import-Clixml $Path 
 	
 	# Test for valid import
 	if ( !$Import.UserName -or !$import.EncryptedPassword ) {

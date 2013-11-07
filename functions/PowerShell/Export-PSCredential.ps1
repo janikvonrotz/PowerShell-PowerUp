@@ -8,9 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-08-23"
-	LastEditDate = "2013-08-23"
-	Url = ""
-	Version = "1.0.0"
+	LastEditDate = "2013-11-07"
+	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -32,22 +31,17 @@ function Export-PSCredential{
 	PowerShell credential or a username. required.
 
 .PARAMETER  Path
-	Path to the export folder. not required. default is current location.
-
-.PARAMETER  FileName
-	Name of the exported file. not required. default is set.
+	Path to the export file. not required. default is current location.
 
 .EXAMPLE
-	PS C:\> Export-PSCredential -Credential (Get-Credential) -Path "C:\temp" -FileName "temp.xml"
+	PS C:\> Export-PSCredential -Credential (Get-Credential) -Path "C:\temp\temp.xml"
+	PS C:\> Export-PSCredential -Credential (Get-Credential) -Path "C:\yolo\"
+    PS C:\> Export-PSCredential -Credential (Get-Credential)
 #>
 
 	param(
         [Parameter(Mandatory=$true)]
 		$Credential = (Get-Credential),
-
-        [Parameter(Mandatory=$false)]
-		[String]
-		$FileName = "temp.credentials.config.xml",
 
         [Parameter(Mandatory=$false)]
 		[String]
@@ -58,47 +52,43 @@ function Export-PSCredential{
 	# main
 	#--------------------------------------------------#
     
-    # Check export path parameter
-    if($Path -ne ""){if(!(Test-Path -Path $Path)){New-Item $Path -Type Directory}}
-
-    # Check credential parameter
-	switch ( $Credential.GetType().Name ) {
+	switch ($Credential.GetType().Name) {
 
 		PSCredential{ 
+
 			continue
 		}
 
 		String{
+
 			$Credential = Get-Credential -credential $Credential 
 		}
 
 		default{ 
-            Throw "You must specify a credential object to export." }
-	}
-	
-	# Create temporary object to be serialized to disk
-	$Export = "" | Select-Object Username, EncryptedPassword
-	
-	# give custom object a type name which can be identified later
-	$Export.PSObject.TypeNames.Insert(0,’ExportedPSCredential’)
-	
-    # Add Username to custom export object
-	$Export.Username = $Credential.Username
 
-	# Encrypt SecureString password using Data Protection API
-	# Only the current user account can decrypt this cipher
+            Throw "You must specify a credential object to export." }
+	}	
+
+	$Export = "" | Select-Object Username, EncryptedPassword
+	$Export.PSObject.TypeNames.Insert(0,"ExportedPSCredential")	
+	$Export.Username = $Credential.Username
 	$Export.EncryptedPassword = $Credential.Password | ConvertFrom-SecureString
 
-    # Create export filepath
     if($Path -ne ""){
-        $FilePath = Join-Path -Path $Path -ChildPath $FileName
+
+        if($Path.EndsWith("\")){
+            
+             $Path = $Path + "temp.credential.config.xml"
+        }
+
+        if(!(Test-Path (Split-Path $Path -Parent))){New-Item -ItemType directory -Path (Split-Path $Path -Parent) | Out-Null}
+    
     }else{
-        $FilePath = $FileName
+               
+        $Path = "temp.credential.config.xml"
     }
 
-	# Export using the Export-Clixml cmdlet
-	$Export | Export-Clixml $FilePath
+	$Export | Export-Clixml $Path
 
-	# Return FileInfo object referring to saved credentials
-	Get-Item $FilePath
+	Get-Item $Path
 }
