@@ -60,6 +60,5 @@ function Import-PSCredential{
 	$SecurePassword = $Import.EncryptedPassword | ConvertTo-SecureString
 	
 	# Build the new credential object
-	$Credential = New-Object System.Management.Automation.PSCredential $Username, $SecurePassword
-	Write-Output $Credential
+	New-Object System.Management.Automation.PSCredential $Username, $SecurePassword
 }
