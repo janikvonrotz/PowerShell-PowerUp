@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>User Ping Client Install Configuration</Title>
+		<Filename>UserPingClient.install.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, zabbix</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2013-10-25</CreateDate>
+		<LastEditDate>2013-10-25</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<Package Name="User Ping" Version="1.0.0" Script="Install-UserPingClient.ps1">
+	
+		<Description>
+		The User Ping Client is part of the PowerShell Profile Project.
+		Provide the same config as in the Server install config.
+		<Description>
+		
+		<Config>
+			<SQL_SERVER_ADDRESS></SQL_SERVER_ADDRESS>
+		<Config>
+		
+	</Package>
+	
+</Content>

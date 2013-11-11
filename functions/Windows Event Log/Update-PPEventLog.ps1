@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-22"
-	LastEditDate = "2013-10-25"
-	Version = "1.0.0"
+	LastEditDate = "2013-11-08"
+	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -49,7 +49,7 @@ function UPdate-PPEventLog{
 			
 		}else{
         
-            $SourcesTO = $_.Source | %{"$($_.Name)"}
+            $SourcesTO = ($_.Source | %{"$($_.Name)"}) + ($_.Source | where{$_.Expression} | %{$_.Expression | iex})
             $SourcesIS = $EventLog.Sources
 			
             # add sources

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>User Ping Sever Install Configuration</Title>
+		<Filename>UserPingServer.install.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, zabbix</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2013-10-25</CreateDate>
+		<LastEditDate>2013-10-25</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<Package Name="User Ping" Version="2.0.9" Script="Install-UserPingServer.ps1">
+	
+		<Description>
+		Installs a uping database on the current sql server based on the configurations of
+		this package. Exports a uping client config to run within a logonscript.
+		<Description>
+		
+		<Config>
+			<SQL_SERVER_ADDRESS></SQL_SERVER_ADDRESS>
+		<Config>
+		
+	</Package>
+	
+</Content>
