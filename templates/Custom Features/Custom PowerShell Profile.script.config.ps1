@@ -20,3 +20,10 @@ nal -Name cscp -Value "Connect-SCP" -ErrorAction SilentlyContinue
 nal -Name cftp -Value "Connect-FTP" -ErrorAction SilentlyContinue
 nal -Name cvss -Value "Connect-VSphere" -ErrorAction SilentlyContinue
 nal -Name cvm -Value "Connect-VM" -ErrorAction SilentlyContinue
+
+# print logo
+Write-Host "     _/_/_/    _/_/_/  "
+Write-Host "    _/    _/  _/    _/ "
+Write-Host "   _/_/_/    _/_/_/    "
+Write-Host "  _/        _/         "
+Write-Host " _/        _/          This is a PowerShell Profile configured session`n"

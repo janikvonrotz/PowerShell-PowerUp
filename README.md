@@ -1,6 +1,12 @@
 Powershell-Profile
 ==================
 
+	    _/_/_/    _/_/_/  
+	   _/    _/  _/    _/ 
+	  _/_/_/    _/_/_/    
+	 _/        _/         
+	_/        _/          
+
 PowerShell Profile is a Server Management Framework.
 Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki) for more information.
 
