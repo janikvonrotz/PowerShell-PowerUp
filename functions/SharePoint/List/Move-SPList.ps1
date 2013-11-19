@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://www.janikvonrotz.ch"
 	CreateDate = "2013-10-10"
-	LastEditDate = "2013-10-10"
-	Version = "1.0.0"
+	LastEditDate = "2013-11-19"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -64,5 +64,5 @@ function Move-SPList{
     Import-SPList -WebUrl $WebUrl -Path $Path -NoFileCompression:$NoFileCompression
     
     Write-Host "Remove item $Path"
-    Remove-Item -Path $Path -Force
+    Remove-Item -Path $Path -Force -confirm:$false -Recurse
 }

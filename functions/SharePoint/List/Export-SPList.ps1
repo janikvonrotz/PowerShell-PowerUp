@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-08"
-	LastEditDate = "2013-10-10"
-	Version = "1.0.0"
+	LastEditDate = "2013-11-19"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -69,13 +69,13 @@ function Export-SPList{
     if(!(Test-Path -path $Path)){New-Item $Path -Type Directory}   
 
     $SPUrl = Get-SPUrl $ListUrl     
-    $SPWeb = Get-SPWeb $ListUrl.WebUrl 
+    $SPWeb = Get-SPWeb $SPUrl.WebUrl 
           
-    $FileName = (([uri]$ListUrl.ListUrl).LocalPath -replace ".*/","")
+    $FileName = ([uri]$SPUrl.Url).LocalPath -replace ".*/",""
     $FilePath = Join-Path -Path $Path -ChildPath ( $FileName + "#" + $((get-date -format o) -replace ":","-") + ".bak") 
        
     Write-Host "Export SharePoint list $FileName to $FilePath"    
-    Export-SPWeb -Identity $SPWeb.Url -ItemUrl ([uri]$SPUrl.ListUrl).LocalPath -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -NoFileCompression:$NoFileCompression
+    Export-SPWeb -Identity $SPWeb.Url -ItemUrl ([uri]$SPUrl.Url).LocalPath -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -NoFileCompression:$NoFileCompression
     
     $FilePath
 }

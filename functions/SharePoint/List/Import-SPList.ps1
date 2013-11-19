@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-04-26"
-	LastEditDate = "2013-10-10"
-	Version = "2.1.0"
+	LastEditDate = "2013-11-19"
+	Version = "2.2.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -60,7 +60,7 @@ function Import-SPList{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#	
-    $SPUrl = $(Get-SPUrl $WebUrl).WebUrl       
+    $SPUrl = $(Get-SPUrl $WebUrl).Url       
 
     Write-Host "Import SharePoint list $Path to $SPUrl"    
 	Import-SPWeb -Identity $SPUrl -path $Path -IncludeUserSecurity -nologfile -Force -NoFileCompression:$NoFileCompression
