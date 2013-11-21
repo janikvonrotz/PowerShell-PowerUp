@@ -61,6 +61,6 @@ function Write-PPErrorEventLog{
         
         if($ClearErrorVariable){$Error.clear()}
         
-        Write-PPEventLog -Message $ErrorLog -Source $Source -EntryType Error -AppendSessionLog
+        Write-PPEventLog -Message $ErrorLog -Source $Source -EntryType Error #-AppendSessionLog
     }
 }
