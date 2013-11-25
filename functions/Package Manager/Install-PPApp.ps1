@@ -49,7 +49,10 @@ function Install-PPApp{
         
         [Parameter(Mandatory=$false)]
 		[String[]]
-        $Version
+        $Version,
+        
+        [switch]
+        $Force
 	)
     
     $NameAndVersion = $Name | %{
@@ -72,11 +75,19 @@ function Install-PPApp{
         select -First 1
     } | %{
         
+        # add parameter option force
+        
+        # check if already installed
+        
         Write-Host "Installing Dependencies for $($_.Name)"
         
-        if($_.Script)
+        if($_.Script){
             Write-Host "Installing $($_.Name) Version $($_.Version)"
-            iex "'$((Get-ChildItem -Path $PSlib.Path -Filter $_.Script -Recurse | select -First 1).FullName) -Version $($_.Version)'" 
-        }            
+            $ScriptPath = $((Get-ChildItem -Path $PSlib.Path -Filter $_.Script -Recurse | select -First 1).FullName)
+            $AppPath = "`"$(Split-Path $ScriptPath -Parent)`""
+            iex "& `"$ScriptPath`" -Version $($_.Version) -Path $AppPath"
+        }
+        
+        #Update Package manager config           
     }    
 }
