@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-09"
-	LastEditDate = "2013-10-09"
+	LastEditDate = "2013-11-22"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
@@ -72,6 +72,14 @@ function Get-SPUrl {
                 WebUrl = ($Url.AbsoluteUri -replace "(/Lists/).*?\.(aspx)","")
             } 
             
+        }elseif($Url -match "_layouts"){
+		
+			# Website 2013
+            New-Object PSObject -Property @{
+                Url = (($Url.AbsoluteUri -replace "(/_layouts/).+","")  -replace "\\","/")
+            }
+			
+            
         }elseif($Url -match "/SitePages/Homepage.aspx$" -or $Url -match "/default.aspx$"){
         
             # Website
@@ -84,9 +92,9 @@ function Get-SPUrl {
             # Documentlibrary Listitem File Subversion
             New-Object PSObject -Property @{
                 Url = (($Url.AbsoluteUri -replace "_vti_history/(.*[0-9])/","")  -replace "\\","/")
-            }            
+            }           
         
-        }else{ 
+		}else{ 
         
             # no match
             New-Object PSObject -Property @{

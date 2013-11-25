@@ -20,11 +20,7 @@
 		<Description>
 		The User Ping Client is part of the PowerShell Profile Project.
 		Provide the same config as in the Server install config.
-		<Description>
-		
-		<Config>
-			<SQL_SERVER_ADDRESS></SQL_SERVER_ADDRESS>
-		<Config>
+		</Description>
 		
 	</Package>
 	

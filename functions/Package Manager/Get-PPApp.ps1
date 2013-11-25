@@ -39,12 +39,15 @@ function Get-PPApp{
 	param(
         [Parameter(Mandatory=$false)]
 		[String]
-		$Name
+		$Name,
+        
+        [switch]
+        $Installed
 	)
     
     if($Name){
-        Get-PPConfiguration $PSconfigs.Install.Filter | %{$_.Content.Install | where{$_.Name -match $Name}}
+        Get-PPConfiguration -Filter $PSconfigs.Install.Filter -Path $PSlib.Path | %{$_.Content.Package | where{$_.Name -match $Name}}
     }else{
-        Get-PPConfiguration $PSconfigs.Install.Filter | %{$_.Content.Install}
+        Get-PPConfiguration $PSconfigs.Install.Filter -Path $PSlib.Path | %{$_.Content.Package}
     }
 }

@@ -25,6 +25,10 @@ $global:PSProfile = New-Object PSObject -Property @{
 	
 	Install = Get-ChildItem -Path (Split-Path $MyInvocation.MyCommand.Definition -Parent) -Filter "Microsoft.PowerShell_profile.install.ps1" -Recurse
 }
+
+$global:PSlib = New-Object PSObject -Property @{
+	Path = Join-Path -Path $PSProfile.Path -ChildPath "bin"
+}
 	
 $global:PSfunctions = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "functions"
@@ -33,6 +37,10 @@ $global:PSfunctions = New-Object PSObject -Property @{
         Path = Join-Path -Path $PSProfile.Path -ChildPath "functions/FormatData"
         Filter = "*.format.ps1xml"
     }
+}
+
+$global:PSlib = New-Object PSObject -Property @{
+	Path = Join-Path -Path $PSProfile.Path -ChildPath "lib"
 }
 
 $global:PSlogs = New-Object PSObject -Property @{

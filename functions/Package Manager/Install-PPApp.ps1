@@ -38,7 +38,7 @@ function Install-PPApp{
 	The description of the ParameterB parameter.
 
 .EXAMPLE
-	PS C:\> Install-PPApp "Zabbix Agent", "SQL Server Maintenance Solution" -Version "2.0.9"
+	PS C:\> Install-PPApp "Zabbix Agent#2.0.9", "SQL Server Maintenance Solution"
 
 #>
 
@@ -53,29 +53,30 @@ function Install-PPApp{
 	)
     
     $NameAndVersion = $Name | %{
-        $Index = [array]::indexof($Name,$_)
-        if($Version){
-            if($Version[$Index] -ne $null){
-                $ThisVersion = $Version[$Index]
-            }else{
-                $ThisVersion = "*"
-            }
-        }else{
-            $ThisVersion = "*"
+            
+        $Version = $_.split("#")[1]
+        if(-not $Version){$Version = "*"}
+        
+        @{
+            Name = $_.split("#")[0]
+            Version = $Version            
         }
-        $_ | select @{L="Name";E={$_}}, @{L="Version";E={$ThisVersion}}
     } 
     
     
     $NameAndVersion | %{
-        $Version = $_.Version;
+        $Version = $_.Version
         Get-PPApp $_.Name | 
         sort Version |
         where{($_.Version -like $Version)} | 
-        select -First 1} | %{
+        select -First 1
+    } | %{
         
-            Write-Host "Installing $($_.Name)"
-            iex "'$((Get-ChildItem -Path $PSscripts.Path -Filter $_.InstallScript -Recurse | select -First 1).FullName)'"            
-    }
-    
+        Write-Host "Installing Dependencies for $($_.Name)"
+        
+        if($_.Script)
+            Write-Host "Installing $($_.Name) Version $($_.Version)"
+            iex "'$((Get-ChildItem -Path $PSlib.Path -Filter $_.Script -Recurse | select -First 1).FullName) -Version $($_.Version)'" 
+        }            
+    }    
 }

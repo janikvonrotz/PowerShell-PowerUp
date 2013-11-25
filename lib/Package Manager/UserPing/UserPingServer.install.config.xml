@@ -20,12 +20,8 @@
 		<Description>
 		Installs a uping database on the current sql server based on the configurations of
 		this package. Exports a uping client config to run within a logonscript.
-		<Description>
-		
-		<Config>
-			<SQL_SERVER_ADDRESS></SQL_SERVER_ADDRESS>
-		<Config>
-		
+		</Description>
+				
 	</Package>
 	
 </Content>
