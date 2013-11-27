@@ -1,7 +1,7 @@
 <#
 $Metadata = @{
   Title = "Import SharePoint Website"
-	Filename = "Import-JrSPWeb.ps1"
+	Filename = "Import-PPSPWeb.ps1"
 	Description = ""
 	Tags = "powershell, sharepoint, function, import"
 	Project = ""
@@ -18,7 +18,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 #>
 
-function Import-JrSPWeb{
+function Import-PPSPWeb{
 
 <#
 .SYNOPSIS
@@ -35,9 +35,12 @@ function Import-JrSPWeb{
 	
 .PARAMETER  Tempalte
 	SharePoint website template, default is "STS#0".
+
+.PARAMETER  NoFileCompression
+	Provide this parameter if the compressed website is oversized.
     
 .EXAMPLE
-	PS C:\> Import-JrSPWeb -Url http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx -Path C:\Backup\SharePoint Superuser#2013-07-04 11-09-47.bak -Template "STS#1"
+	PS C:\> Import-PPSPWeb -Url http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx -Path C:\Backup\SharePoint Superuser#2013-07-04 11-09-47.bak -Template "STS#1"
 
 #>
 
@@ -53,59 +56,53 @@ function Import-JrSPWeb{
                 
 		[Parameter(Mandatory=$false)]
 		[String]
-		$Template = "STS#0"
+		$Template = "STS#0",
+        
+        
+        [Switch]
+        $NoFileCompression
              
 	)
 	
 	#--------------------------------------------------#
 	# modules
 	#--------------------------------------------------#	
-	if ((Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue) -eq $null) 
-	{
-		Add-PSSnapin "Microsoft.SharePoint.PowerShell"
-	}
+	if((Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue) -eq $null){Add-PSSnapin "Microsoft.SharePoint.PowerShell"}
 	
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
         
     # extract spweb url
-    $SPWebUrl = $(Get-CleanSPUrl -Url $Url).WebUrl
+    $SPUrl = $(Get-SPUrl $Url).Url
     
     # get spweb object
-    $SPWeb = Get-SPWeb -Identity $SPWebUrl.OriginalString -ErrorAction SilentlyContinue
+    $SPWeb = Get-SPWeb -Identity $SPUrl -ErrorAction SilentlyContinue
     
     # if destination exists
-    if(!$Error[0].FullyQualifiedErrorId -eq "Microsoft.SharePoint.PowerShell.SPCmdletGetWeb"){
+    if($SPWeb){
     
-        # import spweb
-        Import-SPWeb $SPWeb.Url -Path $Path  -UpdateVersions Overwrite -Force -IncludeUserSecurity -NoFileCompression -NoLogFile -Confirm
+        Import-SPWeb $SPWeb -Path $Path -UpdateVersions Overwrite -Force -IncludeUserSecurity -NoFileCompression:$NoFileCompression -NoLogFile -Confirm
     
     # if destination not exists
     }else{
                     
         # create a new site
-        New-SPWeb ($SPWebUrl.OriginalString) -Template $Template
+        New-SPWeb -Url $SPUrl -Template $Template
                 
         # get new spweb object
-        $SPWeb = Get-SPWeb -Identity $SPWebUrl.OriginalString       
+        $SPWeb = Get-SPWeb -Identity $SPUrl       
         
         
         # delete list items on new site
-        foreach ($SPList in $SPWeb.lists){
-            $SPList.AllowDeletion = $true
-            $SPList.delete()
-            $SPList.Update() 
+        $spweb.Lists | %{
+            $_.AllowDeletion = $true
+            $_.Update() 
+            $_.delete()
         }
-                
-        # import content
-        Import-SPWeb $SPWeb.Url -Path $Path -UpdateVersions Overwrite -Force -IncludeUserSecurity -NoFileCompression -NoLogFile
-        
-        #>         
-        
+
+        Import-SPWeb $SPWeb -Path $Path -UpdateVersions Overwrite -Force -IncludeUserSecurity -NoFileCompression:$NoFileCompression -NoLogFile -Confirm
     }
 
-    # finisher
-    Write-Host "Finished" -ForegroundColor Green
-    
+    Write-Host "Finished" -ForegroundColor Green    
 }

@@ -1,7 +1,7 @@
 <#
 $Metadata = @{
   Title = "Export SharePoint Website"
-	Filename = "Export-JrSPWeb.ps1"
+	Filename = "Export-PPSPWeb.ps1"
 	Description = ""
 	Tags = "powershell, sharepoint, function, export"
 	Project = ""
@@ -18,7 +18,7 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 #>
 
-function Export-JrSPWeb{
+function Export-PPSPWeb{
 
 <#
 .SYNOPSIS
@@ -31,13 +31,13 @@ function Export-JrSPWeb{
 	Url of the SharePoint website.
 	
 .PARAMETER  Path
-	Path to the backup folders.
-	
-.PARAMETER  AddTimeStamp
-	Add a time stamp to the export filename.
+	Path to the backup folders. Optional, default is c:\temp.
     
+.PARAMETER  NoFileCompression
+	Provide this parameter if the compressed website is oversized.
+	    
 .EXAMPLE
-	PS C:\> Export-SPWeb -Identity http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx -Path C:\Backup -AddTimeStamp
+	PS C:\> Export-PPSPWeb -Identity http://sharepoint.vbl.ch/Projekte/SitePages/Homepage.aspx -Path C:\Backup -NoFileCompression
 
 #>
 
@@ -47,47 +47,44 @@ function Export-JrSPWeb{
 		[String]
 		$Url,
 		
-		[Parameter(Mandatory=$true)]
+		[Parameter(Mandatory=$false)]
 		[String]
-		$Path,
+		$Path = "C:\temp",
         
         [Switch]
-		$AddTimeStamp        
+        $NoFileCompression
 	)
 	
 	#--------------------------------------------------#
 	# modules
 	#--------------------------------------------------#	
-	if ((Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue) -eq $null) 
-	{
-		Add-PSSnapin "Microsoft.SharePoint.PowerShell"
-	}
+	if ((Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue) -eq $null){Add-PSSnapin "Microsoft.SharePoint.PowerShell"}
 	
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
         
     # extract spweb url
-    $SPWebUrl = $(Get-CleanSPUrl -Url $Url).WebUrl
+    $SPUrl = $(Get-SPUrl $Url).Url
     
     # get spweb object
-    $SPWeb = Get-SPWeb -Identity $SPWebUrl.OriginalString
+    $SPWeb = Get-SPWeb -Identity $SPUrl
     
-    $Template = $SPWeb.WebTemplate + "#" + $SPWeb.WebTemplateID
+    $SPTemplate = $SPWeb.WebTemplate + "#" + $SPWeb.WebTemplateID
     
     # check the backup folder    
     if(!(Test-Path -path $Path)){New-Item $Path -Type Directory}
     
     # create the backup filename
-    $FileName = $SPWeb.Title + $(if($AddTimeStamp){"#" + $((get-date -format o) -replace ":","-")}) + ".bak"
+    $FileName = $SPWeb.Title + "#" + $((get-date -format o) -replace ":","-") + ".bak"
     
     # create the backup filepath
     $FilePath = Join-Path $Path -ChildPath $FileName
     
     # export spweb
-    Export-SPWeb -Identity $SPWeb.Url -Path $FilePath -Force -IncludeUserSecurity -IncludeVersions all -NoFileCompression -NoLogFile
+    Export-SPWeb -Identity $SPWeb.Url -Path $FilePath -Force -IncludeUserSecurity -IncludeVersions All -NoFileCompression:$NoFileCompression -NoLogFile
 
     # write output
-    @{BackupFile = $FilePath;Template = $Template}
+    @{BackupFile = $FilePath;Template = $SPTemplate}
     
 }

@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-09"
-	LastEditDate = "2013-11-22"
-	Version = "1.0.0"
+	LastEditDate = "2013-11-27"
+	Version = "2.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -60,23 +60,23 @@ function Get-SPUrl {
             
             # Library
             New-Object PSObject -Property @{
-                Url = ($Url.AbsoluteUri -replace "(/Forms/).*?\.(aspx)","")
-                WebUrl = ($Url.AbsoluteUri -replace "/([^/]*)(/Forms/).*?\.(aspx)","")
+                Url = (($Url.Scheme + "://" + $Url.Host + $Url.LocalPath) -replace "(/Forms/).*?\.(aspx)","")
+                WebUrl = (($Url.Scheme + "://" + $Url.Host + $Url.LocalPath) -replace "/([^/]*)(/Forms/).*?\.(aspx)","")
             }  
             
         }elseif($Url -match "(/Lists/).*?\.(aspx$)"){
         
             # List
             New-Object PSObject -Property @{
-                Url = ($Url.AbsoluteUri -replace "/([^/]*)\.(aspx)","")
-                WebUrl = ($Url.AbsoluteUri -replace "(/Lists/).*?\.(aspx)","")
+                Url = (($Url.Scheme + "://" + $Url.Host + $Url.LocalPath) -replace "/([^/]*)\.(aspx)","")
+                WebUrl = (($Url.Scheme + "://" + $Url.Host + $Url.LocalPath) -replace "(/Lists/).*?\.(aspx)","")
             } 
             
         }elseif($Url -match "_layouts"){
 		
 			# Website 2013
             New-Object PSObject -Property @{
-                Url = (($Url.AbsoluteUri -replace "(/_layouts/).+","")  -replace "\\","/")
+                Url = ((($Url.Scheme + "://" + $Url.Host + $Url.LocalPath) -replace "(/_layouts/).+","")  -replace "\\","/")
             }
 			
             
@@ -84,21 +84,21 @@ function Get-SPUrl {
         
             # Website
             New-Object PSObject -Property @{
-                Url = ($Url.AbsoluteUri -replace "/SitePages/Homepage.aspx", "" -replace "/default.aspx","")
+                Url = (($Url.Scheme + "://" + $Url.Host + $Url.LocalPath) -replace "/SitePages/Homepage.aspx", "" -replace "/default.aspx","")
             }
             
     	}elseif($Url -match "_vti_history"){
         
             # Documentlibrary Listitem File Subversion
             New-Object PSObject -Property @{
-                Url = (($Url.AbsoluteUri -replace "_vti_history/(.*[0-9])/","")  -replace "\\","/")
+                Url = ((($Url.Scheme + "://" + $Url.Host + $Url.LocalPath) -replace "_vti_history/(.*[0-9])/","")  -replace "\\","/")
             }           
         
 		}else{ 
         
             # no match
             New-Object PSObject -Property @{
-                Url = $Url.OriginalString
+                Url = ($Url.Scheme + "://" + $Url.Host + $Url.LocalPath)
             }
     	}
         
