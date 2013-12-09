@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-05-17"
-	LastEditDate = "2013-10-11"
-	Version = "3.3.0"
+	LastEditDate = "2013-12-09"
+	Version = "3.4.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -29,7 +29,7 @@ function Set-SPADGroupPermission{
     The roles are only assigned as long the sharepoint object doesn't inherit the rights.
 	How to get the role ID: https://gist.github.com/janikvonrotz/5617921
 
-.PARAMETER SPWeb
+.PARAMETER Identity
 	Url or PowerShell object of the SharePoint website.
 
 .PARAMETER  ADGroup
@@ -37,7 +37,10 @@ function Set-SPADGroupPermission{
 	
 .PARAMETER  Role
 	Role ID or name.
-    
+
+.PARAMETER  Exclude
+	Urls of websites to Exclude.
+  
 .PARAMETER Recursive
     Include SharePoint subwebsites.
     
@@ -48,18 +51,21 @@ function Set-SPADGroupPermission{
     Overwrite existing permissions by this group.
     	
 .EXAMPLE
-	Assign-ADGroupPermissionRole -Url "http://sharepoint.domain.ch/Projekte/SitePages/Homepage.aspx" -ADGroup "SP_Projekte#Superuser" -RoleToAssignID "1073741828" -Recursive
+	Assign-ADGroupPermissionRole -Identity "http://sharepoint.domain.ch/Projekte/SitePages/Homepage.aspx" -ADGroup "SP_Projekte#Superuser" -RoleToAssignID "1073741828" -Exclude "http://sharepoint.domain.ch/Projekte/Beta" -Recursive
 #>
 
 	param(
 		[Parameter(Mandatory=$true)]
-		$SPWeb,
+		$Identity,
 		
 		[Parameter(Mandatory=$true)]
 		[string]$ADGroup,
 
 		[Parameter(Mandatory=$true)]
 		[string]$Role,
+        
+        [Parameter(Mandatory=$false)]
+		[string[]]$Exclude,
         
         [switch]$Recursive,
         
@@ -81,7 +87,7 @@ function Set-SPADGroupPermission{
 	#--------------------------------------------------#
  
 	# get spweb object
-    $SPWeb = Get-SPweb $(Get-SPUrl $SPWeb).Url
+    $SPWeb = Get-SPweb $(Get-SPUrl $Identity).Url
     
     # get spsite object
     $SPSite =  $SPWeb.Site
@@ -109,7 +115,7 @@ function Set-SPADGroupPermission{
 	# set role for subwebs
 	if($Recursive){
     
-        $SPWebs = Get-SPWebs $SPWeb
+        $SPWebs = Get-SPWebs $SPWeb | where{$Exclude -notcontains $_.Url} 
         
         # set spwebs permission
         foreach($SPWeb in $SPWebs){
