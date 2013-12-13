@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-07"
-	LastEditDate = "2013-10-25"
-	Version = "1.1.0"
+	LastEditDate = "2013-12-13"
+	Version = "2.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -36,9 +36,18 @@ function Update-ScheduledTask{
 #>
 
 	param(
+        [Parameter(Position=0, Mandatory=$false)]
+        $Name,
         
-	)
-
+        [switch]
+        $All
+	)    
+    
+    if(-not ($All -or $Name)){
+        throw "Provide at least one parameter for this function."
+    } 
+    
+    
 	#--------------------------------------------------#
 	# functions
 	#--------------------------------------------------#
@@ -85,28 +94,32 @@ function Update-ScheduledTask{
     $ScheduledTasks | %{    
     
         $Task = [xml]$(get-content $_.FullName) 
+        $FilePathTemp = $_.FullName + "temp.xml" 
         
-        # resolve PowerShell variables 
-        $FilePathTemp = $_.FullName + "temp.xml"        
-        if($Task.Task.Actions.Exec.Command.contains("$")){$Task.Task.Actions.Exec.Command = Invoke-Expression $Task.Task.Actions.Exec.Command}
-        if($Task.Task.Actions.Exec.Arguments.contains("$")){$Task.Task.Actions.Exec.Arguments = Invoke-Expression $Task.Task.Actions.Exec.Arguments}
-        if($Task.Task.Actions.Exec.WorkingDirectory.contains("$")){$Task.Task.Actions.Exec.WorkingDirectory = [string](Invoke-Expression $Task.Task.Actions.Exec.WorkingDirectory)}
-        $Task.Save($FilePathTemp)  
-           
-        $Title = $Task.task.RegistrationInfo.Description             
-
-        if($WindowsScheduledTasks | where{$_.Description -eq $Title}){
+        $Task | where{$All -or $Name -eq $_.Task.RegistrationInfo.Description} | %{                
+        
+            # resolve PowerShell variables 
+                   
+            if($Task.Task.Actions.Exec.Command.contains("$")){$Task.Task.Actions.Exec.Command = Invoke-Expression $Task.Task.Actions.Exec.Command}
+            if($Task.Task.Actions.Exec.Arguments.contains("$")){$Task.Task.Actions.Exec.Arguments = Invoke-Expression $Task.Task.Actions.Exec.Arguments}
+            if($Task.Task.Actions.Exec.WorkingDirectory.contains("$")){$Task.Task.Actions.Exec.WorkingDirectory = [string](Invoke-Expression $Task.Task.Actions.Exec.WorkingDirectory)}
+            $Task.Save($FilePathTemp)  
                
-            Write-Host "Update Windows scheduled task: $Title"            
-            SCHTASKS /DELETE /TN $Title /F
-            SCHTASKS /Create /TN $Title /XML $FilePathTemp
+            $Title = $Task.task.RegistrationInfo.Description             
+
+            if($WindowsScheduledTasks | where{$_.Description -eq $Title}){
+                   
+                Write-Host "Update Windows scheduled task: $Title"            
+                SCHTASKS /DELETE /TN $Title /F
+                SCHTASKS /Create /TN $Title /XML $FilePathTemp
+                
+            }else{       
+                      
+                Write-Host "Adding Windows scheduled task: $Title"            
+                SCHTASKS /Create /TN $Title /XML $FilePathTemp            
+            } 
             
-        }else{       
-                  
-            Write-Host "Adding Windows scheduled task: $Title"            
-            SCHTASKS /Create /TN $Title /XML $FilePathTemp            
-        } 
-        
-        Remove-Item -Path $FilePathTemp     
+            Remove-Item -Path $FilePathTemp  
+        }  
     }
 }
