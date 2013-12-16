@@ -8,9 +8,9 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-11-11"
-	LastEditDate = "2013-11-11"
+	LastEditDate = "2013-12-16"
 	Url = ""
-	Version = "1.0.0"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -101,19 +101,28 @@ function Sync-ADGroupMember{
         }
 
         $IsMember = $(Get-ADGroupMember $ADGroupItem)
-        Compare-Object -ReferenceObject $IsMember -DifferenceObject $Member -Property Name, DistinguishedName | %{
-        
-            if($_.SideIndicator -eq "<=" -and -not $OnlyAdd){
-                
-                $Message = "Remove ADGroupMember: $($_.Name) from ADGroup: $($ADGroupItem.Name)"
-                Invoke-Command -ScriptBlock $LogScriptBlock
-                Remove-ADGroupMember -Identity $ADGroupItem -Members $_.DistinguishedName -Confirm:$false
+        if($IsMember){
+            Compare-Object -ReferenceObject $IsMember -DifferenceObject $Member -Property Name, DistinguishedName | %{
             
-            }elseif($_.SideIndicator -eq "=>" -and -not $OnlyRemove){
+                if($_.SideIndicator -eq "<=" -and -not $OnlyAdd){
+                    
+                    $Message = "Remove ADGroupMember: $($_.Name) from ADGroup: $($ADGroupItem.Name)"
+                    Invoke-Command -ScriptBlock $LogScriptBlock
+                    Remove-ADGroupMember -Identity $ADGroupItem -Members $_.DistinguishedName -Confirm:$false
+                
+                }elseif($_.SideIndicator -eq "=>" -and -not $OnlyRemove){
+                
+                    $Message = "Add ADGroupMember: $($_.Name) to ADGroup: $($ADGroupItem.Name)"
+                    Invoke-Command -ScriptBlock $LogScriptBlock
+                    Add-ADGroupMember -Identity $ADGroupItem -Members $_.DistinguishedName -Confirm:$false
+                }
+            }
+        }elseif($Member){
+            $Member | %{
             
                 $Message = "Add ADGroupMember: $($_.Name) to ADGroup: $($ADGroupItem.Name)"
                 Invoke-Command -ScriptBlock $LogScriptBlock
-                Add-ADGroupMember -Identity $ADGroupItem -Members $_.DistinguishedName -Confirm:$false
+                Add-ADGroupMember -Identity $ADGroupItem -Members $_  -Confirm:$false
             }
         }       
     }
