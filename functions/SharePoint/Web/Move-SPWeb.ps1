@@ -61,8 +61,11 @@ function Move-SPWeb{
 	# main
 	#--------------------------------------------------#	
     $Export = (Export-PPSPWeb -Url $SourceUrl -NoFileCompression:$NoFileCompression)
-    # Import-PPSPWeb -Url $DestUrl -Path $Path -NoFileCompression:$NoFileCompression -Template $Export.Template
+    $Export
+    Import-PPSPWeb -Url $DestUrl -Path $Export.BackupFile -NoFileCompression:$NoFileCompression -Template $Export.Template
     
     Write-Host "Remove item $Path"
     Remove-Item -Path $Export.BackupFile -Force -confirm:$false -Recurse
 }
+
+Move-SPWeb -SourceUrl "http://sharepoint.vbl.ch/Technik/spos/Abteilung/SitePages/Homepage.aspx" -DestUrl "http://sharepoint.vbl.ch/Technik/S-POS%20Abteilung/SitePages/Homepage.aspx" -NoFileCompression
