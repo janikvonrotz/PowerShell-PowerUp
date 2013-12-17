@@ -67,5 +67,3 @@ function Move-SPWeb{
     Write-Host "Remove item $Path"
     Remove-Item -Path $Export.BackupFile -Force -confirm:$false -Recurse
 }
-
-Move-SPWeb -SourceUrl "http://sharepoint.vbl.ch/Technik/spos/Abteilung/SitePages/Homepage.aspx" -DestUrl "http://sharepoint.vbl.ch/Technik/S-POS%20Abteilung/SitePages/Homepage.aspx" -NoFileCompression
