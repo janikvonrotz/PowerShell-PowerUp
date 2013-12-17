@@ -88,7 +88,7 @@ function Import-PPSPWeb{
     }else{
                     
         # create a new site
-        New-SPWeb -Url $SPUrl -Template $Template
+        New-SPWeb -Url $SPUrl -Template (Get-SPWebTemplate $Template)
                 
         # get new spweb object
         $SPWeb = Get-SPWeb -Identity $SPUrl       
