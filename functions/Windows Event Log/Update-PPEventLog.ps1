@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-22"
-	LastEditDate = "2013-11-08"
-	Version = "1.0.1"
+	LastEditDate = "2013-12-23"
+	Version = "1.1.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -60,7 +60,7 @@ function UPdate-PPEventLog{
             
             # remove sources
             Compare-Object $SourcesTO $SourcesIS -passThru | Where-Object{ $_.SideIndicator -eq '=>' } | %{
-				Remove-Host "Remove source: $_ from event log: $($EventLog.LogfileName)"
+				Write-Host "Remove source: $_ from event log: $($EventLog.LogfileName)"
                 Remove-EventLog -Source $_
             }
 		}
