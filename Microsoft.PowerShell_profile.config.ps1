@@ -62,8 +62,11 @@ $global:PSconfigs = New-Object PSObject -Property @{
         Filter = "*.mail.config.xml"
         ErrorClass = "ErrorReport"
     }
-    Install = New-Object PSObject -Property @{
-        Filter = "*.install.config.xml";
+    PackageManager = New-Object PSObject -Property @{
+        Filter = "PackageManager.config.xml";
+    }  
+    App = New-Object PSObject -Property @{
+        Filter = "*.app.config.xml"
     }
     Task = New-Object PSObject -Property @{
         Filter = "*.task.config.xml"
