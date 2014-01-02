@@ -11,20 +11,18 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-04-11</CreateDate>
-		<LastEditDate>2013-10-28</LastEditDate>
-		<Version>3.0.0</Version>
+		<LastEditDate>2014-01-02</LastEditDate>
+		<Version>4.0.0</Version>
 	</Metadata>
 
-	<Feature Name="Enable Open Powershell here"></Feature>
-	<Feature Name="Get Quote Of The Day"></Feature>		
-	<!-- <Feature Name="Git Update"></Feature> -->
-	<Feature Name="Log File Retention" Days="30" MaxFilesToKeep="100" Run="asDailyJob,withProfileScript"></Feature>
-	<!-- <Feature Name="Powershell Remoting"></Feature> -->
-	<Feature Name="Custom PowerShell Profile script"></Feature>
-	<Feature Name="Custom PowerShell Profile script"></Feature>
+	<Feature Name="Enable Open Powershell here" Status="Enabled"></Feature>
+	<Feature Name="Get Quote Of The Day" Status="Disabled"></Feature>		
+	<Feature Name="Git Update" Status="Enabled"></Feature> -->
+	<Feature Name="Log File Retention" Days="30" MaxFilesToKeep="100" Run="asDailyJob,withProfileScript" Status="Enabled"></Feature>
+	<Feature Name="Powershell Remoting" Status="Enabled"></Feature>
+	<Feature Name="Custom PowerShell Profile script" Status="Enabled"></Feature>
+	<Feature Name="Custom PowerShell Profile ISE script" Status="Enabled"></Feature>
 	
 	<SystemVariable Value="%ProgramFiles(x86)%\Git\bin" Name="Path" Target="Machine"></SystemVariable>
-	<!-- <SystemVariable Value="\apps" Name="Path" Target="Machine"></SystemVariable>   -->
-	<!-- <SystemVariable Value="$home" Name="Path" Target="Machine"></SystemVariable>   -->
 	
 </Content>

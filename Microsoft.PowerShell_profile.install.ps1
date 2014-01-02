@@ -5,10 +5,10 @@ $Metadata = @{
     Tags = "powershell, profile, installation"
     Project = ""
     Author = "Janik von Rotz"
-    AuthorContact = "www.janikvonrotz.ch"
+    AuthorContact = "http://janikvonrotz.ch"
     CreateDate = "2013-03-18"
-    LastEditDate = "2013-10-28"
-    Version = "7.0.0"
+    LastEditDate = "2014-01-02"
+    Version = "7.1.0"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -117,10 +117,10 @@ Description = ""
 Tags = "powershell, profile"
 Project = ""
 Author = "Janik von Rotz"
-AuthorContact = "www.janikvonrotz.ch"
+AuthorContact = "http://janikvonrotz.ch"
 CreateDate = "2013-04-22"
-LastEditDate = "2013-10-23"
-Version = "7.0.0"
+LastEditDate = "2014-01-02"
+Version = "7.1.0"
 License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
 
@@ -138,10 +138,10 @@ Description = ""
 Tags = "powershell, ise, profile"
 Project = ""
 Author = "Janik von Rotz"
-AuthorContact = "www.janikvonrotz.ch"
+AuthorContact = "http://janikvonrotz.ch"
 CreateDate = "2013-04-22"
-LastEditDate = "2013-10-23"
-Version = "7.0.0"
+LastEditDate = "2014-01-02"
+Version = "7.1.0"
 License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
 
@@ -180,6 +180,30 @@ Write-Host ""
 
 '@
 
+#--------------------------------------------------#
+# functions
+#--------------------------------------------------#
+function Check-ProfileFeatureStatus{
+
+	param(
+		[string]
+		$Name
+	)
+	
+	if($Features | Where{($_.Name -eq $Name) -and ($_.Status -eq "Enabled")}){
+	
+		$true
+	
+	}elseif($Features | Where{($_.Name -eq $Name) -and ($_.Status -eq "Disabled")}){
+	
+		$false
+	
+	}else{
+	
+		throw "Could not find feature definition for: $Name"	
+	}
+}
+
 
 #--------------------------------------------------#
 # customizable features
@@ -203,7 +227,7 @@ if($SystemVariables -ne $Null){$SystemVariables | %{
 
 # Enable Open Powershell here
 
-if($Features | Where{$_.Name -eq "Enable Open Powershell here"}){
+if(Check-ProfileFeatureStatus "Enable Open Powershell here"){
     
     Write-Host "Adding 'Open PowerShell Here' to context menu "
 	$Null = Enable-OpenPowerShellHere
@@ -213,7 +237,7 @@ if($Features | Where{$_.Name -eq "Enable Open Powershell here"}){
 
 # Get Quote Of The Day
 
-if($Features | Where{$_.Name -eq "Get Quote Of The Day"}){
+if(Check-ProfileFeatureStatus "Get Quote Of The Day"){
     Write-Host "Add Get Quote Of The Day to the profile script"
 	$PPContent += $Content = @'
 # Get Quote Of The Day
@@ -227,7 +251,7 @@ Write-Host ""
 
 # Git Update
 
-if($Features | Where{$_.Name -eq "Git Update"}){
+if(Check-ProfileFeatureStatus "Git Update"){
    
     Update-PowerShellProfile
     
@@ -236,26 +260,26 @@ if($Features | Where{$_.Name -eq "Git Update"}){
         Copy-Item -Path $PStemplates.GitUpdate.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.GitUpdate.Name)
 	}
     
-    Update-ScheduledTask
+    Update-ScheduledTask "Git Update"
 }
 
 
 # Log File Retention
 
-if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -match "asDailyJob")}){
+if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Status -eq "Disabled") -and ($_.Run -match "asDailyJob")}){
 
     if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.LogFileRetention.Name -Recurse)){    
         Write-Host "Copy $($PStemplates.LogFileRetention.Name) file to the config folder"      
         Copy-Item -Path $PStemplates.LogFileRetention.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.LogFileRetention.Name)
 	}
     
-    Update-ScheduledTask
+    Update-ScheduledTask "Log File Retention"
 }
 
 
 # Log File Retention
 
-if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Run -match "withProfileScript")}){
+if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Status -eq "Disabled") -and ($_.Run -match "withProfileScript")}){
                     
     Write-Host "Add Log File Retention to the profile script"
     $PPContent += $Content = @'
@@ -269,7 +293,7 @@ Delete-ObsoleteLogFiles
 
 # Powershell Remoting
 
-if($Features | Where{$_.Name -eq "Powershell Remoting"}){
+if(Check-ProfileFeatureStatus "Powershell Remoting"){
     
     Write-Host "Enabling Powershell Remoting"
 	Enable-PSRemoting -Confirm:$false
@@ -281,7 +305,7 @@ if($Features | Where{$_.Name -eq "Powershell Remoting"}){
 
 # Custom PowerShell Profile script
 
-if($Features | Where{$_.Name -contains "Custom PowerShell Profile script"}){
+if(Check-ProfileFeatureStatus "Custom PowerShell Profile script"){
 
     if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.CustomPPscript.Name -Recurse)){    
         Write-Host "Copy $($PStemplates.CustomPPscript.Name) file to the config folder"      
@@ -295,7 +319,7 @@ if($Features | Where{$_.Name -contains "Custom PowerShell Profile script"}){
 
 # Custom PowerShell Profile ISE script
 
-if($Features | Where{$_.Name -contains "Custom PowerShell Profile ISE script"}){
+if(Check-ProfileFeatureStatus "Custom PowerShell Profile ISE script"){
 
     if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.CustomPPISEscript.Name -Recurse)){    
         Write-Host "Copy $($PStemplates.CustomPPISEscript.Name) file to the config folder"      
