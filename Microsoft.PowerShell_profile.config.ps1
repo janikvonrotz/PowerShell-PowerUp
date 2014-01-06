@@ -23,6 +23,8 @@ $global:WorkingPath = (Get-Location).Path
 $global:PSProfile = New-Object PSObject -Property @{
 	Path = Split-Path $MyInvocation.MyCommand.Definition -Parent
 	
+	GitSource = "https://github.com/janikvonrotz/PowerShell-Profile.git"
+	
 	Install = Get-ChildItem -Path (Split-Path $MyInvocation.MyCommand.Definition -Parent) -Filter "Microsoft.PowerShell_profile.install.ps1" -Recurse
 }
 
@@ -51,12 +53,16 @@ $global:PSlogs = New-Object PSObject -Property @{
 
 $global:PSconfigs = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "configs"
+	Filter = "*.config.xml"
     
     Profile = New-Object PSObject -Property @{
         Filter = "*.profile.config.xml"
     }
     Remote = New-Object PSObject -Property @{
         Filter = "*.remote.config.xml"
+    }
+	Script = New-Object PSObject -Property @{
+        Filter = "*.Script.config.xml"
     }
     Mail = New-Object PSObject -Property @{
         Filter = "*.mail.config.xml"

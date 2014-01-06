@@ -34,12 +34,21 @@ function Install-PPApp{
 .PARAMETER  Version
 	The description of the ParameterB parameter.
 
-.PARAMETER  Version
-	The description of the ParameterB parameter.
+.PARAMETER  Force
+	Force the installation.
+
+.PARAMETER  Update
+	Update the package
+    
+.PARAMETER  Uninstall
+	Force the installation.
+    
+.EXAMPLE
+	PS C:\> Install-PPApp "Zabbix Agent#2.0.9", "SQL Server Maintenance Solution" -Force -Update
 
 .EXAMPLE
-	PS C:\> Install-PPApp "Zabbix Agent#2.0.9", "SQL Server Maintenance Solution"
-
+	PS C:\> Install-PPApp "Zabbix Agent" -Uninstall
+    
 #>
 
 	param(
@@ -52,7 +61,13 @@ function Install-PPApp{
         $Version,
         
         [switch]
-        $Force
+        $Force,
+        
+        [switch]
+        $Update,
+        
+        [switch]
+        $Uninstall
 	)
     
     $NameAndVersion = $Name | %{
@@ -66,6 +81,8 @@ function Install-PPApp{
         }
     } 
     
+    $PackaManagerConfigContent = Get-PPConfiguration -Filter $PSconfigs.PackageManager.Filter -Path $PSconfigs.Path
+    $InstalledApps = $PackaManagerConfigContent | %{$_.Content.Package}
     
     $NameAndVersion | %{
         $Version = $_.Version
@@ -75,19 +92,27 @@ function Install-PPApp{
         select -First 1
     } | %{
         
-        # add parameter option force
-        
+        $Name = $_.Name
+        $Version = $_.Version
+               
         # check if already installed
+        $InstalledApp = $InstalledApps | where{($_.Name -eq $Name) -and ($_.Version -eq $Version)}
+        if(($InstalledApp -and -not $Force) -or ($InstalledApp -and -not $Update)){
         
-        Write-Host "Installing Dependencies for $($_.Name)"
+            Write-Host "The Package: $Name is already installed, use the force parameter to reinstall, the update parameter to install a newer version or the uninstall parameter to remove this package"
+
+        }elseif(($InstalledApp -and $Force) -or -not ($InstalledApp -and $Force)){        
         
-        if($_.Script){
-            Write-Host "Installing $($_.Name) Version $($_.Version)"
-            $ScriptPath = $((Get-ChildItem -Path $PSlib.Path -Filter $_.Script -Recurse | select -First 1).FullName)
-            $AppPath = "`"$(Split-Path $ScriptPath -Parent)`""
-            iex "& `"$ScriptPath`" -Version $($_.Version) -Path $AppPath"
-        }
+            Write-Host "Installing Dependencies for $($_.Name)"
+            
+            if($_.Script){
+                Write-Host "Installing $($_.Name) Version $($_.Version)"
+                $ScriptPath = $((Get-ChildItem -Path $PSlib.Path -Filter $_.Script -Recurse | select -First 1).FullName)
+                $AppPath = "`"$(Split-Path $ScriptPath -Parent)`""
+                iex "& `"$ScriptPath`" -Version $($_.Version) -Path $AppPath -Force $Force -Update $Update -Uninstall $Uninstall"
+            }
         
-        #Update Package manager config           
+            #Update Package manager config
+        }          
     }    
 }

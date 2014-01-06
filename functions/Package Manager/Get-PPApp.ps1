@@ -45,9 +45,24 @@ function Get-PPApp{
         $Installed
 	)
     
-    if($Name){
-        Get-PPConfiguration -Filter $PSconfigs.Install.Filter -Path $PSlib.Path | %{$_.Content.Package | where{$_.Name -match $Name}}
+    $InstalledApps = Get-PPConfiguration -Filter $PSconfigs.PackageManager.Filter -Path $PSconfigs.Path | %{$_.Content.Package}
+    
+    $(if($Name){
+        Get-PPConfiguration -Filter $PSconfigs.App.Filter -Path $PSlib.Path | %{$_.Content.Package | where{$_.Name -match $Name}}
     }else{
-        Get-PPConfiguration $PSconfigs.Install.Filter -Path $PSlib.Path | %{$_.Content.Package}
+        Get-PPConfiguration $PSconfigs.App.Filter -Path $PSlib.Path | %{$_.Content.Package}
+    }) | %{
+    
+        if($Installed){
+                
+            $Name = $_.Name
+            $Version = $_.Version
+            
+            $InstalledApps | where{($_.Name -eq $Name) -and ($_.Version -eq $Version)}
+                  
+        }else{
+        
+            $_
+        }
     }
 }
