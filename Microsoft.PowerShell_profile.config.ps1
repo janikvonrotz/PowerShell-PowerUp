@@ -53,7 +53,6 @@ $global:PSlogs = New-Object PSObject -Property @{
 
 $global:PSconfigs = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "configs"
-	Filter = "*.config.xml"
     
     Profile = New-Object PSObject -Property @{
         Filter = "*.profile.config.xml"
