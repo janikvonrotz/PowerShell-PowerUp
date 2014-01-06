@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-15"
-	LastEditDate = "2013-10-15"
+	LastEditDate = "2014-01-06"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
@@ -28,19 +28,19 @@ function Get-PPConfiguration{
 	Returns the content of PowerShell Profile configuration files.
 
 .PARAMETER  Path
-	Path to the config folder, deault is $PSconfigs.Path
+	Path to the config folder, deault is $PSconfigs.Path.
 
 .PARAMETER  Filter
-	Filter for the config filename.
+	Filter for the config filename. Default is "*.config.xml".
 
 .EXAMPLE
 	PS C:\> Get-PPConfiguration $PSconfigs.Mail.Filter
 #>
 
 	param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$false)]
 		[String]
-		$Filter,
+		$Filter = "*.config.xml",
 		
 		[Parameter(Mandatory=$false)]
 		$Path = $PSconfigs.Path
