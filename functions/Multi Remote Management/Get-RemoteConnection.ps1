@@ -8,8 +8,8 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "http://janikvonrotz.ch"
     CreateDate = "2013-04-08"
-    LastEditDate = "2013-10-02"
-	Version = "3.0.0"
+    LastEditDate = "2014-01-08"
+	Version = "3.1.0"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -56,7 +56,7 @@ function Get-RemoteConnection{
 	#--------------------------------------------------#
         
     # load configurations
-    $ServerConfigs = Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.Remote.Filter -Recurse | %{
+    $ServerConfigs = Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.Server.Filter -Recurse | %{
             [xml]$(get-content $_.FullName)} | %{
                 $_.Content.Server}
     

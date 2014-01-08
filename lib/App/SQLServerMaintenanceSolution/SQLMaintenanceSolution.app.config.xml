@@ -3,8 +3,8 @@
 <Content>
 
 	<Metadata>
-		<Title>SQL Server Maintenance Solution Install Configuration</Title>
-		<Filename>SQLMaintenanceSolution.install.config.xml</Filename>
+		<Title>SQL Server Maintenance Solution App Configuration</Title>
+		<Filename>SQLMaintenanceSolution.app.config.xml</Filename>
 		<Description></Description>
 		<Tags>powershell, configuration, installation, zabbix</Tags>
 		<Project></Project>
@@ -15,8 +15,8 @@
 		<Version>1.0.0</Version>
 	</Metadata>
 	
-	<Package Name="SQL Server Maintenance Solution" Version="1.0.0" Script="Install-SQLServerMaintenanceSolution.ps1">
+	<App Name="SQL Server Maintenance Solution" Version="1.0.0" Script="Install-SQLServerMaintenanceSolution.ps1">
 		<Dependency Name="7zip.install" Version="" PackageManager="chocolatey"></Dependency>
-	</Package>
+	</App>
 	
 </Content>

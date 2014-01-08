@@ -266,7 +266,7 @@ if(Check-ProfileFeatureStatus "Git Update"){
 
 # Log File Retention
 
-if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Status -eq "Disabled") -and ($_.Run -match "asDailyJob")}){
+if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Status -eq "Enabled") -and ($_.Run -match "asDailyJob")}){
 
     if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.LogFileRetention.Name -Recurse)){    
         Write-Host "Copy $($PStemplates.LogFileRetention.Name) file to the config folder"      
@@ -279,7 +279,7 @@ if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Status -e
 
 # Log File Retention
 
-if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Status -eq "Disabled") -and ($_.Run -match "withProfileScript")}){
+if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Status -eq "Enabled") -and ($_.Run -match "withProfileScript")}){
                     
     Write-Host "Add Log File Retention to the profile script"
     $PPContent += $Content = @'

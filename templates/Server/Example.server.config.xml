@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Content>
 	<Metadata>
-		<Title>Example remote configurations</Title>
-		<Filename>EXAMPLE.remote.config.xml</Filename>
+		<Title>Example server configurations</Title>
+		<Filename>EXAMPLE.server.config.xml</Filename>
 		<Description></Description>
 		<Tags>powershell, configuration, remote, session</Tags>
 		<Project></Project>
 		<Author>Janik von Rotz</Author>
-		<AuthorContact>www.janikvonrotz.ch</AuthorContact>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
 		<CreateDate>2013-03-28</CreateDate>
-		<LastEditDate>2013-06-11</LastEditDate>
+		<LastEditDate>2013-01-07</LastEditDate>
 		<Version>3.0.0</Version>
 	</Metadata>
 	

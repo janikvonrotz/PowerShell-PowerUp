@@ -54,14 +54,24 @@ $global:PSlogs = New-Object PSObject -Property @{
 $global:PSconfigs = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "configs"
     
+	File = New-Object PSObject -Property @{
+        Filter = "*.config.xml"
+    }
+	
     Profile = New-Object PSObject -Property @{
         Filter = "*.profile.config.xml"
     }
-    Remote = New-Object PSObject -Property @{
-        Filter = "*.remote.config.xml"
+    Server = New-Object PSObject -Property @{
+        Filter = "*.server.config.xml"
+    }
+    User = New-Object PSObject -Property @{
+        Filter = "*.user.config.xml"
     }
 	Script = New-Object PSObject -Property @{
-        Filter = "*.Script.config.xml"
+        Filter = "*.script.config.xml"
+    }
+	ScriptShortcut = New-Object PSObject -Property @{
+        Filter = "*.scriptshortcut.config.xml"
     }
     Mail = New-Object PSObject -Property @{
         Filter = "*.mail.config.xml"
