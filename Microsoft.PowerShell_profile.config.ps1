@@ -28,7 +28,7 @@ $global:PSProfile = New-Object PSObject -Property @{
 	Install = Get-ChildItem -Path (Split-Path $MyInvocation.MyCommand.Definition -Parent) -Filter "Microsoft.PowerShell_profile.install.ps1" -Recurse
 }
 
-$global:PSlib = New-Object PSObject -Property @{
+$global:PSbin = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "bin"
 }
 	
@@ -77,11 +77,9 @@ $global:PSconfigs = New-Object PSObject -Property @{
         Filter = "*.mail.config.xml"
         ErrorClass = "ErrorReport"
     }
-    PackageManager = New-Object PSObject -Property @{
-        Filter = "PackageManager.config.xml";
-    }  
     App = New-Object PSObject -Property @{
         Filter = "*.app.config.xml"
+        DataFile = "PackageManager.config.xml"
     }
     Task = New-Object PSObject -Property @{
         Filter = "*.task.config.xml"
@@ -91,6 +89,13 @@ $global:PSconfigs = New-Object PSObject -Property @{
     }
 	Credential = New-Object PSObject -Property @{
         Filter = "*.credential.config.xml"
+    }
+    TrueCryptContainer = New-Object PSObject -Property @{
+        Filter = "*.truecryptcontainer.config.xml"
+        DataFile = "TrueCrypt.tmp.xml"
+    }
+    KeePassData = New-Object PSObject -Property @{
+        Filter = "*.keepassdata.config.xml"
     }
 }	
 

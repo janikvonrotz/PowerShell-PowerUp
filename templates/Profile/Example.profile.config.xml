@@ -24,5 +24,6 @@
 	<Feature Name="Custom PowerShell Profile ISE script" Status="Enabled"></Feature>
 	
 	<SystemVariable Value="%ProgramFiles(x86)%\Git\bin" Name="Path" Target="Machine"></SystemVariable>
+	<SystemVariable Value="$PSbin.Path" Name="Path" Target="Machine"></SystemVariable>
 	
 </Content>
