@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-15"
-	LastEditDate = "2014-01-06"
+	LastEditDate = "2014-01-08"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
@@ -31,16 +31,16 @@ function Get-PPConfiguration{
 	Path to the config folder, deault is $PSconfigs.Path.
 
 .PARAMETER  Filter
-	Filter for the config filename. Default is "*.config.xml".
+	Filter for the config filename. Default is $PSconfigs.File.Filter.
 
 .EXAMPLE
-	PS C:\> Get-PPConfiguration $PSconfigs.Mail.Filter
+	PS C:\> Get-PPConfiguration -Filter $PSconfigs.Mail.Filter
 #>
 
 	param(
         [Parameter(Mandatory=$false)]
 		[String]
-		$Filter = "*.config.xml",
+		$Filter = $PSconfigs.File.Filter,
 		
 		[Parameter(Mandatory=$false)]
 		$Path = $PSconfigs.Path
