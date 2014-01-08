@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-28"
-	LastEditDate = "2013-10-28"
+	LastEditDate = "2014-01-08"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
@@ -50,10 +50,15 @@ function Get-Path {
     $Path = [System.Environment]::ExpandEnvironmentVariables($Path)
     
     # powershell variables
-    if($Path.contains("$")){$Path = Invoke-Expression $($_.Value)}
+    if($Path.contains("$")){
+        $Path = Invoke-Expression "`"$Path`""
+    }
     
     # relative paths
     if($Path.StartsWith("\")){$Path = Join-Path -Path $(Get-Location).Path -Childpath $Path}
+    
+    # folder up execution
+    $Path = (Resolve-Path $Path).Path
     
     # return path
     $Path
