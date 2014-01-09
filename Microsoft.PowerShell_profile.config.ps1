@@ -56,51 +56,48 @@ $global:PSconfigs = New-Object PSObject -Property @{
     
 	File = New-Object PSObject -Property @{
         Filter = "*.config.xml"
+    }	
+    App = New-Object PSObject -Property @{
+        Filter = "*.app.config.xml"
+        DataFile = "PackageManager.config.xml"
+    }	
+	Credential = New-Object PSObject -Property @{
+        Filter = "*.credential.config.xml"
     }
-	
-    Profile = New-Object PSObject -Property @{
-        Filter = "*.profile.config.xml"
-    }
-    Server = New-Object PSObject -Property @{
-        Filter = "*.server.config.xml"
-    }
-    User = New-Object PSObject -Property @{
-        Filter = "*.user.config.xml"
-    }
-	Script = New-Object PSObject -Property @{
-        Filter = "*.script.config.xml"
-    }
-	ScriptShortcut = New-Object PSObject -Property @{
-        Filter = "*.scriptshortcut.config.xml"
+	EventLog = New-Object PSObject -Property @{
+        Filter = "*.eventlog.config.xml"
     }
     Mail = New-Object PSObject -Property @{
         Filter = "*.mail.config.xml"
         ErrorClass = "ErrorReport"
     }
-    App = New-Object PSObject -Property @{
-        Filter = "*.app.config.xml"
-        DataFile = "PackageManager.config.xml"
+    Profile = New-Object PSObject -Property @{
+        Filter = "*.profile.config.xml"
+    }
+	Script = New-Object PSObject -Property @{
+        Filter = "*.script.config.xml"
+    }
+	ScriptShortcut = New-Object PSObject -Property @{
+		DataFile = "ScriptShortcut.tmp.xml"
+    }
+    Server = New-Object PSObject -Property @{
+        Filter = "*.server.config.xml"
     }
     Task = New-Object PSObject -Property @{
         Filter = "*.task.config.xml"
-    }
-	EventLog = New-Object PSObject -Property @{
-        Filter = "*.eventlog.config.xml"
-    }
-	Credential = New-Object PSObject -Property @{
-        Filter = "*.credential.config.xml"
     }
     TrueCryptContainer = New-Object PSObject -Property @{
         Filter = "*.truecryptcontainer.config.xml"
         DataFile = "TrueCrypt.tmp.xml"
     }
-    KeePassData = New-Object PSObject -Property @{
-        Filter = "*.keepassdata.config.xml"
+	User = New-Object PSObject -Property @{
+        Filter = "*.user.config.xml"
     }
 }	
 
 $global:PSscripts = New-Object PSObject -Property @{
 	Path = Join-Path -Path $PSProfile.Path -ChildPath "scripts"
+    Extensions = ".ps1",".ps2",".ps3",".psm"
 }
 
 $global:PSapps = New-Object PSObject -Property @{    
