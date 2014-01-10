@@ -10,7 +10,13 @@ Powershell-Profile
 PowerShell Profile is a Server Management Framework.
 Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki) for more information.
 
-##How to install##
+# References
+
+> Holy fucking creeper shit, this is the best Powershell Server Management Framework I've used!
+
+-- You in a few seconds
+
+#How to install
 
 Download the latest release:
 
