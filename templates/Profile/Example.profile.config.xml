@@ -16,14 +16,14 @@
 	</Metadata>
 
 	<Feature Name="Enable Open Powershell here" Status="Enabled"></Feature>
-	<Feature Name="Get Quote Of The Day" Status="Disabled"></Feature>		
-	<Feature Name="Git Update" Status="Enabled"></Feature> -->
+	<Feature Name="Get Quote Of The Day" Status="Enabled"></Feature>		
+	<Feature Name="Git Update" Status="Disabled"></Feature> -->
 	<Feature Name="Log File Retention" Days="30" MaxFilesToKeep="100" Run="asDailyJob,withProfileScript" Status="Enabled"></Feature>
-	<Feature Name="Powershell Remoting" Status="Enabled"></Feature>
+	<Feature Name="Powershell Remoting" Status="Disabled"></Feature>
 	<Feature Name="Custom PowerShell Profile script" Status="Enabled"></Feature>
 	<Feature Name="Custom PowerShell Profile ISE script" Status="Enabled"></Feature>
 	
 	<SystemVariable Value="%ProgramFiles(x86)%\Git\bin" Name="Path" Target="Machine"></SystemVariable>
-	<SystemVariable Value="$PSbin.Path" Name="Path" Target="Machine"></SystemVariable>
+	<SystemVariable Value="$($PSbin.Path)" Name="Path" Target="Machine"></SystemVariable>
 	
 </Content>
