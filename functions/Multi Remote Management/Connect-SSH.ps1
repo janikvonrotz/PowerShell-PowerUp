@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
     AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-05-17"
-    LastEditDate = "2013-10-23"
-	Version = "3.1.0"
+    LastEditDate = "2014-01-21"
+	Version = "3.1.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -68,7 +68,7 @@ function Connect-SSH{
             $PrivatKey = Invoke-Expression ($Command = '"' + $_.PrivatKey + '"')
             
     		#Get port
-    		$_.Protocols | %{if ($_.Name -eq "ssh" -and $_.Port -ne ""){$SSHPort = $_.Port}}
+    		$_.Protocol | %{if ($_.Name -eq "ssh" -and $_.Port -ne ""){$SSHPort = $_.Port}}
             
     		#Set Protocol
             if($PrivatKey -eq ""){
