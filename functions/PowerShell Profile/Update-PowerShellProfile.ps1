@@ -11,7 +11,7 @@ function Update-PowerShellProfile{
 
 		# initialise git repository
 		git init
-		git remote add origin https://github.com/janikvonrotz/PowerShell-Profile.git
+		git remote add origin $PSProfile.GitSource
 		git fetch origin
 		git reset --hard origin/master
 		
