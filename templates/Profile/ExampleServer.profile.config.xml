@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>Example Server profile configurations</Title>
+		<Filename>EexampleServer.profile.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, profile</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2013-04-11</CreateDate>
+		<LastEditDate>2014-01-02</LastEditDate>
+		<Version>4.0.0</Version>
+	</Metadata>
+
+	<Feature Name="Enable Open Powershell here" Status="Enabled"></Feature>
+	<Feature Name="Get Quote Of The Day" Status="Disabled"></Feature>		
+	<Feature Name="Git Update" Status="Enabled"></Feature> -->
+	<Feature Name="Log File Retention" Days="30" MaxFilesToKeep="100" Run="asDailyJob,withProfileScript" Status="Enabled"></Feature>
+	<Feature Name="Powershell Remoting" Status="Enabled"></Feature>
+	<Feature Name="Custom PowerShell Profile script" Status="Enabled"></Feature>
+	<Feature Name="Custom PowerShell Profile ISE script" Status="Enabled"></Feature>
+	
+	<SystemVariable Value="%ProgramFiles(x86)%\Git\bin" Name="Path" Target="Machine"></SystemVariable>
+	<SystemVariable Value="$($PSbin.Path)" Name="Path" Target="Machine"></SystemVariable>
+	
+</Content>
