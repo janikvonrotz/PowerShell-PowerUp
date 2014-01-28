@@ -4,7 +4,7 @@
 
 	<Metadata>
 		<Title>Example Server profile configurations</Title>
-		<Filename>EexampleServer.profile.config.xml</Filename>
+		<Filename>ExampleServer.profile.config.xml</Filename>
 		<Description></Description>
 		<Tags>powershell, configuration, installation, profile</Tags>
 		<Project></Project>
