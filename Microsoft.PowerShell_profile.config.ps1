@@ -1,6 +1,6 @@
 <#
 $Metadata = @{
-	Title = "Microsoft PowerShell profile configuration"mi	
+	Title = "Microsoft PowerShell profile configuration"	
 	Filename = "Microsoft.PowerShell_profile.config.ps1"
 	Description = ""
 	Tags = "microsoft, powershell, configuration, installation"
