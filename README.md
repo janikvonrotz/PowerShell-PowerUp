@@ -1,4 +1,4 @@
-Powershell-Profile
+PowerShell-Profile
 ==================
 
 	    _/_/_/    _/_/_/  
@@ -8,7 +8,7 @@ Powershell-Profile
 	_/        _/          
 
 PowerShell Profile is a Server Management Framework.
-Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki) for more information.
+Checkout the [wiki page](https://github.com/janikvonrotz/PowerShell-Profile/wiki) for more information.
 
 # References
 
@@ -20,11 +20,11 @@ Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki
 
 Download the latest release:
 
-![GitHub Download ZIP](https://raw.github.com/janikvonrotz/Powershell-Profile/master/doc/GitHub%20Download%20ZIP.png)
+![GitHub Download ZIP](https://raw.github.com/janikvonrotz/PowerShell-Profile/master/doc/GitHub%20Download%20ZIP.png)
 
 and unzip it in the directory of your choice OR use git to clone the whole repository:
 
-	git clone git://github.com/janikvonrotz/Powershell-Profile.git
+	git clone git://github.com/janikvonrotz/PowerShell-Profile.git
 
 Now add a profile configuration file to the config folder:
 
@@ -35,7 +35,7 @@ And
 	RENAME    EXAMPLE.profile.config.xml    TO    [SOMETHING].profile.config.xml
 
 Now take your time to edit your new PowerShell Profile config file.
-Checkout the [wiki page](https://github.com/janikvonrotz/Powershell-Profile/wiki#custom-features) for more information.
+Checkout the [wiki page](https://github.com/janikvonrotz/PowerShell-Profile/wiki#custom-features) for more information.
 
 	EDIT    [SOMETHING].profile.config.xml
 
