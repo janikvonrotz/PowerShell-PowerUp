@@ -209,22 +209,6 @@ function Check-ProfileFeatureStatus{
 # customizable features
 #--------------------------------------------------#
 
-
-# add system variables
-
-if($SystemVariables -ne $Null){$SystemVariables | %{
-        
-        Write-Host "Adding path variable: $($_.Value)"
-        
-        $Path = Get-Path $_.Value
-        
-        if(Test-Path $Path){Add-PathVariable -Value $Path -Name $_.Name -Target $_.Target
-            
-        }else{Write-Error "Path: $Path doesn't exist. Not possible to add value to system variable: $($_.Name)"}
-    }
-}
-
-
 # Enable Open Powershell here
 
 if(Check-ProfileFeatureStatus "Enable Open Powershell here"){
@@ -330,6 +314,19 @@ if(Check-ProfileFeatureStatus "Custom PowerShell Profile ISE script"){
 	$PPISEContent += $Content = $(Get-Content (Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.CustomPPISEscript.Name -Recurse).Fullname) + "`n"
 }
 
+# add system variables
+
+if($SystemVariables -ne $Null){$SystemVariables | %{
+        
+        Write-Host "Adding path variable: $($_.Value)"
+        
+        $Path = Get-Path $_.Value
+        
+        if(Test-Path $Path){Add-PathVariable -Value $Path -Name $_.Name -Target $_.Target
+            
+        }else{Write-Error "Path: $Path doesn't exist. Not possible to add value to system variable: $($_.Name)"}
+    }
+}
 
 #--------------------------------------------------#
 # feature selection end
