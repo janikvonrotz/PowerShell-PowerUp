@@ -28,18 +28,18 @@ and unzip it in the directory of your choice OR use git to clone the whole repos
 
 Now add a profile configuration file to the config folder:
 
-	COPY    \templates\EXAMPLE.profile.config.xml    TO    \config\... 
+	COPY    \templates\Profile\Example.profile.config.xml    TO    \config\... 
 	
 And
 	
-	RENAME    EXAMPLE.profile.config.xml    TO    [SOMETHING].profile.config.xml
+	RENAME    Example.profile.config.xml    TO    [Something].profile.config.xml
 
 Now take your time to edit your new PowerShell Profile config file.
 Checkout the [wiki page](https://github.com/janikvonrotz/PowerShell-Profile/wiki#custom-features) for more information.
 
-	EDIT    [SOMETHING].profile.config.xml
+	EDIT    [Something].profile.config.xml
 
-	SAVE    [SOMETHING].profile.config.xml
+	SAVE    [Something].profile.config.xml
 	
 Open your Powershell commandline and enter:
 
