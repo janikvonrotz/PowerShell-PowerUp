@@ -1,4 +1,4 @@
-PowerShell-Profile
+PowerShell-PowerUp
 ==================
 
 	    _/_/_/    _/_/_/  
@@ -7,12 +7,12 @@ PowerShell-Profile
 	 _/        _/         
 	_/        _/          
 
-PowerShell Profile is a Server Management Framework.
-Checkout the [wiki page](https://github.com/janikvonrotz/PowerShell-Profile/wiki) for more information.
+PowerShell PowerUp is a Server Management Framework.
+Checkout the [wiki page](https://github.com/janikvonrotz/PowerShell-PowerUp/wiki) for more information.
 
 # References
 
-> Holy fucking creeper shit, this is the best Powershell Server Management Framework I've used!
+> Holy fucking creeper shit, this is the best PowerShell Server Management Framework I've used!
 
 -- You in a few seconds
 
@@ -20,11 +20,11 @@ Checkout the [wiki page](https://github.com/janikvonrotz/PowerShell-Profile/wiki
 
 Download the latest release:
 
-![GitHub Download ZIP](https://raw.github.com/janikvonrotz/PowerShell-Profile/master/doc/GitHub%20Download%20ZIP.png)
+![GitHub Download ZIP](https://raw.github.com/janikvonrotz/PowerShell-PowerUp/master/doc/GitHub%20Download%20ZIP.png)
 
 and unzip it in the directory of your choice OR use git to clone the whole repository:
 
-	git clone git://github.com/janikvonrotz/PowerShell-Profile.git
+	git clone git://github.com/janikvonrotz/PowerShell-PowerUp.git
 
 Now add a profile configuration file to the config folder:
 
@@ -34,8 +34,8 @@ And
 	
 	RENAME    Example.profile.config.xml    TO    [Something].profile.config.xml
 
-Now take your time to edit your new PowerShell Profile config file.
-Checkout the [wiki page](https://github.com/janikvonrotz/PowerShell-Profile/wiki#custom-features) for more information.
+Now take your time to edit your new PowerShell PowerUp config file.
+Checkout the [wiki page](https://github.com/janikvonrotz/PowerShell-PowerUp/wiki#custom-features) for more information.
 
 	EDIT    [Something].profile.config.xml
 
@@ -43,12 +43,12 @@ Checkout the [wiki page](https://github.com/janikvonrotz/PowerShell-Profile/wiki
 	
 Open your Powershell commandline and enter:
 
-	PS C:\Powershell-Profile> Set-ExecutionPolicy remotesigned
+	PS C:\PowerShell-PowerUp> Set-ExecutionPolicy remotesigned
 	
 Or depending on your windows security restrictions:
 	
-	PS C:\Powershell-Profile> Set-ExecutionPolicy unrestricted
+	PS C:\PowerShell-PowerUp> Set-ExecutionPolicy unrestricted
 
 At last execute the install script from the PowerShell commad line:
 
-	PS C:\Powershell-Profile> .\Microsoft.PowerShell_profile.install.ps1
+	PS C:\PowerShell-PowerUp> .\Microsoft.PowerShell_profile.install.ps1
