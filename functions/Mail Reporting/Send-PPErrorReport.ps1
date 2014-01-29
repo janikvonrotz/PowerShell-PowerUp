@@ -1,8 +1,8 @@
 <#
 $Metadata = @{
-	Title = "Send PowerShell Profile Error Report"
+	Title = "Send PowerShell PowerUp Error Report"
 	Filename = "Send-PPErrorReport.ps1"
-	Description = "Sends a default error Report based on the PowerShell Profile configurations."
+	Description = "Sends a default error Report based on the PowerShell PowerUp configurations."
 	Tags = "powershell, profile, error, report"
 	Project = ""
 	Author = "Janik von Rotz"
@@ -23,16 +23,16 @@ function Send-PPErrorReport{
 
 <#
 .SYNOPSIS
-  Sends a default error Report based on the PowerShell Profile configurations.
+  Sends a default error Report based on the PowerShell PowerUp configurations.
 
 .DESCRIPTION
-	Sends a default error Report based on the PowerShell Profile configurations.
+	Sends a default error Report based on the PowerShell PowerUp configurations.
 
 .PARAMETER  FileName
-	The name of the PowerShell Profile config file.
+	The name of the PowerShell PowerUp config file.
 
 .PARAMETER  ScriptName
-	The name of the PowerShell Profile script that throws the error.
+	The name of the PowerShell PowerUp script that throws the error.
 	
 .PARAMETER  ClearErrorVariable
 	Clear PowerShell error variable.

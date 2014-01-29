@@ -1,6 +1,6 @@
 <#
 $Metadata = @{
-	Title = "Get PowerShell Profile Configuration"
+	Title = "Get PowerShell PowerUp Configuration"
 	Filename = "Get-PPConfiguration.ps1"
 	Description = ""
 	Tags = "powershell, profile, configuration, function"
@@ -22,10 +22,10 @@ function Get-PPConfiguration{
 
 <#
 .SYNOPSIS
-	Returns the content of PowerShell Profile configuration files.
+	Returns the content of PowerShell PowerUp configuration files.
 
 .DESCRIPTION
-	Returns the content of PowerShell Profile configuration files.
+	Returns the content of PowerShell PowerUp configuration files.
 
 .PARAMETER  Path
 	Path to the config folder, deault is $PSconfigs.Path.

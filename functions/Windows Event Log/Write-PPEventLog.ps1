@@ -1,6 +1,6 @@
 <#
 $Metadata = @{
-	Title = "Write PowerShell Profile Event Log"
+	Title = "Write PowerShell PowerUp Event Log"
 	Filename = "Write-PPEventLog.ps1"
 	Description = ""
 	Tags = "powershell, profile, function, write, event, log"
@@ -22,10 +22,10 @@ function Write-PPEventLog{
 
 <#
 .SYNOPSIS
-	Writes to event log with default parameters provided by the PowerShell Profile configuration.
+	Writes to event log with default parameters provided by the PowerShell PowerUp configuration.
 
 .DESCRIPTION
-	Writes to event log with default parameters provided by the PowerShell Profile configuration.
+	Writes to event log with default parameters provided by the PowerShell PowerUp configuration.
 
 .PARAMETER  Message
 	Message for the event log entry.

@@ -16,8 +16,8 @@ nal -Name sps -Value "Start-PPScript" -ErrorAction SilentlyContinue
 nal -Name gpps -value "Get-PPScript" -ErrorAction SilentlyContinue
 
 # print logo
-Write-Host "     _/_/_/    _/_/_/  "
-Write-Host "    _/    _/  _/    _/ "
-Write-Host "   _/_/_/    _/_/_/    "
-Write-Host "  _/        _/         "
-Write-Host " _/        _/          This is a PowerShell PowerUp configured session`n"
+Write-Host "    _/_/_/    _/_/_/        _/"
+Write-Host "   _/    _/  _/    _/      _/"
+Write-Host "  _/_/_/    _/_/_/    _/_/_/_/_/"
+Write-Host " _/        _/            _/"
+Write-Host "_/        _/            _/        This is a PowerShell PowerUp configured session`n"

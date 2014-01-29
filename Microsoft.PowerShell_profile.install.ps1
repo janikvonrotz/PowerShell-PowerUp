@@ -1,3 +1,9 @@
+param(
+	[switch]
+	$Force
+)
+
+<#
 $Metadata = @{
     Title = "Profile Installation"
     Filename = "Microsoft.PowerShell_profile.install.ps1"
@@ -7,15 +13,15 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "http://janikvonrotz.ch"
     CreateDate = "2013-03-18"
-    LastEditDate = "2014-01-02"
-    Version = "7.1.0"
+    LastEditDate = "2014-01-29"
+    Version = "7.1.1"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 '@
 }
-
+#>
 
 #--------------------------------------------------#
 #  project init
@@ -27,7 +33,7 @@ if($Host.Version.Major -lt 2){
 }
 
 # create PowerShell Profile
-if (!(Test-Path $Profile)){
+if (-not (Test-Path $Profile)){
 
     # Create a profile
     Write-Host "Add a default profile script"
@@ -41,7 +47,7 @@ if (!(Test-Path $Profile)){
     
 # load global configurations
 $PSProfileConfig = Join-Path -Path (Get-Location).Path -ChildPath "Microsoft.PowerShell_profile.config.ps1"
-if((Test-Path $PSProfileConfig) -and $PSProfile -eq $null){
+if((Test-Path $PSProfileConfig) -and ($PSProfile -eq $null -or $Force)){
     iex $PSProfileConfig
 }elseif($PSProfile -ne $null){
 	Write-Host "Using global configuration of this session"
@@ -119,8 +125,8 @@ Project = ""
 Author = "Janik von Rotz"
 AuthorContact = "http://janikvonrotz.ch"
 CreateDate = "2013-04-22"
-LastEditDate = "2014-01-02"
-Version = "7.1.0"
+LastEditDate = "2014-01-29"
+Version = "7.1.1"
 License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
 
@@ -140,8 +146,8 @@ Project = ""
 Author = "Janik von Rotz"
 AuthorContact = "http://janikvonrotz.ch"
 CreateDate = "2013-04-22"
-LastEditDate = "2014-01-02"
-Version = "7.1.0"
+LastEditDate = "2014-01-29"
+Version = "7.1.1"
 License = "This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA."
 }
 
@@ -239,10 +245,7 @@ if(Check-ProfileFeatureStatus "Git Update"){
    
     Update-PowerShellProfile
     
-    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.GitUpdate.Name -Recurse)){    
-        Write-Host "Copy $($PStemplates.GitUpdate.Name) file to the config folder"      
-        Copy-Item -Path $PStemplates.GitUpdate.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.GitUpdate.Name)
-	}
+    Copy-PPConfigurationFile -Name $PStemplates.GitUpdate.Name -Force:$Force
     
     Update-ScheduledTask "Git Update"
 }
@@ -252,10 +255,7 @@ if(Check-ProfileFeatureStatus "Git Update"){
 
 if($Features | Where{($_.Name -contains "Log File Retention") -and ($_.Status -eq "Enabled") -and ($_.Run -match "asDailyJob")}){
 
-    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.LogFileRetention.Name -Recurse)){    
-        Write-Host "Copy $($PStemplates.LogFileRetention.Name) file to the config folder"      
-        Copy-Item -Path $PStemplates.LogFileRetention.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.LogFileRetention.Name)
-	}
+    Copy-PPConfigurationFile -Name $PStemplates.LogFileRetention.Name -Force:$Force
     
     Update-ScheduledTask "Log File Retention"
 }
@@ -291,10 +291,7 @@ if(Check-ProfileFeatureStatus "Powershell Remoting"){
 
 if(Check-ProfileFeatureStatus "Custom PowerShell Profile script"){
 
-    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.CustomPPscript.Name -Recurse)){    
-        Write-Host "Copy $($PStemplates.CustomPPscript.Name) file to the config folder"      
-        Copy-Item -Path $PStemplates.CustomPPscript.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.CustomPPscript.Name)
-	}
+    Copy-PPConfigurationFile -Name $PStemplates.CustomPPscript.Name -Force:$Force
     
     Write-Host "Include Custom PowerShell Profile script"
 	$PPContent += $(Get-Content (Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.CustomPPscript.Name -Recurse).Fullname) + "`n"
@@ -305,10 +302,7 @@ if(Check-ProfileFeatureStatus "Custom PowerShell Profile script"){
 
 if(Check-ProfileFeatureStatus "Custom PowerShell Profile ISE script"){
 
-    if(!(Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.CustomPPISEscript.Name -Recurse)){    
-        Write-Host "Copy $($PStemplates.CustomPPISEscript.Name) file to the config folder"      
-        Copy-Item -Path $PStemplates.CustomPPISEscript.FullName -Destination (Join-Path -Path $PSconfigs.Path -ChildPath $PStemplates.CustomPPISEscript.Name)
-	}
+    Copy-PPConfigurationFile -Name $PStemplates.CustomPPISEscript.Name -Force:$Force
     
     Write-Host "Include Custom PowerShell Profile script"
 	$PPISEContent += $Content = $(Get-Content (Get-ChildItem -Path $PSconfigs.Path -Filter $PStemplates.CustomPPISEscript.Name -Recurse).Fullname) + "`n"

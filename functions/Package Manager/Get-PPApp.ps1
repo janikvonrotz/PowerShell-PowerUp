@@ -1,6 +1,6 @@
 <#
 $Metadata = @{
-	Title = "Get PowerShell Profile App"
+	Title = "Get PowerShell PowerUp App"
 	Filename = "Get-PPApp.ps1"
 	Description = ""
 	Tags = "powershell, profile, get, apps"
@@ -23,10 +23,10 @@ function Get-PPApp{
 
 <#
 .SYNOPSIS
-    Get available PowerShell Profile apps.
+    Get available PowerShell PowerUp apps.
 
 .DESCRIPTION
-	Get available PowerShell Profile apps.
+	Get available PowerShell PowerUp apps.
 
 .PARAMETER  Name
 	The description of the ParameterA parameter.

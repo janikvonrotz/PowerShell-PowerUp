@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-15"
-	LastEditDate = "2013-10-15"
-	Version = "1.0.0"
+	LastEditDate = "2014-01-29"
+	Version = "1.0.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -26,18 +26,23 @@ function Install-PowerShellProfile{
 
 .DESCRIPTION
 	This functions runs the installer script of the PowerShell Profile script.
-
+	
+.PARAMETER Force
+	Overwrites configuration files even if the already exist.
+	
 .EXAMPLE
-	PS C:\> Install-PowerShellProfile
+	PS C:\> Install-PowerShellProfile -Profile
 #>
 
 	param(
+		[switch]
+		$Force
 	)
 	
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-	sl $PSprofile.Path
-	iex $PSProfile.Install.FullName
-	sl $WorkingPath
+	Set-Location $PSprofile.Path
+	Invoke-Expression "$($PSProfile.Install.FullName) -Force:`$Force"
+	Set-Location $WorkingPath
 }

@@ -23,7 +23,7 @@ $global:WorkingPath = (Get-Location).Path
 $global:PSProfile = New-Object PSObject -Property @{
 	Path = Split-Path $MyInvocation.MyCommand.Definition -Parent
 	
-	GitSource = "https://github.com/janikvonrotz/PowerShell-Profile.git"
+	GitSource = "https://github.com/janikvonrotz/PowerShell-PowerUp.git"
 	
 	Install = Get-ChildItem -Path (Split-Path $MyInvocation.MyCommand.Definition -Parent) -Filter "Microsoft.PowerShell_profile.install.ps1" -Recurse
 }

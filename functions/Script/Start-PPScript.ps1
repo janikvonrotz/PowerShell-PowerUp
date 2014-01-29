@@ -1,6 +1,6 @@
 <#
 $Metadata = @{
-	Title = "Start PowerShell Profile Script"
+	Title = "Start PowerShell PowerUp Script"
 	Filename = "Start-PPScript.ps1"
 	Description = ""
 	Tags = ""
@@ -23,10 +23,10 @@ function Start-PPScript{
 
 <#
 .SYNOPSIS
-    Run a PowerShell Profile script.
+    Run a PowerShell PowerUp script.
 
 .DESCRIPTION
-	Run a PowerShell Profile script which is stored in the script folder. Or run a script by it's shorcut name or key
+	Run a PowerShell PowerUp script which is stored in the script folder. Or run a script by it's shorcut name or key
 
 .PARAMETER Name
 	Name of the scripts or name of the script shortcut or shortcut key.

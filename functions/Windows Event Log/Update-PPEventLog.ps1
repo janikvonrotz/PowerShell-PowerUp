@@ -1,6 +1,6 @@
 <#
 $Metadata = @{
-	Title = "Update PowerShell Profile Event Log"
+	Title = "Update PowerShell PowerUp Event Log"
 	Filename = "Update-PPEventLog.ps1"
 	Description = ""
 	Tags = "powershell, profile, function, update, event, log"
@@ -23,10 +23,10 @@ function UPdate-PPEventLog{
 
 <#
 .SYNOPSIS
-	Updates the windows evenlogs based on the config files in the PowerShell Profile config folder.
+	Updates the windows evenlogs based on the config files in the PowerShell PowerUp config folder.
 
 .DESCRIPTION
-	Updates the windows evenlogs based on the config files in the PowerShell Profile config folder.
+	Updates the windows evenlogs based on the config files in the PowerShell PowerUp config folder.
 
 .EXAMPLE
 	PS C:\> Update-PPEventLog

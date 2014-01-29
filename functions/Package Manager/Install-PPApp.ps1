@@ -1,6 +1,6 @@
 <#
 $Metadata = @{
-	Title = "Install PowerShell Profile App"
+	Title = "Install PowerShell PowerUp App"
 	Filename = "Install-PPApp.ps1"
 	Description = ""
 	Tags = "powershell, profile, install, apps"
@@ -23,10 +23,10 @@ function Install-PPApp{
 
 <#
 .SYNOPSIS
-    Install PowerShell Profile apps.
+    Install PowerShell PowerUp apps.
 
 .DESCRIPTION
-	Install PowerShell Profile apps.
+	Install PowerShell PowerUp apps.
 
 .PARAMETER  Name
 	The description of the ParameterA parameter.

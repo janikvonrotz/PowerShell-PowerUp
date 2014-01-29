@@ -1,6 +1,6 @@
 <#
 $Metadata = @{
-	Title = "Write PowerShell Profile Error Event Log"
+	Title = "Write PowerShell PowerUp Error Event Log"
 	Filename = "Write-PPEventLog.ps1"
 	Description = ""
 	Tags = "powershell, profile, function, write, error, event, log"

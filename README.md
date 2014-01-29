@@ -1,11 +1,11 @@
 PowerShell-PowerUp
 ==================
 
-	    _/_/_/    _/_/_/  
-	   _/    _/  _/    _/ 
-	  _/_/_/    _/_/_/    
-	 _/        _/         
-	_/        _/          
+	    _/_/_/    _/_/_/        _/
+	   _/    _/  _/    _/      _/
+	  _/_/_/    _/_/_/    _/_/_/_/_/
+	 _/        _/            _/
+	_/        _/            _/    
 
 PowerShell PowerUp is a Server Management Framework.
 Checkout the [wiki page](https://github.com/janikvonrotz/PowerShell-PowerUp/wiki) for more information.
