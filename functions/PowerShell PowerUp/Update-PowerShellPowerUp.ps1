@@ -2,7 +2,7 @@ function Update-PowerShellPowerUp{
 
 	if(!(Get-Command "git" -ErrorAction SilentlyContinue)){
 
-		cinst git -force
+		cinst git.install -force
 	}
 
 	cd $PSProfile.Path
