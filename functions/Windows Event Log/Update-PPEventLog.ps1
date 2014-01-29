@@ -47,8 +47,7 @@ function Update-PPEventLog{
 			Write-Host "Create event log: $($_.Name)"
 			New-EventLog -LogName $_.Name -Source $_.Source -ErrorAction SilentlyContinue
 			$EventLog = Get-WmiObject win32_nteventlogfile -filter "filename='$($_.Name)'"
-			
-		
+		}		
         
 		$SourcesTO = ($_.Source | %{"$($_.Name)"}) + ($_.Source | where{$_.Expression} | %{$_.Expression | iex})
 		$SourcesIS = $EventLog.Sources
