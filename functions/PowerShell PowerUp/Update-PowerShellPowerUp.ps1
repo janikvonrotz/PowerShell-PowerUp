@@ -9,18 +9,17 @@ function Update-PowerShellPowerUp{
 	
 	if(!(Test-Path -Path (Join-Path -Path $PSProfile.Path -ChildPath ".git"))){
 
-		# initialise git repository
 		git init
 		git remote add origin $PSProfile.GitSource
-		git fetch origin
-		git reset --hard origin/master
+
 		
-	}else{
+	}elseif($(git config --get remote.origin.url) -ne $PSProfile.GitSource){
 
-		git fetch origin
-		git reset --hard origin/master
+        git remote set-url origin $PSProfile.GitSource
+    }
 
-	}
+	git fetch origin
+	git reset --hard origin/master
 	
 	Set-Location $WorkingPath
 }
