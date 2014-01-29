@@ -280,7 +280,7 @@ Delete-ObsoleteLogFiles
 if(Check-ProfileFeatureStatus "Powershell Remoting"){
     
     Write-Host "Enabling Powershell Remoting"
-	Enable-PSRemoting -Confirm:$false
+	try{Enable-PSRemoting -Confirm:$false}catch{$Error}
 	Set-Item WSMan:\localhost\Client\TrustedHosts "RemoteComputer" -Force
 	Set-Item WSMan:\localhost\Shell\MaxMemoryPerShellMB 1024
 	restart-Service WinRM -Confirm:$false
