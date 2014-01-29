@@ -242,8 +242,8 @@ Write-Host ""
 # Git Update
 
 if(Check-ProfileFeatureStatus "Git Update"){
-   
-    Update-PowerShellProfile
+	
+    Update-PowerShellPowerUp
     
     Copy-PPConfigurationFile -Name $PStemplates.GitUpdate.Name -Force:$Force
     

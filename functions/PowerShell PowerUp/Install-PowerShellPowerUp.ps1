@@ -1,7 +1,7 @@
 <#
 $Metadata = @{
-	Title = "Install PowerShell Profile"
-	Filename = "Install-PowerShellProfile.ps1"
+	Title = "Install PowerShell PowerUp"
+	Filename = "Install-PowerShellPowerUp.ps1"
 	Description = ""
 	Tags = "powershell, profile, installation"
 	Project = ""
@@ -18,20 +18,20 @@ send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, 
 }
 #>
 
-function Install-PowerShellProfile{
+function Install-PowerShellPowerUp{
 
 <#
 .SYNOPSIS
-	Install PowerShell Profile.
+	Install PowerShell PowerUp.
 
 .DESCRIPTION
-	This functions runs the installer script of the PowerShell Profile script.
+	This functions runs the installer script of the PowerShell PowerUp script.
 	
 .PARAMETER Force
 	Overwrites configuration files even if the already exist.
 	
 .EXAMPLE
-	PS C:\> Install-PowerShellProfile -Profile
+	PS C:\> Install-PowerShellPowerUp -Force
 #>
 
 	param(

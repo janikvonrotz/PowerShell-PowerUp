@@ -1,4 +1,4 @@
-function Update-PowerShellProfile{
+function Update-PowerShellPowerUp{
 
 	if(!(Get-Command "git" -ErrorAction SilentlyContinue)){
 
