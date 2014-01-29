@@ -80,7 +80,7 @@ function Copy-PPConfigurationFile{
         }else{
        
             Write-Host "Copy $Name file to the destination folder"
-            Copy-Item -Path $SourceFilePath.Fullname -Destination $Destination.Fullname
+            Copy-Item -Path $SourceFilePath.Fullname -Destination $Destination
         }   
     }else{
        
