@@ -68,22 +68,24 @@ function Copy-PPConfigurationFile{
 	# main
 	#--------------------------------------------------#
     $DestinationFilePath = Get-ChildItem -Path $Destination -Filter $Name -Recurse
-    $SourceFilePath = Get-ChildItem -Path $Path -Filter $Name -Recurse
-    
-    if($SourceFilePath){            
+    $SourceFilePath = Get-ChildItem -Path $Path -Filter $Name -Recurse          
         
-        if($DestinationFilePath -and $Force) {
+    if($DestinationFilePath -and $SourceFilePath -and $Force) {
         
-            Write-Host "Overwrite $Name file in the destination folder"     
-            Copy-Item -Path $SourceFilePath.Fullname -Destination $DestinationFilePath.Fullname -Force
+        Write-Host "Overwrite $Name file in the destination folder"     
+        Copy-Item -Path $SourceFilePath.Fullname -Destination $DestinationFilePath.Fullname -Force
 	   
-        }else{
+    }elseif($SourceFilePath -and -not $DestinationFilePath){
        
-            Write-Host "Copy $Name file to the destination folder"
-            Copy-Item -Path $SourceFilePath.Fullname -Destination $Destination
-        }   
-    }else{
+        Write-Host "Copy $Name file to the destination folder"
+        Copy-Item -Path $SourceFilePath.Fullname -Destination $Destination
+
+    }elseif($DestinationFilePath){
        
-        Write-Error "Couldn't find $Name file."  
+        Write-Error "Could not copy $Name file. File already exists in destination."
+
+   }else{
+       
+        Write-Error "Could not copy $Name file."
    }
 }
