@@ -3,8 +3,8 @@
 <Content>
 
 	<Metadata>
-		<Title>Example EventLog Configuration</Title>
-		<Filename>EXAMPLE.eventlog.config.xml</Filename>
+		<Title>PowerShell PowerUp EventLog Configuration</Title>
+		<Filename>PowerShellPowerUp.eventlog.config.xml</Filename>
 		<Description></Description>
 		<Tags>powershell, configuration, installation, event, log</Tags>
 		<Project></Project>
@@ -15,8 +15,8 @@
 		<Version>1.0.1</Version>
 	</Metadata>
 
-	<EventLog Name="PowerShell Profile" DefaultEntryType="Information" DefaultEventId="0" InformationEventId="100" SuccessAudit="200"  WarningEventId="300" FailureAudit="400" ErrorEventId="500" Role="Default">
-		<Source Role="Default" Name="PowerShell Profile"></Source>
+	<EventLog Name="PowerShell PowerUp" DefaultEntryType="Information" DefaultEventId="0" InformationEventId="100" SuccessAudit="200"  WarningEventId="300" FailureAudit="400" ErrorEventId="500" Role="Default">
+		<Source Role="Default" Name="PowerShell PowerUp"></Source>
 		<Source Name="Scheduled Task" Expression="Get-PPConfiguration -Filter $PSconfigs.Task.Filter | %{$_.Task.RegistrationInfo.Description}"></Source>
 	</EventLog>
 	
