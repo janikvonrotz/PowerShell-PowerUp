@@ -13,7 +13,7 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "http://janikvonrotz.ch"
     CreateDate = "2013-03-18"
-    LastEditDate = "2014-01-29"
+    LastEditDate = "2014-02-05"
     Version = "7.1.1"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
@@ -60,35 +60,8 @@ if((Test-Path $PSProfileConfig) -and ($PSProfile -eq $null -or $Force)){
 #  prerequisites
 #--------------------------------------------------#
 
-# install chocolatey
-if(!(Get-Command "cinst" -ErrorAction SilentlyContinue)){
-	iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
-}
-
-if(!(Get-Module -ListAvailable | where{$_.Name -eq "PsGet"})){
-
-    # install module with chocolatey
-    & C:\Chocolatey\bin\cinst.bat psget -force
-
-    # import module with static path
-    Import-Module "C:\Program Files\Common Files\Modules\PsGet\PsGet.psm1"
-
-}else{
-
-    Import-Module PsGet
-}
-
-if(!(Get-Module -ListAvailable | where{$_.Name -eq "pscx"})){
-
-    # install module with PsGet
-    Install-Module pscx
-}
-
-Import-Module pscx
-
 # autoinclude functions
 Get-childitem ($PSfunctions.Path) -Recurse | where{($_.Name.EndsWith("ps1")) -and (-not $_.PSIsContainer)} | foreach{. ($_.Fullname)}
-
 
 #--------------------------------------------------#
 #  Profile settings
@@ -102,7 +75,6 @@ $Systemvariables = @()
 Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.Profile.Filter -Recurse | %{
     [xml]$(get-content $_.FullName)} | %{
         $Features += $_.Content.Feature;$Systemvariables += $_.Content.Systemvariable}
-     
         
 #--------------------------------------------------#
 #  Profile scripts
@@ -220,7 +192,7 @@ function Check-ProfileFeatureStatus{
 if(Check-ProfileFeatureStatus "Enable Open Powershell here"){
     
     Write-Host "Adding 'Open PowerShell Here' to context menu "
-	$Null = Enable-OpenPowerShellHere
+	(Get-ChildItem -Path $PStemplates.Path -Filter "Open PowerShell Here.reg" -Recurse) | %{Invoke-Expression "regedit /s '$($_.Fullname)'"}
 		
 }
 
@@ -309,16 +281,27 @@ if(Check-ProfileFeatureStatus "Custom PowerShell Profile ISE script"){
 }
 
 # add system variables
-
-if($SystemVariables -ne $Null){$SystemVariables | %{
-        
-        Write-Host "Adding path variable: $($_.Value)"
-        
+if($SystemVariables -ne $Null){$SystemVariables | %{        
+       
         $Path = Get-Path $_.Value
         
-        if(Test-Path $Path){Add-PathVariable -Value $Path -Name $_.Name -Target $_.Target
+        if(Test-Path $Path){
+        
+            $SystemVariable = $_
+        
+            [Environment]::GetEnvironmentVariable($_.Name,$_.Target) | %{
             
-        }else{Write-Error "Path: $Path doesn't exist. Not possible to add value to system variable: $($_.Name)"}
+                if(-not $_.Contains($Path)){
+                    
+                    Write-Host "Adding Path: $Path to variable: $($_.Name)"
+                    
+                    [Environment]::SetEnvironmentVariable($SystemVariable.Name,("$_" + ";" + $Path),$SystemVariable.Target)
+                }
+            }            
+        }else{
+        
+            Write-Error "Path: $Path doesn't exist. Not possible to add value to system variable: $($_.Name)"
+        }
     }
 }
 
