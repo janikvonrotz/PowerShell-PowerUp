@@ -289,15 +289,8 @@ if($SystemVariables -ne $Null){$SystemVariables | %{
         
             $SystemVariable = $_
         
-            [Environment]::GetEnvironmentVariable($_.Name,$_.Target) | %{
-            
-                if(-not $_.Contains($Path)){
-                    
-                    Write-Host "Adding Path: $Path to variable: $($_.Name)"
-                    
-                    [Environment]::SetEnvironmentVariable($SystemVariable.Name,("$_" + ";" + $Path),$SystemVariable.Target)
-                }
-            }            
+            Set-EnvironmentVariableValue -Name $SystemVariable.Name -Value $Path -Target $SystemVariable.Target -Add
+  
         }else{
         
             Write-Error "Path: $Path doesn't exist. Not possible to add value to system variable: $($_.Name)"
