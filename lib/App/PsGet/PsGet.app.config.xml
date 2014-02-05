@@ -3,19 +3,19 @@
 <Content>
 
 	<Metadata>
-		<Title>Zabbix Agent App Configuration</Title>
-		<Filename>ZabbixAgent.app.config.xml</Filename>
+		<Title>PsGet App Configuration</Title>
+		<Filename>PsGet.app.config.xml</Filename>
 		<Description></Description>
-		<Tags>powershell, configuration, installation, zabbix</Tags>
+		<Tags>powershell, configuration, installation, psget</Tags>
 		<Project></Project>
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
-		<CreateDate>2013-10-25</CreateDate>
+		<CreateDate>2014-02-05</CreateDate>
 		<LastEditDate>2014-02-05</LastEditDate>
 		<Version>0.0.0</Version>
 	</Metadata>
 	
-	<App Name="Zabbix Agent" Version="2.0.9" Script="Install-ZabbixAgent.ps1">
+	<App Name="PsGet" Version="0.0.0" Script="Install-PsGet.ps1">
 	</App>
-
+		
 </Content>

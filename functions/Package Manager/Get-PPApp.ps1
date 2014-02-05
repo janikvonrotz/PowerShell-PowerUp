@@ -45,15 +45,15 @@ function Get-PPApp{
         $Installed
 	)
     
-    $InstalledApps = Get-PPConfiguration -Filter $PSconfigs.PackageManager.Filter -Path $PSconfigs.Path | %{$_.Content.Package}
+    $InstalledApps = Get-PPConfiguration -Filter $PSconfigs.App.DataFile -Path $PSconfigs.Path | %{$_.Content.App}
     
     $(if($Name){
-        Get-PPConfiguration -Filter $PSconfigs.App.Filter -Path $PSlib.Path | %{$_.Content.Package | where{$_.Name -match $Name}}
+        Get-PPConfiguration -Filter $PSconfigs.App.Filter -Path $PSlib.Path | %{$_.Content.App | where{$_.Name -match $Name}}
     }else{
-        Get-PPConfiguration $PSconfigs.App.Filter -Path $PSlib.Path | %{$_.Content.Package}
+        Get-PPConfiguration $PSconfigs.App.Filter -Path $PSlib.Path | %{$_.Content.App}
     }) | %{
     
-        if($Installed){
+        if($InstalledApps){
                 
             $Name = $_.Name
             $Version = $_.Version

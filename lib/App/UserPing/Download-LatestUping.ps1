@@ -1,1 +1,0 @@
-https://downloads.sourceforge.net/project/uping/Version%201.0/Uping.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fuping%2F&ts=1383048704&use_mirror=kent

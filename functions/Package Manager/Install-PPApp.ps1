@@ -81,8 +81,8 @@ function Install-PPApp{
         }
     } 
     
-    $PackaManagerConfigContent = Get-PPConfiguration -Filter $PSconfigs.PackageManager.Filter -Path $PSconfigs.Path
-    $InstalledApps = $PackaManagerConfigContent | %{$_.Content.Package}
+    $AppDataFile = Get-PPConfiguration -Filter $PSconfigs.App.DataFile -Path $PSconfigs.Path
+    $InstalledApps = $AppDataFile | %{$_.Content.App}
     
     $NameAndVersion | %{
         $Version = $_.Version
@@ -97,6 +97,7 @@ function Install-PPApp{
                
         # check if already installed
         $InstalledApp = $InstalledApps | where{($_.Name -eq $Name) -and ($_.Version -eq $Version)}
+        
         if(($InstalledApp -and -not $Force) -or ($InstalledApp -and -not $Update)){
         
             Write-Host "The Package: $Name is already installed, use the force parameter to reinstall, the update parameter to install a newer version or the uninstall parameter to remove this package"
@@ -106,6 +107,7 @@ function Install-PPApp{
             Write-Host "Installing Dependencies for $($_.Name)"
             
             if($_.Script){
+            
                 Write-Host "Installing $($_.Name) Version $($_.Version)"
                 $ScriptPath = $((Get-ChildItem -Path $PSlib.Path -Filter $_.Script -Recurse | select -First 1).FullName)
                 $AppPath = "`"$(Split-Path $ScriptPath -Parent)`""
