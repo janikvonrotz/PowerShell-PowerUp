@@ -2,7 +2,7 @@ function Update-PowerShellPowerUp{
 
 	if(!(Get-Command "git" -ErrorAction SilentlyContinue)){
 
-		cinst git.install -force
+		Install-PPApp Git
 	}
 
 	cd $PSProfile.Path
