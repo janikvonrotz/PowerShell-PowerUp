@@ -20,4 +20,5 @@ $Url | %{
 } | %{
 
     iex "$(Join-Path $_.Path $_.FileName) /VERYSILENT"
+    Set-EnvironmentVariableValue -Name "Path" -Value "C:\Program Files (x86)\Git\bin" -Target "Machine" -Add
 }
