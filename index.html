@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Powershell PowerUp by janikvonrotz</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Powershell PowerUp</h1>
+        <p>PowerShell PowerUp</p>
+
+        <p class="view"><a href="https://github.com/janikvonrotz/PowerShell-PowerUp">View the Project on GitHub <small>janikvonrotz/PowerShell-PowerUp</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/janikvonrotz/PowerShell-PowerUp/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/janikvonrotz/PowerShell-PowerUp/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/janikvonrotz/PowerShell-PowerUp">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="powershell-powerup" class="anchor" href="#powershell-powerup"><span class="octicon octicon-link"></span></a>PowerShell-PowerUp</h1>
+
+<pre><code>    _/_/_/    _/_/_/        _/
+   _/    _/  _/    _/      _/
+  _/_/_/    _/_/_/    _/_/_/_/_/
+ _/        _/            _/
+_/        _/            _/    
+</code></pre>
+
+<p>PowerShell PowerUp is a Server Management Framework.
+Checkout the <a href="https://github.com/janikvonrotz/PowerShell-PowerUp/wiki">wiki page</a> for more information.</p>
+
+<h1>
+<a name="references" class="anchor" href="#references"><span class="octicon octicon-link"></span></a>References</h1>
+
+<blockquote>
+<p>Holy fucking creeper shit, this is the best PowerShell Server Management Framework I've used!</p>
+</blockquote>
+
+<p>-- You in a few seconds</p>
+
+<h1>
+<a name="how-to-install" class="anchor" href="#how-to-install"><span class="octicon octicon-link"></span></a>How to install</h1>
+
+<p>Download the latest release:</p>
+
+<p><img src="https://raw.github.com/janikvonrotz/PowerShell-PowerUp/master/doc/GitHub%20Download%20ZIP.png" alt="GitHub Download ZIP"></p>
+
+<p>and unzip it in the directory of your choice OR use git to clone the whole repository:</p>
+
+<pre><code>git clone git://github.com/janikvonrotz/PowerShell-PowerUp.git
+</code></pre>
+
+<p>Now add a profile configuration file to the config folder:</p>
+
+<pre><code>COPY    \templates\Profile\Example.profile.config.xml    TO    \config\... 
+</code></pre>
+
+<p>And</p>
+
+<pre><code>RENAME    Example.profile.config.xml    TO    [Something].profile.config.xml
+</code></pre>
+
+<p>Now take your time to edit your new PowerShell PowerUp profile config file.
+Checkout the <a href="https://github.com/janikvonrotz/PowerShell-PowerUp/wiki#custom-features">wiki page</a> for more information.</p>
+
+<pre><code>EDIT    [Something].profile.config.xml
+
+SAVE    [Something].profile.config.xml
+</code></pre>
+
+<p>Open your Powershell commandline and enter:</p>
+
+<pre><code>PS C:\PowerShell-PowerUp&gt; Set-ExecutionPolicy remotesigned
+</code></pre>
+
+<p>Or depending on your windows security restrictions:</p>
+
+<pre><code>PS C:\PowerShell-PowerUp&gt; Set-ExecutionPolicy unrestricted
+</code></pre>
+
+<p>At last execute the install script from the PowerShell commad line:</p>
+
+<pre><code>PS C:\PowerShell-PowerUp&gt; .\Microsoft.PowerShell_profile.install.ps1
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/janikvonrotz">janikvonrotz</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
