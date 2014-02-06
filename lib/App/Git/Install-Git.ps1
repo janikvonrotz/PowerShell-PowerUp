@@ -9,16 +9,13 @@ param(
 $Url = "https://msysgit.googlecode.com/files/Git-1.8.5.2-preview20131230.exe"
 
 $Url | %{
-    $WebClient = New-Object System.Net.WebClient
-    $FileName = (Split-Path ([uri]$_).LocalPath -Leaf)
-    $WebClient.DownloadFile($_, $(Join-Path $Path $FileName))
+
+    Get-File -Url $_ -Path $Path
     
-    @{    
-        FileName = $FileName
-        Path = $Path    
-    }
 } | %{
 
-    iex "$(Join-Path $_.Path $_.FileName) /VERYSILENT"
+    Write-Host "Installing Git ..."
+    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT" -Wait -NoNewWindow
+    Write-Host "Installation of Git finished"
     Set-EnvironmentVariableValue -Name "Path" -Value "C:\Program Files (x86)\Git\bin" -Target "Machine" -Add
 }

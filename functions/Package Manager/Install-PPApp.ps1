@@ -110,7 +110,7 @@ function Install-PPApp{
             
                 Write-Host "Installing $($_.Name) Version $($_.Version)"
                 $ScriptPath = $((Get-ChildItem -Path $PSlib.Path -Filter $_.Script -Recurse | select -First 1).FullName)
-                $AppPath = "`"$(Split-Path $ScriptPath -Parent)`""
+                $AppPath = "`"$(Split-Path $ScriptPath -Parent)\`""
                 iex "& `"$ScriptPath`" -Version $($_.Version) -Path $AppPath -Force $Force -Update $Update -Uninstall $Uninstall"
             }
         
