@@ -50,16 +50,13 @@ function Sync-ADGroupMember{
 	param(
     
 		[Parameter(Mandatory=$true)]
-		[ValidateNotNullOrEmpty()]
 		$ADGroup,
         
         [Parameter(Mandatory=$true)]
-		[ValidateNotNull()]
-        [System.Array]
+        [Array]
 		$Member,
         
         [Parameter(Mandatory=$false)]
-		[ValidateNotNull()]
         [ScriptBlock]
 		$LogScriptBlock,
         
