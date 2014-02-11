@@ -48,12 +48,16 @@ function Get-PPApp{
     $InstalledApps = Get-PPConfiguration -Filter $PSconfigs.App.DataFile -Path $PSconfigs.Path | %{$_.Content.App}
     
     $(if($Name){
+    
         Get-PPConfiguration -Filter $PSconfigs.App.Filter -Path $PSlib.Path | %{$_.Content.App | where{$_.Name -match $Name}}
+        
     }else{
+    
         Get-PPConfiguration $PSconfigs.App.Filter -Path $PSlib.Path | %{$_.Content.App}
+        
     }) | %{
     
-        if($InstalledApps){
+        if($Installed){
                 
             $Name = $_.Name
             $Version = $_.Version
