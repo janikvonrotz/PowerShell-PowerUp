@@ -3,19 +3,19 @@
 <Content>
 
 	<Metadata>
-		<Title>Putty App Configuration</Title>
-		<Filename>Putty.app.config.xml</Filename>
+		<Title>TrueCrypt App Configuration</Title>
+		<Filename>TrueCrypt.app.config.xml</Filename>
 		<Description></Description>
-		<Tags>powershell, configuration, installation, putty</Tags>
+		<Tags>powershell, configuration, installation, truecrypt</Tags>
 		<Project></Project>
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
 		<CreateDate>2014-02-18</CreateDate>
 		<LastEditDate>2014-02-18</LastEditDate>
-		<Version>1.0.0</Version>
+		<Version>a.0.0</Version>
 	</Metadata>
 	
-	<App Name="Putty" Version="0.63" Script="Install-Putty.ps1">
+	<App Name="TrueCrypt" Version="7.1.a" Script="Install-TrueCrypt.ps1">
 	</App>
 		
 </Content>

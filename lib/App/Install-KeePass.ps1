@@ -11,10 +11,8 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://download.tuxfamily.org/notepadplus/6.5.3/npp.6.5.3.Installer.exe"
-	# Path = $Path
+	Url = "http://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.25/KeePass-2.25-Setup.exe?r=http%3A%2F%2Fkeepass.info%2Fdownload.html&ts=1392731683&use_mirror=garr"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
-    # ConditionExclusion = "Get-Command `"notepad++`" -ErrorAction SilentlyContinue"
 }
 $Configs | ForEach-Object{
 
@@ -59,10 +57,8 @@ $Configs = @{
                 # configuration
                 #--------------------------------------------------#	
 
-                $Executable = "C:\Program Files (x86)\PuTTY\putty.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "putty.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
-                
-                # Set-EnvironmentVariableValue -Name "Path" -Value "C:\Program Files (x86)\Notepad++\" -Target "Machine" -Add
-                
+                $Executable = "C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "KeePass.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
+                                
                 #--------------------------------------------------#
                 # cleanup
                 #--------------------------------------------------#
@@ -93,9 +89,9 @@ $Configs = @{
         	
         }else{
 
-            if(Test-Path (Join-Path $PSbin.Path "putty.bat")){Remove-Item (Join-Path $PSbin.Path "putty.bat")}
+            if(Test-Path (Join-Path $PSbin.Path "KeePass.bat")){Remove-Item (Join-Path $PSbin.Path "KeePass.bat")}
             
-            $Executable = "C:\Program Files (x86)\PuTTY\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
+            $Executable = "C:\Program Files (x86)\KeePass Password Safe 2\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
             
             $_.Result = "AppUninstalled";$_
         }
