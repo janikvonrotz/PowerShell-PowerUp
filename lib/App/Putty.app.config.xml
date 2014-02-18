@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>Putty App Configuration</Title>
+		<Filename>Putty.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, putty</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-02-18</CreateDate>
+		<LastEditDate>2014-02-18</LastEditDate>
+		<Version>0.63</Version>
+	</Metadata>
+	
+	<App Name="Putty" Version="0.63" Script="Install-Putty.ps1">
+	</App>
+		
+</Content>

@@ -11,10 +11,8 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://download.tuxfamily.org/notepadplus/6.5.3/npp.6.5.3.Installer.exe"
-	# Path = $Path
+	Url = "http://the.earth.li/~sgtatham/putty/latest/x86/putty-0.63-installer.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
-    # ConditionExclusion = "Get-Command `"notepad++`" -ErrorAction SilentlyContinue"
 }
 $Configs | ForEach-Object{
 
@@ -52,16 +50,19 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/S" -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/verysilent" -Wait -NoNewWindow
                 }
                 		
                 #--------------------------------------------------#
                 # configuration
                 #--------------------------------------------------#	
 
-                $Executable = "C:\Program Files (x86)\PuTTY\putty.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "putty.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
-                
-                # Set-EnvironmentVariableValue -Name "Path" -Value "C:\Program Files (x86)\Notepad++\" -Target "Machine" -Add
+                $Executable = "C:\Program Files (x86)\PuTTY\pageant.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "pageant.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
+                $Executable = "C:\Program Files (x86)\PuTTY\plink.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "plink.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
+				$Executable = "C:\Program Files (x86)\PuTTY\pscp.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "pscp.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
+				$Executable = "C:\Program Files (x86)\PuTTY\psftp.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "psftp.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
+				$Executable = "C:\Program Files (x86)\PuTTY\putty.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "putty.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
+				$Executable = "C:\Program Files (x86)\PuTTY\puttygen.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "puttygen.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
                 
                 #--------------------------------------------------#
                 # cleanup
@@ -93,8 +94,13 @@ $Configs = @{
         	
         }else{
 
-            if(Test-Path (Join-Path $PSbin.Path "putty.bat")){Remove-Item (Join-Path $PSbin.Path "putty.bat")}
-            
+            if(Test-Path (Join-Path $PSbin.Path "pageant.bat")){Remove-Item (Join-Path $PSbin.Path "pageant.bat")}
+			if(Test-Path (Join-Path $PSbin.Path "plink.bat")){Remove-Item (Join-Path $PSbin.Path "plink.bat")}
+			if(Test-Path (Join-Path $PSbin.Path "pscp.bat")){Remove-Item (Join-Path $PSbin.Path "pscp.bat")}
+			if(Test-Path (Join-Path $PSbin.Path "psftp.bat")){Remove-Item (Join-Path $PSbin.Path "psftp.bat")}
+			if(Test-Path (Join-Path $PSbin.Path "putty.bat")){Remove-Item (Join-Path $PSbin.Path "putty.bat")}
+			if(Test-Path (Join-Path $PSbin.Path "puttygen.bat")){Remove-Item (Join-Path $PSbin.Path "puttygen.bat")}
+			
             $Executable = "C:\Program Files (x86)\PuTTY\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/verysilent" -Wait -NoNewWindow}
             
             $_.Result = "AppUninstalled";$_

@@ -11,10 +11,8 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://download.tuxfamily.org/notepadplus/6.5.3/npp.6.5.3.Installer.exe"
-	# Path = $Path
+	Url = "http://winscp.net/download/files/20140218134632addb34feddff0d04957e37386c0a59/winscp551setup.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
-    # ConditionExclusion = "Get-Command `"notepad++`" -ErrorAction SilentlyContinue"
 }
 $Configs | ForEach-Object{
 
@@ -52,17 +50,15 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/S" -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow
                 }
                 		
                 #--------------------------------------------------#
                 # configuration
                 #--------------------------------------------------#	
 
-                $Executable = "C:\Program Files (x86)\PuTTY\putty.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "putty.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
-                
-                # Set-EnvironmentVariableValue -Name "Path" -Value "C:\Program Files (x86)\Notepad++\" -Target "Machine" -Add
-                
+                $Executable = "C:\Program Files (x86)\WinSCP\WinSCP.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "WinSCP.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
+                                
                 #--------------------------------------------------#
                 # cleanup
                 #--------------------------------------------------#
@@ -93,9 +89,9 @@ $Configs = @{
         	
         }else{
 
-            if(Test-Path (Join-Path $PSbin.Path "putty.bat")){Remove-Item (Join-Path $PSbin.Path "putty.bat")}
+            if(Test-Path (Join-Path $PSbin.Path "WinSCP.bat")){Remove-Item (Join-Path $PSbin.Path "WinSCP.bat")}
             
-            $Executable = "C:\Program Files (x86)\PuTTY\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/verysilent" -Wait -NoNewWindow}
+            $Executable = "C:\Program Files (x86)\WinSCP\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT" -Wait -NoNewWindow}
             
             $_.Result = "AppUninstalled";$_
         }

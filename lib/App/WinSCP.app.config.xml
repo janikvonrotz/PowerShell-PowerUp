@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>WinSCP App Configuration</Title>
+		<Filename>WinSCP.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, winscp</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-02-05</CreateDate>
+		<LastEditDate>2014-02-05</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<App Name="WinSCP" Version="5.5.1" Script="Install-WinSCP.ps1">
+	</App>
+		
+</Content>
