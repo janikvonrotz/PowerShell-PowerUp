@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>Firefox App Configuration</Title>
+		<Filename>Firefox.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, firefox</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-02-05</CreateDate>
+		<LastEditDate>2014-02-05</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<App Name="Firefox" Version="27.0.1" Script="Install-Firefox.ps1">
+	</App>
+		
+</Content>
