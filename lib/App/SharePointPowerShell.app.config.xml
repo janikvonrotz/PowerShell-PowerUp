@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>SharePoint PowerShell App Configuration</Title>
+		<Filename>Example.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, sharepoint</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-02-20</CreateDate>
+		<LastEditDate>2014-02-20</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<App Name="SharePoint PowerShell" Version="0.1.2" Script="Install-SharePoint PowerShell.ps1">
+		<Dependency Name="7-Zip"></Dependency>
+	</App>
+		
+</Content>

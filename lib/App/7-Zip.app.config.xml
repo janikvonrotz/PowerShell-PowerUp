@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>7-Zip App Configuration</Title>
+		<Filename>7-Zip.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, 7-zip</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-02-21</CreateDate>
+		<LastEditDate>2014-02-21</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<App Name="7-Zip" Version="9.20" Script="Install-7-Zip.ps1">
+	</App>
+		
+</Content>

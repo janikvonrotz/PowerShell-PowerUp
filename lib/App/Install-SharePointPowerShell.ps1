@@ -11,10 +11,8 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://download.tuxfamily.org/notepadplus/6.5.3/npp.6.5.3.Installer.exe"
-	# Path = $Path
-    Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
-    # ConditionExclusion = "Get-Command `"notepad++`" -ErrorAction SilentlyContinue"
+	Url = "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=sharepointpowershell&DownloadId=801982&FileTime=130372923795430000&Build=20865"
+	Path = "$((Get-Location).Path)\" # $Path
 }
 $Configs | ForEach-Object{
 
@@ -44,7 +42,7 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads = $_.Url | ForEach-Object{
-                    Get-File -Url $_ -Path $Config.Path
+                    Get-File -Url $_ -Path (Join-Path $Config.Path "SharePointPowerShell.zip")
                 }       			
 
                 #--------------------------------------------------#
@@ -60,8 +58,6 @@ $Configs = @{
                 #--------------------------------------------------#	
 
                 $Executable = "C:\Program Files (x86)\PuTTY\putty.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "putty.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
-                
-                # Set-EnvironmentVariableValue -Name "Path" -Value ";C:\Program Files (x86)\Notepad++\" -Target "Machine" -Add
                 
                 #--------------------------------------------------#
                 # cleanup

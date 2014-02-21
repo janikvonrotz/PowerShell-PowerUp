@@ -289,7 +289,7 @@ if($SystemVariables -ne $Null){$SystemVariables | %{
         
             $SystemVariable = $_
         
-            Set-EnvironmentVariableValue -Name $SystemVariable.Name -Value $Path -Target $SystemVariable.Target -Add
+            Set-EnvironmentVariableValue -Name $SystemVariable.Name -Value (";" + $Path) -Target $SystemVariable.Target -Add
   
         }else{
         

@@ -29,16 +29,13 @@ function Install-PPApp{
 	Install PowerShell PowerUp apps.
 
 .PARAMETER  Name
-	The description of the ParameterA parameter.
-
-.PARAMETER  Version
-	The description of the ParameterB parameter.
+	Name and version sperated by # of the app.
 
 .PARAMETER  Force
 	Force the installation.
     
 .PARAMETER  Uninstall
-	Force the installation.
+	Uninstall the app.
     
 .EXAMPLE
 	PS C:\> Install-PPApp "Zabbix Agent#2.0.9", "SQL Server Maintenance Solution" -Force -Update
@@ -52,11 +49,7 @@ function Install-PPApp{
         [Parameter(Mandatory=$true)]
 		[String[]]
 		$Name,
-        
-        [Parameter(Mandatory=$false)]
-		[String[]]
-        $Version,
-        
+                
         [switch]
         $Force,
                 
@@ -117,14 +110,19 @@ function Install-PPApp{
                    
             if(-not $Uninstall){
             
-                Write-Host "Installing Dependencies for $($_.Name)..."
-                ### add support for dependencies ###
+                
+                $_.Dependency | where{$_} | ForEach-Object{                    
+                    
+                    Write-Host "Installing Dependencies for $Name ..."
+                    Install-PPApp -Name $(if($_.Version){"$($_.Name)#$($_.Version)"}else{$_.Name}) -Force:$Force                    
+                    # Start-Process -FilePath (Get-Path $PSapps.PowerShell) -ArgumentList  "`"& {Install-PPApp -Name $(if($_.Version){"$($_.Name)#$($_.Version)"}else{$_.Name})$(if($Force){" -Force"})}`"" -Wait -NoNewWindow                    
+                }
             } 
                        
             # check if this installation is an update 
             if($Uninstall){
             
-                 Write-Host "Uninstalling $($_.Name) Version $($_.Version)..."
+                 Write-Host "Uninstalling $($_.Name) Version $($_.Version) ..."
             
             }elseif($AppEntry -and -not $InstalledApp){
             
@@ -133,11 +131,11 @@ function Install-PPApp{
                 
             }elseif($AppEntry -and $InstalledApp){   
             
-                Write-Host "Reinstalling $($_.Name) Version $($_.Version)..."
+                Write-Host "Reinstalling $($_.Name) Version $($_.Version) ..."
             
             }else{                            
 
-                Write-Host "Installing $($_.Name) Version $($_.Version)..."
+                Write-Host "Installing $($_.Name) Version $($_.Version) ..."
             }           
             
             $Config = Invoke-Expression "& `"$ScriptPath`" -Version $($_.Version) -Path $Path -Force:`$Force -Update:`$Update -Uninstall:`$Uninstall"                    
