@@ -50,14 +50,12 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow
+                    & 7za x $(Join-Path $_.Path $_.Filename) -y
                 }
                 		
                 #--------------------------------------------------#
                 # configuration
                 #--------------------------------------------------#	
-
-                $Executable = "C:\Program Files (x86)\PuTTY\putty.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "putty.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
                 
                 #--------------------------------------------------#
                 # cleanup
@@ -88,10 +86,6 @@ $Configs = @{
         #--------------------------------------------------#
         	
         }else{
-
-            if(Test-Path (Join-Path $PSbin.Path "putty.bat")){Remove-Item (Join-Path $PSbin.Path "putty.bat")}
-            
-            $Executable = "C:\Program Files (x86)\PuTTY\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
             
             $_.Result = "AppUninstalled";$_
         }
