@@ -114,7 +114,7 @@ function Install-PPApp{
                 $_.Dependency | where{$_} | ForEach-Object{                    
                     
                     Write-Host "Installing Dependencies for $Name ..."
-                    Install-PPApp -Name $(if($_.Version){"$($_.Name)#$($_.Version)"}else{$_.Name}) -Force:$Force                    
+                    # Install-PPApp -Name $(if($_.Version){"$($_.Name)#$($_.Version)"}else{$_.Name}) -Force:$Force                    
                     # Start-Process -FilePath (Get-Path $PSapps.PowerShell) -ArgumentList  "`"& {Install-PPApp -Name $(if($_.Version){"$($_.Name)#$($_.Version)"}else{$_.Name})$(if($Force){" -Force"})}`"" -Wait -NoNewWindow                    
                 }
             } 
