@@ -57,7 +57,7 @@ $Configs = @{
                 # configuration
                 #--------------------------------------------------#	
 
-				Set-EnvironmentVariableValue -Name Path -Value ";C:\Program Files\nodejs" -Target Machine
+				Set-EnvironmentVariableValue -Name Path -Value ";C:\Program Files\nodejs" -Target Machine -Add
 
                 #--------------------------------------------------#
                 # cleanup
