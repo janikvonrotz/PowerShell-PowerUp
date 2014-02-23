@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-12-17"
-	LastEditDate = "2014-02-05"
+	LastEditDate = "2014-02-23"
 	Url = ""
 	Version = "1.0.0"
 	License = @'
@@ -42,7 +42,7 @@ function Disable-UserAccessControl{
 	#--------------------------------------------------#
 	
 	Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Value 00000000
-	if([Environment]::OSVersion.Version -ge (new-object 'Version' 6,2)){
+	if(Get-ItemProperty -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\system" -Name "EnableLUA"  -ErrorAction SilentlyContinue){
 		Set-ItemProperty "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\system" -Name "EnableLUA" -Value 00000000
     }
 	Write-Host "User Access Control (UAC) has been disabled. Reboot required."
