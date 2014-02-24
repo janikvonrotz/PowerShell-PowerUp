@@ -3,10 +3,10 @@
 <Content>
 
 	<Metadata>
-		<Title>Example App Configuration</Title>
-		<Filename>Example.app.config.xml</Filename>
+		<Title>MongoDB App Configuration</Title>
+		<Filename>MongoDB.app.config.xml</Filename>
 		<Description></Description>
-		<Tags>powershell, configuration, installation, example</Tags>
+		<Tags>powershell, configuration, installation, mongodb</Tags>
 		<Project></Project>
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
@@ -15,7 +15,7 @@
 		<Version>0.0.0</Version>
 	</Metadata>
 	
-	<App Name="Example" Version="1.0.0" Script="Install-Example.ps1">
+	<App Name="MongoDB" Version="1.0.0" Script="Install-MongoDB.ps1">
 		<Dependency Name="7-Zip"></Dependency>
 	</App>
 		
