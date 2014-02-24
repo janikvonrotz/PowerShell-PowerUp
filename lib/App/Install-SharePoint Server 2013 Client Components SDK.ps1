@@ -11,10 +11,8 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://download.tuxfamily.org/notepadplus/6.5.3/npp.6.5.3.Installer.exe"
-	# Path = $Path
+	Url = "http://download.microsoft.com/download/D/E/0/DE02CCED-5209-49FC-9F1B-0F86D3269D4C/sharepointclientcomponents_x64.msi"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
-    # ConditionExclusion = "Get-Command `"notepad++`" -ErrorAction SilentlyContinue"
 }
 $Configs | ForEach-Object{
 
@@ -52,17 +50,13 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow
-					Start-Process -FilePath "msiexec" -ArgumentList "/i $(Join-Path $_.Path $_.Filename) /quiet /norestart" -Wait
+                    Start-Process -FilePath "msiexec" -ArgumentList "/i $(Join-Path $_.Path $_.Filename) /quiet /norestart" -Wait
                 }
                 		
                 #--------------------------------------------------#
                 # configuration
                 #--------------------------------------------------#	
-
-                $Executable = "C:\Program Files (x86)\PuTTY\putty.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "putty.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
-				Set-EnvironmentVariableValue -Name "Path" -Value ";C:\Program Files (x86)\Notepad++\" -Target "Machine" -Add
-                
+                                
                 #--------------------------------------------------#
                 # cleanup
                 #--------------------------------------------------#
@@ -92,13 +86,11 @@ $Configs = @{
         #--------------------------------------------------#
         	
         }else{
-
-			Remove-EnvironmentVariableValue -Name Path -Value ";C:\Program Files\nodejs" -Target Machine
 		
-            if(Test-Path (Join-Path $PSbin.Path "putty.bat")){Remove-Item (Join-Path $PSbin.Path "putty.bat")}
-            
-            $Executable = "C:\Program Files (x86)\PuTTY\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
-            
+			get-msi | where{$_.ProductName -match "SharePoint Client Components"} | ForEach-Object{
+				 Start-Process -FilePath "msiexec" -ArgumentList "/uninstall $($_.LocalPackage) /qn" -Wait 
+			}
+			
             $_.Result = "AppUninstalled";$_
         }
 
