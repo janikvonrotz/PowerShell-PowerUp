@@ -45,27 +45,27 @@ function Connect-SPO
 	Write-Host "Succesfully loaded the CSOM library" -foregroundcolor black -backgroundcolor green
 
 	Write-Host "Create client context for site $siteUrl" -foregroundcolor black -backgroundcolor yellow
-	$context = New-Object Microsoft.SharePoint.Client.ClientContext($siteURL)
+	$SPOContext = New-Object Microsoft.SharePoint.Client.ClientContext($siteURL)
 	
-	$context.RequestTimeOut = 1000 * 60 * 10;
+	$SPOContext.RequestTimeOut = 1000 * 60 * 10;
 
 	if ($online)
 	{
 		Write-Host "Setting SharePoint Online credentials" -foregroundcolor black -backgroundcolor yellow
 		
-		$context.AuthenticationMode = [Microsoft.SharePoint.Client.ClientAuthenticationMode]::Default
+		$SPOContext.AuthenticationMode = [Microsoft.SharePoint.Client.ClientAuthenticationMode]::Default
 		$securePassword = ConvertTo-SecureString $password -AsPlainText -Force
 
 		$credentials = New-Object Microsoft.SharePoint.Client.SharePointOnlineCredentials($username, $securePassword)
-		$context.Credentials = $credentials
+		$SPOContext.Credentials = $credentials
 	}
 
 	Write-Host "Check connection" -foregroundcolor black -backgroundcolor yellow
-	$site = $context.Site
-	$context.Load($site)
-	$context.ExecuteQuery()
+	$site = $SPOContext.Site
+	$SPOContext.Load($site)
+	$SPOContext.ExecuteQuery()
 	
-	Set-Variable -Name "clientContext" -Value $context -Scope Global
+	Set-Variable -Name "clientContext" -Value $SPOContext -Scope Global
 	
 	Write-Host "Succesfully connected" -foregroundcolor black -backgroundcolor green
 }
