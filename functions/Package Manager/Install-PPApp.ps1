@@ -8,9 +8,9 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-25"
-	LastEditDate = "2014-02-11"
+	LastEditDate = "2014-02-24"
 	Url = ""
-	Version = "1.1.0"
+	Version = "1.1.1"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -52,6 +52,9 @@ function Install-PPApp{
                 
         [switch]
         $Force,
+        
+        [switch]
+        $IgnoreDependencies,
                 
         [switch]
         $Uninstall
@@ -108,7 +111,7 @@ function Install-PPApp{
             $ScriptPath = $((Get-ChildItem -Path $PSlib.Path -Filter $_.Script -Recurse | select -First 1).FullName)
             $Path = "$((Get-Location).Path)\"
                    
-            if(-not $Uninstall){
+            if(-not $Uninstall -and -not $IgnoreDependencies){
             
                 
                 $_.Dependency | where{$_} | ForEach-Object{                    
