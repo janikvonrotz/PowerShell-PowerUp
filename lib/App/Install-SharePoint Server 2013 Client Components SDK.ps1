@@ -87,7 +87,7 @@ $Configs = @{
         	
         }else{
 		
-			get-msi | where{$_.ProductName -match "SharePoint Client Components"} | ForEach-Object{
+			Get-MSI | where{$_.ProductName -match "SharePoint Client Components"} | ForEach-Object{
 				 Start-Process -FilePath "msiexec" -ArgumentList "/uninstall $($_.LocalPackage) /qn" -Wait 
 			}
 			
