@@ -11,10 +11,8 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://download.tuxfamily.org/notepadplus/6.5.3/npp.6.5.3.Installer.exe"
-	# Path = $Path
+	Url = "http://heanet.dl.sourceforge.net/project/greenshot/Greenshot/Greenshot%201.1/Greenshot-INSTALLER-1.1.7.17.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
-    # ConditionExclusion = "Get-Command `"notepad++`" -ErrorAction SilentlyContinue"
 }
 $Configs | ForEach-Object{
 
@@ -51,29 +49,13 @@ $Configs = @{
                 # installation
                 #--------------------------------------------------#
 				
-				$Directory = "C:\Program Files\MongoDB\"; if(-not (Test-Path -Path $Directory)){New-Item -Path $Directory -Type directory}
-				
                 $_.Downloads | ForEach-Object{
                     Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow
-					Start-Process -FilePath "msiexec" -ArgumentList "/i $(Join-Path $_.Path $_.Filename) /quiet /norestart" -Wait
                 }
-								
-                $WorkingPath = (Get-Location).Path
-                Set-Location "C:\Program Files\"
-				$_.Downloads | ForEach-Object{
-                    & 7za x $(Join-Path $_.Path $_.Filename) -y
-                }
-                Set-Location $WorkingPath
-                
-                Rename-Item -Path "C:\Program Files\mongodb-win32-x86_64-2008plus-2.4.9" -NewName "MongoDB" -Force
-                		
+	
                 #--------------------------------------------------#
                 # configuration
                 #--------------------------------------------------#	
-
-                $Executable = "C:\Program Files (x86)\PuTTY\putty.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "putty.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
-				
-				Set-EnvironmentVariableValue -Name "Path" -Value ";C:\Program Files (x86)\Notepad++\" -Target "Machine" -Add
                 
                 #--------------------------------------------------#
                 # cleanup
@@ -104,15 +86,9 @@ $Configs = @{
         #--------------------------------------------------#
         	
         }else{
-
-			Remove-EnvironmentVariableValue -Name Path -Value ";C:\Program Files\nodejs" -Target Machine
-		
-            if(Test-Path (Join-Path $PSbin.Path "putty.bat")){Remove-Item (Join-Path $PSbin.Path "putty.bat")}
             
-            $Executable = "C:\Program Files (x86)\PuTTY\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
+            $Executable = "C:\Program Files\Greenshot\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
             
-			$Directory = "C:\Program Files\MongoDB\"; if(Test-Path $Directory){Remove-Item -Path $Directory -Force -Recurse}
-			
             $_.Result = "AppUninstalled";$_
         }
 

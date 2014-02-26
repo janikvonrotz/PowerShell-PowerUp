@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>Greenshot App Configuration</Title>
+		<Filename>Greenshot.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, greenshot</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-02-025</CreateDate>
+		<LastEditDate>2014-02-25</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<App Name="Greenshot" Version="1.1.7.17" Script="Install-Greenshot.ps1"></App>
+		
+</Content>
