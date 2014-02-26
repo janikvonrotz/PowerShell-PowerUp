@@ -50,20 +50,21 @@ $Configs = @{
                 #--------------------------------------------------#
 			    
                 $Directory = "C:\data\db"; if(-not (Test-Path -Path $Directory)){New-Item -Path $Directory -Type directory}
-                $Directory = "C:\Program Files\MongoDB\"; if(-not (Test-Path -Path $Directory)){New-Item -Path $Directory -Type directory}
                  
                 $WorkingPath = (Get-Location).Path
-                Set-Location "C:\Program Files\MongoDB\"
+                Set-Location "C:\Program Files\"
 				$_.Downloads | ForEach-Object{
                     & 7za x $(Join-Path $_.Path $_.Filename) -y
                 }
                 Set-Location $WorkingPath
-                		
+                
+                Rename-Item -Path "C:\Program Files\mongodb-win32-x86_64-2008plus-2.4.9" -NewName "MongoDB" -Force
+              		
                 #--------------------------------------------------#
                 # configuration
                 #--------------------------------------------------#	
 												
-                Set-EnvironmentVariableValue -Name Path -Value ";C:\Program Files\MongoDB\mongodb-win32-x86_64-2008plus-2.4.9\bin\" -Target Machine -Add
+                Set-EnvironmentVariableValue -Name Path -Value ";C:\Program Files\MongoDB\bin\" -Target Machine -Add
                 
                 #--------------------------------------------------#
                 # cleanup
@@ -95,7 +96,7 @@ $Configs = @{
         	
         }else{
 
-            Remove-EnvironmentVariableValue -Name Path -Value ";C:\Program Files\MongoDB\mongodb-win32-x86_64-2008plus-2.4.9\bin\" -Target Machine
+            Remove-EnvironmentVariableValue -Name Path -Value ";C:\Program Files\MongoDB\bin\" -Target Machine
                      
             $Directory = "C:\data\db\"; if(Test-Path $Directory){Remove-Item -Path $Directory -Force -Recurse}
 			$Directory = "C:\Program Files\MongoDB\"; if(Test-Path $Directory){Remove-Item -Path $Directory -Force -Recurse}
