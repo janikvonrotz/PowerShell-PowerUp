@@ -29,30 +29,6 @@ function Add-SPODocumentLibrary
 		[Parameter(Mandatory=$true, Position=1)]
 		[string]$listTitle
 	)
-    $web = $clientContext.Web
-    
-    # Check if document library already exists
-    $lists = $web.Lists
-    $clientContext.Load($lists)
-    $clientContext.ExecuteQuery()
-    
-    $listTitles = $lists | select -ExpandProperty Title
-    
-    if(!($listTitles -contains $listTitle))
-    {
-        $listCreationInfo = new-object Microsoft.SharePoint.Client.ListCreationInformation
-        $listCreationInfo.TemplateType = [Microsoft.SharePoint.Client.ListTemplateType]::DocumentLibrary
-        $listCreationInfo.Title = $listTitle
-        $listCreationInfo.QuickLaunchOption = [Microsoft.SharePoint.Client.QuickLaunchOptions]::on
-
-        $list = $web.Lists.Add($listCreationInfo)
-        
-        $clientContext.ExecuteQuery()
-        
-		Write-Host "Document Library '$listTitle' is created succesfully" -foregroundcolor black -backgroundcolor green
-    }
-    else
-    {
-		Write-Host "Document Library '$listTitle' already exists" -foregroundcolor black -backgroundcolor yellow
-    }
+	
+    Add-SPOList -listTitle $listTitle -templateType "DocumentLibrary"
 }

@@ -41,7 +41,7 @@ function Add-SPOWebpart
     
     Submit-SPOCheckOut $pageUrl
 
-	$targetPath = Join-SPOParts -Separator '/' -Parts $clientContext.Site.ServerRelativeUrl, $pageUrl
+	$targetPath = Join-SPOParts -Separator '/' -Parts $clientContext.Web.ServerRelativeUrl, $pageUrl
 	$page = $clientContext.Web.GetFileByServerRelativeUrl($targetPath)
     $webPartManager = $page.GetLimitedWebPartManager([Microsoft.SharePoint.Client.WebParts.PersonalizationScope]::Shared)
     $replacedWebPartXml = Convert-SPOStringVariablesToValues -string $webPartXml

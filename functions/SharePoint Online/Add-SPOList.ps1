@@ -27,7 +27,10 @@ function Add-SPOList
 	param
 	(
 		[Parameter(Mandatory=$true, Position=1)]
-		[string]$listTitle
+		[string]$listTitle,
+		
+		[Parameter(Mandatory=$false, Position=1)]
+		[Microsoft.SharePoint.Client.ListTemplateType]$templateType = "genericList"
 	)
 	
     $web = $clientContext.Web
@@ -42,7 +45,7 @@ function Add-SPOList
     if(!($listTitles -contains $listTitle))
     {
         $listCreationInfo = new-object Microsoft.SharePoint.Client.ListCreationInformation
-        $listCreationInfo.TemplateType = [Microsoft.SharePoint.Client.ListTemplateType]::genericList
+        $listCreationInfo.TemplateType = $templateType
         $listCreationInfo.Title = $listTitle
         $listCreationInfo.QuickLaunchOption = [Microsoft.SharePoint.Client.QuickLaunchOptions]::on
 

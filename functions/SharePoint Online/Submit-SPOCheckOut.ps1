@@ -30,7 +30,7 @@ function Submit-SPOCheckOut
 		[string]$targetPath
 	)
 	
-	$targetPath = Join-SPOParts -Separator '/' -Parts $clientContext.Site.ServerRelativeUrl, $targetPath
+	$targetPath = Join-SPOParts -Separator '/' -Parts $clientContext.Web.ServerRelativeUrl, $targetPath
 
     $remotefile = $clientContext.Web.GetFileByServerRelativeUrl($targetPath)
     $clientContext.Load($remotefile)

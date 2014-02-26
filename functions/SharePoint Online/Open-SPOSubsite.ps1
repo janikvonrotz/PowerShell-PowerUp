@@ -1,7 +1,7 @@
 <#
 $Metadata = @{
-	Title = "Convert-SPOStringVariablesToValues"
-	Filename = "Convert-SPOStringVariablesToValues.ps1"
+	Title = "Open-SPOSubsite"
+	Filename = "Open-SPOSubsite.ps1"
 	Description = ""
 	Tags = "powershell, sharepoint, online"
 	Project = "https://sharepointpowershell.codeplex.com"
@@ -21,23 +21,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 #>
 
-function Convert-SPOStringVariablesToValues
+function Open-SPOSubsite
 {
-	[CmdletBinding()]
+    [CmdletBinding()]
 	param
 	(
 		[Parameter(Mandatory=$true, Position=1)]
-		[String]$string
+	    [string]$relativeUrl
 	)
-	
-	Write-Host "Replacing variables string variables" -foregroundcolor black -backgroundcolor yellow
-	
-	$serverRelativeUrl = $clientContext.Site.ServerRelativeUrl
-	if ($serverRelativeUrl -eq "/") {
-		$serverRelativeUrl = ""
-	}
-	
-	$returnString = $string -replace "~SiteCollection", $serverRelativeUrl
-    
-	return $returnString
+
+    Open-SPOSite -relativeUrl $relativeUrl
 }

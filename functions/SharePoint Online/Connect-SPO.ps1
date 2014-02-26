@@ -38,8 +38,6 @@ function Connect-SPO
 	    [Parameter(Mandatory=$false, Position=4)]
 	    [string]$password
 	)
-
-
 	Write-Host "Loading the CSOM library" -foregroundcolor black -backgroundcolor yellow
 	[Reflection.Assembly]::LoadFrom((Get-ChildItem -Path $PSlib.Path -Filter "Microsoft.SharePoint.Client.dll" -Recurse).FullName)
 	Write-Host "Succesfully loaded the CSOM library" -foregroundcolor black -backgroundcolor green
@@ -61,11 +59,14 @@ function Connect-SPO
 	}
 
 	Write-Host "Check connection" -foregroundcolor black -backgroundcolor yellow
+	$web = $SPOContext.Web
 	$site = $SPOContext.Site
+	$SPOContext.Load($web)
 	$SPOContext.Load($site)
 	$SPOContext.ExecuteQuery()
 	
 	Set-Variable -Name "clientContext" -Value $SPOContext -Scope Global
+    Set-Variable -Name "rootSiteUrl" -Value $siteURL -Scope Global
 	
 	Write-Host "Succesfully connected" -foregroundcolor black -backgroundcolor green
 }

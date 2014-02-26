@@ -33,5 +33,13 @@ function Join-SPOParts
         $Separator = ''
     )
 
-    $Separator + (($Parts | ? { $_ } | % { ([string]$_).trim($Separator) } | ? { $_ } ) -join $Separator)
+    $returnValue = (($Parts | ? { $_ } | % { ([string]$_).trim($Separator) } | ? { $_ } ) -join $Separator)
+
+    if (-not ($returnValue.StartsWith("http", "CurrentCultureIgnoreCase")))
+    {
+        # is a relative path so add the seperator in front
+        $returnValue = $Separator + $returnValue
+    }
+
+    return $returnValue
 }

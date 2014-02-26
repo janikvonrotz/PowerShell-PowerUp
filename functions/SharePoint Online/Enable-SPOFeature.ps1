@@ -55,6 +55,8 @@ function Enable-SPOFeature
 	$clientContext.ExecuteQuery()
 	
 	$feature = $features.Add($featureGuid, $force, [Microsoft.SharePoint.Client.FeatureDefinitionScope]::None)
+	
+	# TODO: Check if the feature is already enabled
 	$clientContext.ExecuteQuery()
 	
 	Write-Host "Feature succesfully enabled" -foregroundcolor black -backgroundcolor green

@@ -11,7 +11,7 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=sharepointpowershell&DownloadId=801982&FileTime=130372923795430000&Build=20865"
+	Url = "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=sharepointpowershell&DownloadId=804498&FileTime=130375715187500000&Build=20865"
 	Path = "$((Get-Location).Path)\" # $Path
 }
 $Configs | ForEach-Object{

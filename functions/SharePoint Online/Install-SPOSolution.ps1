@@ -1,7 +1,7 @@
 <#
 $Metadata = @{
-	Title = "Convert-SPOStringVariablesToValues"
-	Filename = "Convert-SPOStringVariablesToValues.ps1"
+	Title = "Install-SPOSolution"
+	Filename = "Install-SPOSolution.ps1"
 	Description = ""
 	Tags = "powershell, sharepoint, online"
 	Project = "https://sharepointpowershell.codeplex.com"
@@ -21,23 +21,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 #>
 
-function Convert-SPOStringVariablesToValues
+function Install-SPOSolution
 {
 	[CmdletBinding()]
 	param
 	(
 		[Parameter(Mandatory=$true, Position=1)]
-		[String]$string
+	    [string]$solutionName
 	)
 	
-	Write-Host "Replacing variables string variables" -foregroundcolor black -backgroundcolor yellow
+	Write-Host "Activate solution $path" -foregroundcolor black -backgroundcolor yellow
 	
-	$serverRelativeUrl = $clientContext.Site.ServerRelativeUrl
-	if ($serverRelativeUrl -eq "/") {
-		$serverRelativeUrl = ""
-	}
+	Switch-SPOEnableDisableSolution -solutionName $solutionName -activate $true
 	
-	$returnString = $string -replace "~SiteCollection", $serverRelativeUrl
-    
-	return $returnString
+	Write-Host "Solution succesfully activated" -foregroundcolor black -backgroundcolor green
 }

@@ -34,13 +34,15 @@ function Add-SPOFolder
     $folderNameArr = $folderurl.Split('/')
     $folderName = $folderNameArr[$folderNameArr.length-1]
 	# get server relative path of the sitecollection in there and remove the folder, cause thats being created right now
-    $parentFolderUrl = Join-SPOParts -Separator '/' -Parts $clientContext.Site.ServerRelativeUrl, $folderUrl.Replace('/' + $folderName,'')
+    $folderUrl = Join-SPOParts -Separator '/' -Parts $clientContext.Web.ServerRelativeUrl, $folderUrl
+	$parentFolderUrl = $folderUrl.Replace('/' + $folderName,'')
     
+ 	
  
     # load the folder
     $web = $clientContext.Web
-    $f = $web.GetFolderByServerRelativeUrl($folderUrl)
-    $clientContext.Load($f)
+    $folder = $web.GetFolderByServerRelativeUrl($folderUrl)
+    $clientContext.Load($folder)
     $alreadyExists = $false
  
     # check if the folder exists
@@ -48,7 +50,7 @@ function Add-SPOFolder
     {
         $clientContext.ExecuteQuery();
         # test if the folder already exists by checking its Path property
-        if ($f.Path)
+        if ($folder.Path)
         {
             $alreadyExists = $true;
         }
@@ -67,7 +69,7 @@ function Add-SPOFolder
         $newItemInfo.FolderUrl = $parentFolderUrl
         
         # add the folder to the list
-        $listUrl = Join-SPOParts -Separator '/' -Parts $clientContext.Site.ServerRelativeUrl, $folderNameArr[1]
+        $listUrl = Join-SPOParts -Separator '/' -Parts $clientContext.Web.ServerRelativeUrl, $folderNameArr[1]
 		
 		
 		#$clientContext.LoadQuery($web.Lists.Where(list => list.RootFolder.ServerRelativeUrl -eq $listUrl))

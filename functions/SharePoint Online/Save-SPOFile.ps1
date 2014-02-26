@@ -33,7 +33,7 @@ function Save-SPOFile
 		[System.IO.FileInfo]$file
 	)
 	
-	$targetPath = Join-SPOParts -Separator '/' -Parts $clientContext.Site.ServerRelativeUrl, $targetPath
+	$targetPath = Join-SPOParts -Separator '/' -Parts $clientContext.Web.ServerRelativeUrl, $targetPath
 	
     $fs = $file.OpenRead()
     [Microsoft.SharePoint.Client.File]::SaveBinaryDirect($clientContext, $targetPath, $fs, $true)

@@ -1,7 +1,7 @@
 <#
 $Metadata = @{
-	Title = "Convert-SPOStringVariablesToValues"
-	Filename = "Convert-SPOStringVariablesToValues.ps1"
+	Title = "Open-SPOSite"
+	Filename = "Open-SPOSite.ps1"
 	Description = ""
 	Tags = "powershell, sharepoint, online"
 	Project = "https://sharepointpowershell.codeplex.com"
@@ -21,23 +21,33 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 #>
 
-function Convert-SPOStringVariablesToValues
+function Open-SPOSite
 {
-	[CmdletBinding()]
+    [CmdletBinding()]
 	param
 	(
 		[Parameter(Mandatory=$true, Position=1)]
-		[String]$string
+	    [string]$relativeUrl
 	)
+
+	Write-Host "Go to site $relativeUrl" -foregroundcolor black -backgroundcolor yellow
 	
-	Write-Host "Replacing variables string variables" -foregroundcolor black -backgroundcolor yellow
-	
-	$serverRelativeUrl = $clientContext.Site.ServerRelativeUrl
-	if ($serverRelativeUrl -eq "/") {
-		$serverRelativeUrl = ""
-	}
-	
-	$returnString = $string -replace "~SiteCollection", $serverRelativeUrl
+    [string]$newSiteUrl = Join-SPOParts -Separator '/' -Parts $rootSiteUrl, $relativeUrl
     
-	return $returnString
+    $newContext = New-Object Microsoft.SharePoint.Client.ClientContext($newSiteUrl)
+
+    $newContext.RequestTimeout = $clientContext.RequestTimeout	
+    $newContext.AuthenticationMode = $clientContext.AuthenticationMode
+    $newContext.Credentials = $clientContext.Credentials
+
+	Write-Host "Check connection" -foregroundcolor black -backgroundcolor yellow
+	$web = $newContext.Web
+	$site = $newContext.Site
+	$newContext.Load($web)
+	$newContext.Load($site)
+	$newContext.ExecuteQuery()
+	
+	Set-Variable -Name "clientContext" -Value $newContext -Scope Global
+
+    Write-Host "Succesfully connected" -foregroundcolor black -backgroundcolor green
 }

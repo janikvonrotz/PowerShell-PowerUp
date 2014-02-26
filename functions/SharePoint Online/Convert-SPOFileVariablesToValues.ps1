@@ -34,7 +34,7 @@ function Convert-SPOFileVariablesToValues
 	$tempFilePath = "$filePath.temp"
 	
 	Write-Host "Replacing variables at $filePath" -foregroundcolor black -backgroundcolor yellow
-    
+    	
 	$serverRelativeUrl = $clientContext.Site.ServerRelativeUrl
 	if ($serverRelativeUrl -eq "/") {
 		$serverRelativeUrl = ""

@@ -1,7 +1,7 @@
 <#
 $Metadata = @{
-	Title = "Convert-SPOStringVariablesToValues"
-	Filename = "Convert-SPOStringVariablesToValues.ps1"
+	Title = "Add-SPOSolution"
+	Filename = "Add-SPOSolution.ps1"
 	Description = ""
 	Tags = "powershell, sharepoint, online"
 	Project = "https://sharepointpowershell.codeplex.com"
@@ -21,23 +21,31 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 #>
 
-function Convert-SPOStringVariablesToValues
+function Add-SPOSolution
 {
 	[CmdletBinding()]
 	param
 	(
 		[Parameter(Mandatory=$true, Position=1)]
-		[String]$string
+	    [string]$path
 	)
 	
-	Write-Host "Replacing variables string variables" -foregroundcolor black -backgroundcolor yellow
+	Write-Host "Uploading solution $path" -foregroundcolor black -backgroundcolor yellow
 	
-	$serverRelativeUrl = $clientContext.Site.ServerRelativeUrl
-	if ($serverRelativeUrl -eq "/") {
-		$serverRelativeUrl = ""
+	$file = Get-Item -Path $path
+	
+	$targetPath = Join-SPOParts -Separator '/' -Parts $clientContext.Site.ServerRelativeUrl, "/_catalogs/solutions/", $file.Name
+	
+    $fs = $file.OpenRead()
+    try {
+		[Microsoft.SharePoint.Client.File]::SaveBinaryDirect($clientContext, $targetPath, $fs, $true)
+		Write-Host "Solution succesfully uploaded" -foregroundcolor black -backgroundcolor green
 	}
+	catch
+	{
+		Write-Host "Solution $($file.Name) already exists" -foregroundcolor black -backgroundcolor yellow
+	}
+    $fs.Close()
 	
-	$returnString = $string -replace "~SiteCollection", $serverRelativeUrl
-    
-	return $returnString
+	
 }

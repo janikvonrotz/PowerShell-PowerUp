@@ -1,7 +1,7 @@
 <#
 $Metadata = @{
-	Title = "Convert-SPOStringVariablesToValues"
-	Filename = "Convert-SPOStringVariablesToValues.ps1"
+	Title = "Add-SPOSubsite"
+	Filename = "Add-SPOSubsite.ps1"
 	Description = ""
 	Tags = "powershell, sharepoint, online"
 	Project = "https://sharepointpowershell.codeplex.com"
@@ -21,23 +21,57 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 #>
 
-function Convert-SPOStringVariablesToValues
+function Add-SPOSubsite
 {
 	[CmdletBinding()]
 	param
 	(
 		[Parameter(Mandatory=$true, Position=1)]
-		[String]$string
+	    [string]$title,
+		
+		[Parameter(Mandatory=$false, Position=2)]
+	    [string]$webTemplate = "STS#0",
+		
+		[Parameter(Mandatory=$false, Position=3)]
+	    [string]$description = "",
+		
+		[Parameter(Mandatory=$false, Position=4)]
+	    [string]$url = "",
+		
+		[Parameter(Mandatory=$false, Position=5)]
+	    [int]$language = 1033,
+		
+		[Parameter(Mandatory=$false, Position=6)]
+	    [bool]$useSamePermissionsAsParentSite = $true
 	)
+	Write-Host "Creating subsite $title" -foregroundcolor black -backgroundcolor yellow
 	
-	Write-Host "Replacing variables string variables" -foregroundcolor black -backgroundcolor yellow
-	
-	$serverRelativeUrl = $clientContext.Site.ServerRelativeUrl
-	if ($serverRelativeUrl -eq "/") {
-		$serverRelativeUrl = ""
+	# Set url with title value when no url is set
+	if ($url -eq "")
+	{
+		$url = $title
 	}
 	
-	$returnString = $string -replace "~SiteCollection", $serverRelativeUrl
-    
-	return $returnString
+	$webCreationInfo = new-object Microsoft.SharePoint.Client.WebCreationInformation
+	$webCreationInfo.Title = $title
+	$webCreationInfo.Description = $description
+	$webCreationInfo.Language = $language
+	$webCreationInfo.Url = $url
+	$webCreationInfo.UseSamePermissionsAsParentSite = $useSamePermissionsAsParentSite
+	$webCreationInfo.WebTemplate = $webTemplate
+	
+	$newSite = $clientContext.Web.Webs.Add($webCreationInfo)
+		
+    try {
+	    
+        $clientContext.ExecuteQuery()
+        Write-Host "Subsite $title succesfully created" -foregroundcolor black -backgroundcolor green
+
+    }	
+    catch
+    {
+        
+        Write-Host "Subsite $title already exists" -foregroundcolor black -backgroundcolor yellow
+
+    }
 }
