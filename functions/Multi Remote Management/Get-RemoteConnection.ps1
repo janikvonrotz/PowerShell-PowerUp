@@ -8,8 +8,8 @@ $Metadata = @{
     Author = "Janik von Rotz"
     AuthorContact = "http://janikvonrotz.ch"
     CreateDate = "2013-04-08"
-    LastEditDate = "2014-01-16"
-	Version = "3.1.1"
+    LastEditDate = "2014-03-03"
+	Version = "3.1.2"
     License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -23,10 +23,7 @@ function Get-RemoteConnection{
 	param(
         [parameter(Mandatory=$false)]
         [string[]] 
-        $Name,
-        
-        [Switch]
-        $All
+        $Name
 	)
     
     #--------------------------------------------------#
@@ -62,11 +59,11 @@ function Get-RemoteConnection{
     
         
     # check all-parameter
-    if($All -and $Names -eq $null){
+    if(-not $Name){
     
         $ServerConfigs | Sort Key
         
-    }elseif($Name -ne $null){
+    }elseif($Name){
 
         $Matches = $ServerConfigs | 
             %{$Server = $_; $Name | 
