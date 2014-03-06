@@ -8,8 +8,8 @@ $Metadata = @{
 	Author = "Janik von Rotz"
     AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-05-17"
-    LastEditDate = "2014-01-21"
-	Version = "3.1.1"
+    LastEditDate = "2014-03-06"
+	Version = "3.1.2"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or
@@ -30,6 +30,15 @@ function Connect-SSH{
 .PARAMETER  Name
     Server names from the remote config file.
 
+.PARAMETER  User
+    Username (overwrites remote config file parameter).
+
+.PARAMETER  Port
+    Port (overwrites remote config file parameter).
+  
+.PARAMETER  PrivatKey
+    PrivatKey (overwrites remote config file parameter).
+    
 .EXAMPLE
     Connect-SSH -Name firewall
 #>
@@ -39,7 +48,16 @@ function Connect-SSH{
 	#--------------------------------------------------#
 	param (
         [parameter(Mandatory=$true)]
-        [string[]]$Name
+        [string[]]$Name,
+        
+        [parameter(Mandatory=$false)]
+        [string]$User,
+        
+        [parameter(Mandatory=$false)]
+        [int]$Port,
+        
+        [parameter(Mandatory=$false)]
+        [string]$PrivatKey
 	)
 
 
@@ -61,20 +79,27 @@ function Connect-SSH{
 
         $Servers | %{
     		
-            # default settings
-            $SSHPort = 22
+            # get port from Protocol
+            if(!$Port){
+                $Server.Protocol | %{if($_.Name -eq "ssh" -and $_.Port -ne ""){$Port = $_.Port}}
+            }
+            if(!$Port -or $Port -eq 0){
+                $Port = 22
+            }
+
+            # set servername
             $Servername = $_.Name
-            $Username = $_.User
-            $PrivatKey = Invoke-Expression ($Command = '"' + $_.PrivatKey + '"')
             
-    		#Get port
-    		$_.Protocol | %{if ($_.Name -eq "ssh" -and $_.Port -ne ""){$SSHPort = $_.Port}}
-            
-    		#Set Protocol
+            # set username
+            if(!$User){$User = $_.User}
+             
+            # set privatkey
+            if(!$PrivatKey){$PrivatKey = Invoke-Expression ($Command = '"' + $_.PrivatKey + '"')}
+                        
             if($PrivatKey -eq ""){
-                Invoke-Expression "putty $Username@$Servername -P $SSHPort -ssh" 
+                Invoke-Expression "putty $User@$Servername -P $Port -ssh" 
             }else{
-                Invoke-Expression "putty $Username@$Servername -P $SSHPort -ssh -i '$PrivatKey'" 
+                Invoke-Expression "putty $User@$Servername -P $Port -ssh -i '$PrivatKey'" 
             }
         }
     }
