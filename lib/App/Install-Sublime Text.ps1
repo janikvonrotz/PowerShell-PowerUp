@@ -11,10 +11,9 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://download.tuxfamily.org/notepadplus/6.5.3/npp.6.5.3.Installer.exe"
-	# Path = $Path
+	Url = "http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202.0.2%20Setup.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
-    # ConditionExclusion = "Get-Command `"notepad++`" -ErrorAction SilentlyContinue"
+    Executable = "C:\Program Files (x86)\Sublime Text 2\sublime_text.exe"
 }
 $Configs | ForEach-Object{
 
@@ -51,31 +50,16 @@ $Configs = @{
                 # installation
                 #--------------------------------------------------#
 				
-				$Directory = "C:\Program Files\MongoDB\"; if(-not (Test-Path -Path $Directory)){New-Item -Path $Directory -Type directory}
-				
                 $_.Downloads | ForEach-Object{
                     Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow
-					Start-Process -FilePath "msiexec" -ArgumentList "/i $(Join-Path $_.Path $_.Filename) /quiet /norestart" -Wait
                 }
-								
-                $WorkingPath = (Get-Location).Path
-                Set-Location "C:\Program Files\"
-				$_.Downloads | ForEach-Object{
-                    & 7za x $(Join-Path $_.Path $_.Filename) -y
-                }
-                Set-Location $WorkingPath
-                
-                Rename-Item -Path "C:\Program Files\mongodb-win32-x86_64-2008plus-2.4.9" -NewName "MongoDB" -Force
                 		
                 #--------------------------------------------------#
                 # configuration
                 #--------------------------------------------------#	
-
-                $Executable = "C:\Program Files (x86)\PuTTY\putty.exe";if(Test-Path $Executable){Set-Content -Path (Join-Path $PSbin.Path "putty.bat") -Value "@echo off`nstart `"`" `"$Executable`" %*"}
-				
-				Set-EnvironmentVariableValue -Name "Path" -Value ";C:\Program Files (x86)\Notepad++\" -Target "Machine" -Add
                 
-                
+                if(Test-Path $_.Executable){Set-Content -Path (Join-Path $PSbin.Path "sublime_text.bat") -Value "@echo off`nstart `"`" `"$($_.Executable)`" %*"}
+                                        
                 Set-Content -Path (Join-Path $_.Path "Sublime Text 2 Context Add.bat") -Value @"
 rem add it for all file types
 reg add "HKEY_CLASSES_ROOT\*\shell\Open with Sublime Text 2" /t REG_SZ /v "" /d "Open with Sublime Text 2" /f
@@ -88,8 +72,8 @@ reg add "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text 2" /t REG_EXPAND_
 reg add "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text 2\command" /t REG_SZ /v "" /d "$($_.Executable) \"%%1\"" /f
 "@
                 & (Join-Path $_.Path "Sublime Text 2 Context Add.bat") | out-null
-                
-                #--------------------------------------------------#
+                          
+                #--------------------------------------------------# 
                 # cleanup
                 #--------------------------------------------------#
 
@@ -119,16 +103,12 @@ reg add "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text 2\command" /t REG
         #--------------------------------------------------#
         	
         }else{
-
-			Remove-EnvironmentVariableValue -Name Path -Value ";C:\Program Files\nodejs" -Target Machine
 		
-            if(Test-Path (Join-Path $PSbin.Path "putty.bat")){Remove-Item (Join-Path $PSbin.Path "putty.bat")}
+            if(Test-Path (Join-Path $PSbin.Path "sublime_text.bat")){Remove-Item (Join-Path $PSbin.Path "sublime_text.bat")}
             
-            $Executable = "C:\Program Files (x86)\PuTTY\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
-            
-			$Directory = "C:\Program Files\MongoDB\"; if(Test-Path $Directory){Remove-Item -Path $Directory -Force -Recurse}
-            
-			Set-Content -Path (Join-Path $_.Path "Sublime Text 2 Context Remove.bat") -Value @"
+            $Executable = "C:\Program Files (x86)\Sublime Text 2\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
+			
+            Set-Content -Path (Join-Path $_.Path "Sublime Text 2 Context Remove.bat") -Value @"
 rem remove for all file types
 reg delete "HKEY_CLASSES_ROOT\*\shell\Open with Sublime Text 2" /f
 
@@ -136,9 +116,9 @@ rem remove for folders
 reg delete "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text 2" /f
 "@
             & (Join-Path $_.Path "Sublime Text 2 Context Remove.bat") | out-null
-                
-            Remove-Item (Join-Path $_.Path "Sublime Text 2 Remove.bat") -Force
-                
+            
+            Remove-Item (Join-Path $_.Path "Sublime Text 2 Context Remove.bat") -Force
+            
             $_.Result = "AppUninstalled";$_
         }
 
