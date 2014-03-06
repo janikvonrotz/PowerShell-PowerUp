@@ -79,7 +79,7 @@ function Backup-AllSPSites{
         if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
 
         # set full path to backup file
-		$FileName = $Name + $(if($AddTimeStamp){"#" +$(Get-Date -Format s) + ".bak"
+		$FileName = $Name + "#" +$(Get-Date -Format s) + ".bak"
 		$FilePath = Join-Path -Path $BackupPath -ChildPath $FileName
 
 		 Write-host "Backup SharePoint Site: "$Name
