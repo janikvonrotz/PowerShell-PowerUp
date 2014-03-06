@@ -51,7 +51,7 @@ $Configs | ForEach-Object{
                 #--------------------------------------------------#
 								
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "" -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -Wait -NoNewWindow
                 }						
 	
                 #--------------------------------------------------#
@@ -88,7 +88,7 @@ $Configs | ForEach-Object{
         	
         }else{
             
-            $Executable = "C:\Program Files (x86)\WinPcap\Uninstall.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "" -Wait -NoNewWindow}
+            $Executable = "C:\Program Files (x86)\WinPcap\Uninstall.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -Wait -NoNewWindow}
             
             $_.Result = "AppUninstalled";$_
         }
