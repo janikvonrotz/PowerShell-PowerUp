@@ -81,7 +81,7 @@ function Connect-SSH{
     		
             # get port from Protocol
             if(!$Port){
-                $Server.Protocol | %{if($_.Name -eq "ssh" -and $_.Port -ne ""){$Port = $_.Port}}
+                $_.Protocol | %{if($_.Name -eq "ssh" -and $_.Port -ne ""){$Port = $_.Port}}
             }
             if(!$Port -or $Port -eq 0){
                 $Port = 22

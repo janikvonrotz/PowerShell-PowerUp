@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-06-17"
-	LastEditDate = "2013-08-08"
+	LastEditDate = "2014-03-06"
 	Version = "1.2.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -30,9 +30,6 @@ function Backup-AllSPSites{
 .PARAMETER  Path
 	Path to the backip folders.
 
-.PARAMETER  AddTimeStamp
-	Add a time stamp to the export filename.
-	
 .EXAMPLE
 	PS C:\> Backup-AllSPWebs -Path "C:\Backup"
 
@@ -47,10 +44,7 @@ function Backup-AllSPSites{
 	param(
 		[Parameter(Position=0, Mandatory=$true)]
 		[String]
-		$Path,
-		
-		[Switch]
-		$AddTimeStamp   
+		$Path 
 	)
 	
 	#--------------------------------------------------#
@@ -85,7 +79,7 @@ function Backup-AllSPSites{
         if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
 
         # set full path to backup file
-		$FileName = $Name + $(if($AddTimeStamp){"#" +$((get-date -format o) -replace ":","-")}) + ".bak"
+		$FileName = $Name + $(if($AddTimeStamp){"#" +$(Get-Date -Format s) + ".bak"
 		$FilePath = Join-Path -Path $BackupPath -ChildPath $FileName
 
 		 Write-host "Backup SharePoint Site: "$Name
