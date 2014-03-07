@@ -74,7 +74,7 @@ function Backup-AllSPLists{
 
                 if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
 
-                $FileName = $SPList.Title + "#" + $(Get-Date -Format s) + ".bak"
+                $FileName = $SPList.Title + "#" + $((Get-Date -Format s) -replace ":","-") + ".bak"
                 $FilePath = Join-Path -Path $BackupPath -ChildPath $FileName
                 
                 Export-SPWeb -Identity $SPList.ParentWeb.Url -ItemUrl $SPList.RootFolder.ServerRelativeUrl -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000

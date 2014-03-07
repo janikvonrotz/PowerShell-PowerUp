@@ -70,7 +70,7 @@ function Backup-AllSPWebs{
 
             if(!(Test-Path -path $BackupPath)){New-Item $BackupPath -Type Directory}
 
-            $FileName = $SPWeb.Title + "#" + $(Get-Date -Format s) + ".bak"
+            $FileName = $SPWeb.Title + "#" + $((Get-Date -Format s) -replace ":","-") + ".bak"
             $FilePath = Join-Path $BackupPath -ChildPath $FileName
                 
             Export-SPWeb -Identity $SPWeb.Url -Path $FilePath  -IncludeVersions All -IncludeUserSecurity -Force -NoLogFile -CompressionSize 1000
