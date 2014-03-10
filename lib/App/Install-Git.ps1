@@ -59,7 +59,7 @@ $Configs | ForEach-Object{
                 # configuration
                 #--------------------------------------------------#	
 
-                Set-EnvironmentVariableValue -Name "Path" -Value "C:\Program Files\Example\bin" -Target "Machine" -Add
+                Set-EnvironmentVariableValue -Name "Path" -Value ";C:\Program Files (x86)\Git\bin" -Target "Machine" -Add
                 
                 #--------------------------------------------------#
                 # cleanup
@@ -90,6 +90,10 @@ $Configs | ForEach-Object{
         #--------------------------------------------------#
         	
         }else{
+		
+			Remove-EnvironmentVariableValue -Name Path -Value ";C:\Program Files (x86)\Git\bin" -Target Machine
+			
+			$Executable = "C:\Program Files (x86)\Git\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
             
             $_.Result = "AppUninstalled";$_
         }
