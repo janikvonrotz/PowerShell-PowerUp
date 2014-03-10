@@ -11,7 +11,7 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://skylink.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920.exe","http://downloads.sourceforge.net/sevenzip/7za920.zip"
+	Url = "http://switch.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920-x64.msi","http://downloads.sourceforge.net/sevenzip/7za920.zip"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 }
 $Configs | ForEach-Object{
@@ -49,8 +49,8 @@ $Configs = @{
                 # installation
                 #--------------------------------------------------#
 
-                $_.Downloads | where{$_.Filename -eq "7z920.exe"} | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/S" -Wait -NoNewWindow
+                $_.Downloads | where{$_.Filename -eq "7z920-x64.msi"} | ForEach-Object{
+                    Start-Process -FilePath "msiexec" -ArgumentList "/i $(Join-Path $_.Path $_.Filename) /quiet /norestart" -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -59,11 +59,11 @@ $Configs = @{
 
                 # extract command line tool and create bat
                 $WorkingPath = (Get-Location).Path
-                Set-Location "C:\Program Files (x86)\7-Zip\"
+                Set-Location "C:\Program Files\7-Zip\"
                 $_.Downloads | where{$_.Filename -eq "7za920.zip"} | ForEach-Object{
-                    Start-Process -FilePath "C:\Program Files (x86)\7-Zip\7z.exe" -ArgumentList "e $(Join-Path $_.Path $_.Filename) -y" -Wait -NoNewWindow
+                    Start-Process -FilePath "C:\Program Files\7-Zip\7z.exe" -ArgumentList "e $(Join-Path $_.Path $_.Filename) -y" -Wait -NoNewWindow
                 }
-                Set-EnvironmentVariableValue -Name "Path" -Value ";C:\Program Files (x86)\7-Zip\" -Target "Machine" -Add                
+                Set-EnvironmentVariableValue -Name "Path" -Value ";C:\Program Files\7-Zip\" -Target "Machine" -Add                
                 Set-Location $WorkingPath
                       
                 #--------------------------------------------------#
@@ -95,14 +95,14 @@ $Configs = @{
         #--------------------------------------------------#
         	
         }else{
-
-            if(Test-Path (Join-Path $PSbin.Path "7za.bat")){Remove-Item (Join-Path $PSbin.Path "7za.bat")}
             
-            $Executable = "C:\Program Files (x86)\7-Zip\Uninstall.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/S" -Wait -NoNewWindow}
+            Get-MSI | where{$_.ProductName -eq "7-Zip 9.20 (x64 edition)"} | ForEach-Object{
+				 Start-Process -FilePath "msiexec" -ArgumentList "/uninstall $($_.LocalPackage) /qn" -Wait 
+			}
             
-            $Folder = "C:\Program Files (x86)\7-Zip\"; if(Test-Path $Folder){Remove-Item -Path $Folder -Force -Recurse}
+            $Folder = "C:\Program Files\7-Zip\"; if(Test-Path $Folder){Remove-Item -Path $Folder -Force -Recurse}
             
-            Remove-EnvironmentVariableValue -Name Path -Value ";C:\Program Files (x86)\7-Zip\" -Target Machine
+            Remove-EnvironmentVariableValue -Name Path -Value ";C:\Program Files\7-Zip\" -Target Machine
             
             $_.Result = "AppUninstalled";$_
         }
