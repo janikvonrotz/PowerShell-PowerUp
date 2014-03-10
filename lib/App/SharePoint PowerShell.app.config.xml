@@ -15,8 +15,9 @@
 		<Version>1.0.0</Version>
 	</Metadata>
 	
-	<App Name="SharePoint PowerShell" Version="0.2" Script="Install-SharePoint PowerShell.ps1">
+	<App Name="SharePoint PowerShell" Version="0.2.1" Script="Install-SharePoint PowerShell.ps1">
 		<Dependency Name="7-Zip"></Dependency>
+		<option>UseLocalConfig</option>
 	</App>
 		
 </Content>

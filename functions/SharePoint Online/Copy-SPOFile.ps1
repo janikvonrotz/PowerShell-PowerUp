@@ -61,7 +61,6 @@ function Copy-SPOFile
 		{
 			$tempFile = Convert-SPOFileVariablesToValues -file $file
 	        Save-SPOFile $targetPath $tempFile
-			Remove-Item $tempFile
 		} 
 		else
 		{

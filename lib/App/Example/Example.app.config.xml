@@ -17,6 +17,7 @@
 	
 	<App Name="Example" Version="1.0.0" Script="Install-Example.ps1">
 		<Dependency Name="7-Zip"></Dependency>
+		<option>UseLocalConfig</option>
 	</App>
 		
 </Content>

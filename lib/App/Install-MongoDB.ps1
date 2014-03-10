@@ -54,7 +54,7 @@ $Configs = @{
                 $WorkingPath = (Get-Location).Path
                 Set-Location "C:\Program Files\"
 				$_.Downloads | ForEach-Object{
-                    & 7za x $(Join-Path $_.Path $_.Filename) -y
+                    & 7za x $(Join-Path $_.Path $_.Filename) -y | Out-Null
                 }
                 Set-Location $WorkingPath
                 

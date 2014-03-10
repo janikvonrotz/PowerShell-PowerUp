@@ -11,7 +11,7 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=sharepointpowershell&DownloadId=804498&FileTime=130375715187500000&Build=20865"
+	Url = "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=sharepointpowershell&DownloadId=807591&FileTime=130378986116670000&Build=20885"
 	Path = "$((Get-Location).Path)\" # $Path
 }
 $Configs | ForEach-Object{
@@ -50,7 +50,7 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    & 7za x $(Join-Path $_.Path $_.Filename) -y
+                    & 7za x $(Join-Path $_.Path $_.Filename) -y | Out-Null
                 }
                 		
                 #--------------------------------------------------#

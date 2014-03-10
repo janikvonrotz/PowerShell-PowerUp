@@ -8,9 +8,9 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-25"
-	LastEditDate = "2014-02-24"
+	LastEditDate = "2014-03-10"
 	Url = ""
-	Version = "1.1.1"
+	Version = "1.1.2"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -60,6 +60,9 @@ function Install-PPApp{
         $Uninstall
 	)
     
+    $CurrentLocation = (Get-Location).Path
+    $AppData = @()
+	
     $NameAndVersion = $Name | %{
             
         $Version = $_.split("#")[1]
@@ -72,16 +75,29 @@ function Install-PPApp{
     } 
     
     # get package manager configuations
-    $AppDataFile = (Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.App.DataFile -Recurse).Fullname
-    if(-not $AppDataFile){
+    
+    # config for current folder
+    $CurrentAppDataFile = Join-Path $CurrentLocation $PSconfigs.App.DataFile
+    
+    # global config
+    $GlobalAppDataFile = (Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.App.DataFile -Recurse).Fullname
+    
+    # create global config if not exits
+    if(-not $GlobalAppDataFile){
         Copy-PPConfigurationFile -Name $PSconfigs.App.DataFile
-        $AppDataFile = (Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.App.DataFile -Recurse).Fullname
+        $GlobalAppDataFile = (Get-ChildItem -Path $PSconfigs.Path -Filter $PSconfigs.App.DataFile -Recurse).Fullname
     }
-    $AppData = Get-PPConfiguration -Filter $PSconfigs.App.DataFile | ForEach-Object{$_.Content.App}
+    
+    # get global configurations
+    $AppData += Get-PPConfiguration -Filter $PSconfigs.App.DataFile | ForEach-Object{$_.Content.App}
+    
+    # add current configurations to global
+    if(Test-Path $CurrentAppDataFile){
+        $AppData += Get-PPConfiguration -Path $CurrentAppDataFile | ForEach-Object{$_.Content.App}
+    }
     
     # get existing apps
-    
-    
+        
     $NameAndVersion | %{
     
         $Version = $_.Version
@@ -94,6 +110,7 @@ function Install-PPApp{
         
         $Name = $_.Name
         $Version = $_.Version
+        $Options = $_.Option
                
         # check if already installed
         $AppEntry = $AppData | where{$_.Name -eq $Name}
@@ -109,11 +126,10 @@ function Install-PPApp{
         
             # default settings
             $ScriptPath = $((Get-ChildItem -Path $PSlib.Path -Filter $_.Script -Recurse | select -First 1).FullName)
-            $Path = "$((Get-Location).Path)\"
+            $Path = "$($CurrentLocation)\"
                    
             if(-not $Uninstall -and -not $IgnoreDependencies){
             
-                
                 $_.Dependency | where{$_} | ForEach-Object{                    
                     
                     Write-Host "Installing Dependencies for $Name ..."
@@ -143,8 +159,21 @@ function Install-PPApp{
             
             $Config = Invoke-Expression "& `"$ScriptPath`" -Version $($_.Version) -Path $Path -Force:`$Force -Update:`$Update -Uninstall:`$Uninstall"                    
             
-            # load package manager config
-            $Xml = [xml](get-content $AppDataFile)      
+            if($Options -contains "UseLocalConfig"){
+            
+                # save to current config
+                if(-not (Test-Path $CurrentAppDataFile)){
+                    Copy-PPConfigurationFile -Name $PSconfigs.App.DataFile -Destination $CurrentLocation
+                }
+                $Xml = [xml](Get-Content (Join-Path $CurrentLocation $PSconfigs.App.DataFile))
+                $AppDataFile = $CurrentAppDataFile                
+                
+            }else{
+            
+                # load package manager config
+                $Xml = [xml](Get-Content $GlobalAppDataFile)   
+                $AppDataFile = $GlobalAppDataFile    
+            }
             
             # installation resulted in an error
             if($Config.Result -eq "Error"){

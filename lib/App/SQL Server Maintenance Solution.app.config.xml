@@ -16,6 +16,7 @@
 	</Metadata>
 	
 	<App Name="SQL Server Maintenance Solution" Version="0.0.0" Script="Install-SQL Server Maintenance Solution.ps1">
+        <option>UseLocalConfig</option>
 	</App>
 	
 </Content>

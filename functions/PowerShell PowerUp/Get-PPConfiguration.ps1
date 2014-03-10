@@ -8,7 +8,7 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-15"
-	LastEditDate = "2014-01-08"
+	LastEditDate = "2014-03-10"
 	Version = "1.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
@@ -49,5 +49,13 @@ function Get-PPConfiguration{
 	#--------------------------------------------------#
 	# main
 	#--------------------------------------------------#
-	Get-ChildItem -Path $Path -Filter $Filter -Recurse | %{[xml]$(get-content $_.FullName)}
+    $PSIsContainer = (Get-Item -Path $Path).PSIsContainer
+    if($PSIsContainer){
+    
+        Get-ChildItem -Path $Path -Filter $Filter -Recurse | %{[xml]$(Get-Content $_.FullName)}
+        
+    }else{
+    
+        [xml]$(Get-Content $Path)
+    }
 }
