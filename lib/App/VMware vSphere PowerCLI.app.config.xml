@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>VMware vSphere PowerCLI App Configuration</Title>
+		<Filename>VMware vSphere PowerCLI.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, vmware, powercli</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-03-13</CreateDate>
+		<LastEditDate>2014-03-13</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<App Name="VMware vSphere PowerCLI" Version="5.5.0" Script="Install-VMware vSphere PowerCLI.ps1"></App>
+		
+</Content>
