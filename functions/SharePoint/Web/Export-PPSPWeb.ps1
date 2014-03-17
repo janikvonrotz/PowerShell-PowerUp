@@ -58,7 +58,7 @@ function Export-PPSPWeb{
 	#--------------------------------------------------#
 	# modules
 	#--------------------------------------------------#	
-	if(-not (Get-PSSnapin "Microsoft.SharePoint.PowerShell")){Add-PSSnapin "Microsoft.SharePoint.PowerShell"}
+	if(-not (Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction Ignore)){Add-PSSnapin "Microsoft.SharePoint.PowerShell"}
 	
 	#--------------------------------------------------#
 	# main
