@@ -77,7 +77,7 @@ function Set-SPADGroupPermission{
 	#--------------------------------------------------#
 	# modules
 	#--------------------------------------------------#
-	if(-not (Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction Ignore)){Add-PSSnapin "Microsoft.SharePoint.PowerShell"}
+	if(-not (Get-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue)){Add-PSSnapin "Microsoft.SharePoint.PowerShell"}
     Import-Module ActiveDirectory
 
 	#--------------------------------------------------#
