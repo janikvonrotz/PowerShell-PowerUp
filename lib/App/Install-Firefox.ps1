@@ -14,7 +14,8 @@ $Configs = @{
 	Url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/27.0.1/win32/de/Firefox%20Setup%20Stub%2027.0.1.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 }
-$Configs | ForEach-Object{
+
+$Configs | ForEach-Object{
 
     try{
 
@@ -50,7 +51,7 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -91,7 +92,7 @@ $Configs = @{
 
             if(Test-Path (Join-Path $PSbin.Path "firefox.bat")){Remove-Item (Join-Path $PSbin.Path "firefox.bat")}
             
-            $Executable = "C:\Program Files (x86)\Mozilla Firefox\uninstall\helper.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/Uninstall /s" -Wait -NoNewWindow}
+            $Executable = "C:\Program Files (x86)\Mozilla Firefox\uninstall\helper.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/Uninstall /s" -Wait}
             
             $_.Result = "AppUninstalled";$_
         }

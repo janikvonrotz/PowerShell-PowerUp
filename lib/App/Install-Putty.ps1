@@ -14,7 +14,8 @@ $Configs = @{
 	Url = "http://the.earth.li/~sgtatham/putty/latest/x86/putty-0.63-installer.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 }
-$Configs | ForEach-Object{
+
+$Configs | ForEach-Object{
 
     try{
 
@@ -50,7 +51,7 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/verysilent" -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/verysilent" -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -101,7 +102,7 @@ $Configs = @{
 			if(Test-Path (Join-Path $PSbin.Path "putty.bat")){Remove-Item (Join-Path $PSbin.Path "putty.bat")}
 			if(Test-Path (Join-Path $PSbin.Path "puttygen.bat")){Remove-Item (Join-Path $PSbin.Path "puttygen.bat")}
 			
-            $Executable = "C:\Program Files (x86)\PuTTY\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/verysilent" -Wait -NoNewWindow}
+            $Executable = "C:\Program Files (x86)\PuTTY\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/verysilent" -Wait}
             
             $_.Result = "AppUninstalled";$_
         }

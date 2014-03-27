@@ -51,7 +51,7 @@ $Configs | ForEach-Object{
                 #--------------------------------------------------#
 								
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/S /desktopicon=yes" -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/S /desktopicon=yes" -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -88,7 +88,7 @@ $Configs | ForEach-Object{
         	
         }else{
             
-            $Executable = "C:\Program Files\Wireshark\uninstall.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/S" -Wait -NoNewWindow}
+            $Executable = "C:\Program Files\Wireshark\uninstall.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/S" -Wait}
                 
             $_.Result = "AppUninstalled";$_
         }

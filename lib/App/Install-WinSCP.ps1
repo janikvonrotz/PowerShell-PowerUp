@@ -11,10 +11,11 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://winscp.net/download/files/20140218134632addb34feddff0d04957e37386c0a59/winscp551setup.exe"
+	Url = "http://winscp.net/download/files/201403251903506874a91aaeb8917511fc5b5e3a4342/winscp552setup.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 }
-$Configs | ForEach-Object{
+
+$Configs | ForEach-Object{
 
     try{
 
@@ -50,7 +51,7 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT /NORESTART" -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -91,7 +92,7 @@ $Configs = @{
 
             if(Test-Path (Join-Path $PSbin.Path "WinSCP.bat")){Remove-Item (Join-Path $PSbin.Path "WinSCP.bat")}
             
-            $Executable = "C:\Program Files (x86)\WinSCP\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT" -Wait -NoNewWindow}
+            $Executable = "C:\Program Files (x86)\WinSCP\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT" -Wait}
             
             $_.Result = "AppUninstalled";$_
         }

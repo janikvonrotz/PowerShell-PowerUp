@@ -14,7 +14,8 @@ $Configs = @{
 	Url = "http://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.25/KeePass-2.25-Setup.exe?r=http%3A%2F%2Fkeepass.info%2Fdownload.html&ts=1392731683&use_mirror=garr"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 }
-$Configs | ForEach-Object{
+
+$Configs | ForEach-Object{
 
     try{
 
@@ -50,7 +51,7 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT /NORESTART" -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -91,7 +92,7 @@ $Configs = @{
 
             if(Test-Path (Join-Path $PSbin.Path "KeePass.bat")){Remove-Item (Join-Path $PSbin.Path "KeePass.bat")}
             
-            $Executable = "C:\Program Files (x86)\KeePass Password Safe 2\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
+            $Executable = "C:\Program Files (x86)\KeePass Password Safe 2\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait}
             
             $_.Result = "AppUninstalled";$_
         }

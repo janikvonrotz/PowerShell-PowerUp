@@ -14,7 +14,8 @@ $Configs = @{
 	Url = "http://download.tuxfamily.org/notepadplus/6.5.3/npp.6.5.3.Installer.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"	
 }
-$Configs | ForEach-Object{
+
+$Configs | ForEach-Object{
 
     try{
 
@@ -50,7 +51,7 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/S" -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/S" -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -95,9 +96,9 @@ $Configs = @{
 
             if(Test-Path (Join-Path $PSbin.Path "Notepad++.bat")){Remove-Item (Join-Path $PSbin.Path "Notepad++.bat")}
             if(Test-Path "C:\Program Files (x86)\Notepad++\uninstall.exe"){
-                Start-Process -FilePath "C:\Program Files (x86)\Notepad++\uninstall.exe" -ArgumentList "/S" -Wait -NoNewWindow
+                Start-Process -FilePath "C:\Program Files (x86)\Notepad++\uninstall.exe" -ArgumentList "/S" -Wait
             }elseif(Test-Path "C:\Program Files\Notepad++\uninstall.exe"){
-                Start-Process -FilePath "C:\Program Files\Notepad++\uninstall.exe" -ArgumentList "/S" -Wait -NoNewWindow
+                Start-Process -FilePath "C:\Program Files\Notepad++\uninstall.exe" -ArgumentList "/S" -Wait
             }
             
             $_.Result = "AppUninstalled";$_

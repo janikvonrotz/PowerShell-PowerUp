@@ -14,7 +14,8 @@ $Configs = @{
 	Url = "http://www.truecrypt.org/download/transient/130a82428b303859fcb6/TrueCrypt%20Setup%207.1a.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 }
-$Configs | ForEach-Object{
+
+$Configs | ForEach-Object{
 
     try{
 
@@ -50,7 +51,7 @@ $Configs = @{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/q /s" -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/q /s" -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -91,7 +92,7 @@ $Configs = @{
 
             if(Test-Path (Join-Path $PSbin.Path "TrueCrypt.bat")){Remove-Item (Join-Path $PSbin.Path "TrueCrypt.bat")}
             
-            $Executable = "C:\Program Files\TrueCrypt\TrueCrypt Setup.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/uninstall /s" -Wait -NoNewWindow}
+            $Executable = "C:\Program Files\TrueCrypt\TrueCrypt Setup.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/uninstall /s" -Wait}
             
             $_.Result = "AppUninstalled";$_
         }

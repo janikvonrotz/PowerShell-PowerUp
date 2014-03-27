@@ -52,7 +52,7 @@ $Configs | ForEach-Object{
                 #--------------------------------------------------#
 
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/Silent" -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/Silent" -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -93,7 +93,7 @@ $Configs | ForEach-Object{
 		
 			Remove-EnvironmentVariableValue -Name Path -Value ";C:\Program Files (x86)\Git\bin" -Target Machine
 			
-			$Executable = "C:\Program Files (x86)\Git\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
+			$Executable = "C:\Program Files (x86)\Git\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait}
             
             $_.Result = "AppUninstalled";$_
         }

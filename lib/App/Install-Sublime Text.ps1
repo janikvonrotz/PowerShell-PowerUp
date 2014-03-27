@@ -15,7 +15,8 @@ $Configs = @{
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
     Executable = "C:\Program Files (x86)\Sublime Text 2\sublime_text.exe"
 }
-$Configs | ForEach-Object{
+
+$Configs | ForEach-Object{
 
     try{
 
@@ -51,7 +52,7 @@ $Configs = @{
                 #--------------------------------------------------#
 				
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/VERYSILENT /NORESTART" -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -106,7 +107,7 @@ reg add "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text 2\command" /t REG
 		
             if(Test-Path (Join-Path $PSbin.Path "sublime_text.bat")){Remove-Item (Join-Path $PSbin.Path "sublime_text.bat")}
             
-            $Executable = "C:\Program Files (x86)\Sublime Text 2\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait -NoNewWindow}
+            $Executable = "C:\Program Files (x86)\Sublime Text 2\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait}
 			
             Set-Content -Path (Join-Path $_.Path "Sublime Text 2 Context Remove.bat") -Value @"
 rem remove for all file types
