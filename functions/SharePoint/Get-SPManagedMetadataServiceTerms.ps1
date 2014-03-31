@@ -208,5 +208,3 @@ function Get-SPManagedMetadataServiceTerms{
         }                
     }
 }
-
-Get-SPManagedMetadataServiceTerms -Site "http://sharepoint.vbl.ch" -TermGroup "Wiki" | Out-GridView
