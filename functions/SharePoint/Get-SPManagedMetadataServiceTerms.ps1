@@ -97,6 +97,19 @@ function Get-SPManagedMetadataServiceTerms{
     # main
     #--------------------------------------------------#
     $SPTaxonomies = @()
+    $TempTerm = New-Object -TypeName Psobject @{    
+        Index = ""
+        Term = ""
+    }
+
+    $i = 0;
+    $TempTerms = while($i -ne 7){
+        $i ++
+        $e = $TempTerm.PSObject.Copy()
+        $e.Index = $i
+        $e
+    }
+
 
     # get all taxonomy objects
     $SPTaxonomies = Get-SPTaxonomySession -Site $Site | %{
@@ -142,9 +155,19 @@ function Get-SPManagedMetadataServiceTerms{
     $SPTaxonomies | %{
 
         $SPTaxonomy = $_
+
+        # Output Termstore definitions
+        $Item = $SPTaxonomy.PSObject.Copy()  
+        $Item.'Available for Tagging' = if($_.IsAvailableForTagging){"TRUE"}else{"FALSE"}        
+        $i = 0;while($i -ne 7){
+            $i ++
+            $Item | Add-Member –MemberType NoteProperty –Name "Level $i Term" –Value ""
+        }
+        $Item |  Select-Object 'Term Set Name','Term Set Description', LCID, 'Available for Tagging', 'Term Description', 'Level*'
+
     
         # loop throught terms
-        $_.Terms | %{
+        $_.Terms | where{$_} | %{
                 
             $Term = $_
 
@@ -152,25 +175,31 @@ function Get-SPManagedMetadataServiceTerms{
             $Item = $SPTaxonomy.PSObject.Copy()   
              
             $Item.'Available for Tagging' = if($_.IsAvailableForTagging){"TRUE"}else{"FALSE"}
+            $Item.'Term Set Name' = ""
+            $Item.'Term Set Description' = ""
             
             $_.Object.Labels | ForEach-Object{
 
                 $Item.LCID = $_.Language
 
-                $Index = 1;while($Index -ne 8){
+                $Index = 0;while($Index -ne 7){
+                    $Index ++
 
-                    if($Term.Level -eq $Index){
+                    if($Term.Level -eq $Index){                        
 
-                        $Value = $Term.Object.Name
+                        $Item | Add-Member –MemberType NoteProperty –Name "Level $Index Term" –Value $Term.Object.Name
 
-                    }else{
+                        $TempTerms[$Index].Term = $Term.Object.Name
+
+                    }elseif($Index -gt $Term.Level){
                             
-                        $Value = ""
-                    }
+                        $Item | Add-Member –MemberType NoteProperty –Name "Level $Index Term" –Value $Value
 
-                    $Item | Add-Member –MemberType NoteProperty –Name "Level $Index Term" –Value $Value
-           
-                    $Index += 1
+                    }elseif($Term.Level -gt $Index){
+
+                        $Item | Add-Member –MemberType NoteProperty –Name "Level $Index Term" –Value $TempTerms[$Index].Term
+                        
+                    }                                   
                 }  
             }   
         
@@ -179,3 +208,5 @@ function Get-SPManagedMetadataServiceTerms{
         }                
     }
 }
+
+Get-SPManagedMetadataServiceTerms -Site "http://sharepoint.vbl.ch" -TermGroup "Wiki" | Out-GridView
