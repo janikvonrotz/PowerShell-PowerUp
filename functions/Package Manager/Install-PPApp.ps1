@@ -8,9 +8,9 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-25"
-	LastEditDate = "2014-03-10"
+	LastEditDate = "20114-04-07"
 	Url = ""
-	Version = "1.1.2"
+	Version = "1.2.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -46,7 +46,7 @@ function Install-PPApp{
 #>
 
 	param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$false)]
 		[String[]]
 		$Name,
                 
@@ -60,19 +60,9 @@ function Install-PPApp{
         $Uninstall
 	)
     
+    # set default variables
     $CurrentLocation = (Get-Location).Path
-    $AppData = @()
-	
-    $NameAndVersion = $Name | %{
-            
-        $Version = $_.split("#")[1]
-        if(-not $Version){$Version = "*"}
-        
-        @{
-            Name = $_.split("#")[0]
-            Version = $Version            
-        }
-    } 
+    $AppData = @()	
     
     # get package manager configuations
     
@@ -93,12 +83,30 @@ function Install-PPApp{
     
     # add current configurations to global
     if(Test-Path $CurrentAppDataFile){
-        $AppData += Get-PPConfiguration -Path $CurrentAppDataFile | ForEach-Object{$_.Content.App}
+        $CurrentInstalledApps = Get-PPConfiguration -Path $CurrentAppDataFile | ForEach-Object{$_.Content.App}
+        $AppData += $CurrentInstalledApps
+    }
+    
+    if($Name){
+    
+        $NameAndVersions = $Name | %{
+                
+            $Version = $_.split("#")[1]
+            if(-not $Version){$Version = "*"}
+            
+            @{
+                Name = $_.split("#")[0]
+                Version = $Version            
+            }
+        }        
+    }elseif($CurrentInstalledApps){
+    
+        $NameAndVersions = $CurrentInstalledApps | select Name, Version
     }
     
     # get existing apps
         
-    $NameAndVersion | %{
+    $NameAndVersions | %{
     
         $Version = $_.Version
         Get-PPApp $_.Name | 
