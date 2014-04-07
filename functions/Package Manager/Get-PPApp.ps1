@@ -91,7 +91,7 @@ function Get-PPApp{
             $InstalledApps | where{($_.Name -eq $Name) -and ($_.Version -eq $Version)}
                   
         
-        }elseif($CurrentInstalled)
+        }elseif($CurrentInstalled){
         
             $Name = $_.Name
             $Version = $_.Version
