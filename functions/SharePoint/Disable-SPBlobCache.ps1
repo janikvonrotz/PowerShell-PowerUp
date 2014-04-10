@@ -28,11 +28,11 @@ function Disable-SPBlobCache{
 .DESCRIPTION
 	Disable SharePoint Blob Cache.
 
-.PARAMETER SPWebApplication
-	On this SharePoint web application Blob cach will be disabled.
+.PARAMETER Identity
+	Url of the SharePoint web application where Blob cach should be disabled.
 	
 .EXAMPLE
-	PS C:\> Get-SPWebApplication | Disable-SPBlobCache
+	PS C:\> Disable-SPBlobCache -AppUrl
 
 .LINK
 	http://blogs.technet.com/b/heyscriptingguy/archive/2010/09/14/use-powershell-to-script-changes-to-the-sharepoint-web-config-file.aspx
@@ -43,8 +43,8 @@ function Disable-SPBlobCache{
     param( 
 	
 		[Parameter(Mandatory=$true)]
-		[Microsoft.SharePoint.PowerShell.SPWebApplicationPipeBind]
-		$SPWebApplication
+		[string]
+		$Identity
 	)
 	
 	#--------------------------------------------------#
@@ -55,6 +55,7 @@ function Disable-SPBlobCache{
     #--------------------------------------------------#
     # main
     #--------------------------------------------------#       
+	$SPWebApplication = Get-SPWebApplication -Identity $Identity
 	$SPWebApp = $SPWebApplication.Read()
 	$Mods = @()
 	foreach($Mod in $SPWebApp.WebConfigModifications){

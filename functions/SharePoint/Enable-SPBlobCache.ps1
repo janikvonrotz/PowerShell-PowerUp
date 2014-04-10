@@ -28,8 +28,8 @@ function Enable-SPBlobCache{
 .DESCRIPTION
 	Enable SharePoint Blob Cache.
 
-.PARAMETER SPWebApplication
-	On this SharePoint web application Blob cach will be enabled.
+.PARAMETER Identity
+	Url of the SharePoint web application where Blob cach should be enabled.
 
 .PARAMETER Path
 	Path to the cache folder. Default is "E:\Blobcache".
@@ -46,8 +46,8 @@ function Enable-SPBlobCache{
     param( 
 	
 		[Parameter(Mandatory=$true)]
-		[Microsoft.SharePoint.PowerShell.SPWebApplicationPipeBind]
-		$SPWebApplication,
+		[String]
+		$Identity,
 		
 		[Parameter(Mandatory=$false)]
 		[String]
@@ -61,7 +61,8 @@ function Enable-SPBlobCache{
 	
     #--------------------------------------------------#
     # main
-    #--------------------------------------------------#        
+    #--------------------------------------------------#
+	$SPWebApplication = Get-SPWebApplication -Identity $Identity	
 	$SPWebApp = $SPWebApplication.Read()
 
 	# SPWebConfigModification to enable BlobCache
