@@ -38,7 +38,7 @@ And
 	RENAME    Example.profile.config.xml    TO    [Something].profile.config.xml
 
 Now take your time to edit your new PowerShell PowerUp profile config file.
-Checkout the [wiki page](https://github.com/janikvonrotz/PowerShell-PowerUp/wiki#custom-features) for more information.
+Checkout the documentation below for more information.
 
 	EDIT    [Something].profile.config.xml
 
