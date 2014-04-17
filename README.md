@@ -408,7 +408,7 @@ The heart of PowerShell PowerUp are the following folders, based on these folder
     * Application variables used by PowerShell PowerUp
 	
 * Variable: `$PSconfigs` and folder: configs
-    * Add the [PowerShell PowerUp config files](wiki/configuration-files) to this folder.
+    * Add the PowerShell PowerUp config files to this folder.
     * There aren't any definitions for the folder structure.
 	
 * Variable: `$PSfunctions` and folder: functions
