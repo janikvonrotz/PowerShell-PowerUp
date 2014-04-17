@@ -173,7 +173,7 @@ Every option can be combined or stand alone.
 
 ### Powershell Remoting
 
-In case you don't know there's a possibility to manage your windows server with PowerShell. Checkout the [Multi Remote Management feature](https://github.com/janikvonrotz/Powershell-Profile/wiki/Multi-Remote-Management) for more inforamtion.
+In case you don't know there's a possibility to manage your windows server with PowerShell. Checkout the Multi Remote Management feature for more inforamtion.
 Anyway to enable for other clients to connection you host with PowerShell Remoting you'll have to add this feature. 
 
 **Installation**
