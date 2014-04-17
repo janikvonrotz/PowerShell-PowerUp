@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>PowerShell Carbon App Configuration</Title>
+		<Filename>PowerShell Carbon.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, carbon, functions</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-04-17</CreateDate>
+		<LastEditDate>2014-04-17</LastEditDate>
+		<Version>0.0.0</Version>
+	</Metadata>
+	
+	<App Name="PowerShell Carbon" Version="1.6.0" Script="Install-PowerShell Carbon.ps1">
+		<Dependency Name="7-Zip"></Dependency>
+		<option>UseLocalConfig</option>
+	</App>
+	
+</Content>
