@@ -185,8 +185,22 @@ To enable this feature update the status attribute to `Enabled`
 # New Cmdlets
 
 You'll get a bunch of new functions to manage your service installation.
+Some of this are from the backers of PowerShell PowerUp and others are included from other projects.
 
-The most important extension are...
+### PowerShell PowerUp
+
+PowerShell PowerUp can mange these services:
+
+* Multi Remote Management
+* Package Manager
+* PowerShell PowerUp
+* Scripts and Shortcuts
+* SharePoint
+* SQL Sever
+* TrueCrypt
+* Windows Event Log
+* Windows features/components
+* Windows Scheduled Task
 
 ### SharePoint Online
 
@@ -197,9 +211,27 @@ In order to use these commands you have to install the Managed .NET Client-Side 
 
 ### Carbon
 
+These functions are part of [Aaron Jensen](http://pshdo.com/) project: [Carbon](http://get-carbon.org/).
 
-Here's a list of new cmdlets:
+Carbon is a DevOps PowerShell module for automating the configuration of Windows 2008, Windows 2008 R2, and 7 computers. Carbon can configure and manage:
 
+* Local users and groups
+* IIS websites, virtual directories, and applications
+* Certificates
+* .NET connection strings and app settings
+* Junctions
+* File system permissions
+* Hosts file
+* INI files
+* Performance counters
+* Services
+* Shares
+* Windows features/components
+
+
+### List of all new Cmdlets
+
+[Add a alphabetical sorted list by nouns]
 
 # Built-in Modules
 
