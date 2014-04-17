@@ -704,7 +704,7 @@ The defined task will be automatically added to the windows task scheduler.
 Copy and alter an eventlog config file from the template folder to the config folder.
 The update command will create or update your custom eventlog based on the configuration files in the config folder.
 
-**Commands
+**Commands**
 
 * [`Update-PPEventLog`](https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows%20Event%20Log/Update-PPEventLog.ps1)
 * [`Write-PPErrorEventLog`](https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows%20Event%20Log/Write-PPErrorEventLog.ps1)
