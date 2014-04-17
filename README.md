@@ -233,7 +233,7 @@ Carbon is a DevOps PowerShell module for automating the configuration of Windows
 
 This index has been made with this script: [https://gist.github.com/10965567](https://gist.github.com/10965567)
 
-# index
+<h1 id="index">Index</h1>
 <a href="#A"> A </a>|
 <a href="#B"> B </a>|
 <a href="#C"> C </a>|
@@ -261,7 +261,7 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href="#Y"> Y </a>|
 <a href="#Z"> Z </a>
 </p>
-<h1 id="A"><a href="#index">A</a></h1>
+<h1 id="a"><a href="#index">a</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Security/Protect-Acl.ps1'>Protect-Acl</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/ActiveDirectory/Get-ActiveDirectoryUserGroups.ps1'>Get-ActiveDirectoryUserGroups</a> <br/>
@@ -278,11 +278,11 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/SQLServer/Backup-AllSQLDBs.ps1'>Backup-AllSQLDBs</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/IIS/Invoke-AppCmd.ps1'>Invoke-AppCmd</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows/Get-AvailableDriveLetter.ps1'>Get-AvailableDriveLetter</a></p>
-<h1 id="B"><a href="#index">B</a></h1>
+<h1 id="b"><a href="#index">b</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Text/ConvertFrom-Base64.ps1'>ConvertFrom-Base64</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Text/ConvertTo-Base64.ps1'>ConvertTo-Base64</a></p>
-<h1 id="C"><a href="#index">C</a></h1>
+<h1 id="c"><a href="#index">c</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Certificates/Get-Certificate.ps1'>Get-Certificate</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Certificates/Install-Certificate.ps1'>Install-Certificate</a> <br/>
@@ -295,20 +295,20 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/COM/Revoke-ComPermission.ps1'>Revoke-ComPermission</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/COM/Get-ComSecurityDescriptor.ps1'>Get-ComSecurityDescriptor</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Security/New-Credential.ps1'>New-Credential</a></p>
-<h1 id="D"><a href="#index">D</a></h1>
+<h1 id="d"><a href="#index">d</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows/Mount-Dir.ps1'>Mount-Dir</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/ActiveDirectory/Add-DomainUserToLocalGroup.ps1'>Add-DomainUserToLocalGroup</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/DotNet/Test-DotNet.ps1'>Test-DotNet</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/DotNet/Set-DotNetAppSetting.ps1'>Set-DotNetAppSetting</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/DotNet/Set-DotNetConnectionString.ps1'>Set-DotNetConnectionString</a></p>
-<h1 id="E"><a href="#index">E</a></h1>
+<h1 id="e"><a href="#index">e</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Computer/Remove-EnvironmentVariable.ps1'>Remove-EnvironmentVariable</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Computer/Set-EnvironmentVariable.ps1'>Set-EnvironmentVariable</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows/Remove-EnvironmentVariableValue.ps1'>Remove-EnvironmentVariableValue</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows/Set-EnvironmentVariableValue.ps1'>Set-EnvironmentVariableValue</a></p>
-<h1 id="F"><a href="#index">F</a></h1>
+<h1 id="f"><a href="#index">f</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Package Manager/Get-File.ps1'>Get-File</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows/Get-FileEncoding.ps1'>Get-FileEncoding</a> <br/>
@@ -322,11 +322,11 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Multi Remote Management/Connect-FTP.ps1'>Connect-FTP</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Path/Resolve-FullPath.ps1'>Resolve-FullPath</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/SharePoint/SPO-Functions.ps1'>SPO-Functions</a></p>
-<h1 id="G"><a href="#index">G</a></h1>
+<h1 id="g"><a href="#index">g</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/UsersAndGroups/Install-Group.ps1'>Install-Group</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/UsersAndGroups/Add-GroupMember.ps1'>Add-GroupMember</a></p>
-<h1 id="H"><a href="#index">H</a></h1>
+<h1 id="h"><a href="#index">h</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows/Get-HostFileEntries.ps1'>Get-HostFileEntries</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows/Add-HostFileEntry.ps1'>Add-HostFileEntry</a> <br/>
@@ -335,7 +335,7 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/HostsFile/Set-HostsEntry.ps1'>Set-HostsEntry</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/HostsFile/Reset-HostsFile.ps1'>Reset-HostsFile</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Multi Remote Management/Connect-HTTP.ps1'>Connect-HTTP</a></p>
-<h1 id="I"><a href="#index">I</a></h1>
+<h1 id="i"><a href="#index">i</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/UsersAndGroups/Test-Identity.ps1'>Test-Identity</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/UsersAndGroups/Resolve-IdentityName.ps1'>Resolve-IdentityName</a> <br/>
@@ -384,17 +384,17 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows Server/Enable-InternetExplorerEnhancedSecurityConfiguration.ps1'>Enable-InternetExplorerEnhancedSecurityConfiguration</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Network/Get-IPAddress.ps1'>Get-IPAddress</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Network/Test-IPAddress.ps1'>Test-IPAddress</a></p>
-<h1 id="J"><a href="#index">J</a></h1>
+<h1 id="j"><a href="#index">j</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/PowerShell/Complete-Job.ps1'>Complete-Job</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/FileSystem/Install-Junction.ps1'>Install-Junction</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/FileSystem/New-Junction.ps1'>New-Junction</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/FileSystem/Remove-Junction.ps1'>Remove-Junction</a></p>
-<h1 id="K"><a href="#index">K</a></h1>
+<h1 id="k"><a href="#index">k</a></h1>
 <p>-</p>
-<h1 id="L"><a href="#index">L</a></h1>
+<h1 id="l"><a href="#index">l</a></h1>
 <p>-</p>
-<h1 id="M"><a href="#index">M</a></h1>
+<h1 id="m"><a href="#index">m</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows/Get-MSI.ps1'>Get-MSI</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/MSMQ/Install-Msmq.ps1'>Install-Msmq</a> <br/>
@@ -405,19 +405,19 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/MSMQ/Get-MsmqMessageQueuePath.ps1'>Get-MsmqMessageQueuePath</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/MSMQ/Grant-MsmqMessageQueuePermission.ps1'>Grant-MsmqMessageQueuePermission</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/MSMQ/Reset-MsmqQueueManagerID.ps1'>Reset-MsmqQueueManagerID</a></p>
-<h1 id="N"><a href="#index">N</a></h1>
+<h1 id="n"><a href="#index">n</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Computer/Resolve-NetPath.ps1'>Resolve-NetPath</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows/Mount-NetworkDirectories.ps1'>Mount-NetworkDirectories</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/FileSystem/Disable-NtfsCompression.ps1'>Disable-NtfsCompression</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/FileSystem/Enable-NtfsCompression.ps1'>Enable-NtfsCompression</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/FileSystem/Test-NtfsCompression.ps1'>Test-NtfsCompression</a></p>
-<h1 id="O"><a href="#index">O</a></h1>
+<h1 id="o"><a href="#index">o</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/PowerShell PowerUp/Delete-ObsoleteLogFiles.ps1'>Delete-ObsoleteLogFiles</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Computer/Test-OSIs32Bit.ps1'>Test-OSIs32Bit</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Computer/Test-OSIs64Bit.ps1'>Test-OSIs64Bit</a></p>
-<h1 id="P"><a href="#index">P</a></h1>
+<h1 id="p"><a href="#index">p</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows/Get-Path.ps1'>Get-Path</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows/Get-PathAndFilename.ps1'>Get-PathAndFilename</a> <br/>
@@ -462,9 +462,9 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/PowerShell/Export-PSCredential.ps1'>Export-PSCredential</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/PowerShell/Import-PSCredential.ps1'>Import-PSCredential</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Multi Remote Management/Connect-PSS.ps1'>Connect-PSS</a></p>
-<h1 id="Q"><a href="#index">Q</a></h1>
+<h1 id="q"><a href="#index">q</a></h1>
 <p></p>
-<h1 id="R"><a href="#index">R</a></h1>
+<h1 id="r"><a href="#index">r</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Multi Remote Management/Connect-RDP.ps1'>Connect-RDP</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Registry/Install-RegistryKey.ps1'>Install-RegistryKey</a> <br/>
@@ -475,7 +475,7 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Path/Resolve-RelativePath.ps1'>Resolve-RelativePath</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Multi Remote Management/Get-RemoteConnection.ps1'>Get-RemoteConnection</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Service/Restart-RemoteService.ps1'>Restart-RemoteService</a></p>
-<h1 id="S"><a href="#index">S</a></h1>
+<h1 id="s"><a href="#index">s</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows Scheduled Task/Update-ScheduledTask.ps1'>Update-ScheduledTask</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Multi Remote Management/Connect-SCP.ps1'>Connect-SCP</a> <br/>
@@ -567,7 +567,7 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Cryptography/Protect-String.ps1'>Protect-String</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Cryptography/Unprotect-String.ps1'>Unprotect-String</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/PowerShell/Convert-StringToScriptBlock.ps1'>Convert-StringToScriptBlock</a></p>
-<h1 id="T"><a href="#index">T</a></h1>
+<h1 id="t"><a href="#index">t</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/FileSystem/New-TempDir.ps1'>New-TempDir</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/PowerShell/New-TreeObjectArray.ps1'>New-TreeObjectArray</a> <br/>
@@ -579,18 +579,18 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/PowerShell/Clear-TrustedHost.ps1'>Clear-TrustedHost</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/PowerShell/Get-TrustedHost.ps1'>Get-TrustedHost</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/PowerShell/Set-TrustedHost.ps1'>Set-TrustedHost</a></p>
-<h1 id="U"><a href="#index">U</a></h1>
+<h1 id="u"><a href="#index">u</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/Path/Test-UncPath.ps1'>Test-UncPath</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/UsersAndGroups/Install-User.ps1'>Install-User</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/UsersAndGroups/Test-User.ps1'>Test-User</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/UsersAndGroups/Uninstall-User.ps1'>Uninstall-User</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Windows Server/Disable-UserAccessControl.ps1'>Disable-UserAccessControl</a></p>
-<h1 id="V"><a href="#index">V</a></h1>
+<h1 id="v"><a href="#index">v</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Multi Remote Management/Connect-VM.ps1'>Connect-VM</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Multi Remote Management/Connect-VSphere.ps1'>Connect-VSphere</a></p>
-<h1 id="W"><a href="#index">W</a></h1>
+<h1 id="w"><a href="#index">w</a></h1>
 <p>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/WindowsFeatures/Get-WindowsFeature.ps1'>Get-WindowsFeature</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/WindowsFeatures/Install-WindowsFeature.ps1'>Install-WindowsFeature</a> <br/>
@@ -600,11 +600,11 @@ This index has been made with this script: [https://gist.github.com/10965567](ht
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/WindowsFeatures/Resolve-WindowsFeatureName.ps1'>Resolve-WindowsFeatureName</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/MSI/Invoke-WindowsInstaller.ps1'>Invoke-WindowsInstaller</a> <br/>
 <a href='https://github.com/janikvonrotz/PowerShell-PowerUp/blob/master/functions/Carbon/UsersAndGroups/Get-WmiLocalUserAccount.ps1'>Get-WmiLocalUserAccount</a></p>
-<h1 id="X"><a href="#index">X</a></h1>
+<h1 id="x"><a href="#index">x</a></h1>
 <p>-</p>
-<h1 id="Y"><a href="#index">Y</a></h1>
+<h1 id="y"><a href="#index">y</a></h1>
 <p>-</p>
-<h1 id="Z"><a href="#index">Z</a></h1>
+<h1 id="z"><a href="#index">z</a></h1>
 <p>-</p>
 
 # Built-in Modules
