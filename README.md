@@ -231,7 +231,9 @@ Carbon is a DevOps PowerShell module for automating the configuration of Windows
 
 ### List of all new Cmdlets
 
-<p id="index">
+This index has been made with this script: [https://gist.github.com/10965567](https://gist.github.com/10965567)
+
+# index
 <a href="#A"> A </a>|
 <a href="#B"> B </a>|
 <a href="#C"> C </a>|
