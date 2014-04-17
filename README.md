@@ -75,7 +75,7 @@ The path to the session log file is stored in `$PSlogs.SessionFile`.
 
 # Customizable Features
 
-Based on the [PowerShell PowerUp config files](#) definitions you can add these features:
+Based on the PowerShell PowerUp config files definitions you can add these features:
 
 ### Add System Variables
 
