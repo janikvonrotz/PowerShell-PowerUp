@@ -63,7 +63,7 @@ $Configs | ForEach-Object{
                 $WorkingPath = (Get-Location).Path
                 Set-Location "C:\Program Files\"
 				$_.Downloads | ForEach-Object{
-                    & 7za x $(Join-Path $_.Path $_.Filename) -y | Out-Null
+                    Unzip-File -File $(Join-Path $_.Path $_.Filename) -Destination $($env:PSModulePath.Split(";")[0])
                 }
                 Set-Location $WorkingPath
                 

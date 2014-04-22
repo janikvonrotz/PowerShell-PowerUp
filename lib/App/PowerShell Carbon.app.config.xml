@@ -11,13 +11,10 @@
 		<Author>Janik von Rotz</Author>
 		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
 		<CreateDate>2014-04-17</CreateDate>
-		<LastEditDate>2014-04-17</LastEditDate>
+		<LastEditDate>2014-04-22</LastEditDate>
 		<Version>0.0.0</Version>
 	</Metadata>
 	
-	<App Name="PowerShell Carbon" Version="1.6.0" Script="Install-PowerShell Carbon.ps1">
-		<Dependency Name="7-Zip"></Dependency>
-		<option>UseLocalConfig</option>
-	</App>
+	<App Name="PowerShell Carbon" Version="1.6.0" Script="Install-PowerShell Carbon.ps1"></App>
 	
 </Content>

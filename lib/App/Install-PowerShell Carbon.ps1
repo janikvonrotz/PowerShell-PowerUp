@@ -12,7 +12,7 @@ param(
 
 $Configs = @{
 	Url = "https://bitbucket.org/splatteredbits/carbon/downloads/Carbon-1.6.0.zip"
-	Path = "$((Get-Location).Path)\" # $Path
+	Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 }
 
 $Configs | ForEach-Object{
@@ -50,9 +50,20 @@ $Configs | ForEach-Object{
                 # installation
                 #--------------------------------------------------#
 
-                $_.Downloads | ForEach-Object{
-                    & 7za x $(Join-Path $_.Path $_.Filename) -y | Out-Null
+                $ModulePath = (Join-Path $env:PSModulePath.Split(";")[0] "Carbon")
+                
+                if(Test-Path $ModulePath){
+                    Remove-Item $ModulePath -Force -Recurse
                 }
+                
+                New-Item -Path $ModulePath -ItemType Directory
+                
+                $_.Downloads | ForEach-Object{                   
+                    
+                    Unzip-File -File $(Join-Path $_.Path $_.Filename) -Destination $ModulePath
+                }
+                
+                Move-Item -Path "$ModulePath\Carbon\*" -Destination $ModulePath -ErrorAction SilentlyContinue
                 		
                 #--------------------------------------------------#
                 # configuration
