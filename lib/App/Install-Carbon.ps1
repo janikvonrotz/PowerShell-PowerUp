@@ -99,6 +99,8 @@ $Configs | ForEach-Object{
         	
         }else{
             
+			$ModulePath = (Join-Path $env:PSModulePath.Split(";")[0] "Carbon");if(Test-Path $ModulePath){Remove-Item -Path $ModulePath -Force -Recurse}
+			
             $_.Result = "AppUninstalled";$_
         }
 
