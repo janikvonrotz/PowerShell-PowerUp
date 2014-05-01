@@ -3,8 +3,8 @@
 <Content>
 
 	<Metadata>
-		<Title>PowerShell Carbon App Configuration</Title>
-		<Filename>PowerShell Carbon.app.config.xml</Filename>
+		<Title>Carbon App Configuration</Title>
+		<Filename>Carbon.app.config.xml</Filename>
 		<Description></Description>
 		<Tags>powershell, configuration, installation, carbon, functions</Tags>
 		<Project></Project>
@@ -15,6 +15,6 @@
 		<Version>0.0.0</Version>
 	</Metadata>
 	
-	<App Name="PowerShell Carbon" Version="1.6.0" Script="Install-PowerShell Carbon.ps1"></App>
+	<App Name="PowerShell Carbon" Version="1.7.0" Script="Install-Carbon.ps1"></App>
 	
 </Content>

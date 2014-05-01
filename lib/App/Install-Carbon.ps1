@@ -11,7 +11,7 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "https://bitbucket.org/splatteredbits/carbon/downloads/Carbon-1.6.0.zip"
+	Url = "https://bitbucket.org/splatteredbits/carbon/downloads/Carbon-1.7.0.zip"
 	Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 }
 
