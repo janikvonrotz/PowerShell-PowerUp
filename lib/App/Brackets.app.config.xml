@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>Brackets App Configuration</Title>
+		<Filename>Brackets.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, brackets</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-05-05</CreateDate>
+		<LastEditDate>2014-05-05</LastEditDate>
+		<Version>0.0.0</Version>
+	</Metadata>
+	
+	<App Name="Brackets" Version="0.0.38" Script="Install-Brackets.ps1"></App>
+		
+</Content>

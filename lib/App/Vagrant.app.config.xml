@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>Vagrant App Configuration</Title>
+		<Filename>Vagrant.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, vagrant</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-05-04</CreateDate>
+		<LastEditDate>2014-05-04</LastEditDate>
+		<Version>0.0.0</Version>
+	</Metadata>
+	
+	<App Name="Vagrant" Version="1.5.4" Script="Install-Vagrant.ps1"></App>
+		
+</Content>

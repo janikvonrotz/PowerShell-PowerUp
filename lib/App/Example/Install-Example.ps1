@@ -131,7 +131,7 @@ reg add "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text 2\command" /t REG
 			$Directory = "C:\Program Files\MongoDB\"; if(Test-Path $Directory){Remove-Item -Path $Directory -Force -Recurse}
             
             Get-MSI | where{$_.ProductName -eq "7-Zip 9.20 (x64 edition)"} | ForEach-Object{
-                 Start-Process -FilePath "msiexec" -ArgumentList "/uninstall $($_.LocalPackage) /qn" -Wait 
+                 Start-Process -FilePath "msiexec" -ArgumentList "/uninstall $($_.LocalPackage) /qn /norestart" -Wait 
             }
 
 			Set-Content -Path (Join-Path $_.Path "Sublime Text 2 Context Remove.bat") -Value @"
