@@ -7,8 +7,8 @@ $Metadata = @{
 	Project = ""
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
-	CreateDate = "2014-01-09"
-	LastEditDate = "2014-01-09"
+	CreateDate = "2014-05-06"
+	LastEditDate = "2014-05-06"
 	Url = ""
 	Version = "0.0.0"
 	License = @'
@@ -31,8 +31,11 @@ function Start-PPScript{
 .PARAMETER Name
 	Name of the scripts or name of the script shortcut or shortcut key.
 
+.PARAMETER Arguments
+	Name of the scripts or name of the script shortcut or shortcut key.
+	
 .EXAMPLE
-	PS C:\> Start-PPScript -Name Script1.ps1
+	PS C:\> Start-PPScript -Name Script1.ps1 -Arguments "-Start"
 
 .EXAMPLE
 	PS C:\> Start-PPScript -Name s1
@@ -43,7 +46,11 @@ function Start-PPScript{
 
         [Parameter(Mandatory=$true)]
 		[String]
-		$Name
+		$Name,
+		
+		[Parameter(Mandatory=$false)]
+		[String]
+		$Arguments
 	)
   
     #--------------------------------------------------#
@@ -62,6 +69,6 @@ function Start-PPScript{
     
     }) | %{            
 
-        iex "& `"$($_.Fullname)`""
+        iex "& `"$($_.Fullname)`" $(if($Arguments){$Arguments})"
     }
 }
