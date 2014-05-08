@@ -110,7 +110,7 @@ function Install-PPApp{
     
         $Version = $_.Version
         Get-PPApp $_.Name | 
-        sort Version |
+        sort Version -Descending |
         where{($_.Version -like $Version)} | 
         select -First 1
         
@@ -141,7 +141,7 @@ function Install-PPApp{
                 $_.Dependency | where{$_} | ForEach-Object{                    
                     
                     Write-Host "Installing Dependencies for $Name ..."
-                    Install-PPApp -Name $(if($_.Version){"$($_.Name)#$($_.Version)"}else{$_.Name}) -Force:$Force                    
+                    Install-PPApp -Name $(if($_.Version){"$($_.Name)#$($_.Version)"}else{$_.Name}) -Force:$Force
                     # Start-Process -FilePath (Get-Path $PSapps.PowerShell) -ArgumentList  "`"& {Install-PPApp -Name $(if($_.Version){"$($_.Name)#$($_.Version)"}else{$_.Name})$(if($Force){" -Force"})}`"" -Wait -NoNewWindow                    
                 }
             } 
@@ -151,11 +151,24 @@ function Install-PPApp{
             
                  Write-Host "Uninstalling $($_.Name) Version $($_.Version) ..."
             
+            # check if version is going to change
             }elseif($AppEntry -and -not $InstalledApp){
-            
-                Write-Host "Updating $($_.Name) from Version $($AppEntry.Version) to Version $($_.Version)..."
-                $Update = $AppEntry
                 
+                # update the app
+                if($AppEntry.Version -lt $Version){
+            
+                    Write-Host "Updating $($_.Name) from Version $($AppEntry.Version) to Version $($_.Version)..."
+                    $Update = $AppEntry
+                
+                # downgrade the app
+                }elseif($AppEntry.Version -gt $Version){
+                
+                    Write-Host "Downgrading $($_.Name) from Version $($AppEntry.Version) to Version $($_.Version)..."
+                    $Downgrade = $AppEntry
+                
+                }
+            
+            # version is the same, reinstall
             }elseif($AppEntry -and $InstalledApp){   
             
                 Write-Host "Reinstalling $($_.Name) Version $($_.Version) ..."
@@ -165,7 +178,7 @@ function Install-PPApp{
                 Write-Host "Installing $($_.Name) Version $($_.Version) ..."
             }           
             
-            $Config = Invoke-Expression "& `"$ScriptPath`" -Version $($_.Version) -Path $Path -Force:`$Force -Update:`$Update -Uninstall:`$Uninstall"                    
+            $Config = Invoke-Expression "& `"$ScriptPath`" -Version $($_.Version) -Path $Path -Force:`$Force -Update:`$Update -Downgrade:`$Downgrade -Uninstall:`$Uninstall"                    
             
             if($Options -contains "UseLocalConfig"){
             
@@ -194,6 +207,16 @@ function Install-PPApp{
                 
                 Write-Error "Conditions exclution for $($_.Name) matched: $($Config.ConditionExclusion)"
             }  
+              
+            # app has been downgraded
+            if($Config.Result -eq "AppDowngraded"){
+            
+                Write-Host "Downgrade of $($_.Name) to Version $($_.Version) completed successfully."
+            
+                $Element = Select-Xml $xml -XPath "//Content/App[@Name=`"$($_.Name)`"]"
+                $Element.Node.Status = $Config.Result
+                $Element.Node.Version = $_.Version            
+            }
                        
             # app has been update
             if($Config.Result -eq "AppUpdated"){
