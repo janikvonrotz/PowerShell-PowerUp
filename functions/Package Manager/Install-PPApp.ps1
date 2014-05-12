@@ -87,9 +87,10 @@ function Install-PPApp{
         $AppData += $CurrentInstalledApps
     }
     
+    # extract the version and name of the app to install from the name parameter
     if($Name){
     
-        $NameAndVersions = $Name | %{
+        $NameAndVersions = $Name | ForEach-Object{
                 
             $Version = $_.split("#")[1]
             if(-not $Version){$Version = "*"}
@@ -98,7 +99,8 @@ function Install-PPApp{
                 Name = $_.split("#")[0]
                 Version = $Version            
             }
-        }        
+        }
+    # otherwhise check the current config for apps to install
     }elseif($CurrentInstalledApps){
     
         $NameAndVersions = $CurrentInstalledApps | select Name, Version
@@ -106,7 +108,7 @@ function Install-PPApp{
     
     # get existing apps
         
-    $NameAndVersions | %{
+    $NameAndVersions | ForEach-Object{
     
         $Version = $_.Version
         Get-PPApp $_.Name | 
@@ -114,7 +116,7 @@ function Install-PPApp{
         where{($_.Version -like $Version)} | 
         select -First 1
         
-    } | %{
+    } | ForEach-Object{
         
         $Name = $_.Name
         $Version = $_.Version
@@ -123,6 +125,7 @@ function Install-PPApp{
         # check if already installed
         $AppEntry = $AppData | where{$_.Name -eq $Name}
         $InstalledApp = $AppEntry | where{$_.Version -eq $Version}
+
         
         # if app is already installd don't install
         if(($InstalledApp -and $InstalledApp.Status -ne "AppUninstalled") -and -not ($Force -or $Uninstall)){

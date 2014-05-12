@@ -58,7 +58,10 @@ function Get-Path {
     if($Path.StartsWith("\")){$Path = Join-Path -Path $(Get-Location).Path -Childpath $Path}
     
     # folder up execution
-    $Path = (Resolve-Path $Path).Path
+    $Path = Resolve-Path $Path -ErrorAction SilentlyContinue -ErrorVariable _frperror
+    if (-not($FileName)) {
+        $Path = $_frperror[0].TargetObject
+    }
     
     # return path
     $Path
