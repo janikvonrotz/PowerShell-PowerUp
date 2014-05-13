@@ -59,7 +59,7 @@ function Get-Path {
     
     # folder up execution
     $Path = Resolve-Path $Path -ErrorAction SilentlyContinue -ErrorVariable _frperror
-    if (-not($FileName)) {
+    if(-not($Path)) {
         $Path = $_frperror[0].TargetObject
     }
     
