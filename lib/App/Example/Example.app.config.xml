@@ -19,6 +19,10 @@
 		<Dependency Name="7-Zip"></Dependency>
 		<option>UseLocalConfig</option>
 		<option>AllowMultipleVersions</option>
+		<option>AllowMultipleMajorVersions</option>
+		<option>AllowMultipleMinorVersions</option>
+		<option>AllowMultipleBuildVersions</option>
+		<option>AllowMultipleRevisionVersions</option>
 	</App>
 		
 </Content>

@@ -8,9 +8,9 @@ $Metadata = @{
 	Author = "Janik von Rotz"
 	AuthorContact = "http://janikvonrotz.ch"
 	CreateDate = "2013-10-25"
-	LastEditDate = "20114-04-07"
+	LastEditDate = "20114-05-16"
 	Url = ""
-	Version = "1.2.0"
+	Version = "2.0.0"
 	License = @'
 This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Switzerland License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ch/ or 
@@ -113,25 +113,74 @@ function Install-PPApp{
         $Version = $_.Version
         Get-PPApp $_.Name | 
         sort Version -Descending |
-        where{($_.Version -like $Version)} | 
+        where{$_.Version -like $Version} |
         select -First 1
         
     } | ForEach-Object{
         
+        # name of the package to install
         $Name = $_.Name
-        $Version = $_.Version
+        
+        # version to install (can be specific or latest)
+        [Version]$Version = $_.Version
+                
+        # array of options
         $Options = $_.Option
-               
+        
+        # reset values
+        $AllowMultipleVersion = $false
+                               
         # check if already installed
+        
+        # entry with appdata
         $AppEntry = $AppData | where{$_.Name -eq $Name}
+                
+        # entry with the same version
         $InstalledApp = $AppEntry | where{$_.Version -eq $Version}
-
         
-        # if app is already installd don't install
-        if(($InstalledApp -and $InstalledApp.Status -ne "AppUninstalled") -and -not ($Force -or $Uninstall)){
+        if($Uninstall -and -not $InstalledApp){
         
-            Write-Warning "The Package: $Name is already installed, use the force parameter to reinstall package or the uninstall parameter to remove this package"
-
+            $InstalledApp = $null
+        
+        }elseif(-not $InstalledApp){
+        
+            $InstalledApp = $AppData | where{$_.Name -eq $Name}
+        }
+        
+        # get installed app if multiple versions is enabled
+        switch($Options){
+            "AllowMultipleVersions" {$InstalledApp = $null}
+            "AllowMultipleMajorVersions" {
+              
+                $InstalledApp = $AppEntry | where{([Version]$_.Version).Major -eq $Version.Major}
+                $AllowMultipleVersion = $true               
+            }
+            "AllowMultipleMinorVersions" {
+                
+                $InstalledApp = $AppEntry | where{([Version]$_.Version).Major -eq $Version.Major -and ([Version]$_.Version).Minor -eq $Version.Minor}
+                $AllowMultipleVersion = $true 
+            }
+            "AllowMultipleBuildVersions" {
+            
+                $InstalledApp = $AppEntry | where{([Version]$_.Version).Major -eq $Version.Major -and ([Version]$_.Version).Minor -eq $Version.Minor -and ([Version]$_.Version).Build -eq $Version.Build}
+                $AllowMultipleVersion = $true 
+            }
+            "AllowMultipleRevisionVersions" {
+            
+                $InstalledApp = $null
+            }
+        }
+        
+        # if app is already installed don't install
+        # without force or uinstall parameter don't instal 
+        if((-not $InstalledApp -and $Uninstall) -or ($InstalledApp.Status -eq "AppUninstalled" -and $Uninstall) -or ((([Version]$InstalledApp.Version -eq $Version) -or ([Version]$InstalledApp.Version -gt $Version)) -and -not ($Force -or $Uninstall) -and ($InstalledApp.Status -ne "AppUninstalled"))){
+            if(-not $InstalledApp -and $Uninstall){
+                Write-Warning "The Package: $Name is not installed"
+            }elseif($Uninstall){
+                Write-Warning "The Package: $Name is already uninstalled"
+            }else{
+                Write-Warning "The Package: $Name is already installed, use the force parameter to reinstall package, to downgrade it, or the uninstall parameter to remove this package"
+            }
         # install the app
         }elseif(($InstalledApp -and $Force) -or -not ($InstalledApp -and $Force)){        
         
@@ -155,24 +204,24 @@ function Install-PPApp{
                  Write-Host "Uninstalling $($_.Name) Version $($_.Version) ..."
             
             # check if version is going to change
-            }elseif($AppEntry -and -not $InstalledApp){
+            }elseif($InstalledApp -and ([Version]$InstalledApp.Version -ne $Version) -and ($InstalledApp.Status -ne "AppUninstalled")){
                 
                 # update the app
-                if($AppEntry.Version -lt $Version){
+                if([Version]$InstalledApp.Version -lt $Version){
             
                     Write-Host "Updating $($_.Name) from Version $($AppEntry.Version) to Version $($_.Version)..."
-                    $Update = $AppEntry
+                    $Update = $InstalledApp
                 
                 # downgrade the app
-                }elseif($AppEntry.Version -gt $Version){
+                }elseif([Version]$InstalledApp.Version -gt $Version){
                 
                     Write-Host "Downgrading $($_.Name) from Version $($AppEntry.Version) to Version $($_.Version)..."
-                    $Downgrade = $AppEntry
+                    $Downgrade = $InstalledApp
                 
                 }
             
             # version is the same, reinstall
-            }elseif($AppEntry -and $InstalledApp){   
+            }elseif($AppEntry -and $InstalledApp -and ($InstalledApp.Status -ne "AppUninstalled")){   
             
                 Write-Host "Reinstalling $($_.Name) Version $($_.Version) ..."
             
@@ -216,7 +265,7 @@ function Install-PPApp{
             
                 Write-Host "Downgrade of $($_.Name) to Version $($_.Version) completed successfully."
             
-                $Element = Select-Xml $xml -XPath "//Content/App[@Name=`"$($_.Name)`"]"
+                $Element = Select-Xml -Xml $xml -XPath "//Content/App"| where{$_.Node.Name -eq $Name -and ($_.Node.Version -eq $InstalledApp.Version -or -not $InstalledApp)}
                 $Element.Node.Status = $Config.Result
                 $Element.Node.Version = $_.Version            
             }
@@ -226,7 +275,7 @@ function Install-PPApp{
             
                 Write-Host "Update of $($_.Name) to Version $($_.Version) completed successfully."
             
-                $Element = Select-Xml $xml -XPath "//Content/App[@Name=`"$($_.Name)`"]"
+                $Element = Select-Xml -Xml $xml -XPath "//Content/App"| where{$_.Node.Name -eq $Name -and ($_.Node.Version -eq $InstalledApp.Version -or -not $InstalledApp)}
                 $Element.Node.Status = $Config.Result
                 $Element.Node.Version = $_.Version            
             }
@@ -236,8 +285,9 @@ function Install-PPApp{
             
                 Write-Host "Reinstallation of $($_.Name) completed successfully."     
                                 
-                $Element = Select-Xml $xml -XPath "//Content/App[@Name=`"$($_.Name)`"]"
+                $Element = Select-Xml -Xml $xml -XPath "//Content/App"| where{$_.Node.Name -eq $Name -and ($_.Node.Version -eq $InstalledApp.Version -or -not $InstalledApp)}
                 $Element.Node.Status = $Config.Result
+                $Element.Node.Version = $_.Version
             }
             
             # first installation of an app
@@ -257,9 +307,9 @@ function Install-PPApp{
             # app has been uninstalled
             if($Config.Result -eq "AppUninstalled"){
             
-                Write-Host "Uinstallaton of $($_.Name) completed successfully."
+                Write-Host "Uninstallaton of $($_.Name) completed successfully."
             
-                $Element = Select-Xml $xml -XPath "//Content/App[@Name=`"$($_.Name)`"]"
+                $Element = Select-Xml -Xml $xml -XPath "//Content/App"| where{$_.Node.Name -eq $Name -and ($_.Node.Version -eq $InstalledApp.Version -or -not $InstalledApp)}
                 $Element.Node.Status = $Config.Result        
             }
             
