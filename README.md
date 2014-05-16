@@ -56,6 +56,10 @@ At last execute the install script from the PowerShell commad line:
 
 	PS C:\PowerShell-PowerUp> .\Microsoft.PowerShell_profile.install.ps1
 	
+# Blog
+
+[PowerShell PowerUp Package Manager](https://janikvonrotz.ch/2014/05/16/powershell-powerup-package-manager/)
+
 # Default Features
 
 By default the install script installs these features:
