@@ -11,7 +11,7 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://winscp.net/download/files/201403251903506874a91aaeb8917511fc5b5e3a4342/winscp552setup.exe"
+	Url = "http://winscp.net/download/files/20140928102737e06fdcc6e29eab780afd57975c84fa/winscp555setup.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 }
 

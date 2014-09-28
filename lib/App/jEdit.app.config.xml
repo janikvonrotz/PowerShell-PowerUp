@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>jEdit App Configuration</Title>
+		<Filename>jEdit.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, jedit</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>https://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-09-11</CreateDate>
+		<LastEditDate>2014-09-11</LastEditDate>
+		<Version>5.1.0</Version>
+	</Metadata>
+	
+	<App Name="jEdit" Version="5.1.0" Script="Install-jEdit.ps1">
+		<Dependency Name="JDK"></Dependency>
+	</App>
+		
+</Content>

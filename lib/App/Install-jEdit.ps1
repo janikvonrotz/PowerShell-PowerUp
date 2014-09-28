@@ -11,9 +11,8 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://dlc.sun.com.edgesuite.net/virtualbox/4.3.14/VirtualBox-4.3.14-95030-Win.exe"
+	Url = "http://heanet.dl.sourceforge.net/project/jedit/jedit/5.1.0/jedit5.1.0install.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
-    Executable = "C:\Program Files (x86)\Sublime Text 2\sublime_text.exe"
 }
 
 $Configs | ForEach-Object{
@@ -52,7 +51,7 @@ $Configs | ForEach-Object{
                 #--------------------------------------------------#
 				
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "--silent" -Wait
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/silent" -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -71,8 +70,13 @@ $Configs | ForEach-Object{
                 # finisher
                 #--------------------------------------------------#
                 		
-                if($Update){$_.Result = "AppUpdated";$_
-                }else{$_.Result = "AppInstalled";$_}
+                if($Update){
+                    $_.Result = "AppUpdated";$_
+                }elseif($Downgrade){
+                    $_.Result = "AppDowngraded";$_
+                }else{
+                    $_.Result = "AppInstalled";$_
+                }
             		
             #--------------------------------------------------#
             # condition exclusion
@@ -88,11 +92,9 @@ $Configs | ForEach-Object{
         #--------------------------------------------------#
         	
         }else{
-
-            Get-MSI | where{$_.ProductName -eq "Oracle VM Virtualbox 4.3.0"} | ForEach-Object{
-                 Start-Process -FilePath "msiexec" -ArgumentList "/uninstall $($_.LocalPackage) /qn" -Wait 
-            }
-			
+            
+            $Executable = "C:\Program Files\jEdit\unins000.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/silent" -Wait}
+                            
             $_.Result = "AppUninstalled";$_
         }
 

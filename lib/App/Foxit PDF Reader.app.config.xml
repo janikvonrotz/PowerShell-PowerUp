@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>Foxit PDF Reader App Configuration</Title>
+		<Filename>Foxit PDF Reader.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, foxit, pdf, reader</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>https://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-09-25</CreateDate>
+		<LastEditDate>2014-09-25</LastEditDate>
+		<Version>1.0.0</Version>
+	</Metadata>
+	
+	<App Name="Foxit PDF Reader" Version="7.0.3" Script="Install-Foxit PDF Reader.ps1"></App>
+		
+</Content>

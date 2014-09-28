@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>JDK App Configuration</Title>
+		<Filename>JDK.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, jdk</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>https://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-09-11</CreateDate>
+		<LastEditDate>2014-02-11</LastEditDate>
+		<Version>0.0.0</Version>
+	</Metadata>
+	
+	<App Name="JDK" Version="8.2.0" Script="Install-JDK.ps1"></App>
+		
+</Content>

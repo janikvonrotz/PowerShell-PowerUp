@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Content>
+
+	<Metadata>
+		<Title>Deluge Torrent App Configuration</Title>
+		<Filename>Deluge Torrent.app.config.xml</Filename>
+		<Description></Description>
+		<Tags>powershell, configuration, installation, deluge, torrent</Tags>
+		<Project></Project>
+		<Author>Janik von Rotz</Author>
+		<AuthorContact>https://janikvonrotz.ch</AuthorContact>
+		<CreateDate>2014-09-29</CreateDate>
+		<LastEditDate>2014-09-29</LastEditDate>
+		<Version>0.0.0</Version>
+	</Metadata>
+	
+	<App Name="Deluge Torrent" Version="1.3.7" Script="Install-Deluge Torrent.ps1"></App>
+		
+</Content>

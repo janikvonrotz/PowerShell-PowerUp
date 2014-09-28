@@ -11,7 +11,7 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "https://dl.bintray.com/mitchellh/vagrant/vagrant_1.5.4.msi"
+	Url = "https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5.msi"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 }
 

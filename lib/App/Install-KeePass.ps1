@@ -11,7 +11,7 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.25/KeePass-2.25-Setup.exe?r=http%3A%2F%2Fkeepass.info%2Fdownload.html&ts=1392731683&use_mirror=garr"
+	Url = "http://netcologne.dl.sourceforge.net/project/keepass/KeePass%202.x/2.27/KeePass-2.27-Setup.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 }
 

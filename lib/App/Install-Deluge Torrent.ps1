@@ -11,9 +11,8 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://dlc.sun.com.edgesuite.net/virtualbox/4.3.14/VirtualBox-4.3.14-95030-Win.exe"
+	Url = "http://download.deluge-torrent.org/windows/deluge-1.3.7-win32-setup.exe"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
-    Executable = "C:\Program Files (x86)\Sublime Text 2\sublime_text.exe"
 }
 
 $Configs | ForEach-Object{
@@ -52,7 +51,7 @@ $Configs | ForEach-Object{
                 #--------------------------------------------------#
 				
                 $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "--silent" -Wait
+                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "/S" -Wait
                 }
                 		
                 #--------------------------------------------------#
@@ -71,8 +70,13 @@ $Configs | ForEach-Object{
                 # finisher
                 #--------------------------------------------------#
                 		
-                if($Update){$_.Result = "AppUpdated";$_
-                }else{$_.Result = "AppInstalled";$_}
+                if($Update){
+                    $_.Result = "AppUpdated";$_
+                }elseif($Downgrade){
+                    $_.Result = "AppDowngraded";$_
+                }else{
+                    $_.Result = "AppInstalled";$_
+                }
             		
             #--------------------------------------------------#
             # condition exclusion
@@ -88,11 +92,9 @@ $Configs | ForEach-Object{
         #--------------------------------------------------#
         	
         }else{
+            
+            $Executable = "C:\Program Files (x86)\Deluge\Deluge-uninst.exe"; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/S" -Wait}
 
-            Get-MSI | where{$_.ProductName -eq "Oracle VM Virtualbox 4.3.0"} | ForEach-Object{
-                 Start-Process -FilePath "msiexec" -ArgumentList "/uninstall $($_.LocalPackage) /qn" -Wait 
-            }
-			
             $_.Result = "AppUninstalled";$_
         }
 

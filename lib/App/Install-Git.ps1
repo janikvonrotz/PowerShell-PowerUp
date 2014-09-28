@@ -2,7 +2,7 @@ param(
 	[string]$Version,
 	[string]$Path,
 	[switch]$Force,
-	[switch]$Update,
+	$Update,
 	[switch]$Uninstall
 )
 
@@ -11,7 +11,7 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "https://msysgit.googlecode.com/files/Git-1.8.5.2-preview20131230.exe"
+	Url = "https://github.com/msysgit/msysgit/releases/download/Git-1.9.4-preview20140815/Git-1.9.4-preview20140815.exe"
 	Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
 	ConditionExclusion = "Get-Command `"git`" -ErrorAction SilentlyContinue"
 }

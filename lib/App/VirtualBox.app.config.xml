@@ -9,12 +9,12 @@
 		<Tags>powershell, configuration, installation, virtualbox</Tags>
 		<Project></Project>
 		<Author>Janik von Rotz</Author>
-		<AuthorContact>http://janikvonrotz.ch</AuthorContact>
+		<AuthorContact>https://janikvonrotz.ch</AuthorContact>
 		<CreateDate>2014-05-04</CreateDate>
 		<LastEditDate>2014-05-04</LastEditDate>
-		<Version>0.0.0</Version>
+		<Version>1.0.0</Version>
 	</Metadata>
 	
-	<App Name="VirtualBox" Version="4.3.10" Script="Install-VirtualBox.ps1"></App>
+	<App Name="VirtualBox" Version="4.3.14" Script="Install-VirtualBox.ps1"></App>
 		
 </Content>

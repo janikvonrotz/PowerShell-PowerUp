@@ -11,9 +11,8 @@ param(
 #--------------------------------------------------#
 
 $Configs = @{
-	Url = "http://dlc.sun.com.edgesuite.net/virtualbox/4.3.14/VirtualBox-4.3.14-95030-Win.exe"
+	Url = "http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
     Path = "$(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)\"
-    Executable = "C:\Program Files (x86)\Sublime Text 2\sublime_text.exe"
 }
 
 $Configs | ForEach-Object{
@@ -41,38 +40,38 @@ $Configs | ForEach-Object{
                     	
                 #--------------------------------------------------#
                 # download
-                #--------------------------------------------------#
-
-                $_.Downloads = $_.Url | ForEach-Object{
-                    Get-File -Url $_ -Path $Config.Path
-                }       			
-
+                #--------------------------------------------------#		
+				
+				Start-Process $Config.Url
+				
                 #--------------------------------------------------#
                 # installation
                 #--------------------------------------------------#
-				
-                $_.Downloads | ForEach-Object{
-                    Start-Process -FilePath $(Join-Path $_.Path $_.Filename) -ArgumentList "--silent" -Wait
-                }
-                		
+	
                 #--------------------------------------------------#
                 # configuration
                 #--------------------------------------------------#	
-                
+				
+				[Environment]::SetEnvironmentVariable("CLASSPATH",".","Machine")
+				[Environment]::SetEnvironmentVariable("JAVA_HOME","C:\Program Files\Java\jdk1.8.0_20","Machine")
+				
+				Set-EnvironmentVariableValue -Name "Path" -Value ";%JAVA_HOME%\bin" -Target "Machine"
+				
                 #--------------------------------------------------#
                 # cleanup
                 #--------------------------------------------------#
-
-                $_.Downloads | ForEach-Object{
-                    Remove-Item (Join-Path $_.Path $_.Filename) -Force
-                }
                 		
                 #--------------------------------------------------#
                 # finisher
                 #--------------------------------------------------#
                 		
-                if($Update){$_.Result = "AppUpdated";$_
-                }else{$_.Result = "AppInstalled";$_}
+                if($Update){
+                    $_.Result = "AppUpdated";$_
+                }elseif($Downgrade){
+                    $_.Result = "AppDowngraded";$_
+                }else{
+                    $_.Result = "AppInstalled";$_
+                }
             		
             #--------------------------------------------------#
             # condition exclusion
@@ -88,11 +87,9 @@ $Configs | ForEach-Object{
         #--------------------------------------------------#
         	
         }else{
-
-            Get-MSI | where{$_.ProductName -eq "Oracle VM Virtualbox 4.3.0"} | ForEach-Object{
-                 Start-Process -FilePath "msiexec" -ArgumentList "/uninstall $($_.LocalPackage) /qn" -Wait 
-            }
 			
+            $Executable = ""; if(Test-Path $Executable){Start-Process -FilePath $Executable -ArgumentList "/VERYSILENT /NORESTART" -Wait}
+							
             $_.Result = "AppUninstalled";$_
         }
 
